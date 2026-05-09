@@ -1,12 +1,12 @@
 ---
 interface Props {
-  title: string;
+  name: string;
   amazonLink: string;
   image?: string;
   description?: string;
 }
 
-const { title, amazonLink, image, description } = Astro.props;
+const { name, amazonLink, image, description } = Astro.props;
 
 // Use a placeholder if no image is provided
 const imageUrl = image || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
@@ -16,7 +16,7 @@ const imageUrl = image || 'https://images.unsplash.com/photo-1548199973-03cce0bb
   <div class="aspect-w-4 aspect-h-3 w-full bg-slate-100 overflow-hidden relative">
     <img 
       src={imageUrl} 
-      alt={title} 
+      alt={name} 
       class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-in-out"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -24,7 +24,7 @@ const imageUrl = image || 'https://images.unsplash.com/photo-1548199973-03cce0bb
   
   <div class="flex flex-col flex-grow p-5">
     <h3 class="text-lg font-['Outfit'] font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
-      {title}
+      {name}
     </h3>
     
     {description && (

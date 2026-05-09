@@ -4,7 +4,7 @@
     "products": {
       "type": "object",
       "properties": {
-        "title": {
+        "name": {
           "type": "string"
         },
         "amazonLink": {
@@ -22,7 +22,7 @@
         }
       },
       "required": [
-        "title",
+        "name",
         "amazonLink"
       ],
       "additionalProperties": false

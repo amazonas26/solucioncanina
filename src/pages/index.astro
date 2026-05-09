@@ -5,36 +5,6 @@ import { getCollection } from 'astro:content';
 
 // Fetch all products from the Keystatic collection
 const products = await getCollection('products');
-
-// Fallback sample data in case the collection is empty initially
-const sampleProducts = [
-  {
-    data: {
-      title: "Cama Ortopédica para Perros Grandes",
-      amazonLink: "https://amazon.es",
-      image: "https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&q=80&w=800&h=600",
-      description: "Cama de espuma viscoelástica para aliviar el dolor articular y mejorar el descanso de tu mascota."
-    }
-  },
-  {
-    data: {
-      title: "Arnés Antitirones Premium",
-      amazonLink: "https://amazon.es",
-      image: "https://images.unsplash.com/photo-1601758174114-e711c0cbaa69?auto=format&fit=crop&q=80&w=800&h=600",
-      description: "Diseño ergonómico, reflectante y ajustable. Perfecto para paseos seguros y cómodos."
-    }
-  },
-  {
-    data: {
-      title: "Juguete Interactivo Kong Classic",
-      amazonLink: "https://amazon.es",
-      image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=800&h=600",
-      description: "El juguete más resistente para perros que adoran masticar. Se puede rellenar con premios."
-    }
-  }
-];
-
-const displayProducts = products.length > 0 ? products : sampleProducts;
 ---
 
 <Layout title="Inicio">
@@ -61,15 +31,15 @@ const displayProducts = products.length > 0 ? products : sampleProducts;
     </h2>
   </div>
 
-  {displayProducts.length === 0 ? (
+  {products.length === 0 ? (
     <div class="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
-      <p class="text-slate-500 text-lg">Aún no hay productos. Añade algunos desde el <a href="/keystatic" class="text-primary-600 hover:underline">panel de administración</a>.</p>
+      <p class="text-slate-500 text-lg">Aún no hay productos añadidos.</p>
     </div>
   ) : (
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-      {displayProducts.map((product) => (
+      {products.map((product) => (
         <ProductCard 
-          title={product.data.title}
+          name={product.data.name}
           amazonLink={product.data.amazonLink}
           image={product.data.image}
           description={product.data.description}

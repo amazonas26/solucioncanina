@@ -7,11 +7,11 @@ export default config({
   collections: {
     products: collection({
       label: 'Products',
-      slugField: 'title',
+      slugField: 'name',
       path: 'src/content/products/*/',
       format: { data: 'json' },
       schema: {
-        title: fields.slug({ name: { label: 'Title' } }),
+        name: fields.slug({ name: { label: 'Name' } }),
         amazonLink: fields.url({
           label: 'Amazon Link',
           description: 'The URL to the Amazon product page',
