@@ -21,6 +21,17 @@ const { title, description = 'Encuentra los mejores artículos para tu perro en 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics (GA4) -->
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-FH339B1P51"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FH339B1P51');
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-slate-50 selection:bg-primary-500 selection:text-white">
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
