@@ -5,26 +5,37 @@ export default config({
     kind: 'local',
   },
   collections: {
-    products: collection({
-      label: 'Products',
-      slugField: 'name',
-      path: 'src/content/products/*/',
+    articulos: collection({
+      label: 'Artículos',
+      slugField: 'nombre',
+      path: 'src/content/articulos/*/',
       format: { data: 'json' },
       schema: {
-        name: fields.slug({ name: { label: 'Name' } }),
-        amazonLink: fields.url({
-          label: 'Amazon Link',
-          description: 'The URL to the Amazon product page',
+        nombre: fields.slug({ name: { label: 'Nombre' } }),
+        descripcion: fields.text({
+          label: 'Descripción',
+          multiline: true,
+        }),
+        imagen: fields.image({
+          label: 'Imagen',
+          directory: 'public/images/articulos',
+          publicPath: '/images/articulos',
+        }),
+        precio: fields.text({
+          label: 'Precio',
+          description: 'Ej: 25.99€',
+        }),
+        linkAmazon: fields.url({
+          label: 'Link Amazon',
+          description: 'Enlace al producto en Amazon',
           validation: { isRequired: true },
         }),
-        image: fields.image({
-          label: 'Product Image',
-          directory: 'public/images/products',
-          publicPath: '/images/products',
+        categoria: fields.text({
+          label: 'Categoría',
+          description: 'Ej: Juguetes, Alimentación...',
         }),
-        description: fields.text({
-          label: 'Short Description',
-          multiline: true,
+        marca: fields.text({
+          label: 'Marca',
         }),
       },
     }),

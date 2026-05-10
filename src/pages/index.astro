@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch all products from the Keystatic collection
-const products = await getCollection('products');
+// Fetch all articles from the Keystatic collection
+const articulos = await getCollection('articulos');
 ---
 
 <Layout title="Inicio">
@@ -31,18 +31,21 @@ const products = await getCollection('products');
     </h2>
   </div>
 
-  {products.length === 0 ? (
+  {articulos.length === 0 ? (
     <div class="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
       <p class="text-slate-500 text-lg">Aún no hay productos añadidos.</p>
     </div>
   ) : (
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-      {products.map((product) => (
+      {articulos.map((articulo) => (
         <ProductCard 
-          name={product.data.name}
-          amazonLink={product.data.amazonLink}
-          image={product.data.image}
-          description={product.data.description}
+          nombre={articulo.data.nombre}
+          linkAmazon={articulo.data.linkAmazon}
+          imagen={articulo.data.imagen}
+          descripcion={articulo.data.descripcion}
+          precio={articulo.data.precio}
+          categoria={articulo.data.categoria}
+          marca={articulo.data.marca}
         />
       ))}
     </div>
