@@ -10,6 +10,15 @@ function emit(name: string, detail: unknown) {
   window.dispatchEvent(new CustomEvent(name, { detail }));
 }
 
+declare global {
+  interface Window {
+    __sc?: {
+      search?: string;
+      category?: string | null;
+    };
+  }
+}
+
 export default function HeaderCatalogControls({ categories }: Props) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>('Todos');
@@ -65,6 +74,8 @@ export default function HeaderCatalogControls({ categories }: Props) {
           onChange={(e) => {
             const v = e.target.value;
             setQuery(v);
+            window.__sc = window.__sc || {};
+            window.__sc.search = v;
             emit('sc:search', { query: v });
           }}
           className="w-full h-11 pl-11 pr-10 bg-white/70 backdrop-blur-md rounded-2xl border border-white/60 shadow-sm focus:outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-400 text-slate-900 placeholder:text-slate-400 font-semibold"
@@ -74,6 +85,8 @@ export default function HeaderCatalogControls({ categories }: Props) {
             type="button"
             onClick={() => {
               setQuery('');
+              window.__sc = window.__sc || {};
+              window.__sc.search = '';
               emit('sc:search', { query: '' });
             }}
             className="absolute inset-y-0 right-3 flex items-center justify-center h-11 w-10 text-slate-400 hover:text-slate-700 transition-colors"
@@ -122,6 +135,8 @@ export default function HeaderCatalogControls({ categories }: Props) {
                           type="button"
                           onClick={() => {
                             setActive(cat);
+                          window.__sc = window.__sc || {};
+                          window.__sc.category = cat === 'Todos' ? null : cat;
                             emit('sc:category', { category: cat === 'Todos' ? null : cat });
                             setOpen(false);
                           }}

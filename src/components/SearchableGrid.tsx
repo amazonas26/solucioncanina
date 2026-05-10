@@ -31,6 +31,12 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
+    const initialSearch = window.__sc?.search;
+    if (typeof initialSearch === 'string') setSearch(initialSearch);
+    if (typeof window.__sc?.category !== 'undefined') {
+      setSelectedCategory(window.__sc.category ?? null);
+    }
+
     const onSearch = (e: Event) => {
       const ce = e as CustomEvent<{ query?: string }>;
       const q = ce.detail?.query ?? '';
