@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -29,6 +29,24 @@ interface SearchableGridProps {
 export default function SearchableGrid({ articulos }: SearchableGridProps) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    const onSearch = (e: Event) => {
+      const ce = e as CustomEvent<{ query?: string }>;
+      const q = ce.detail?.query ?? '';
+      setSearch(q);
+    };
+    const onCategory = (e: Event) => {
+      const ce = e as CustomEvent<{ category?: string | null }>;
+      setSelectedCategory(ce.detail?.category ?? null);
+    };
+    window.addEventListener('sc:search', onSearch);
+    window.addEventListener('sc:category', onCategory);
+    return () => {
+      window.removeEventListener('sc:search', onSearch);
+      window.removeEventListener('sc:category', onCategory);
+    };
+  }, []);
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -67,7 +85,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
             </div>
             <input
               type="text"
-              placeholder="Busca productos, marcas o categorías..."
+              placeholder="Buscar productos, marcas, categorías o tiendas…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 shadow-sm transition-all text-slate-900 placeholder:text-slate-400 font-medium"
