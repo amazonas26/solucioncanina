@@ -16,6 +16,8 @@ interface Articulo {
     imagen?: string;
     descripcion?: string;
     precio?: string;
+    precioOriginal?: string;
+    descuentoPct?: number;
     categoria?: string;
     marca?: string;
   };
@@ -159,6 +161,8 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
                   imagen={art.data.imagen}
                   descripcion={art.data.descripcion}
                   precio={art.data.precio}
+                  precioOriginal={art.data.precioOriginal}
+                  descuentoPct={art.data.descuentoPct}
                   categoria={art.data.categoria}
                   marca={art.data.marca}
                 />

@@ -8,6 +8,8 @@ interface ProductCardProps {
   imagen?: string;
   descripcion?: string;
   precio?: string;
+  precioOriginal?: string;
+  descuentoPct?: number;
   categoria?: string;
   marca?: string;
 }
@@ -18,6 +20,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   imagen,
   descripcion,
   precio,
+  precioOriginal,
+  descuentoPct,
   categoria,
   marca,
 }) => {
@@ -41,8 +45,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        {/* Category Badge */}
+
+        {/* Category Badge (top-left of image) */}
         {categoria && (
           <div className="absolute top-4 left-4 z-10">
             <span className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-white/90 backdrop-blur-md text-primary-700 rounded-2xl shadow-sm border border-primary-100">
@@ -52,10 +56,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        {/* Price Badge on Image for Mobile/Hover */}
+        {/* Discount Badge (bottom-left of image) */}
+        {typeof descuentoPct === 'number' && descuentoPct > 0 && (
+          <div className="absolute bottom-3 left-3 z-10">
+            <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider bg-red-500 text-white rounded-lg shadow-lg ring-1 ring-red-600/20">
+              -{descuentoPct}%
+            </span>
+          </div>
+        )}
+
+        {/* Price Badge (bottom-right of image) */}
         {precio && (
-          <div className="absolute bottom-4 right-4 z-10 sm:hidden group-hover:block transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-             <span className="px-3 py-1.5 text-sm font-bold bg-primary-600 text-white rounded-xl shadow-lg">
+          <div className="absolute bottom-3 right-3 z-10 flex items-baseline gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-lg">
+            {precioOriginal && (
+              <span className="text-[11px] font-medium text-slate-400 line-through whitespace-nowrap">
+                {precioOriginal}
+              </span>
+            )}
+            <span className="text-base font-black text-primary-600 whitespace-nowrap">
               {precio}
             </span>
           </div>
@@ -64,16 +82,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Content */}
       <div className="flex flex-col flex-grow p-6">
-        <div className="flex justify-between items-start mb-3 gap-3">
-          <h3 className="text-xl font-display font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-tight">
-            {nombre}
-          </h3>
-          {precio && (
-            <span className="hidden sm:block text-xl font-black text-primary-600 whitespace-nowrap">
-              {precio}
-            </span>
-          )}
-        </div>
+        <h3 className="text-xl font-display font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-tight mb-3">
+          {nombre}
+        </h3>
 
         {marca && (
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider">

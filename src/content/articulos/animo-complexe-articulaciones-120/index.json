@@ -1,9 +1,11 @@
 {
   "nombre": "ANIMO-COMPLEXE Articulaciones Senior 120 comp.",
   "descripcion": "Suplemento antiinflamatorio y condroprotector para perros senior con glucosamina, MSM y cúrcuma. Mejora la movilidad y reduce el dolor articular en 4 semanas.",
-  "imagen": "/images/articulos/placeholder.jpg",
-  "precio": "27.99€",
+  "imagen": "/images/articulos/animo-complexe-articulaciones-120/imagen.jpg",
+  "precio": "44.99€",
   "linkAmazon": "https://www.amazon.es/dp/B0BWPC3H9W",
   "categoria": "Gossos sènior",
-  "marca": "ANIMO-COMPLEXE"
+  "marca": "ANIMO-COMPLEXE",
+  "precioOriginal": "82.10€",
+  "descuentoPct": 45
 }

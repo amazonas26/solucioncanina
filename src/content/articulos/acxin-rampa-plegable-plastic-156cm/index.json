@@ -1,9 +1,11 @@
 {
   "nombre": "ACXIN Rampa Plegable Plàstic 156x40cm fins 90kg",
   "descripcion": "Rampa de plástico resistente plegable en 3 partes de 156cm. Superficie antideslizante de alta tracción, soporta hasta 90kg y es fácil de limpiar.",
-  "imagen": "/images/articulos/placeholder.jpg",
-  "precio": "39.99€",
+  "imagen": "/images/articulos/acxin-rampa-plegable-plastic-156cm/imagen.jpg",
+  "precio": "61.86€",
   "linkAmazon": "https://www.amazon.es/dp/B0C2PVHT79",
   "categoria": "Rampes",
-  "marca": "ACXIN"
+  "marca": "ACXIN",
+  "precioOriginal": "89.99€",
+  "descuentoPct": 31
 }

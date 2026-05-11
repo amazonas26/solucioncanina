@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "fetch-product-images": "node scripts/fetch-amazon-images.mjs",
     "dev": "astro dev",
     "start": "astro start",
     "build": "astro build",

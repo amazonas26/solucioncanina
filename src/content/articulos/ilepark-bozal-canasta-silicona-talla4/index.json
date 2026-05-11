@@ -1,9 +1,11 @@
 {
   "nombre": "ILEPARK Bozal Canasta Silicona Talla 4",
   "descripcion": "Bozal de cesta en silicona suave y flexible, permite jadear, beber agua y recibir premios. Tiras ajustables para un ajuste seguro y cómodo. Talla 4 para perros grandes.",
-  "imagen": "/images/articulos/placeholder.jpg",
-  "precio": "12.99€",
+  "imagen": "/images/articulos/ilepark-bozal-canasta-silicona-talla4/imagen.jpg",
+  "precio": "18.99€",
   "linkAmazon": "https://www.amazon.es/dp/B0822J5TX7",
   "categoria": "Bozal",
-  "marca": "ILEPARK"
+  "marca": "ILEPARK",
+  "precioOriginal": "39.99€",
+  "descuentoPct": 53
 }

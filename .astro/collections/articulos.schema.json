@@ -16,6 +16,18 @@
         "precio": {
           "type": "string"
         },
+        "precioOriginal": {
+          "type": "string"
+        },
+        "descuentoPct": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "ventas": {
+          "type": "integer",
+          "minimum": 0
+        },
         "linkAmazon": {
           "type": "string",
           "format": "uri"

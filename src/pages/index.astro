@@ -1,14 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SearchableGrid from '../components/SearchableGrid';
+import ProductCard from '../components/ProductCard.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch all articles from the Keystatic collection
 const articulos = await getCollection('articulos');
 
 const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
 );
+
+// Top 6 productos con mayor descuento (de más a menos).
+const topDescuentos = articulos
+  .filter((a) => typeof a.data.descuentoPct === 'number' && (a.data.descuentoPct ?? 0) > 0)
+  .sort((a, b) => (b.data.descuentoPct ?? 0) - (a.data.descuentoPct ?? 0))
+  .slice(0, 6);
+
+// Top 6 productos más vendidos (de más a menos).
+const topVendidos = articulos
+  .filter((a) => typeof a.data.ventas === 'number' && (a.data.ventas ?? 0) > 0)
+  .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
+  .slice(0, 6);
 ---
 
 <Layout title="Inicio - Los mejores productos para tu perro" categories={categories}>
@@ -62,23 +74,38 @@ const categories = Array.from(
         <div class="h-1.5 w-20 bg-accent-500 rounded-full"></div>
       </div>
       <p class="text-slate-500 font-medium md:max-w-xs md:text-right">
-        Próximamente: selección por popularidad.
+        Los 6 productos con más compras mensuales en Amazon, de más a menos.
       </p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="rounded-[2rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-8">
-        <div class="text-sm font-black text-slate-900 mb-2">Top 1</div>
-        <p class="text-slate-500 font-medium">Estamos preparando esta sección.</p>
+
+    {topVendidos.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {topVendidos.map((art, i) => (
+          <div class="relative">
+            <span class="absolute -top-3 -left-3 z-20 inline-flex items-center justify-center h-10 w-10 rounded-2xl bg-accent-500 text-white font-black text-sm shadow-lg shadow-accent-500/30 ring-4 ring-white">
+              #{i + 1}
+            </span>
+            <ProductCard
+              nombre={art.data.nombre}
+              linkAmazon={art.data.linkAmazon}
+              imagen={art.data.imagen}
+              descripcion={art.data.descripcion}
+              precio={art.data.precio}
+              precioOriginal={art.data.precioOriginal}
+              descuentoPct={art.data.descuentoPct}
+              categoria={art.data.categoria}
+              marca={art.data.marca}
+            />
+          </div>
+        ))}
       </div>
-      <div class="rounded-[2rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-8">
-        <div class="text-sm font-black text-slate-900 mb-2">Top 2</div>
-        <p class="text-slate-500 font-medium">Pronto verás los más comprados.</p>
+    ) : (
+      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-10">
+        <p class="text-slate-600 font-semibold">
+          Aún no hay datos de ventas. Ejecuta <code class="px-2 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm">python scripts/update_prices.py</code> para rellenar el campo <code>ventas</code>.
+        </p>
       </div>
-      <div class="rounded-[2rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-8">
-        <div class="text-sm font-black text-slate-900 mb-2">Top 3</div>
-        <p class="text-slate-500 font-medium">Sin productos aún (tal como pediste).</p>
-      </div>
-    </div>
+    )}
   </section>
 
   {/* Descuentos */}
@@ -91,14 +118,33 @@ const categories = Array.from(
         <div class="h-1.5 w-20 bg-primary-500 rounded-full"></div>
       </div>
       <p class="text-slate-500 font-medium md:max-w-xs md:text-right">
-        Próximamente: ofertas destacadas.
+        Los 6 productos con mayor descuento, de más a menos.
       </p>
     </div>
-    <div class="rounded-[2.5rem] bg-gradient-to-r from-primary-50 via-white to-accent-50 border border-white/60 shadow-sm p-10">
-      <p class="text-slate-600 font-semibold">
-        Esta sección quedará lista para añadir productos con oferta cuando quieras.
-      </p>
-    </div>
+
+    {topDescuentos.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {topDescuentos.map((art) => (
+          <ProductCard
+            nombre={art.data.nombre}
+            linkAmazon={art.data.linkAmazon}
+            imagen={art.data.imagen}
+            descripcion={art.data.descripcion}
+            precio={art.data.precio}
+            precioOriginal={art.data.precioOriginal}
+            descuentoPct={art.data.descuentoPct}
+            categoria={art.data.categoria}
+            marca={art.data.marca}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="rounded-[2.5rem] bg-gradient-to-r from-primary-50 via-white to-accent-50 border border-white/60 shadow-sm p-10">
+        <p class="text-slate-600 font-semibold">
+          Todavía no hay productos con descuento marcado. Ejecuta <code class="px-2 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm">python scripts/update_prices.py</code> para detectarlos automáticamente.
+        </p>
+      </div>
+    )}
   </section>
 
   {/* Catálogo de productos */}

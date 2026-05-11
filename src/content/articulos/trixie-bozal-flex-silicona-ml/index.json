@@ -1,9 +1,11 @@
 {
   "nombre": "TRIXIE Bozal Flex Silicona M-L",
   "descripcion": "Bozal de silicona flexible y transpirable para perros de talla M-L. Cierre de velcro ajustable, permite jadear y beber. Fácil de limpiar y muy duradero.",
-  "imagen": "/images/articulos/placeholder.jpg",
-  "precio": "8.99€",
+  "imagen": "/images/articulos/trixie-bozal-flex-silicona-ml/imagen.jpg",
+  "precio": "18.58€",
   "linkAmazon": "https://www.amazon.es/dp/B071KHVMXF",
   "categoria": "Bozal",
-  "marca": "Trixie"
+  "marca": "Trixie",
+  "precioOriginal": "18.99€",
+  "descuentoPct": 2
 }

@@ -1,9 +1,11 @@
 {
   "nombre": "Bedsure Ortopédica Grande Forro Impermeable",
   "descripcion": "Cama ortopédica para perros grandes con forro interior impermeable. Espuma de alta densidad y cubierta exterior de tela suave antideslizante y lavable a máquina.",
-  "imagen": "/images/articulos/placeholder.jpg",
-  "precio": "44.99€",
+  "imagen": "/images/articulos/bedsure-ortopedica-grande-impermeable/imagen.jpg",
+  "precio": "37.99€",
   "linkAmazon": "https://www.amazon.es/dp/B085XRZY59",
   "categoria": "Llits ortopèdics",
-  "marca": "Bedsure"
+  "marca": "Bedsure",
+  "precioOriginal": "69.99€",
+  "descuentoPct": 46
 }

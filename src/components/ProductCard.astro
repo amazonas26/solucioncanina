@@ -5,11 +5,13 @@ interface Props {
   imagen?: string;
   descripcion?: string;
   precio?: string;
+  precioOriginal?: string;
+  descuentoPct?: number;
   categoria?: string;
   marca?: string;
 }
 
-const { nombre, linkAmazon, imagen, descripcion, precio, categoria, marca } = Astro.props;
+const { nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca } = Astro.props;
 
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
@@ -17,33 +19,47 @@ const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0b
 
 <div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-primary-100 transform hover:-translate-y-1">
   <div class="aspect-w-4 aspect-h-3 w-full bg-slate-100 overflow-hidden relative">
-    <img 
-      src={imageUrl} 
-      alt={nombre} 
+    <img
+      src={imageUrl}
+      alt={nombre}
       class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-in-out"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-    
+
     {categoria && (
-      <div class="absolute top-3 left-3">
+      <div class="absolute top-3 left-3 z-10">
         <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-slate-700 rounded-lg shadow-sm border border-slate-100">
           {categoria}
+        </span>
+      </div>
+    )}
+
+    {typeof descuentoPct === 'number' && descuentoPct > 0 && (
+      <div class="absolute bottom-3 left-3 z-10">
+        <span class="px-2.5 py-1 text-xs font-black uppercase tracking-wider bg-red-500 text-white rounded-lg shadow-lg ring-1 ring-red-600/20">
+          -{descuentoPct}%
+        </span>
+      </div>
+    )}
+
+    {precio && (
+      <div class="absolute bottom-3 right-3 z-10 flex items-baseline gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-lg">
+        {precioOriginal && (
+          <span class="text-[11px] font-medium text-slate-400 line-through whitespace-nowrap">
+            {precioOriginal}
+          </span>
+        )}
+        <span class="text-base font-bold text-primary-600 whitespace-nowrap">
+          {precio}
         </span>
       </div>
     )}
   </div>
   
   <div class="flex flex-col flex-grow p-5">
-    <div class="flex justify-between items-start mb-2 gap-2">
-      <h3 class="text-lg font-['Outfit'] font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors flex-grow">
-        {nombre}
-      </h3>
-      {precio && (
-        <span class="text-lg font-bold text-primary-600 whitespace-nowrap">
-          {precio}
-        </span>
-      )}
-    </div>
+    <h3 class="text-lg font-['Outfit'] font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-2">
+      {nombre}
+    </h3>
     
     {marca && (
       <p class="text-xs font-medium text-slate-400 mb-2 uppercase tracking-wide">
