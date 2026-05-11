@@ -17,70 +17,72 @@ const { nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuen
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
 ---
 
-<div class="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:border-primary-100 transform hover:-translate-y-1">
-  <div class="aspect-w-4 aspect-h-3 w-full bg-slate-100 overflow-hidden relative">
+<div class="group relative flex flex-col bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200">
+  <!-- Image -->
+  <div class="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative">
     <img
       src={imageUrl}
       alt={nombre}
-      class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-in-out"
+      class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
     {categoria && (
       <div class="absolute top-3 left-3 z-10">
-        <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-slate-700 rounded-lg shadow-sm border border-slate-100">
+        <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/95 text-neutral-600 rounded-md shadow-sm border border-neutral-100">
           {categoria}
         </span>
       </div>
     )}
 
     {typeof descuentoPct === 'number' && descuentoPct > 0 && (
-      <div class="absolute bottom-3 left-3 z-10">
-        <span class="px-2.5 py-1 text-xs font-black uppercase tracking-wider bg-red-500 text-white rounded-lg shadow-lg ring-1 ring-red-600/20">
+      <div class="absolute top-3 right-3 z-10">
+        <span class="px-2 py-1 text-[11px] font-bold bg-red-500 text-white rounded-md shadow-sm">
           -{descuentoPct}%
-        </span>
-      </div>
-    )}
-
-    {precio && (
-      <div class="absolute bottom-3 right-3 z-10 flex items-baseline gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-lg">
-        {precioOriginal && (
-          <span class="text-[11px] font-medium text-slate-400 line-through whitespace-nowrap">
-            {precioOriginal}
-          </span>
-        )}
-        <span class="text-base font-bold text-primary-600 whitespace-nowrap">
-          {precio}
         </span>
       </div>
     )}
   </div>
   
-  <div class="flex flex-col flex-grow p-5">
-    <h3 class="text-lg font-['Outfit'] font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors mb-2">
-      {nombre}
-    </h3>
-    
+  <!-- Content -->
+  <div class="flex flex-col flex-grow p-4">
     {marca && (
-      <p class="text-xs font-medium text-slate-400 mb-2 uppercase tracking-wide">
+      <p class="text-[10px] font-semibold text-neutral-400 mb-1.5 uppercase tracking-wider">
         {marca}
       </p>
     )}
     
+    <h3 class="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
+      {nombre}
+    </h3>
+    
     {descripcion && (
-      <p class="text-sm text-slate-500 line-clamp-3 mb-4 flex-grow">
+      <p class="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed flex-grow">
         {descripcion}
       </p>
     )}
+
+    {/* Price */}
+    {precio && (
+      <div class="flex items-baseline gap-2 mb-3 pb-3 border-b border-neutral-100">
+        <span class="text-lg font-extrabold text-neutral-900">
+          {precio}
+        </span>
+        {precioOriginal && (
+          <span class="text-xs font-medium text-neutral-400 line-through">
+            {precioOriginal}
+          </span>
+        )}
+      </div>
+    )}
     
-    <div class="mt-auto pt-4">
+    <div class="mt-auto">
       <a 
         href={linkAmazon} 
         target="_blank" 
         rel="noopener noreferrer"
-        class="inline-flex items-center justify-center w-full px-4 py-2.5 text-sm font-semibold text-white bg-accent-500 hover:bg-accent-600 rounded-xl transition-colors shadow-sm shadow-accent-500/20 hover:shadow-accent-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 gap-2"
+        class="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-neutral-800 bg-accent-500 hover:bg-accent-600 rounded-lg transition-colors gap-2"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
         Ver en Amazon
       </a>
     </div>

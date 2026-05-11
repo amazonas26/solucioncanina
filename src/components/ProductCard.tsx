@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingCart, ExternalLink, Tag, Package } from 'lucide-react';
+import { ShoppingCart, ExternalLink, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ProductCardProps {
@@ -30,73 +30,70 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
-      className="group relative flex flex-col bg-white rounded-3xl overflow-hidden shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-slate-100/80"
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.25 }}
+      className="group relative flex flex-col bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200"
     >
       {/* Image Container */}
-      <div className="aspect-[4/3] w-full bg-slate-100 overflow-hidden relative">
+      <div className="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative">
         <img
           src={imageUrl}
           alt={nombre}
-          className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Category Badge (top-left of image) */}
+        {/* Category Badge */}
         {categoria && (
-          <div className="absolute top-4 left-4 z-10">
-            <span className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-white/90 backdrop-blur-md text-primary-700 rounded-2xl shadow-sm border border-primary-100">
-              <Tag size={10} />
+          <div className="absolute top-3 left-3 z-10">
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-white/95 text-neutral-600 rounded-md shadow-sm border border-neutral-100">
               {categoria}
             </span>
           </div>
         )}
 
-        {/* Discount Badge (bottom-left of image) */}
+        {/* Discount Badge */}
         {typeof descuentoPct === 'number' && descuentoPct > 0 && (
-          <div className="absolute bottom-3 left-3 z-10">
-            <span className="px-2.5 py-1 text-xs font-black uppercase tracking-wider bg-red-500 text-white rounded-lg shadow-lg ring-1 ring-red-600/20">
+          <div className="absolute top-3 right-3 z-10">
+            <span className="px-2 py-1 text-[11px] font-bold bg-red-500 text-white rounded-md shadow-sm">
               -{descuentoPct}%
-            </span>
-          </div>
-        )}
-
-        {/* Price Badge (bottom-right of image) */}
-        {precio && (
-          <div className="absolute bottom-3 right-3 z-10 flex items-baseline gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl shadow-lg">
-            {precioOriginal && (
-              <span className="text-[11px] font-medium text-slate-400 line-through whitespace-nowrap">
-                {precioOriginal}
-              </span>
-            )}
-            <span className="text-base font-black text-primary-600 whitespace-nowrap">
-              {precio}
             </span>
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-grow p-6">
-        <h3 className="text-xl font-display font-bold text-slate-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-tight mb-3">
-          {nombre}
-        </h3>
-
+      <div className="flex flex-col flex-grow p-4">
         {marca && (
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider">
-            <Package size={12} />
+          <div className="flex items-center gap-1 text-[10px] font-semibold text-neutral-400 mb-1.5 uppercase tracking-wider">
+            <Package size={10} />
             {marca}
           </div>
         )}
 
+        <h3 className="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
+          {nombre}
+        </h3>
+
         {descripcion && (
-          <p className="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed flex-grow">
+          <p className="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed flex-grow">
             {descripcion}
           </p>
+        )}
+
+        {/* Price */}
+        {precio && (
+          <div className="flex items-baseline gap-2 mb-3 pb-3 border-b border-neutral-100">
+            <span className="text-lg font-extrabold text-neutral-900">
+              {precio}
+            </span>
+            {precioOriginal && (
+              <span className="text-xs font-medium text-neutral-400 line-through">
+                {precioOriginal}
+              </span>
+            )}
+          </div>
         )}
 
         {/* Action Button */}
@@ -105,14 +102,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             href={linkAmazon}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/btn relative flex items-center justify-center w-full px-6 py-3.5 text-sm font-bold text-white bg-slate-900 hover:bg-primary-600 rounded-2xl transition-all duration-300 shadow-lg shadow-slate-200 hover:shadow-primary-500/25 gap-2 overflow-hidden"
+            className="group/btn flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-neutral-800 bg-accent-500 hover:bg-accent-600 rounded-lg transition-colors gap-2"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              <ShoppingCart size={18} strokeWidth={2.5} />
-              Ver en Amazon
-              <ExternalLink size={14} className="opacity-50 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <ShoppingCart size={15} strokeWidth={2.5} />
+            Ver en Amazon
+            <ExternalLink size={12} className="opacity-50" />
           </a>
         </div>
       </div>

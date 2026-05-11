@@ -24,8 +24,9 @@ const topVendidos = articulos
 ---
 
 <Layout title="Inicio - Los mejores productos para tu perro" categories={categories}>
+
   {/* Hero Section */}
-  <section class="relative mb-24 md:mb-32 overflow-hidden rounded-[2.5rem] border border-white/40 shadow-2xl shadow-slate-200/60">
+  <section class="relative mb-14 md:mb-20 overflow-hidden rounded-xl border border-neutral-200" id="hero-section">
     <div class="absolute inset-0 -z-10">
       <img
         src="/images/hero/Gemini_Generated_Image_kpyoy9kpyoy9kpyo.png"
@@ -34,55 +35,58 @@ const topVendidos = articulos
         loading="eager"
         decoding="async"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/20"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-white/10"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent"></div>
     </div>
 
-    <div class="px-8 py-14 sm:px-12 sm:py-16 md:px-14 md:py-20 lg:px-16 lg:py-24 max-w-4xl">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/50 backdrop-blur-sm border border-primary-100/50 text-primary-700 text-sm font-bold mb-8 shadow-sm">
-        <span class="flex h-2 w-2 relative">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-        </span>
-        Selección 2024 Actualizada
+    <div class="px-6 py-10 sm:px-10 sm:py-12 md:px-12 md:py-16 lg:px-14 lg:py-20 max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 border border-primary-200 text-primary-700 text-xs font-bold mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        Selección 2025 · Verificada
       </div>
 
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-black text-slate-900 mb-8 tracking-tight leading-[0.9] md:leading-[0.9]">
-        Lo mejor para tu <br/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">mejor amigo</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-neutral-900 mb-5 leading-tight">
+        Los mejores productos <br class="hidden sm:block"/>
+        <span class="text-primary-600">para tu perro</span>
       </h1>
       
-      <p class="text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl leading-relaxed font-medium">
-        Curamos cuidadosamente los productos con mejores valoraciones en Amazon para asegurar la felicidad y salud de tu perro.
+      <p class="text-base md:text-lg text-neutral-500 mb-8 max-w-xl leading-relaxed">
+        Analizamos y seleccionamos los productos mejor valorados en Amazon para que encuentres exactamente lo que tu perro necesita.
       </p>
 
-      <div class="flex flex-wrap gap-4">
-        <a href="#articulos" class="px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl shadow-xl shadow-slate-200 hover:bg-primary-600 transition-all hover:-translate-y-1">
-          Explorar Productos
+      <div class="flex flex-wrap gap-3">
+        <a href="#articulos" class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors" id="hero-cta">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          Explorar productos
+        </a>
+        <a href="#sobre-nosotros" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 text-sm font-semibold rounded-lg border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors">
+          Cómo trabajamos
         </a>
       </div>
     </div>
   </section>
 
   {/* Productos más vendidos */}
-  <section class="mb-20 md:mb-24">
-    <div class="flex items-end justify-between gap-6 mb-10">
-      <div>
-        <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">
-          Productos más vendidos
-        </h2>
-        <div class="h-1.5 w-20 bg-accent-500 rounded-full"></div>
+  <section class="mb-14 md:mb-20" id="top-vendidos">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">Ranking</p>
+          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+            Productos más vendidos
+          </h2>
+        </div>
+        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
+          Los 6 productos con más compras mensuales en Amazon.
+        </p>
       </div>
-      <p class="text-slate-500 font-medium md:max-w-xs md:text-right">
-        Los 6 productos con más compras mensuales en Amazon, de más a menos.
-      </p>
     </div>
 
     {topVendidos.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         {topVendidos.map((art, i) => (
           <div class="relative">
-            <span class="absolute -top-3 -left-3 z-20 inline-flex items-center justify-center h-10 w-10 rounded-2xl bg-accent-500 text-white font-black text-sm shadow-lg shadow-accent-500/30 ring-4 ring-white">
+            <span class="absolute -top-2.5 -left-2.5 z-20 inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy-700 text-white font-bold text-xs shadow-md ring-2 ring-white">
               #{i + 1}
             </span>
             <ProductCard
@@ -100,30 +104,32 @@ const topVendidos = articulos
         ))}
       </div>
     ) : (
-      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-10">
-        <p class="text-slate-600 font-semibold">
-          Aún no hay datos de ventas. Ejecuta <code class="px-2 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm">python scripts/update_prices.py</code> para rellenar el campo <code>ventas</code>.
+      <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
+        <p class="text-neutral-500 text-sm">
+          Aún no hay datos de ventas. Ejecuta <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">python scripts/update_prices.py</code> para rellenar el campo <code>ventas</code>.
         </p>
       </div>
     )}
   </section>
 
   {/* Descuentos */}
-  <section class="mb-20 md:mb-24">
-    <div class="flex items-end justify-between gap-6 mb-10">
-      <div>
-        <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">
-          Descuentos
-        </h2>
-        <div class="h-1.5 w-20 bg-primary-500 rounded-full"></div>
+  <section class="mb-14 md:mb-20" id="descuentos">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-red-500 mb-1">Ofertas</p>
+          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+            Mejores descuentos
+          </h2>
+        </div>
+        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
+          Los 6 productos con mayor descuento disponible ahora.
+        </p>
       </div>
-      <p class="text-slate-500 font-medium md:max-w-xs md:text-right">
-        Los 6 productos con mayor descuento, de más a menos.
-      </p>
     </div>
 
     {topDescuentos.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         {topDescuentos.map((art) => (
           <ProductCard
             nombre={art.data.nombre}
@@ -139,87 +145,91 @@ const topVendidos = articulos
         ))}
       </div>
     ) : (
-      <div class="rounded-[2.5rem] bg-gradient-to-r from-primary-50 via-white to-accent-50 border border-white/60 shadow-sm p-10">
-        <p class="text-slate-600 font-semibold">
-          Todavía no hay productos con descuento marcado. Ejecuta <code class="px-2 py-1 rounded-md bg-slate-100 text-slate-800 font-mono text-sm">python scripts/update_prices.py</code> para detectarlos automáticamente.
+      <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
+        <p class="text-neutral-500 text-sm">
+          Todavía no hay productos con descuento marcado. Ejecuta <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">python scripts/update_prices.py</code> para detectarlos automáticamente.
         </p>
       </div>
     )}
   </section>
 
   {/* Catálogo de productos */}
-  <section id="articulos" class="scroll-mt-32">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-      <div>
-        <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">
-          Catálogo de Productos
-        </h2>
-        <div class="h-1.5 w-20 bg-primary-500 rounded-full"></div>
+  <section id="articulos" class="scroll-mt-28 mb-14 md:mb-20">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1">Catálogo</p>
+          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+            Todos los productos
+          </h2>
+        </div>
+        <p class="text-neutral-400 text-sm sm:text-right">
+          {articulos.length} artículos disponibles
+        </p>
       </div>
-      <p class="text-slate-500 font-medium md:max-w-xs md:text-right">
-        {articulos.length} artículos encontrados y listos para tu mascota.
-      </p>
     </div>
 
     <SearchableGrid client:load articulos={articulos} />
   </section>
 
   {/* Sobre nosotros */}
-  <section id="sobre-nosotros" class="mt-24 md:mt-32">
-    <div class="rounded-[2.75rem] bg-white/70 backdrop-blur-md border border-white/60 shadow-sm p-10 md:p-14">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-10">
+  <section id="sobre-nosotros" class="scroll-mt-28">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <h2 class="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4 tracking-tight">
-            Sobre nosotros
+          <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1">Quiénes somos</p>
+          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+            Sobre Solución Canina
           </h2>
-          <div class="h-1.5 w-20 bg-slate-900 rounded-full"></div>
         </div>
-        <p class="text-slate-500 font-medium md:max-w-sm md:text-right">
-          Selección curada de productos para perros, con transparencia.
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-4 text-neutral-600 text-sm leading-relaxed">
+        <p class="text-base text-neutral-800 font-semibold leading-relaxed">
+          Solución Canina es un catálogo de productos para perros pensado para ayudarte a elegir mejor y comprar con más confianza.
+        </p>
+        <p>
+          Reunimos artículos populares y bien valorados en Amazon (camas ortopédicas, suplementos, rampas, alimentación específica y más) y los organizamos por categorías para que encuentres rápido lo que necesitas.
+        </p>
+        <p>
+          Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte opciones claras, sin marearte con cientos de resultados. A medida que crezca el catálogo, añadiremos secciones como <strong>Más vendidos</strong> y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
+        </p>
+        <p class="text-xs text-neutral-400 border-t border-neutral-100 pt-4">
+          Transparencia: participamos en el Programa de Afiliados de Amazon. Si compras desde nuestros enlaces, podemos recibir una comisión sin coste adicional para ti.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div class="lg:col-span-2 space-y-6 text-slate-600 leading-relaxed font-medium">
-          <p class="text-lg text-slate-700 font-semibold">
-            Solución Canina es un catálogo de productos para perros pensado para ayudarte a elegir mejor y comprar con más confianza.
-          </p>
-          <p>
-            Reunimos artículos populares y bien valorados en Amazon (camas ortopédicas, suplementos, rampas, alimentación específica y más) y los organizamos por categorías para que encuentres rápido lo que necesitas.
-          </p>
-          <p>
-            Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte opciones claras, sin marearte con cientos de resultados. A medida que crezca el catálogo, añadiremos secciones como <strong>Más vendidos</strong> y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
-          </p>
-          <p class="text-sm text-slate-500">
-            Transparencia: participamos en el Programa de Afiliados de Amazon. Si compras desde nuestros enlaces, podemos recibir una comisión sin coste adicional para ti.
-          </p>
+      <div class="space-y-4">
+        <div class="rounded-lg bg-navy-700 text-white p-6">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-white/50 mb-3">
+            Cómo trabajamos
+          </h3>
+          <ul class="space-y-2.5 text-sm">
+            <li class="flex items-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              Organizamos por necesidades (ansiedad, senior, digestivo, etc.).
+            </li>
+            <li class="flex items-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              Priorizamos claridad: nombre, descripción y enlace directo.
+            </li>
+            <li class="flex items-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              Actualizamos el catálogo para mantenerlo útil y ordenado.
+            </li>
+          </ul>
         </div>
-
-        <div class="space-y-4">
-          <div class="rounded-[2rem] bg-slate-900 text-white p-8 shadow-lg shadow-slate-900/10">
-            <div class="text-xs font-black uppercase tracking-widest text-white/60 mb-3">
-              Cómo trabajamos
-            </div>
-            <ul class="space-y-3 text-sm font-semibold">
-              <li>— Organizamos por necesidades (ansiedad, senior, digestivo, etc.).</li>
-              <li>— Priorizamos claridad: nombre, descripción y enlace directo.</li>
-              <li>— Actualizamos el catálogo para mantenerlo útil y ordenado.</li>
-            </ul>
-          </div>
-          <div class="rounded-[2rem] bg-white border border-slate-100 p-8">
-            <div class="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
-              Nota importante
-            </div>
-            <p class="text-sm text-slate-600 font-medium leading-relaxed">
-              Esta web no sustituye el consejo veterinario. En dietas veterinarias o problemas de salud, consulta con tu veterinario antes de cambiar alimentación o suplementos.
-            </p>
-          </div>
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-6">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-3">
+            Nota importante
+          </h3>
+          <p class="text-sm text-neutral-500 leading-relaxed">
+            Esta web no sustituye el consejo veterinario. En dietas veterinarias o problemas de salud, consulta con tu veterinario antes de cambiar alimentación o suplementos.
+          </p>
         </div>
       </div>
     </div>
   </section>
 </Layout>
-
-<style>
-  /* Custom animations if needed */
-</style>

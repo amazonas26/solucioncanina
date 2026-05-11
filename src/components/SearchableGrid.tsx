@@ -33,8 +33,14 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
+    // Check URL params
+    const params = new URLSearchParams(window.location.search);
+    const urlSearch = params.get('search');
+    if (urlSearch) setSearch(urlSearch);
+
     const initialSearch = window.__sc?.search;
-    if (typeof initialSearch === 'string') setSearch(initialSearch);
+    if (typeof initialSearch === 'string' && !urlSearch) setSearch(initialSearch);
+    
     if (typeof window.__sc?.category !== 'undefined') {
       setSelectedCategory(window.__sc.category ?? null);
     }
@@ -82,48 +88,50 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
   }, [articulos, search, selectedCategory]);
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8">
       {/* Filters Section */}
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
           {/* Search Bar */}
           <div className="relative w-full lg:max-w-md group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary-500 transition-colors">
-              <Search size={20} />
+            <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none text-neutral-400 group-focus-within:text-primary-500 transition-colors">
+              <Search size={18} />
             </div>
             <input
               type="text"
-              placeholder="Buscar productos, marcas, categorías o tiendas…"
+              placeholder="Buscar por nombre, marca o categoría…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 shadow-sm transition-all text-slate-900 placeholder:text-slate-400 font-medium"
+              className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-neutral-900 placeholder:text-neutral-400 text-sm font-medium"
+              id="catalog-search"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute inset-y-0 right-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                className="absolute inset-y-0 right-3 flex items-center text-neutral-400 hover:text-neutral-600 transition-colors"
+                aria-label="Limpiar búsqueda"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             )}
           </div>
 
           {/* Categories Label (Desktop) */}
-          <div className="hidden lg:flex items-center gap-2 text-slate-400 font-semibold text-sm uppercase tracking-wider">
-            <SlidersHorizontal size={16} />
+          <div className="hidden lg:flex items-center gap-1.5 text-neutral-400 font-semibold text-xs uppercase tracking-wider">
+            <SlidersHorizontal size={14} />
             Filtrar por categoría
           </div>
         </div>
 
         {/* Category Chips */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2" id="category-filters">
           <button
             onClick={() => setSelectedCategory(null)}
             className={cn(
-              "px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300",
+              "px-3.5 py-2 rounded-lg text-xs font-bold transition-all duration-200",
               !selectedCategory
-                ? "bg-slate-900 text-white shadow-lg shadow-slate-200 scale-105"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                ? "bg-navy-700 text-white shadow-sm"
+                : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
             )}
           >
             Todos
@@ -133,10 +141,10 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
               key={cat}
               onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
               className={cn(
-                "px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300",
+                "px-3.5 py-2 rounded-lg text-xs font-bold transition-all duration-200",
                 cat === selectedCategory
-                  ? "bg-primary-600 text-white shadow-lg shadow-primary-200 scale-105"
-                  : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+                  ? "bg-primary-600 text-white shadow-sm"
+                  : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
               )}
             >
               {cat}
@@ -145,13 +153,18 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
         </div>
       </div>
 
+      {/* Results count */}
+      <p className="text-xs text-neutral-400 font-medium">
+        {filteredArticulos.length} {filteredArticulos.length === 1 ? 'producto encontrado' : 'productos encontrados'}
+      </p>
+
       {/* Grid */}
-      <div className="relative min-h-[400px]">
+      <div className="relative min-h-[300px]">
         <AnimatePresence mode="popLayout">
           {filteredArticulos.length > 0 ? (
             <motion.div
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
             >
               {filteredArticulos.map((art) => (
                 <ProductCard
@@ -170,24 +183,24 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
             </motion.div>
           ) : (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-[3rem] border border-dashed border-slate-200 text-center"
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center py-16 px-6 bg-neutral-50 rounded-xl border border-neutral-200 text-center"
             >
-              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-6">
-                <Search size={40} />
+              <div className="w-14 h-14 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-300 mb-4">
+                <Search size={28} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">No encontramos resultados</h3>
-              <p className="text-slate-500 max-w-md mx-auto">
-                No hay artículos que coincidan con "{search}" en esta categoría. Intenta con otros términos o limpia los filtros.
+              <h3 className="text-lg font-bold text-neutral-900 mb-1 font-serif">No encontramos resultados</h3>
+              <p className="text-neutral-400 text-sm max-w-md mx-auto">
+                No hay artículos que coincidan con "{search}" en esta categoría. Intenta con otros términos.
               </p>
               <button
                 onClick={() => {
                   setSearch('');
                   setSelectedCategory(null);
                 }}
-                className="mt-8 px-6 py-3 bg-slate-900 text-white font-bold rounded-2xl hover:bg-primary-600 transition-colors shadow-lg shadow-slate-200"
+                className="mt-5 px-5 py-2.5 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors"
               >
                 Limpiar filtros
               </button>
