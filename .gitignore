@@ -1,1 +1,11 @@
+# Dependencias
+node_modules/
+
+# Build / cache
+.astro/
 .vercel
+*.log
+.DS_Store
+
+# Backups locales (no commitear)
+_backup_local/
