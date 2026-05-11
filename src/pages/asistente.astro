@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ShoppingAssistant from '../components/ShoppingAssistant';
+import { getCollection } from 'astro:content';
+
+const articulos = await getCollection('articulos');
+
+// Prepare data for the React component
+const articulosData = articulos.map(art => ({
+  id: art.id,
+  slug: art.slug,
+  data: art.data
+}));
+
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+---
+
+<Layout 
+  title="Asistente de Compras Inteligente" 
+  description="Encuentra exactamente lo que tu perro necesita en 3 simples pasos. Nuestro asistente te recomendará las mejores opciones." 
+  categories={categories}
+>
+  <div class="py-4 md:py-8">
+    <ShoppingAssistant client:load articulos={articulosData} />
+  </div>
+</Layout>

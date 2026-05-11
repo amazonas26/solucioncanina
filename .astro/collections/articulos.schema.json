@@ -38,6 +38,27 @@
         "marca": {
           "type": "string"
         },
+        "veredicto": {
+          "type": "string"
+        },
+        "analisis": {
+          "type": "string"
+        },
+        "pros": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contras": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "paraQuien": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }

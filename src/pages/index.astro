@@ -1,32 +1,41 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SearchableGrid from '../components/SearchableGrid';
-import ProductCard from '../components/ProductCard.astro';
-import { getCollection } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+import SearchableGrid from "../components/SearchableGrid";
+import ProductCard from "../components/ProductCard.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../utils/slugify";
 
-const articulos = await getCollection('articulos');
+const articulos = await getCollection("articulos");
 
 const categories = Array.from(
-  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
 // Top 6 productos con mayor descuento (de más a menos).
 const topDescuentos = articulos
-  .filter((a) => typeof a.data.descuentoPct === 'number' && (a.data.descuentoPct ?? 0) > 0)
+  .filter(
+    (a) =>
+      typeof a.data.descuentoPct === "number" && (a.data.descuentoPct ?? 0) > 0,
+  )
   .sort((a, b) => (b.data.descuentoPct ?? 0) - (a.data.descuentoPct ?? 0))
   .slice(0, 6);
 
 // Top 6 productos más vendidos (de más a menos).
 const topVendidos = articulos
-  .filter((a) => typeof a.data.ventas === 'number' && (a.data.ventas ?? 0) > 0)
+  .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0)
   .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
   .slice(0, 6);
 ---
 
-<Layout title="Inicio - Los mejores productos para tu perro" categories={categories}>
-
+<Layout
+  title="Inicio - Los mejores productos para tu perro"
+  categories={categories}
+>
   {/* Hero Section */}
-  <section class="relative mb-14 md:mb-20 overflow-hidden rounded-xl border border-neutral-200" id="hero-section">
+  <section
+    class="relative mb-14 md:mb-20 overflow-hidden rounded-xl border border-neutral-200"
+    id="hero-section"
+  >
     <div class="absolute inset-0 -z-10">
       <img
         src="/images/hero/Gemini_Generated_Image_kpyoy9kpyoy9kpyo.png"
@@ -35,31 +44,75 @@ const topVendidos = articulos
         loading="eager"
         decoding="async"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent"
+      >
+      </div>
     </div>
 
-    <div class="px-6 py-10 sm:px-10 sm:py-12 md:px-12 md:py-16 lg:px-14 lg:py-20 max-w-3xl">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 border border-primary-200 text-primary-700 text-xs font-bold mb-6">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        Selección 2025 · Verificada
+    <div
+      class="px-6 py-10 sm:px-10 sm:py-12 md:px-12 md:py-16 lg:px-14 lg:py-20 max-w-3xl"
+    >
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 border border-primary-200 text-primary-700 text-xs font-bold mb-6"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg
+        >
+        Selección 2026 · Verificada
       </div>
 
-      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-neutral-900 mb-5 leading-tight">
-        Los mejores productos <br class="hidden sm:block"/>
+      <h1
+        class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-neutral-900 mb-5 leading-tight"
+      >
+        Los mejores productos <br class="hidden sm:block" />
         <span class="text-primary-600">para tu perro</span>
       </h1>
-      
-      <p class="text-base md:text-lg text-neutral-500 mb-8 max-w-xl leading-relaxed">
-        Analizamos y seleccionamos los productos mejor valorados en Amazon para que encuentres exactamente lo que tu perro necesita.
+
+      <p
+        class="text-base md:text-lg text-neutral-500 mb-8 max-w-xl leading-relaxed"
+      >
+        Analizamos y seleccionamos los productos mejor valorados en Amazon para
+        que encuentres exactamente lo que tu perro necesita.
       </p>
 
       <div class="flex flex-wrap gap-3">
-        <a href="#articulos" class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors" id="hero-cta">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <a
+          href="#articulos"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors"
+          id="hero-cta"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"
+            ></path></svg
+          >
           Explorar productos
         </a>
-        <a href="#sobre-nosotros" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 text-sm font-semibold rounded-lg border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors">
+        <a
+          href="#sobre-nosotros"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 text-sm font-semibold rounded-lg border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors"
+        >
           Cómo trabajamos
         </a>
       </div>
@@ -71,8 +124,14 @@ const topVendidos = articulos
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">Ranking</p>
-          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
+          >
+            Ranking
+          </p>
+          <h2
+            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+          >
             Productos más vendidos
           </h2>
         </div>
@@ -82,14 +141,71 @@ const topVendidos = articulos
       </div>
     </div>
 
-    {topVendidos.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-        {topVendidos.map((art, i) => (
-          <div class="relative">
-            <span class="absolute -top-2.5 -left-2.5 z-20 inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy-700 text-white font-bold text-xs shadow-md ring-2 ring-white">
-              #{i + 1}
-            </span>
+    {
+      topVendidos.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {topVendidos.map((art, i) => (
+            <div class="relative">
+              <span class="absolute -top-2.5 -left-2.5 z-20 inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy-700 text-white font-bold text-xs shadow-md ring-2 ring-white">
+                #{i + 1}
+              </span>
+              <ProductCard
+                slug={slugify(art.data.nombre)}
+                nombre={art.data.nombre}
+                linkAmazon={art.data.linkAmazon}
+                imagen={art.data.imagen}
+                descripcion={art.data.descripcion}
+                precio={art.data.precio}
+                precioOriginal={art.data.precioOriginal}
+                descuentoPct={art.data.descuentoPct}
+                categoria={art.data.categoria}
+                marca={art.data.marca}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
+          <p class="text-neutral-500 text-sm">
+            Aún no hay datos de ventas. Ejecuta{" "}
+            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
+              python scripts/update_prices.py
+            </code>{" "}
+            para rellenar el campo <code>ventas</code>.
+          </p>
+        </div>
+      )
+    }
+  </section>
+
+  {/* Descuentos */}
+  <section class="mb-14 md:mb-20" id="descuentos">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-red-500 mb-1"
+          >
+            Ofertas
+          </p>
+          <h2
+            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+          >
+            Mejores descuentos
+          </h2>
+        </div>
+        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
+          Los 6 productos con mayor descuento disponible ahora.
+        </p>
+      </div>
+    </div>
+
+    {
+      topDescuentos.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {topDescuentos.map((art) => (
             <ProductCard
+              slug={slugify(art.data.nombre)}
               nombre={art.data.nombre}
               linkAmazon={art.data.linkAmazon}
               imagen={art.data.imagen}
@@ -100,57 +216,20 @@ const topVendidos = articulos
               categoria={art.data.categoria}
               marca={art.data.marca}
             />
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
-        <p class="text-neutral-500 text-sm">
-          Aún no hay datos de ventas. Ejecuta <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">python scripts/update_prices.py</code> para rellenar el campo <code>ventas</code>.
-        </p>
-      </div>
-    )}
-  </section>
-
-  {/* Descuentos */}
-  <section class="mb-14 md:mb-20" id="descuentos">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-red-500 mb-1">Ofertas</p>
-          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
-            Mejores descuentos
-          </h2>
+          ))}
         </div>
-        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
-          Los 6 productos con mayor descuento disponible ahora.
-        </p>
-      </div>
-    </div>
-
-    {topDescuentos.length > 0 ? (
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-        {topDescuentos.map((art) => (
-          <ProductCard
-            nombre={art.data.nombre}
-            linkAmazon={art.data.linkAmazon}
-            imagen={art.data.imagen}
-            descripcion={art.data.descripcion}
-            precio={art.data.precio}
-            precioOriginal={art.data.precioOriginal}
-            descuentoPct={art.data.descuentoPct}
-            categoria={art.data.categoria}
-            marca={art.data.marca}
-          />
-        ))}
-      </div>
-    ) : (
-      <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
-        <p class="text-neutral-500 text-sm">
-          Todavía no hay productos con descuento marcado. Ejecuta <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">python scripts/update_prices.py</code> para detectarlos automáticamente.
-        </p>
-      </div>
-    )}
+      ) : (
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
+          <p class="text-neutral-500 text-sm">
+            Todavía no hay productos con descuento marcado. Ejecuta{" "}
+            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
+              python scripts/update_prices.py
+            </code>{" "}
+            para detectarlos automáticamente.
+          </p>
+        </div>
+      )
+    }
   </section>
 
   {/* Catálogo de productos */}
@@ -158,8 +237,14 @@ const topVendidos = articulos
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1">Catálogo</p>
-          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1"
+          >
+            Catálogo
+          </p>
+          <h2
+            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+          >
             Todos los productos
           </h2>
         </div>
@@ -177,8 +262,14 @@ const topVendidos = articulos
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1">Quiénes somos</p>
-          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900">
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1"
+          >
+            Quiénes somos
+          </p>
+          <h2
+            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+          >
             Sobre Solución Canina
           </h2>
         </div>
@@ -186,47 +277,101 @@ const topVendidos = articulos
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2 space-y-4 text-neutral-600 text-sm leading-relaxed">
+      <div
+        class="lg:col-span-2 space-y-4 text-neutral-600 text-sm leading-relaxed"
+      >
         <p class="text-base text-neutral-800 font-semibold leading-relaxed">
-          Solución Canina es un catálogo de productos para perros pensado para ayudarte a elegir mejor y comprar con más confianza.
+          Solución Canina es un catálogo de productos para perros pensado para
+          ayudarte a elegir mejor y comprar con más confianza.
         </p>
         <p>
-          Reunimos artículos populares y bien valorados en Amazon (camas ortopédicas, suplementos, rampas, alimentación específica y más) y los organizamos por categorías para que encuentres rápido lo que necesitas.
+          Reunimos artículos populares y bien valorados en Amazon (camas
+          ortopédicas, suplementos, rampas, alimentación específica y más) y los
+          organizamos por categorías para que encuentres rápido lo que
+          necesitas.
         </p>
         <p>
-          Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte opciones claras, sin marearte con cientos de resultados. A medida que crezca el catálogo, añadiremos secciones como <strong>Más vendidos</strong> y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
+          Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte
+          opciones claras, sin marearte con cientos de resultados. A medida que
+          crezca el catálogo, añadiremos secciones como <strong
+            >Más vendidos</strong
+          > y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
         </p>
         <p class="text-xs text-neutral-400 border-t border-neutral-100 pt-4">
-          Transparencia: participamos en el Programa de Afiliados de Amazon. Si compras desde nuestros enlaces, podemos recibir una comisión sin coste adicional para ti.
+          Transparencia: participamos en el Programa de Afiliados de Amazon. Si
+          compras desde nuestros enlaces, podemos recibir una comisión sin coste
+          adicional para ti.
         </p>
       </div>
 
       <div class="space-y-4">
         <div class="rounded-lg bg-navy-700 text-white p-6">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-white/50 mb-3">
+          <h3
+            class="text-xs font-bold uppercase tracking-wider text-white/50 mb-3"
+          >
             Cómo trabajamos
           </h3>
           <ul class="space-y-2.5 text-sm">
             <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-primary-300 mt-0.5 shrink-0"
+                ><path d="M20 6 9 17l-5-5"></path></svg
+              >
               Organizamos por necesidades (ansiedad, senior, digestivo, etc.).
             </li>
             <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-primary-300 mt-0.5 shrink-0"
+                ><path d="M20 6 9 17l-5-5"></path></svg
+              >
               Priorizamos claridad: nombre, descripción y enlace directo.
             </li>
             <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-primary-300 mt-0.5 shrink-0"
+                ><path d="M20 6 9 17l-5-5"></path></svg
+              >
               Actualizamos el catálogo para mantenerlo útil y ordenado.
             </li>
           </ul>
         </div>
         <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-6">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-3">
+          <h3
+            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-3"
+          >
             Nota importante
           </h3>
           <p class="text-sm text-neutral-500 leading-relaxed">
-            Esta web no sustituye el consejo veterinario. En dietas veterinarias o problemas de salud, consulta con tu veterinario antes de cambiar alimentación o suplementos.
+            Esta web no sustituye el consejo veterinario. En dietas veterinarias
+            o problemas de salud, consulta con tu veterinario antes de cambiar
+            alimentación o suplementos.
           </p>
         </div>
       </div>

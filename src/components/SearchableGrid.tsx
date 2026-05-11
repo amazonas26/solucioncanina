@@ -9,6 +9,19 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Simple slugify for SearchableGrid internal use
+function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-');
+}
+
 interface Articulo {
   data: {
     nombre: string;
@@ -21,7 +34,7 @@ interface Articulo {
     categoria?: string;
     marca?: string;
   };
-  slug: string;
+  id: string;
 }
 
 interface SearchableGridProps {
@@ -168,7 +181,8 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
             >
               {filteredArticulos.map((art) => (
                 <ProductCard
-                  key={art.slug}
+                  key={art.id}
+                  slug={slugify(art.data.nombre)}
                   nombre={art.data.nombre}
                   linkAmazon={art.data.linkAmazon}
                   imagen={art.data.imagen}

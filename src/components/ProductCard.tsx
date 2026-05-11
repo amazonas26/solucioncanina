@@ -3,6 +3,7 @@ import { ShoppingCart, ExternalLink, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ProductCardProps {
+  slug: string;
   nombre: string;
   linkAmazon: string;
   imagen?: string;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
+  slug,
   nombre,
   linkAmazon,
   imagen,
@@ -26,6 +28,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   marca,
 }) => {
   const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
+  const detailUrl = `/producto/${slug}`;
 
   return (
     <motion.div
@@ -37,7 +40,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       className="group relative flex flex-col bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200"
     >
       {/* Image Container */}
-      <div className="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative">
+      <a href={detailUrl} className="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative block">
         <img
           src={imageUrl}
           alt={nombre}
@@ -61,7 +64,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           </div>
         )}
-      </div>
+      </a>
 
       {/* Content */}
       <div className="flex flex-col flex-grow p-4">
@@ -72,9 +75,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        <h3 className="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
-          {nombre}
-        </h3>
+        <a href={detailUrl} className="block">
+          <h3 className="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
+            {nombre}
+          </h3>
+        </a>
 
         {descripcion && (
           <p className="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed flex-grow">
@@ -97,7 +102,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Action Button */}
-        <div className="mt-auto">
+        <div className="mt-auto flex flex-col gap-2">
           <a
             href={linkAmazon}
             target="_blank"

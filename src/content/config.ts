@@ -13,9 +13,25 @@ const articulosCollection = defineCollection({
     linkAmazon: z.string().url(),
     categoria: z.string().optional(),
     marca: z.string().optional(),
+    veredicto: z.string().optional(),
+    analisis: z.string().optional(),
+    pros: z.array(z.string()).optional(),
+    contras: z.array(z.string()).optional(),
+    paraQuien: z.string().optional(),
+  }),
+});
+
+const blogCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    titulo: z.string(),
+    descripcion: z.string().optional(),
+    imagen: z.string().optional(),
+    categoria: z.enum(['comportamiento', 'guias', 'salud', 'alimentacion']).default('guias'),
   }),
 });
 
 export const collections = {
   articulos: articulosCollection,
+  blog: blogCollection,
 };

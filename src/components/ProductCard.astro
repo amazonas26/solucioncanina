@@ -1,5 +1,6 @@
 ---
 interface Props {
+  slug: string;
   nombre: string;
   linkAmazon: string;
   imagen?: string;
@@ -11,15 +12,16 @@ interface Props {
   marca?: string;
 }
 
-const { nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca } = Astro.props;
+const { slug, nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca } = Astro.props;
 
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
+const detailUrl = `/producto/${slug}`;
 ---
 
 <div class="group relative flex flex-col bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200">
   <!-- Image -->
-  <div class="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative">
+  <a href={detailUrl} class="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative block">
     <img
       src={imageUrl}
       alt={nombre}
@@ -41,7 +43,7 @@ const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0b
         </span>
       </div>
     )}
-  </div>
+  </a>
   
   <!-- Content -->
   <div class="flex flex-col flex-grow p-4">
@@ -51,9 +53,11 @@ const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0b
       </p>
     )}
     
-    <h3 class="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
-      {nombre}
-    </h3>
+    <a href={detailUrl} class="block">
+      <h3 class="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
+        {nombre}
+      </h3>
+    </a>
     
     {descripcion && (
       <p class="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed flex-grow">
@@ -75,7 +79,7 @@ const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0b
       </div>
     )}
     
-    <div class="mt-auto">
+    <div class="mt-auto flex flex-col gap-2">
       <a 
         href={linkAmazon} 
         target="_blank" 
