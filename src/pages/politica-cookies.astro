@@ -1,0 +1,170 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const articulos = await getCollection("articulos");
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
+);
+
+const lastUpdate = "Mayo de 2026";
+---
+
+<Layout
+  title="Política de cookies"
+  description="Política de cookies de Solución Canina: qué cookies utilizamos, con qué finalidad y cómo gestionarlas o desactivarlas."
+  categories={categories}
+>
+  <main class="flex-grow w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-16">
+    <header class="mb-10 pb-8 border-b border-neutral-200">
+      <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-2">Información legal</p>
+      <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+        Política de cookies
+      </h1>
+      <p class="text-sm text-neutral-500">Última actualización: {lastUpdate}</p>
+    </header>
+
+    <article class="space-y-8 text-neutral-700 leading-relaxed text-[15px]">
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">1. ¿Qué es una cookie?</h2>
+        <p>
+          Una cookie es un pequeño fichero de texto que un sitio web almacena en el navegador
+          del usuario al visitarlo. Las cookies permiten al sitio recordar información sobre
+          la visita (idioma preferido, tipo de dispositivo, páginas visitadas, etc.) y
+          ofrecer una mejor experiencia.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          2. Tipos de cookies que utilizamos
+        </h2>
+        <p>
+          En <strong>solucioncanina.es</strong> utilizamos los siguientes tipos de cookies:
+        </p>
+        <ul class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500">
+          <li>
+            <strong>Cookies técnicas</strong>: estrictamente necesarias para el funcionamiento
+            del sitio (servidor, sesión, seguridad). Están exentas de consentimiento.
+          </li>
+          <li>
+            <strong>Cookies analíticas</strong>: nos permiten medir, de forma anónima y
+            agregada, el número de visitantes y su comportamiento para mejorar el sitio.
+            Requieren el consentimiento del usuario.
+          </li>
+        </ul>
+        <p class="mt-4">
+          <strong>No utilizamos</strong> cookies publicitarias propias ni de terceros para
+          mostrar anuncios personalizados dentro del Sitio.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          3. Detalle de las cookies utilizadas
+        </h2>
+        <div class="overflow-x-auto rounded-lg border border-neutral-200 mt-4">
+          <table class="w-full text-sm">
+            <thead class="bg-neutral-50 border-b border-neutral-200 text-left">
+              <tr class="text-[13px] font-semibold text-neutral-700">
+                <th class="px-4 py-3">Cookie</th>
+                <th class="px-4 py-3">Proveedor</th>
+                <th class="px-4 py-3">Finalidad</th>
+                <th class="px-4 py-3">Duración</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-neutral-100 text-neutral-700">
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">_ga</td>
+                <td class="px-4 py-3">Google</td>
+                <td class="px-4 py-3">Distinguir usuarios únicos (Google Analytics 4).</td>
+                <td class="px-4 py-3 whitespace-nowrap">2 años</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">_ga_FH339B1P51</td>
+                <td class="px-4 py-3">Google</td>
+                <td class="px-4 py-3">Almacenar el estado de la sesión de GA4.</td>
+                <td class="px-4 py-3 whitespace-nowrap">2 años</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">_gid</td>
+                <td class="px-4 py-3">Google</td>
+                <td class="px-4 py-3">Identificar al usuario durante 24 horas (cuando esté activo).</td>
+                <td class="px-4 py-3 whitespace-nowrap">24 horas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm text-neutral-500">
+          Al pulsar un enlace de afiliado, el usuario es redirigido a Amazon.es, que utiliza
+          sus propias cookies. Más información en la
+          <a href="https://www.amazon.es/gp/help/customer/display.html?nodeId=GVP69FUJ48X9DT8X" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+            política de cookies de Amazon
+          </a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          4. Gestión y desactivación de cookies
+        </h2>
+        <p>
+          El usuario puede aceptar, rechazar o eliminar las cookies en cualquier momento
+          desde la configuración de su navegador. A continuación se incluyen los enlaces a
+          las páginas de ayuda de los navegadores más comunes:
+        </p>
+        <ul class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500">
+          <li>
+            <a href="https://support.google.com/chrome/answer/95647" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+              Google Chrome
+            </a>
+          </li>
+          <li>
+            <a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+              Mozilla Firefox
+            </a>
+          </li>
+          <li>
+            <a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+              Apple Safari
+            </a>
+          </li>
+          <li>
+            <a href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+              Microsoft Edge
+            </a>
+          </li>
+        </ul>
+        <p class="mt-3">
+          Para inhabilitar específicamente Google Analytics en todos los sitios web, puede
+          instalar el
+          <a href="https://tools.google.com/dlpage/gaoptout" class="text-primary-600 hover:underline" target="_blank" rel="noopener">
+            complemento oficial de inhabilitación
+          </a>.
+        </p>
+        <p class="mt-3 text-sm text-neutral-500">
+          Tenga en cuenta que la desactivación de las cookies puede provocar que algunas
+          funcionalidades del Sitio no estén disponibles.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">5. Cambios</h2>
+        <p>
+          Esta Política de Cookies puede modificarse cuando lo exija la legislación
+          aplicable o cuando varíen las cookies utilizadas por el Sitio. Se recomienda
+          revisarla periódicamente.
+        </p>
+      </section>
+    </article>
+
+    <nav class="mt-12 pt-6 border-t border-neutral-200 flex flex-wrap gap-4 text-sm">
+      <a href="/aviso-legal" class="text-primary-600 hover:underline font-semibold">
+        ← Aviso legal
+      </a>
+      <a href="/politica-privacidad" class="text-primary-600 hover:underline font-semibold">
+        ← Política de privacidad
+      </a>
+    </nav>
+  </main>
+</Layout>

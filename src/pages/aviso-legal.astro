@@ -1,0 +1,169 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const articulos = await getCollection("articulos");
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
+);
+
+const lastUpdate = "Mayo de 2026";
+---
+
+<Layout
+  title="Aviso legal"
+  description="Aviso legal de Solución Canina: información del titular, condiciones de uso, propiedad intelectual y enlaces de afiliación de Amazon."
+  categories={categories}
+>
+  <main class="flex-grow w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-16">
+    <header class="mb-10 pb-8 border-b border-neutral-200">
+      <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-2">Información legal</p>
+      <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+        Aviso legal
+      </h1>
+      <p class="text-sm text-neutral-500">Última actualización: {lastUpdate}</p>
+    </header>
+
+    <article class="space-y-8 text-neutral-700 leading-relaxed text-[15px]">
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">1. Datos del titular</h2>
+        <p>
+          En cumplimiento del deber de información recogido en el artículo 10 de la Ley 34/2002,
+          de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico
+          (LSSI-CE), a continuación se reflejan los siguientes datos:
+        </p>
+        <ul class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500">
+          <li>Titular del sitio web: <strong>[NOMBRE O RAZÓN SOCIAL DEL TITULAR]</strong></li>
+          <li>NIF/CIF: <strong>[NIF/CIF]</strong></li>
+          <li>Domicilio: <strong>[DIRECCIÓN POSTAL]</strong></li>
+          <li>Correo electrónico de contacto: <a href="mailto:hola@solucioncanina.es" class="text-primary-600 hover:underline">hola@solucioncanina.es</a></li>
+          <li>Dominio web: <a href="https://www.solucioncanina.es" class="text-primary-600 hover:underline">www.solucioncanina.es</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">2. Objeto</h2>
+        <p>
+          El presente Aviso Legal regula el uso del sitio web <strong>solucioncanina.es</strong>
+          (en adelante, "el Sitio"), del que es titular la persona o entidad indicada en el
+          apartado anterior. El Sitio ofrece información, comparativas, guías y recomendaciones
+          de productos para perros (camas, suplementos, accesorios, alimentación, etc.),
+          dirigidas al público general y sin ánimo de sustituir el consejo veterinario
+          profesional.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">3. Condiciones de uso</h2>
+        <p>
+          La utilización del Sitio atribuye la condición de usuario e implica la aceptación
+          plena y sin reservas de todas las disposiciones incluidas en este Aviso Legal. El
+          usuario se compromete a:
+        </p>
+        <ul class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500">
+          <li>Hacer un uso adecuado y lícito del Sitio.</li>
+          <li>No realizar actividades contrarias a las leyes, a la moral o al orden público.</li>
+          <li>No introducir virus, código malicioso ni realizar acciones que puedan dañar el
+            funcionamiento del Sitio o de los sistemas de terceros.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          4. Programa de afiliados de Amazon
+        </h2>
+        <p>
+          Solución Canina es un participante en el <strong>Programa de Afiliados de Amazon
+          Europe S.à r.l.</strong>, un programa de publicidad para afiliados diseñado para
+          ofrecer a sitios web un modo de obtener comisiones por publicidad, publicitando e
+          incluyendo enlaces a Amazon.es.
+        </p>
+        <p class="mt-3">
+          Como Afiliado de Amazon, el titular del Sitio obtiene ingresos por las compras
+          adscritas que cumplan los requisitos aplicables. Esto significa que, si el usuario
+          realiza una compra a través de uno de los enlaces que aparecen en el Sitio, el
+          titular puede recibir una comisión, <strong>sin coste adicional para el usuario</strong>.
+          Los precios y la disponibilidad de los productos son los que muestra Amazon en cada
+          momento.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          5. Propiedad intelectual e industrial
+        </h2>
+        <p>
+          Todos los contenidos del Sitio (textos, redacción de fichas, gráficos, logotipos,
+          diseño y código) son propiedad del titular o de terceros que han autorizado su uso.
+          Las marcas comerciales, nombres de producto e imágenes de fichas de Amazon
+          pertenecen a sus respectivos propietarios y se utilizan únicamente con fines
+          descriptivos e informativos.
+        </p>
+        <p class="mt-3">
+          Queda prohibida la reproducción, distribución, comunicación pública o modificación
+          total o parcial del contenido del Sitio sin autorización expresa y por escrito del
+          titular, salvo en los casos legalmente permitidos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          6. Limitación de responsabilidad
+        </h2>
+        <p>
+          El titular del Sitio realiza sus mejores esfuerzos para que la información
+          publicada sea veraz y esté actualizada, pero no garantiza la exactitud de los
+          precios, disponibilidad o características de los productos enlazados, ya que
+          dichos datos son extraídos de Amazon y pueden variar en cualquier momento.
+          El usuario debe verificar siempre la información en la página de destino antes
+          de realizar cualquier compra.
+        </p>
+        <p class="mt-3">
+          Los contenidos del Sitio tienen carácter meramente informativo y no constituyen
+          asesoramiento veterinario, médico, nutricional ni de adiestramiento. Para
+          cualquier duda sobre la salud, alimentación o comportamiento de su perro, consulte
+          siempre con un veterinario u otro profesional cualificado.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">7. Enlaces externos</h2>
+        <p>
+          El Sitio puede contener enlaces a webs de terceros, especialmente a Amazon.es. El
+          titular no se hace responsable de los contenidos, políticas o prácticas de
+          privacidad de dichos sitios externos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">8. Modificaciones</h2>
+        <p>
+          El titular se reserva el derecho a modificar este Aviso Legal en cualquier
+          momento para adaptarlo a novedades legislativas, técnicas o de funcionamiento
+          del Sitio. Se recomienda al usuario revisarlo periódicamente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          9. Legislación y jurisdicción aplicables
+        </h2>
+        <p>
+          La relación entre el titular y el usuario se rige por la legislación española
+          vigente. Para la resolución de cualquier controversia, las partes se someten a los
+          Juzgados y Tribunales del domicilio del titular, salvo que la ley aplicable
+          disponga otra cosa.
+        </p>
+      </section>
+    </article>
+
+    <nav class="mt-12 pt-6 border-t border-neutral-200 flex flex-wrap gap-4 text-sm">
+      <a href="/politica-privacidad" class="text-primary-600 hover:underline font-semibold">
+        Política de privacidad →
+      </a>
+      <a href="/politica-cookies" class="text-primary-600 hover:underline font-semibold">
+        Política de cookies →
+      </a>
+    </nav>
+  </main>
+</Layout>
