@@ -86,7 +86,7 @@ const categories = categoriesProp.length > 0
 
           <!-- Nav -->
           <nav class="hidden md:flex items-center gap-6 shrink-0" id="main-nav">
-            <a href="/#articulos" class="text-sm font-semibold text-neutral-600 hover:text-primary-600 transition-colors">Productos</a>
+            <a href="/productos" class="text-sm font-semibold text-neutral-600 hover:text-primary-600 transition-colors">Productos</a>
             <a href="/blog" class="text-sm font-semibold text-neutral-600 hover:text-primary-600 transition-colors flex items-center gap-1">
               Artículos y Guías
             </a>
@@ -99,15 +99,19 @@ const categories = categoriesProp.length > 0
       </div>
 
       <!-- Category bar (desktop) -->
-      {categories.length > 0 && (
+      {categories.length > 0 && !Astro.url.pathname.startsWith('/productos') && !Astro.url.pathname.startsWith('/categoria') && (
         <div class="hidden lg:block border-t border-neutral-100">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-1 py-1.5 overflow-x-auto" id="category-bar">
-              {categories.map((cat) => (
-                <a href={`/categoria/${slugify(cat)}`} class="px-3 py-1.5 text-xs font-semibold text-neutral-500 hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors whitespace-nowrap">
-                  {cat}
-                </a>
-              ))}
+              {categories.map((cat) => {
+                const catPath = `/categoria/${slugify(cat)}`;
+                const isActive = Astro.url.pathname === catPath || Astro.url.pathname === `${catPath}/`;
+                return (
+                  <a href={catPath} class={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap ${isActive ? 'bg-primary-50 text-primary-700' : 'text-neutral-500 hover:text-primary-600 hover:bg-primary-50'}`}>
+                    {cat}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -133,12 +137,6 @@ const categories = categoriesProp.length > 0
             <p class="text-white/70 text-sm leading-relaxed max-w-xs">
               Seleccionamos y organizamos productos para ayudarte a encontrar las mejores opciones para tu perro.
             </p>
-            <div class="mt-5 p-3 rounded-lg bg-white/5 border border-white/10">
-              <p class="text-[11px] uppercase tracking-wider font-bold text-white/50 mb-1">Transparencia</p>
-              <p class="text-xs text-white/60 leading-relaxed">
-                Participamos en el Programa de Afiliados de Amazon. Si compras desde nuestros enlaces, podemos recibir una comisión sin coste adicional para ti.
-              </p>
-            </div>
           </div>
 
           <!-- Categories -->
@@ -149,7 +147,7 @@ const categories = categoriesProp.length > 0
                 <li><a href={`/categoria/${slugify(cat)}`} class="hover:text-white transition-colors">{cat}</a></li>
               ))}
               {categories.length === 0 && (
-                <li><a href="/#articulos" class="hover:text-white transition-colors">Ver catálogo</a></li>
+                <li><a href="/productos" class="hover:text-white transition-colors">Ver catálogo</a></li>
               )}
             </ul>
           </div>
@@ -159,7 +157,7 @@ const categories = categoriesProp.length > 0
             <h4 class="text-xs font-bold uppercase tracking-wider text-white/50 mb-4">Información</h4>
             <ul class="space-y-2 text-white/70 text-sm">
               <li><a href="/" class="hover:text-white transition-colors">Inicio</a></li>
-              <li><a href="/#articulos" class="hover:text-white transition-colors">Productos</a></li>
+              <li><a href="/productos" class="hover:text-white transition-colors">Productos</a></li>
               <li><a href="/blog" class="hover:text-white transition-colors">Artículos y Guías</a></li>
             </ul>
           </div>

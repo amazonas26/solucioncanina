@@ -40,7 +40,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
 
   // Estat del dropdown de suggeriments
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [highlight, setHighlight] = useState(0);
+  const [highlight, setHighlight] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -115,7 +115,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
   useEffect(() => {
     setMounted(true);
     const path = window.location.pathname;
-    if (path === '/') {
+    if (path === '/productos' || path === '/') {
       setActive('Todos');
     } else if (path.startsWith('/categoria/')) {
       const slug = path.split('/').pop();
@@ -171,13 +171,13 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
 
   // Reset highlight quan canvien els suggeriments
   useEffect(() => {
-    setHighlight(0);
+    setHighlight(-1);
   }, [suggestions.length]);
 
   // Si estem a la home, fer scroll suau al catàleg quan l'usuari executa la cerca
   const scrollToCatalog = () => {
     if (typeof window === 'undefined') return;
-    if (window.location.pathname !== '/') return;
+    if (window.location.pathname !== '/productos') return;
     const el = document.getElementById('articulos');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -205,18 +205,17 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
     window.location.href = `/producto/${slug}`;
   };
 
-  // "Veure tots els resultats" → home amb el filtre aplicat i scroll a #articulos
   const goToAllResults = () => {
     const q = query.trim();
     if (!q) return;
-    if (window.location.pathname === '/') {
-      // Ja som a la home: emet l'event i fa scroll. No recarrega.
+    if (window.location.pathname === '/productos') {
+      // Ja som a la pàgina de productes: emet l'event i fa scroll. No recarrega.
       emit('sc:search', { query: q });
       setDropdownOpen(false);
       // petit timeout perquè el grid faci el re-render abans de l'scroll
       setTimeout(scrollToCatalog, 60);
     } else {
-      window.location.href = `/?search=${encodeURIComponent(q)}#articulos`;
+      window.location.href = `/productos?search=${encodeURIComponent(q)}#articulos`;
     }
   };
 
@@ -227,10 +226,10 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
       setHighlight((h) => Math.min(h + 1, suggestions.length)); // +1 perquè l'últim és "veure tots"
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setHighlight((h) => Math.max(h - 1, 0));
+      setHighlight((h) => Math.max(h - 1, -1));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (dropdownOpen && suggestions.length > 0 && highlight < suggestions.length) {
+      if (dropdownOpen && suggestions.length > 0 && highlight >= 0 && highlight < suggestions.length) {
         goToProduct(suggestions[highlight].slug);
       } else {
         goToAllResults();
@@ -265,7 +264,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
         </div>
         <input
           ref={inputRef}
-          type="search"
+          type="text"
           autoComplete="off"
           placeholder="Buscar productos…"
           value={query}
@@ -412,7 +411,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
                   <div className="space-y-0.5">
                     {displayCats.map((cat) => {
                       const isActive = cat === active;
-                      const href = cat === 'Todos' ? '/' : `/categoria/${slugify(cat)}`;
+                      const href = cat === 'Todos' ? '/productos' : `/categoria/${slugify(cat)}`;
                       return (
                         <a
                           key={cat}

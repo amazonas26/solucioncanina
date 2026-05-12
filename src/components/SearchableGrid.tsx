@@ -50,6 +50,7 @@ interface Articulo {
     marca?: string;
     valoracion?: number;
     valoracionesCount?: number;
+    ventas?: number;
   };
   id: string;
 }
@@ -58,7 +59,7 @@ interface SearchableGridProps {
   articulos: Articulo[];
 }
 
-type SortOption = 'none' | 'price-asc' | 'price-desc' | 'rating-desc' | 'discount-desc';
+type SortOption = 'none' | 'sales-desc' | 'discount-desc' | 'rating-desc' | 'price-asc' | 'price-desc';
 
 interface FilterState {
   sort: SortOption;
@@ -78,10 +79,11 @@ const DEFAULT_FILTERS: FilterState = {
 
 const SORT_LABELS: Record<SortOption, string> = {
   'none': 'Sin ordenar',
+  'sales-desc': 'Más vendidos',
+  'discount-desc': 'Mayor descuento',
+  'rating-desc': 'Mejor valorados',
   'price-asc': 'Precio: menor a mayor',
   'price-desc': 'Precio: mayor a menor',
-  'rating-desc': 'Mejor valorados',
-  'discount-desc': 'Mayor descuento',
 };
 
 export default function SearchableGrid({ articulos }: SearchableGridProps) {
@@ -102,6 +104,12 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
 
     const initialSearch = window.__sc?.search;
     if (typeof initialSearch === 'string' && !urlSearch) setSearch(initialSearch);
+
+    const urlSort = params.get('sort');
+    if (urlSort && Object.keys(SORT_LABELS).includes(urlSort)) {
+      setAppliedFilters((f) => ({ ...f, sort: urlSort as SortOption }));
+      setDraftFilters((f) => ({ ...f, sort: urlSort as SortOption }));
+    }
 
     if (typeof window.__sc?.category !== 'undefined') {
       setSelectedCategory(window.__sc.category ?? null);
@@ -214,6 +222,9 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
         }
         if (sort === 'discount-desc') {
           return (b.data.descuentoPct ?? 0) - (a.data.descuentoPct ?? 0);
+        }
+        if (sort === 'sales-desc') {
+          return (b.data.ventas ?? 0) - (a.data.ventas ?? 0);
         }
         return 0;
       });
@@ -475,8 +486,8 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
 
         {/* Chips de categoria */}
         <div className="flex flex-wrap gap-2" id="category-filters">
-          <button
-            onClick={() => setSelectedCategory(null)}
+          <a
+            href="/productos"
             className={cn(
               "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
               !selectedCategory
@@ -485,11 +496,11 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
             )}
           >
             Todos
-          </button>
+          </a>
           {categories.map((cat) => (
-            <button
+            <a
               key={cat}
-              onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
+              href={`/categoria/${slugify(cat)}`}
               className={cn(
                 "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
                 cat === selectedCategory
@@ -498,7 +509,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
               )}
             >
               {cat}
-            </button>
+            </a>
           ))}
         </div>
 

@@ -119,7 +119,7 @@ const STAR_POINTS = (() => {
 
       <div class="flex flex-wrap gap-3">
         <a
-          href="#articulos"
+          href="/productos"
           class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors"
           id="hero-cta"
         >
@@ -164,9 +164,10 @@ const STAR_POINTS = (() => {
             Productos más vendidos
           </h2>
         </div>
-        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
-          Los 6 productos con más compras mensuales en Amazon.
-        </p>
+        <a href="/productos?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ver todos los más populares
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
       </div>
     </div>
 
@@ -243,9 +244,10 @@ const STAR_POINTS = (() => {
             Mejores descuentos
           </h2>
         </div>
-        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
-          Los 6 productos con mayor descuento disponible ahora.
-        </p>
+        <a href="/productos?sort=discount-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ver todos los mayores descuentos
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
       </div>
     </div>
 
@@ -313,9 +315,10 @@ const STAR_POINTS = (() => {
             Mejores valorados
           </h2>
         </div>
-        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
-          Los 5 productos con mejor puntuación de usuarios en Amazon.
-        </p>
+        <a href="/productos?sort=rating-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ver todos los mejor valorados
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
       </div>
     </div>
 
@@ -369,13 +372,18 @@ const STAR_POINTS = (() => {
             Todos los productos
           </h2>
         </div>
-        <p class="text-neutral-400 text-sm sm:text-right">
-          {articulos.length} artículos disponibles
-        </p>
       </div>
     </div>
 
-    <SearchableGrid client:load articulos={articulos} />
+    <div class="flex justify-center mt-8">
+      <a
+        href="/productos"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white text-base font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-sm hover:shadow-md"
+      >
+        Ver catálogo completo
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </div>
   </section>
 
   {/* Sobre nosotros */}
@@ -417,11 +425,6 @@ const STAR_POINTS = (() => {
           crezca el catálogo, añadiremos secciones como <strong
             >Más vendidos</strong
           > y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
-        </p>
-        <p class="text-xs text-neutral-400 border-t border-neutral-100 pt-4">
-          Transparencia: participamos en el Programa de Afiliados de Amazon. Si
-          compras desde nuestros enlaces, podemos recibir una comisión sin coste
-          adicional para ti.
         </p>
       </div>
 
