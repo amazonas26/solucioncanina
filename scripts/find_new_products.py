@@ -50,6 +50,9 @@ HEADERS = {
 }
 
 # Cada categoría se mapea a una o varias búsquedas en Amazon.es.
+# IMPORTANTE: las claves deben coincidir EXACTAMENTE con las categorías
+# existentes en el catálogo (`src/content/articulos/*/index.json` -> campo
+# `categoria`). El script verifica esto al arrancar y avisa si difieren.
 # Si añades una categoría nueva al catálogo, añade aquí sus queries.
 CATEGORY_QUERIES: dict[str, list[str]] = {
     "Rampas": [
@@ -80,7 +83,7 @@ CATEGORY_QUERIES: dict[str, list[str]] = {
         "correa perro adiestramiento larga",
         "correa canicross perro",
     ],
-    "Bozal": [
+    "Bozales": [
         "bozal perro silicona cesta",
         "bozal perro grande",
     ],
@@ -138,6 +141,104 @@ def existing_asins() -> set[str]:
 
 def existing_slugs() -> set[str]:
     return {p.name for p in ART.iterdir() if p.is_dir()}
+
+
+def existing_categories() -> set[str]:
+    """Conjunt de categories que ja existeixen al catàleg."""
+    cats: set[str] = set()
+    for p in ART.glob("*/index.json"):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        c = d.get("categoria")
+        if c:
+            cats.add(c)
+    return cats
+
+
+def existing_fingerprints() -> list[tuple[str, str]]:
+    """Llista de (brand_lower, title_normalized) per detectar duplicats fuzzy.
+
+    title_normalized: tot en minúscules, sense accents, sense símbols, sense
+    paraules de "variant" (mida, color, etc.) — així dues fitxes que només
+    es distingeixen per "Talla 2" vs "Talla 3" col·lapsen al mateix
+    fingerprint.
+    """
+    fps: list[tuple[str, str]] = []
+    for p in ART.glob("*/index.json"):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        b = (d.get("marca") or "").lower().strip()
+        t = _normalize_title(d.get("nombre", ""))
+        if t:
+            fps.append((b, t))
+    return fps
+
+
+_VARIANT_RX = re.compile(
+    r"\b(talla|tamano|tamaño|size|talle|color|negro|negra|blanco|blanca|"
+    r"gris|azul|rojo|verde|marron|s|m|l|xl|xxl|xs|"
+    r"\d+\s*(?:cm|kg|g|ml|l|m|uds|unidades|comprimidos|capsulas|"
+    r"masticables|piezas))\b",
+    flags=re.IGNORECASE,
+)
+
+
+def _normalize_title(t: str) -> str:
+    """Treu accents, paraules de variant, números, símbols i comprimeix espais."""
+    s = unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode()
+    s = s.lower()
+    s = _VARIANT_RX.sub(" ", s)
+    s = re.sub(r"[^a-z0-9 ]+", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+_STOPWORDS = {
+    "para", "perros", "perro", "de", "del", "con", "y", "o", "el", "la", "los",
+    "las", "un", "una", "en", "a", "al", "por", "sin", "bozal", "cama", "rampa",
+    "correa", "pienso", "que", "es", "su", "su", "muy", "este", "esta",
+}
+
+
+def is_duplicate(brand: str | None, title: str, fingerprints: list[tuple[str, str]]) -> bool:
+    """True si ja existeix un producte amb la mateixa marca i títol molt similar.
+
+    Heurística doble:
+      - Jaccard ≥ 0.55 sobre tokens significatius (sense stopwords).
+      - O containment: tots els tokens significatius del títol més curt
+        estan continguts al més llarg, amb com a mínim 2 tokens en comú.
+    Es requereix la mateixa marca (si totes dues la tenen).
+    """
+    b = (brand or "").lower().strip()
+    t = _normalize_title(title)
+    if not t:
+        return False
+    t_tokens = {w for w in t.split() if w not in _STOPWORDS and len(w) > 2}
+    if not t_tokens:
+        return False
+    for fb, ft in fingerprints:
+        # Si tenim marca i no coincideix, ignorem
+        if b and fb and b != fb:
+            continue
+        ft_tokens = {w for w in ft.split() if w not in _STOPWORDS and len(w) > 2}
+        if not ft_tokens:
+            continue
+        inter = t_tokens & ft_tokens
+        if len(inter) < 2:
+            continue
+        union = t_tokens | ft_tokens
+        jaccard = len(inter) / len(union) if union else 0
+        smaller = min(len(t_tokens), len(ft_tokens))
+        containment = len(inter) / smaller if smaller else 0
+        # Duplicat si: títol curt està quasi tot dins el llarg (containment alt)
+        # o bé si la similitud global és alta.
+        if containment >= 0.80 or jaccard >= 0.55:
+            return True
+    return False
 
 
 # ---------------------------------------------------------------------------
@@ -398,9 +499,33 @@ def main():
 
     asins = existing_asins()
     slugs = existing_slugs()
+    cats_in_catalog = existing_categories()
+    fingerprints = existing_fingerprints()
 
     print(f"Catálogo actual: {len(asins)} ASIN únicos, {len(slugs)} carpetas.")
-    print(f"Objetivo: hasta {per_cat} candidatos NUEVOS por categoría.\n")
+    print(f"Categorías en uso: {sorted(cats_in_catalog)}")
+    print(f"Objetivo: hasta {per_cat} candidatos NUEVOS por categoría.")
+
+    # Validación: avisar si alguna categoría del script NO coincide con las
+    # del catálogo (evita crear categorías duplicadas tipo "Bozal" vs "Bozales").
+    declared = set(CATEGORY_QUERIES.keys())
+    unknown = declared - cats_in_catalog
+    if unknown and cats_in_catalog:
+        print(
+            f"\n⚠ AVISO: estas categorías del script NO coinciden con ninguna "
+            f"existente en el catálogo: {sorted(unknown)}"
+        )
+        print(
+            f"   Existentes: {sorted(cats_in_catalog)}\n"
+            f"   Si continúas, se CREARÁN como nuevas categorías. Si no era tu "
+            f"intención, corrige las claves de CATEGORY_QUERIES en este script."
+        )
+        if not args["loose"]:
+            ans = input("   ¿Continuar igualmente? [s/N]: ").strip().lower()
+            if ans not in ("s", "si", "sí", "y", "yes"):
+                print("Abortado.")
+                return
+    print()
 
     session = requests.Session()
     session.headers.update(HEADERS)
@@ -425,6 +550,11 @@ def main():
                 continue
             for c in extract_candidates(soup, strict=not args["loose"], debug=args["debug"]):
                 if c["asin"] in asins or c["asin"] in seen_asin:
+                    continue
+                # Detector fuzzy: mateix brand + títol molt similar
+                if is_duplicate(c.get("brand"), c.get("title", ""), fingerprints):
+                    if args["debug"]:
+                        print(f"    debug: descartat per duplicat fuzzy → {c['title'][:60]}…")
                     continue
                 seen_asin.add(c["asin"])
                 candidates.append(c)
@@ -461,11 +591,11 @@ def main():
             }
             if c["price"]:
                 data["precio"] = euro_str(c["price"])
-            if c["original"] and c["original"] > c["price"]:
-                data["precioOriginal"] = euro_str(c["original"])
-                data["descuentoPct"] = round(
-                    (1 - c["price"] / c["original"]) * 100
-                )
+            # NOTA: NO guardem `precioOriginal` ni `descuentoPct` aquí.
+            # Els llistats de cerca d'Amazon mostren preus tatxats que
+            # sovint són PVP històrics o promos d'altres venedors. Deixem
+            # que `update_prices.py` (que llegeix la fitxa real del
+            # producte) ompli aquests camps amb validació estricta.
 
             ext = download_image(c["image"], IMG / slug)
             if ext:
@@ -479,6 +609,10 @@ def main():
                 encoding="utf-8",
             )
             asins.add(c["asin"])
+            fingerprints.append(
+                ((c.get("brand") or "").lower().strip(),
+                 _normalize_title(c.get("title", "")))
+            )
             created += 1
             print(f"     → creado: src/content/articulos/{slug}/")
             time.sleep(random.uniform(2, 4))
