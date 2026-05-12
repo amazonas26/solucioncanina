@@ -205,17 +205,27 @@ const ventasTxt = fmtVentas(ventas);
         </div>
 
         <div class="mb-10">
+          {descuentoPct && descuentoPct > 10 && (
+            <p class="mb-3 text-sm font-semibold text-red-700">
+              Precio con -{descuentoPct}% de descuento &mdash; sujeto a disponibilidad.
+            </p>
+          )}
+          {ventas && ventas > 300 && (!descuentoPct || descuentoPct <= 10) && (
+            <p class="mb-3 text-sm text-neutral-500">
+              <span class="font-semibold text-neutral-700">{fmtVentas(ventas)}+ comprados</span> el último mes en Amazon.
+            </p>
+          )}
           <a
             href={linkAmazon}
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center justify-center w-full sm:w-auto gap-3 px-8 py-4 bg-[#FF9900] hover:bg-[#E68A00] text-black font-black text-lg rounded-xl shadow-lg shadow-orange-500/20 transition-all hover:-translate-y-0.5"
+            class="inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#FF9900] hover:bg-[#E68A00] text-black font-bold text-base rounded-lg transition-colors whitespace-nowrap"
           >
             Ver precio en Amazon
-            <ArrowRight size={20} />
+            <ArrowRight size={18} />
           </a>
-          <p class="text-xs text-neutral-400 mt-3 text-center sm:text-left">
-            * Enlace de afiliado. Comprar no te supone un coste extra.
+          <p class="text-xs text-neutral-400 mt-3">
+            Enlace de afiliado. La compra no supone un coste extra para ti.
           </p>
         </div>
 
@@ -289,4 +299,23 @@ const ventasTxt = fmtVentas(ventas);
       </div>
     </div>
   </article>
+  {/* Sticky Mobile CTA */}
+  <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-neutral-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] sm:hidden z-50 flex items-center justify-between gap-4">
+    <div class="flex flex-col">
+      {descuentoPct && descuentoPct > 0 && (
+        <span class="text-[10px] font-bold text-red-600 tracking-wider uppercase mb-0.5">
+          Oferta -{descuentoPct}%
+        </span>
+      )}
+      <span class="text-xl font-black text-neutral-900 leading-none">{precio || 'Consultar'}</span>
+    </div>
+    <a
+      href={linkAmazon}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex-1 flex items-center justify-center px-4 py-3 bg-[#FF9900] active:bg-[#E68A00] text-black font-bold text-sm rounded-lg whitespace-nowrap"
+    >
+      Ver precio en Amazon
+    </a>
+  </div>
 </Layout>

@@ -47,7 +47,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.25 }}
-      className="group relative flex flex-col bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200"
+      className="group relative flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200"
     >
       {/* Image Container */}
       <a href={detailUrl} className="aspect-[4/3] w-full bg-neutral-100 overflow-hidden relative block">
@@ -68,10 +68,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Discount Badge */}
         {typeof descuentoPct === 'number' && descuentoPct > 0 && (
-          <div className="absolute top-3 right-3 z-10">
-            <span className="px-2.5 py-[7px] text-xs font-bold bg-red-500 text-white rounded-md shadow-sm">
-              -{descuentoPct}%
-            </span>
+          <div className="absolute top-0 right-4 z-10">
+            <div
+              style={{ clipPath: 'polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%)' }}
+              className="flex flex-col items-center justify-center w-10 pt-2 pb-4 bg-gradient-to-b from-red-600 to-red-500 shadow-lg shadow-red-500/40"
+            >
+              <span className="text-[9px] font-black text-white/80 uppercase tracking-widest leading-none mb-0.5">OFF</span>
+              <span className="text-sm font-black text-white leading-none">{descuentoPct}%</span>
+            </div>
           </div>
         )}
       </a>
@@ -91,11 +95,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
         </a>
 
-        {descripcion && (
-          <p className="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed flex-grow">
-            {descripcion}
-          </p>
-        )}
+        {/* Description — fixed min-height so cards align */}
+        <p className="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed h-8">
+          {descripcion || '\u00a0'}
+        </p>
 
         {/* Price + Rating */}
         {(precio || (typeof valoracion === 'number' && valoracion > 0)) && (
@@ -148,16 +151,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Action Button */}
-        <div className="mt-auto flex flex-col gap-2">
+        <div className="mt-auto">
           <a
             href={linkAmazon}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/btn flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-neutral-800 bg-accent-500 hover:bg-accent-600 rounded-lg transition-colors gap-2"
+            className="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-lg transition-colors whitespace-nowrap"
           >
-            <ShoppingCart size={15} strokeWidth={2.5} />
-            Ver en Amazon
-            <ExternalLink size={12} className="opacity-50" />
+            Ver precio en Amazon
           </a>
         </div>
       </div>

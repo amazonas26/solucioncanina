@@ -1,0 +1,107 @@
+---
+// ProductCarouselWrapper.astro — wraps any slot content in a scrollable carousel
+// with prev/next arrows and mouse-drag support. Pure vanilla JS, no framework needed.
+const id = `carousel-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="relative" id={id}>
+  <!-- Left arrow -->
+  <button
+    data-dir="left"
+    class="carousel-btn carousel-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-10 h-10 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:shadow-lg transition-all opacity-0 pointer-events-none"
+    aria-label="Anterior"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+
+  <!-- Track -->
+  <div
+    class="carousel-track overflow-x-auto scrollbar-none select-none"
+    style="cursor: grab;"
+  >
+    <div class="flex gap-4 w-max pt-4 pl-3 pr-3 pb-2">
+      <slot />
+    </div>
+  </div>
+
+  <!-- Right arrow -->
+  <button
+    data-dir="right"
+    class="carousel-btn carousel-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-10 h-10 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:shadow-lg transition-all"
+    aria-label="Siguiente"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script is:inline define:vars={{ id }}>
+(function () {
+  const root  = document.getElementById(id);
+  if (!root) return;
+
+  const track = root.querySelector('.carousel-track');
+  const prev  = root.querySelector('.carousel-prev');
+  const next  = root.querySelector('.carousel-next');
+  const STEP  = 280 * 2; // scroll 2 cards at a time
+
+  function sync() {
+    const atStart = track.scrollLeft <= 4;
+    const atEnd   = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    prev.style.opacity          = atStart ? '0' : '1';
+    prev.style.pointerEvents    = atStart ? 'none' : 'auto';
+    next.style.opacity          = atEnd   ? '0' : '1';
+    next.style.pointerEvents    = atEnd   ? 'none' : 'auto';
+  }
+
+  track.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync(); // initial state
+
+  prev.addEventListener('click', () => {
+    track.scrollBy({ left: -STEP, behavior: 'smooth' });
+    setTimeout(sync, 400);
+  });
+  next.addEventListener('click', () => {
+    track.scrollBy({ left: STEP, behavior: 'smooth' });
+    setTimeout(sync, 400);
+  });
+
+  // ── Mouse drag ──────────────────────────────────────────────────────────────
+  let dragging = false, startX = 0, scrollAtStart = 0;
+
+  track.addEventListener('mousedown', (e) => {
+    dragging = true;
+    startX = e.pageX - track.offsetLeft;
+    scrollAtStart = track.scrollLeft;
+    track.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const x = e.pageX - track.offsetLeft;
+    track.scrollLeft = scrollAtStart - (x - startX) * 1.1;
+    sync();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    track.style.cursor = 'grab';
+    sync();
+  });
+
+  // Touch drag (mobile)
+  let touchStartX = 0, touchScrollStart = 0;
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].pageX;
+    touchScrollStart = track.scrollLeft;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    const dx = touchStartX - e.touches[0].pageX;
+    track.scrollLeft = touchScrollStart + dx;
+    sync();
+  }, { passive: true });
+})();
+</script>

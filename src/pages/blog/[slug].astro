@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import AffiliateBox from '../../components/AffiliateBox.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -69,7 +70,7 @@ const categoryLabel = catLabels[post.data.categoria as keyof typeof catLabels] |
 
     {/* Content */}
     <div class="prose prose-lg prose-neutral mx-auto prose-headings:font-serif prose-headings:font-black prose-a:text-primary-600 prose-img:rounded-xl prose-img:border prose-img:border-neutral-200">
-      <Content />
+      <Content components={{ AffiliateBox }} />
     </div>
 
     {/* Footer / CTA */}
