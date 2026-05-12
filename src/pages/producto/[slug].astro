@@ -33,8 +33,33 @@ const {
   analisis,
   pros,
   contras,
-  paraQuien
+  paraQuien,
+  valoracion,
+  valoracionesCount,
+  ventas
 } = articulo.data;
+
+function fmtCount(n) {
+  if (!n || n <= 0) return null;
+  if (n >= 1000) {
+    const k = (n / 1000).toFixed(1);
+    return (k.endsWith('.0') ? k.slice(0, -2) : k) + 'k';
+  }
+  return n.toLocaleString('es-ES');
+}
+
+function fmtVentas(n) {
+  if (!n || n <= 0) return null;
+  if (n >= 1000) {
+    const k = (n / 1000).toFixed(1);
+    return (k.endsWith('.0') ? k.slice(0, -2) : k) + ' mil';
+  }
+  return n.toLocaleString('es-ES');
+}
+
+const hasRating = typeof valoracion === 'number' && valoracion > 0;
+const ratingCountTxt = fmtCount(valoracionesCount);
+const ventasTxt = fmtVentas(ventas);
 ---
 
 <Layout title={`${nombre} - Reseña Editorial`} description={descripcion} categories={categories}>
@@ -92,15 +117,89 @@ const {
             {marca}
           </span>
         )}
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-neutral-900 mb-6 leading-[1.15]">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-neutral-900 mb-4 leading-[1.15]">
           {nombre}
         </h1>
+
+        {/* Valoración + Social Proof */}
+        {(hasRating || ventasTxt) && (
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mb-6 text-sm">
+            {hasRating && (
+              <div
+                class="flex items-center gap-1.5"
+                aria-label={`Valoración ${(valoracion ?? 0).toFixed(1)} sobre 5${ratingCountTxt ? ` con ${valoracionesCount} reseñas` : ''}`}
+              >
+                <div
+                  class="relative inline-flex"
+                  style={`--rating-pct: ${((valoracion ?? 0) / 5) * 100}%`}
+                >
+                  {/* Capa gris (base) */}
+                  <div class="flex items-center gap-0.5 text-neutral-200">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                  </div>
+                  {/* Capa amarilla (overlay con ancho proporcional) */}
+                  <div
+                    class="absolute inset-0 flex items-center gap-0.5 text-yellow-400 overflow-hidden"
+                    style="width: var(--rating-pct)"
+                    aria-hidden="true"
+                  >
+                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" fill="currentColor"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" fill="currentColor"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" fill="currentColor"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" fill="currentColor"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" fill="currentColor"><polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon></svg>
+                  </div>
+                </div>
+                <span class="font-bold text-neutral-900 tabular-nums ml-1">
+                  {(valoracion ?? 0).toFixed(1)}
+                </span>
+                {ratingCountTxt && (
+                  <span class="text-neutral-400 tabular-nums">
+                    ({ratingCountTxt} reseñas)
+                  </span>
+                )}
+              </div>
+            )}
+
+            {ventasTxt && (
+              <div class="flex items-center gap-1.5 text-neutral-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M3 3v18h18" />
+                  <path d="m19 9-5 5-4-4-3 3" />
+                </svg>
+                <span class="font-medium">
+                  <span class="text-neutral-900 font-bold">{ventasTxt}+</span> comprados el último mes
+                </span>
+              </div>
+            )}
+          </div>
+        )}
 
         <div class="flex items-center gap-4 mb-8">
           <div class="flex items-baseline gap-2">
             <span class="text-3xl font-black text-neutral-900">{precio || 'Consultar'}</span>
             {precioOriginal && (
               <span class="text-lg text-neutral-400 line-through font-medium">{precioOriginal}</span>
+            )}
+            {descuentoPct && descuentoPct > 0 && (
+              <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded-md bg-red-100 text-red-700 text-xs font-bold">
+                -{descuentoPct}%
+              </span>
             )}
           </div>
         </div>
