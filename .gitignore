@@ -10,3 +10,7 @@ dist/
 
 # Backups locales (no commitear)
 _backup_local/
+
+# Python bytecode cache
+__pycache__/
+*.pyc
