@@ -78,13 +78,33 @@ const DEFAULT_FILTERS: FilterState = {
 };
 
 const SORT_LABELS: Record<SortOption, string> = {
-  'none': 'Sin ordenar',
+  'none': 'Recomendados',
   'sales-desc': 'Más vendidos',
   'discount-desc': 'Mayor descuento',
   'rating-desc': 'Mejor valorados',
   'price-asc': 'Precio: menor a mayor',
   'price-desc': 'Precio: mayor a menor',
 };
+
+/** Seeded pseudo-random (mulberry32) — stable per session */
+function seededRandom(seed: number) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleWithSeed<T>(arr: T[], seed: number): T[] {
+  const out = [...arr];
+  const rand = seededRandom(seed);
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
 
 export default function SearchableGrid({ articulos }: SearchableGridProps) {
   const [search, setSearch] = useState('');
@@ -93,6 +113,9 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
   const [appliedFilters, setAppliedFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [draftFilters, setDraftFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
+  // Stable session seed — changes only on page load, not on re-renders
+  const sessionSeed = useMemo(() => Math.floor(Math.random() * 2 ** 32), []);
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -211,7 +234,6 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
         if (sort === 'price-asc' || sort === 'price-desc') {
           const pa = parsePrice(a.data.precio);
           const pb = parsePrice(b.data.precio);
-          // productes sense preu sempre al final
           if (pa === null && pb === null) return 0;
           if (pa === null) return 1;
           if (pb === null) return -1;
@@ -228,10 +250,15 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
         }
         return 0;
       });
+    } else {
+      // Default: shuffle aleatorio estable por sesión, con productos >4★ primero
+      const top = list.filter((a) => (a.data.valoracion ?? 0) >= 4);
+      const rest = list.filter((a) => (a.data.valoracion ?? 0) < 4);
+      return [...shuffleWithSeed(top, sessionSeed), ...shuffleWithSeed(rest, sessionSeed + 1)];
     }
 
     return list;
-  }, [articulos, search, selectedCategory, appliedFilters]);
+  }, [articulos, search, selectedCategory, appliedFilters, sessionSeed]);
 
   const handleOpenFilters = () => {
     setDraftFilters(appliedFilters);
