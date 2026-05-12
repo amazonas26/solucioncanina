@@ -4,5 +4,9 @@
   "categoria": "Perros senior",
   "marca": "YuMOVE",
   "precio": "24.99€",
-  "imagen": "/images/articulos/yumove-condroprotector-perros-60-masticables-articulaciones/imagen.jpg"
+  "imagen": "/images/articulos/yumove-condroprotector-perros-60-masticables-articulaciones/imagen.jpg",
+  "precioOriginal": "25.75€",
+  "descuentoPct": 5,
+  "ventas": 50,
+  "valoracion": 4.4
 }

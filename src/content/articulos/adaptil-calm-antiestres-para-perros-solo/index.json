@@ -6,5 +6,7 @@
   "precio": "28.95€",
   "precioOriginal": "30.25€",
   "descuentoPct": 4,
-  "imagen": "/images/articulos/adaptil-calm-antiestres-para-perros-solo/imagen.jpg"
+  "imagen": "/images/articulos/adaptil-calm-antiestres-para-perros-solo/imagen.jpg",
+  "ventas": 100,
+  "valoracion": 3.3
 }

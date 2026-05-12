@@ -4,5 +4,8 @@
   "categoria": "Alimentación específica",
   "marca": "Lenda",
   "precio": "22.99€",
-  "imagen": "/images/articulos/lenda-vet-nature-renal-oxalate-2kg/imagen.jpg"
+  "imagen": "/images/articulos/lenda-vet-nature-renal-oxalate-2kg/imagen.jpg",
+  "precioOriginal": "23.89€",
+  "descuentoPct": 4,
+  "valoracion": 3.7
 }

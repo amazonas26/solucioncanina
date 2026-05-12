@@ -10,9 +10,17 @@ interface Props {
   descuentoPct?: number;
   categoria?: string;
   marca?: string;
+  valoracion?: number;
+  valoracionesCount?: number;
 }
 
-const { slug, nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca } = Astro.props;
+const { slug, nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca, valoracion, valoracionesCount } = Astro.props;
+
+const fmtCount = (n?: number) => {
+  if (!n || n <= 0) return null;
+  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  return n.toLocaleString("es-ES");
+};
 
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
@@ -38,7 +46,7 @@ const detailUrl = `/producto/${slug}`;
 
     {typeof descuentoPct === 'number' && descuentoPct > 0 && (
       <div class="absolute top-3 right-3 z-10">
-        <span class="px-2 py-1 text-[11px] font-bold bg-red-500 text-white rounded-md shadow-sm">
+        <span class="px-2.5 py-[7px] text-xs font-bold bg-red-500 text-white rounded-md shadow-sm">
           -{descuentoPct}%
         </span>
       </div>
@@ -65,16 +73,50 @@ const detailUrl = `/producto/${slug}`;
       </p>
     )}
 
-    {/* Price */}
-    {precio && (
-      <div class="flex items-baseline gap-2 mb-3 pb-3 border-b border-neutral-100">
-        <span class="text-lg font-extrabold text-neutral-900">
-          {precio}
-        </span>
-        {precioOriginal && (
-          <span class="text-xs font-medium text-neutral-400 line-through">
-            {precioOriginal}
-          </span>
+    {/* Price + Rating */}
+    {(precio || (typeof valoracion === 'number' && valoracion > 0)) && (
+      <div class="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-neutral-100">
+        {precio ? (
+          <div class="flex items-baseline gap-2 min-w-0">
+            <span class="text-lg font-extrabold text-neutral-900">
+              {precio}
+            </span>
+            {precioOriginal && (
+              <span class="text-xs font-medium text-neutral-400 line-through">
+                {precioOriginal}
+              </span>
+            )}
+          </div>
+        ) : (
+          <span />
+        )}
+
+        {typeof valoracion === 'number' && valoracion > 0 && (
+          <div
+            class="flex items-center gap-1 shrink-0"
+            aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FACC15"
+              stroke="#EAB308"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+              class="h-4 w-4 shrink-0"
+              aria-hidden="true"
+            >
+              <polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96" />
+            </svg>
+            <span class="text-sm font-bold text-neutral-900 tabular-nums">
+              {valoracion.toFixed(1)}
+            </span>
+            {fmtCount(valoracionesCount) && (
+              <span class="text-[11px] font-medium text-neutral-400 tabular-nums">
+                ({fmtCount(valoracionesCount)})
+              </span>
+            )}
+          </div>
         )}
       </div>
     )}

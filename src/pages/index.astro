@@ -25,6 +25,35 @@ const topVendidos = articulos
   .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0)
   .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
   .slice(0, 6);
+
+// Top 5 productos mejor valorados (de más a menos estrellas; desempate por nº de reseñas).
+const topValorados = articulos
+  .filter(
+    (a) =>
+      typeof a.data.valoracion === "number" && (a.data.valoracion ?? 0) > 0,
+  )
+  .sort((a, b) => {
+    const diff = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);
+    if (diff !== 0) return diff;
+    return (
+      (b.data.valoracionesCount ?? 0) - (a.data.valoracionesCount ?? 0)
+    );
+  })
+  .slice(0, 5);
+
+// Polígono "starburst" para el sello TOP #N (16 puntas).
+const STAR_POINTS = (() => {
+  const N = 32; // 16 picos × 2 puntos
+  const outerR = 50;
+  const innerR = 41;
+  return Array.from({ length: N }, (_, i) => {
+    const angle = ((i * (360 / N) - 90) * Math.PI) / 180;
+    const r = i % 2 === 0 ? outerR : innerR;
+    const x = 50 + r * Math.cos(angle);
+    const y = 50 + r * Math.sin(angle);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+})();
 ---
 
 <Layout
@@ -130,7 +159,7 @@ const topVendidos = articulos
             Ranking
           </p>
           <h2
-            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
             Productos más vendidos
           </h2>
@@ -146,9 +175,27 @@ const topVendidos = articulos
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {topVendidos.map((art, i) => (
             <div class="relative">
-              <span class="absolute -top-2.5 -left-2.5 z-20 inline-flex items-center justify-center h-8 w-8 rounded-full bg-navy-700 text-white font-bold text-xs shadow-md ring-2 ring-white">
-                #{i + 1}
-              </span>
+              <div
+                class="absolute -top-3 -left-3 z-20 h-14 w-14 pointer-events-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.15)]"
+                aria-label={`Top número ${i + 1} en ventas`}
+                role="img"
+              >
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                  <polygon
+                    points={STAR_POINTS}
+                    fill="#FACC15"
+                    stroke="#DC2626"
+                    stroke-width="5"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center leading-none text-red-700 font-black">
+                  <span class="text-[8px] uppercase tracking-wider -mb-0.5">
+                    Top
+                  </span>
+                  <span class="text-base">#{i + 1}</span>
+                </div>
+              </div>
               <ProductCard
                 slug={slugify(art.data.nombre)}
                 nombre={art.data.nombre}
@@ -160,6 +207,8 @@ const topVendidos = articulos
                 descuentoPct={art.data.descuentoPct}
                 categoria={art.data.categoria}
                 marca={art.data.marca}
+                valoracion={art.data.valoracion}
+                valoracionesCount={art.data.valoracionesCount}
               />
             </div>
           ))}
@@ -189,7 +238,7 @@ const topVendidos = articulos
             Ofertas
           </p>
           <h2
-            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
             Mejores descuentos
           </h2>
@@ -215,6 +264,8 @@ const topVendidos = articulos
               descuentoPct={art.data.descuentoPct}
               categoria={art.data.categoria}
               marca={art.data.marca}
+              valoracion={art.data.valoracion}
+              valoracionesCount={art.data.valoracionesCount}
             />
           ))}
         </div>
@@ -232,6 +283,76 @@ const topVendidos = articulos
     }
   </section>
 
+  {/* Mejores valorados */}
+  <section class="mb-14 md:mb-20" id="mejores-valorados">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-amber-500 mb-1"
+          >
+            Reseñas
+          </p>
+          <h2
+            class="flex items-center gap-2 md:gap-3 text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#FACC15"
+              stroke="#EAB308"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+              class="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+              aria-hidden="true"
+            >
+              <polygon
+                points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"
+              ></polygon>
+            </svg>
+            Mejores valorados
+          </h2>
+        </div>
+        <p class="text-neutral-400 text-sm max-w-xs sm:text-right">
+          Los 5 productos con mejor puntuación de usuarios en Amazon.
+        </p>
+      </div>
+    </div>
+
+    {
+      topValorados.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 md:gap-6">
+          {topValorados.map((art) => (
+            <ProductCard
+              slug={slugify(art.data.nombre)}
+              nombre={art.data.nombre}
+              linkAmazon={art.data.linkAmazon}
+              imagen={art.data.imagen}
+              descripcion={art.data.descripcion}
+              precio={art.data.precio}
+              precioOriginal={art.data.precioOriginal}
+              descuentoPct={art.data.descuentoPct}
+              categoria={art.data.categoria}
+              marca={art.data.marca}
+              valoracion={art.data.valoracion}
+              valoracionesCount={art.data.valoracionesCount}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
+          <p class="text-neutral-500 text-sm">
+            Aún no hay datos de valoración. Ejecuta{" "}
+            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
+              python scripts/update_prices.py
+            </code>{" "}
+            para rellenar el campo <code>valoracion</code>.
+          </p>
+        </div>
+      )
+    }
+  </section>
+
   {/* Catálogo de productos */}
   <section id="articulos" class="scroll-mt-28 mb-14 md:mb-20">
     <div class="border-b border-neutral-200 pb-4 mb-8">
@@ -243,7 +364,7 @@ const topVendidos = articulos
             Catálogo
           </p>
           <h2
-            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
             Todos los productos
           </h2>
@@ -268,7 +389,7 @@ const topVendidos = articulos
             Quiénes somos
           </p>
           <h2
-            class="text-2xl md:text-3xl font-serif font-black text-neutral-900"
+            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
             Sobre Solución Canina
           </h2>

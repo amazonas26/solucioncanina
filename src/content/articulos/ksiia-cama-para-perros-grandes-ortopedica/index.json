@@ -4,5 +4,7 @@
   "categoria": "Camas ortopédicas",
   "marca": "KSIIA",
   "precio": "28.49€",
-  "imagen": "/images/articulos/ksiia-cama-para-perros-grandes-ortopedica/imagen.jpg"
+  "imagen": "/images/articulos/ksiia-cama-para-perros-grandes-ortopedica/imagen.jpg",
+  "ventas": 50,
+  "valoracion": 4.5
 }

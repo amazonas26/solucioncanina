@@ -37,6 +37,14 @@ export default config({
           label: 'Ventas mensuales',
           description: 'Nº aproximado de compras mensuales (de "Más de X comprados el último mes"). Se usa para ordenar el Top 6 de más vendidos.',
         }),
+        valoracion: fields.number({
+          label: 'Valoración (estrellas)',
+          description: 'Estrellas medias en Amazon (0-5, ej: 4.6). Se usa para ordenar el Top 5 de mejor valorados.',
+        }),
+        valoracionesCount: fields.integer({
+          label: 'Nº de valoraciones',
+          description: 'Cantidad total de valoraciones recibidas en Amazon.',
+        }),
         linkAmazon: fields.url({
           label: 'Link Amazon',
           description: 'Enlace al producto en Amazon',

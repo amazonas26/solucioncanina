@@ -4,5 +4,8 @@
   "categoria": "Alimentación específica",
   "marca": "FARMINA",
   "precio": "73.47€",
-  "imagen": "/images/articulos/farmina-vet-life-dog-renal-12kg/imagen.jpg"
+  "imagen": "/images/articulos/farmina-vet-life-dog-renal-12kg/imagen.jpg",
+  "precioOriginal": "87.90€",
+  "descuentoPct": 16,
+  "valoracion": 4.6
 }

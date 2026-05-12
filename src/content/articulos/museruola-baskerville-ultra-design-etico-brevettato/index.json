@@ -4,5 +4,7 @@
   "categoria": "Bozal",
   "marca": "MUSERUOLA",
   "precio": "23.97€",
-  "imagen": "/images/articulos/museruola-baskerville-ultra-design-etico-brevettato/imagen.jpg"
+  "imagen": "/images/articulos/museruola-baskerville-ultra-design-etico-brevettato/imagen.jpg",
+  "ventas": 100,
+  "valoracion": 4.3
 }

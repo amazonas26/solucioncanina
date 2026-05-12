@@ -10,6 +10,8 @@ const articulosCollection = defineCollection({
     precioOriginal: z.string().optional(),
     descuentoPct: z.number().int().min(0).max(100).optional(),
     ventas: z.number().int().min(0).optional(),
+    valoracion: z.number().min(0).max(5).optional(),
+    valoracionesCount: z.number().int().min(0).optional(),
     linkAmazon: z.string().url(),
     categoria: z.string().optional(),
     marca: z.string().optional(),

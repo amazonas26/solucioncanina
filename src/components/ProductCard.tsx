@@ -13,7 +13,15 @@ interface ProductCardProps {
   descuentoPct?: number;
   categoria?: string;
   marca?: string;
+  valoracion?: number;
+  valoracionesCount?: number;
 }
+
+const fmtCount = (n?: number) => {
+  if (!n || n <= 0) return null;
+  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k`;
+  return n.toLocaleString('es-ES');
+};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   slug,
@@ -26,6 +34,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   descuentoPct,
   categoria,
   marca,
+  valoracion,
+  valoracionesCount,
 }) => {
   const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
   const detailUrl = `/producto/${slug}`;
@@ -59,7 +69,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Discount Badge */}
         {typeof descuentoPct === 'number' && descuentoPct > 0 && (
           <div className="absolute top-3 right-3 z-10">
-            <span className="px-2 py-1 text-[11px] font-bold bg-red-500 text-white rounded-md shadow-sm">
+            <span className="px-2.5 py-[7px] text-xs font-bold bg-red-500 text-white rounded-md shadow-sm">
               -{descuentoPct}%
             </span>
           </div>
@@ -87,16 +97,52 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </p>
         )}
 
-        {/* Price */}
-        {precio && (
-          <div className="flex items-baseline gap-2 mb-3 pb-3 border-b border-neutral-100">
-            <span className="text-lg font-extrabold text-neutral-900">
-              {precio}
-            </span>
-            {precioOriginal && (
-              <span className="text-xs font-medium text-neutral-400 line-through">
-                {precioOriginal}
-              </span>
+        {/* Price + Rating */}
+        {(precio || (typeof valoracion === 'number' && valoracion > 0)) && (
+          <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-neutral-100">
+            {precio ? (
+              <div className="flex items-baseline gap-2 min-w-0">
+                <span className="text-lg font-extrabold text-neutral-900">
+                  {precio}
+                </span>
+                {precioOriginal && (
+                  <span className="text-xs font-medium text-neutral-400 line-through">
+                    {precioOriginal}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span />
+            )}
+
+            {typeof valoracion === 'number' && valoracion > 0 && (
+              <div
+                className="flex items-center gap-1 shrink-0"
+                aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${
+                  valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#FACC15"
+                  stroke="#EAB308"
+                  strokeWidth={1.5}
+                  strokeLinejoin="round"
+                  className="h-4 w-4 shrink-0"
+                  aria-hidden="true"
+                >
+                  <polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96" />
+                </svg>
+                <span className="text-sm font-bold text-neutral-900 tabular-nums">
+                  {valoracion.toFixed(1)}
+                </span>
+                {fmtCount(valoracionesCount) && (
+                  <span className="text-[11px] font-medium text-neutral-400 tabular-nums">
+                    ({fmtCount(valoracionesCount)})
+                  </span>
+                )}
+              </div>
             )}
           </div>
         )}

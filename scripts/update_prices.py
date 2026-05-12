@@ -4,13 +4,17 @@ Scraper de preus i mètriques d'Amazon.es per a solucioncanina.
 
 Per cada producte (`src/content/articulos/<slug>/index.json`):
   - Llegeix `linkAmazon`.
-  - Consulta la pàgina d'Amazon i extreu:
-        * precio actual          -> camp `precio`            (ex: "25.99€")
-        * preu original tatxat   -> camp `precioOriginal`    (ex: "39.99€")
-        * descompte calculat     -> camp `descuentoPct`      (enter 0..100)
-        * vendes/mes (social)    -> camp `ventas`            (enter, ex: 1000)
-  - Si no troba algun camp opcional (`precioOriginal`, `descuentoPct`, `ventas`),
-    el deixa com estava (no l'esborra) o el manté absent.
+  - Consulta la pàgina d'Amazon i extreu NOMÉS el que es mostra en aquest
+    instant (no calculem res):
+        * precio actual          -> camp `precio`             (ex: "25.99€")
+        * preu original tatxat   -> camp `precioOriginal`     (ex: "39.99€")
+        * descompte (badge -NN%) -> camp `descuentoPct`       (enter 0..100)
+        * vendes/mes (social)    -> camp `ventas`             (enter, ex: 1000)
+        * valoració mitjana      -> camp `valoracion`         (float 0-5, ex: 4.6)
+        * nº de valoracions      -> camp `valoracionesCount`  (enter, ex: 1234)
+  - `precioOriginal` i `descuentoPct` només es guarden si Amazon mostra
+    SIMULTÀNIAMENT preu tatxat I badge "-NN%". Si la pàgina ja no mostra
+    oferta (o el producte està No disponible), els camps es NETEGEN del JSON.
 
 Ús:
     python scripts/update_prices.py [--dry-run] [--only SLUG] [--limit N]
@@ -82,64 +86,161 @@ def _first_text(soup: BeautifulSoup, selectors: list[str]) -> str | None:
 # Extracció de preus
 # ---------------------------------------------------------------------------
 
+# Selectors per al "scope" — el bloc principal del producte. Tot el que NO
+# està dins d'aquests blocs (cupons d'altres productes, sidebar, sponsored,
+# etc.) s'ha d'ignorar per evitar contaminar les dades.
+PRICE_SCOPE_SELECTORS = (
+    "#corePriceDisplay_desktop_feature_div",
+    "#corePrice_feature_div",
+    "#apex_desktop",
+    "#apex_offerDisplay_desktop",
+)
+
+
+def _price_scope(soup: BeautifulSoup):
+    """Retorna el primer bloc de preu principal trobat, o None."""
+    for sel in PRICE_SCOPE_SELECTORS:
+        el = soup.select_one(sel)
+        if el:
+            return el
+    return None
+
+
 def extract_current_price(soup: BeautifulSoup) -> float | None:
     """Preu actual (el gran, sovint en vermell o negre)."""
-    selectors = [
+    scope = _price_scope(soup)
+
+    # 1) Selectors estrictes dins el bloc principal.
+    if scope is not None:
+        for sel in (
+            "span.priceToPay .a-offscreen",
+            ".a-price[data-a-color='price'] .a-offscreen",
+            ".a-price .a-offscreen",
+        ):
+            el = scope.select_one(sel)
+            if el:
+                val = _parse_eur(el.get_text(strip=True))
+                if val and 0.5 <= val <= 5000:
+                    return val
+
+    # 2) Fallback amb selectors globals (per pàgines amb DOM diferent).
+    for sel in (
         "#corePrice_feature_div .a-price .a-offscreen",
         "#apex_offerDisplay_desktop .a-price .a-offscreen",
         "#priceblock_dealprice",
         "#priceblock_ourprice",
         "span.priceToPay .a-offscreen",
         ".a-price[data-a-color='price'] .a-offscreen",
-        ".a-price .a-offscreen",
-    ]
-    for sel in selectors:
+    ):
         el = soup.select_one(sel)
         if el:
             val = _parse_eur(el.get_text(strip=True))
-            if val and val > 0:
+            if val and 0.5 <= val <= 5000:
                 return val
-    # Fallback: primer patró "12,34€" del HTML
-    m = re.search(r"(\d{1,3}(?:[.,]\d{3})*[.,]\d{2})\s*€", str(soup))
-    if m:
-        return _parse_eur(m.group(0))
     return None
 
 
 def extract_original_price(soup: BeautifulSoup, current: float | None) -> float | None:
-    """Preu original (PVP / tatxat). Ha de ser major que el preu actual."""
-    selectors = [
-        "#corePriceDisplay_desktop_feature_div .a-price.a-text-price .a-offscreen",
-        "#corePrice_feature_div .a-price.a-text-price .a-offscreen",
+    """Preu original (PVP / tatxat). Només dins del bloc principal del producte."""
+    scope = _price_scope(soup)
+    if scope is None:
+        return None
+
+    selectors = (
+        ".a-price.a-text-price[data-a-strike='true'] .a-offscreen",
         ".basisPrice .a-price .a-offscreen",
-        "span.a-price.a-text-price[data-a-strike='true'] .a-offscreen",
-        "span.a-text-price .a-offscreen",
-    ]
+        ".a-price.a-text-price .a-offscreen",
+    )
     for sel in selectors:
-        for el in soup.select(sel):
+        for el in scope.select(sel):
             val = _parse_eur(el.get_text(strip=True))
-            if val and val > 0:
+            if val and 0.5 <= val <= 5000:
                 if current is None or val > current + 0.01:
                     return val
     return None
 
 
 def extract_discount_pct(soup: BeautifulSoup) -> int | None:
-    """Percentatge de descompte mostrat per Amazon (ex: -25%)."""
-    selectors = [
-        ".savingsPercentage",
-        ".reinventPriceSavingsPercentageMargin",
-        "#corePriceDisplay_desktop_feature_div .a-color-price",
-        "span[data-a-strike='true'] + span",
-    ]
-    for sel in selectors:
-        for el in soup.select(sel):
+    """
+    Percentatge mostrat al BADGE de descompte (ex: -25%) DINS el bloc principal.
+    No comptem cupons "Suscríbete y ahorra X%" ni promos d'altres productes.
+    """
+    scope = _price_scope(soup)
+    if scope is None:
+        return None
+
+    # Només selectors específics del badge oficial (NO ".a-color-price",
+    # NO "data-a-strike + span" perquè capturen cupons/textos solts).
+    for sel in (".savingsPercentage", ".reinventPriceSavingsPercentageMargin"):
+        for el in scope.select(sel):
             txt = el.get_text(" ", strip=True)
             m = re.search(r"-?\s*(\d{1,2})\s*%", txt)
             if m:
                 pct = int(m.group(1))
                 if 1 <= pct <= 99:
                     return pct
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Extracció de valoració (estrelles i nº de ressenyes)
+# ---------------------------------------------------------------------------
+
+def extract_rating(soup: BeautifulSoup) -> float | None:
+    """
+    Llegeix la mitjana d'estrelles (0-5) de la fitxa d'Amazon.
+    Probes:
+      - <span class="a-icon-alt">4,5 de 5 estrellas</span>
+      - <span id="acrPopover" title="4,5 de 5 estrellas">
+      - [data-hook="rating-out-of-text"]
+    """
+    candidates: list[str] = []
+
+    el = soup.select_one("#acrPopover")
+    if el:
+        title = el.get("title") or el.get_text(" ", strip=True)
+        if title:
+            candidates.append(title)
+
+    for sel in (
+        "i.a-icon-star span.a-icon-alt",
+        "i.a-icon-star-medium span.a-icon-alt",
+        '[data-hook="rating-out-of-text"]',
+        "span.reviewCountTextLinkedHistogram",
+    ):
+        for e in soup.select(sel):
+            candidates.append(e.get_text(" ", strip=True))
+
+    for txt in candidates:
+        if not txt:
+            continue
+        # "4,5 de 5 estrellas" / "4.5 out of 5" / "4,7 de 5"
+        m = re.search(r"(\d[.,]\d)\s*(?:de\s*5|out\s*of\s*5|\/\s*5)", txt, flags=re.IGNORECASE)
+        if not m:
+            m = re.search(r"^\s*(\d[.,]\d)\s*$", txt)
+        if m:
+            val = float(m.group(1).replace(",", "."))
+            if 0 < val <= 5:
+                return round(val, 1)
+    return None
+
+
+def extract_rating_count(soup: BeautifulSoup) -> int | None:
+    """Nº total de valoracions (ex: '1.234 valoraciones')."""
+    candidates: list[str] = []
+    el = soup.select_one("#acrCustomerReviewText")
+    if el:
+        candidates.append(el.get_text(" ", strip=True))
+    for sel in ('[data-hook="total-review-count"]', "#averageCustomerReviews_feature_div"):
+        for e in soup.select(sel):
+            candidates.append(e.get_text(" ", strip=True))
+
+    for txt in candidates:
+        m = re.search(r"(\d{1,3}(?:[.,]\d{3})*)\s*(?:valoraciones|reviews|opiniones|ratings)", txt, flags=re.IGNORECASE)
+        if m:
+            n = int(m.group(1).replace(".", "").replace(",", ""))
+            if n > 0:
+                return n
     return None
 
 
@@ -208,20 +309,42 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
     original = extract_original_price(soup, current)
     discount = extract_discount_pct(soup)
     sales = extract_monthly_sales(soup)
+    rating = extract_rating(soup)
+    rating_count = extract_rating_count(soup)
 
     if current:
         out["precio"] = _euro_str(current)
-    if original:
-        out["precioOriginal"] = _euro_str(original)
 
-    # Si Amazon no exposa el % però tenim ambdós preus, el calculem
-    if discount is None and current and original and original > current:
-        discount = round((1 - current / original) * 100)
-    if discount and 1 <= discount <= 99:
-        out["descuentoPct"] = int(discount)
+    # IMPORTANT: només guardem `precioOriginal` i `descuentoPct` si Amazon els
+    # MOSTRA explícitament en aquest mateix instant. No calculem res.
+    #
+    # A més, validem coherència matemàtica: si el badge diu "-X%" però el
+    # ratio real (1 - actual/original) no s'aproxima a X (±5 punts), descartem
+    # tota l'oferta. Això evita que un cupó "Suscríbete y ahorra 5%" es combini
+    # amb un PVP antic i acabi mostrant-se com a oferta fantasma a la web.
+    if current and original and original > current and discount is not None:
+        real_pct = round((1 - current / original) * 100)
+        if abs(real_pct - discount) <= 5:
+            out["precioOriginal"] = _euro_str(original)
+            if 1 <= discount <= 99:
+                out["descuentoPct"] = int(discount)
+        else:
+            print(
+                f"  ⚠ oferta INCOHERENT descartada: badge={discount}% però "
+                f"{current:.2f}€/{original:.2f}€ implica {real_pct}%."
+            )
 
     if sales:
         out["ventas"] = int(sales)
+
+    if rating is not None:
+        out["valoracion"] = rating
+    if rating_count is not None:
+        out["valoracionesCount"] = rating_count
+
+    # Marcadors auxiliars per al pipeline (no s'escriuen al JSON).
+    out["_has_price"] = current is not None
+    out["_has_offer"] = "precioOriginal" in out and "descuentoPct" in out
 
     return out
 
@@ -293,21 +416,35 @@ def main():
             print(f"  -> NO TROBAT (es manté tal qual)")
             failed.append((name, "res trobat"))
         else:
+            has_price = new_data.pop("_has_price", False)
+            has_offer = new_data.pop("_has_offer", False)
+
             changed_keys = []
-            for k in ("precio", "precioOriginal", "descuentoPct", "ventas"):
+            for k in ("precio", "precioOriginal", "descuentoPct", "ventas", "valoracion", "valoracionesCount"):
                 if k in new_data and data.get(k) != new_data[k]:
                     changed_keys.append(
                         f"{k}: {data.get(k, '—')} -> {new_data[k]}"
                     )
                     if not dry_run:
                         data[k] = new_data[k]
-            # Si Amazon ja no mostra ofertes, neteja precioOriginal/descuentoPct
-            if "precio" in new_data and "precioOriginal" not in new_data:
-                if "precioOriginal" in data or "descuentoPct" in data:
-                    changed_keys.append("oferta acabada (neteja)")
-                    if not dry_run:
-                        data.pop("precioOriginal", None)
-                        data.pop("descuentoPct", None)
+
+            # ESTRICTE: només mantenim al JSON el que Amazon ENSENYA en aquest
+            # instant. Si la pàgina actual no mostra oferta -> netegem.
+            if not has_offer:
+                for k in ("precioOriginal", "descuentoPct"):
+                    if k in data:
+                        changed_keys.append(f"{k}: {data[k]} -> (no mostrat ara) net")
+                        if not dry_run:
+                            data.pop(k, None)
+
+            # Si el producte està "No disponible" (sense preu actual), no podem
+            # parlar d'oferta -> també netegem el descompte/preu original.
+            if not has_price:
+                for k in ("precioOriginal", "descuentoPct"):
+                    if k in data:
+                        changed_keys.append(f"{k}: {data[k]} -> (producte sense preu) net")
+                        if not dry_run:
+                            data.pop(k, None)
 
             if changed_keys:
                 if not dry_run:
@@ -345,6 +482,12 @@ def main():
         reverse=True,
     )[:6]
 
+    top_rated = sorted(
+        [p for p in all_products if isinstance(p.get("valoracion"), (int, float)) and p["valoracion"] > 0],
+        key=lambda p: (p["valoracion"], p.get("valoracionesCount", 0) or 0),
+        reverse=True,
+    )[:5]
+
     print("=" * 60)
     print(f"RESUM: {len(updated)} actualitzats, {len(failed)} fallits")
 
@@ -361,6 +504,14 @@ def main():
             print(f"  {p['ventas']:>6}  {p['_slug']}")
     else:
         print("\nTOP 6 més venuts: cap producte amb dades de vendes")
+
+    if top_rated:
+        print("\nTOP 5 millor valorats:")
+        for p in top_rated:
+            count = p.get("valoracionesCount", 0) or 0
+            print(f"  ★ {p['valoracion']:<3}  ({count:>5} ress.)  {p['_slug']}")
+    else:
+        print("\nTOP 5 millor valorats: cap producte amb dades de valoració")
 
     if failed:
         print("\nFallits:")

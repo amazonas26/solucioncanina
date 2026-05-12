@@ -4,5 +4,8 @@
   "categoria": "Ansiedad",
   "marca": "JJW",
   "precio": "36.99€",
-  "imagen": "/images/articulos/jjw-kit-difusor-de-feromonas-calmantes/imagen.jpg"
+  "imagen": "/images/articulos/jjw-kit-difusor-de-feromonas-calmantes/imagen.jpg",
+  "precioOriginal": "39.99€",
+  "descuentoPct": 5,
+  "valoracion": 3.6
 }

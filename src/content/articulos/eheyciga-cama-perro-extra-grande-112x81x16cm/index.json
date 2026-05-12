@@ -4,5 +4,7 @@
   "categoria": "Camas ortopédicas",
   "marca": "EHEYCIGA",
   "precio": "59.99€",
-  "imagen": "/images/articulos/eheyciga-cama-perro-extra-grande-112x81x16cm/imagen.jpg"
+  "imagen": "/images/articulos/eheyciga-cama-perro-extra-grande-112x81x16cm/imagen.jpg",
+  "ventas": 100,
+  "valoracion": 4.6
 }

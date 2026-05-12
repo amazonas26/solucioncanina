@@ -33,6 +33,8 @@ interface Articulo {
     descuentoPct?: number;
     categoria?: string;
     marca?: string;
+    valoracion?: number;
+    valoracionesCount?: number;
   };
   id: string;
 }
@@ -141,7 +143,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
           <button
             onClick={() => setSelectedCategory(null)}
             className={cn(
-              "px-3.5 py-2 rounded-lg text-xs font-bold transition-all duration-200",
+              "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
               !selectedCategory
                 ? "bg-navy-700 text-white shadow-sm"
                 : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
@@ -154,7 +156,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
               key={cat}
               onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
               className={cn(
-                "px-3.5 py-2 rounded-lg text-xs font-bold transition-all duration-200",
+                "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
                 cat === selectedCategory
                   ? "bg-primary-600 text-white shadow-sm"
                   : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
@@ -192,6 +194,8 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
                   descuentoPct={art.data.descuentoPct}
                   categoria={art.data.categoria}
                   marca={art.data.marca}
+                  valoracion={art.data.valoracion}
+                  valoracionesCount={art.data.valoracionesCount}
                 />
               ))}
             </motion.div>

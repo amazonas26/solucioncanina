@@ -134,7 +134,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
   const recommended = step >= QUESTIONS.length ? getRecommendations() : [];
 
   return (
-    <div className="w-full max-w-4xl mx-auto min-h-[70vh] flex flex-col items-center justify-center relative px-4">
+    <div className="w-full max-w-6xl mx-auto min-h-[70vh] flex flex-col items-center justify-center relative px-4">
       <AnimatePresence mode="wait">
         
         {/* Analyzing State */}
@@ -186,7 +186,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
               {QUESTIONS[step].subtitle}
             </p>
 
-            <div className={`grid gap-5 w-full max-w-2xl ${step === 0 ? 'grid-cols-1 max-w-sm' : 'grid-cols-1 md:grid-cols-2'}`}>
+            <div className={`grid gap-5 w-full mx-auto ${step === 0 ? 'max-w-md grid-cols-1' : 'max-w-5xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3'}`}>
               {QUESTIONS[step].options.map((opt, i) => (
                 <button
                   key={opt.value}
