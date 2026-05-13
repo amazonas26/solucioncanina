@@ -86,35 +86,35 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </a>
 
       {/* Content */}
-      <div className="flex flex-col flex-grow p-4">
+      <div className="flex flex-col flex-grow p-3 sm:p-4">
         {marca && (
-          <div className="flex items-center gap-1 text-[10px] font-semibold text-neutral-400 mb-1.5 uppercase tracking-wider">
-            <Package size={10} />
+          <div className="flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-neutral-400 mb-1 sm:mb-1.5 uppercase tracking-wider">
+            <Package size={8} className="sm:w-2.5 sm:h-2.5" />
             {marca}
           </div>
         )}
 
         <a href={detailUrl} className="block">
-          <h3 className="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
+          <h3 className="text-xs sm:text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-1.5 sm:mb-2 font-serif">
             {nombre}
           </h3>
         </a>
 
-        {/* Description — fixed min-height so cards align */}
-        <p className="text-xs text-neutral-400 line-clamp-2 mb-3 leading-relaxed h-8">
+        {/* Description — hidden on smallest mobile if needed, but we can keep it with smaller font */}
+        <p className="text-[10px] sm:text-xs text-neutral-400 line-clamp-2 mb-2 sm:mb-3 leading-relaxed h-7 sm:h-8">
           {descripcion || '\u00a0'}
         </p>
 
         {/* Price + Rating */}
         {(precio || showsRating(valoracion)) && (
-          <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-neutral-100">
+          <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1 sm:gap-3 mb-3 pb-3 border-b border-neutral-100">
             {precio ? (
-              <div className="flex items-baseline gap-2 min-w-0">
-                <span className="text-lg font-extrabold text-neutral-900">
+              <div className="flex items-baseline gap-1 sm:gap-2 min-w-0">
+                <span className="text-base sm:text-lg font-black text-neutral-900 tabular-nums">
                   {precio}
                 </span>
                 {precioOriginal && (
-                  <span className="text-xs font-medium text-neutral-400 line-through">
+                  <span className="text-[10px] sm:text-xs font-bold text-neutral-400 line-through decoration-red-500/20">
                     {precioOriginal}
                   </span>
                 )}
@@ -137,16 +137,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   stroke="#EAB308"
                   strokeWidth={1.5}
                   strokeLinejoin="round"
-                  className="h-4 w-4 shrink-0"
+                  className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0"
                   aria-hidden="true"
                 >
                   <polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96" />
                 </svg>
-                <span className="text-sm font-bold text-neutral-900 tabular-nums">
+                <span className="text-xs sm:text-sm font-black text-neutral-900 tabular-nums">
                   {valoracion.toFixed(1)}
                 </span>
                 {fmtCount(valoracionesCount) && (
-                  <span className="text-[11px] font-medium text-neutral-400 tabular-nums">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-neutral-400 tabular-nums hidden sm:inline">
                     ({fmtCount(valoracionesCount)})
                   </span>
                 )}
@@ -161,9 +161,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             href={linkAmazon}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-lg transition-colors whitespace-nowrap"
+            className="flex items-center justify-center w-full px-2 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-black text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-xl transition-all shadow-sm hover:shadow-orange-500/20 active:scale-[0.98]"
           >
-            Ver precio en Amazon
+            <span className="hidden xs:inline">Ver mejor precio</span>
+            <span className="xs:hidden">Ver precio</span>
           </a>
         </div>
       </div>

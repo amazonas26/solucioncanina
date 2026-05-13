@@ -43,6 +43,12 @@ const topValorados = articulos
   })
   .slice(0, 5);
 
+// Últimos 3 artículos del Blog
+const allBlogPosts = await getCollection("blog");
+const latestPosts = allBlogPosts
+  .sort((a, b) => b.id.localeCompare(a.id)) // Orden inverso por ID (asumiendo que ID/Nombre de archivo es secuencial o alfabético)
+  .slice(0, 3);
+
 // Polígono "starburst" para el sello TOP #N (16 puntas).
 const STAR_POINTS = (() => {
   const N = 32; // 16 picos × 2 puntos
@@ -80,7 +86,7 @@ const STAR_POINTS = (() => {
   >
     <div class="absolute inset-0 -z-10">
       <img
-        src="/images/hero/Gemini_Generated_Image_kpyoy9kpyoy9kpyo.png"
+        src="/images/hero/hero_clean.png"
         alt="Perro jugando en el campo"
         class="h-full w-full object-cover object-center"
         loading="eager"
@@ -366,33 +372,60 @@ const STAR_POINTS = (() => {
   </section>
 
 
-  {/* Catálogo de productos */}
-  <section id="articulos" class="scroll-mt-28 mb-14 md:mb-20">
+  {/* Artículos destacados del Blog */}
+  <section class="mb-14 md:mb-20" id="blog-destacado">
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1"
-          >
-            Catálogo
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">
+            Contenido Editorial
           </p>
-          <h2
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            Todos los productos
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
+            Guías y Consejos Caninos
           </h2>
         </div>
+        <a href="/blog" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ir al blog completo
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
       </div>
     </div>
 
-    <div class="flex justify-center mt-8">
-      <a
-        href="/productos"
-        class="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white text-base font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-sm hover:shadow-md"
-      >
-        Ver catálogo completo
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-      </a>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {latestPosts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+          <div class="aspect-[16/9] overflow-hidden relative">
+            {post.data.imagen ? (
+              <img 
+                src={post.data.imagen} 
+                alt={post.data.titulo} 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <div class="w-full h-full bg-neutral-100 flex items-center justify-center text-neutral-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+              </div>
+            )}
+            <div class="absolute top-4 left-4">
+              <span class="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-primary-700 text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
+                {post.data.categoria}
+              </span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-black text-neutral-900 leading-tight mb-3 group-hover:text-primary-600 transition-colors">
+              {post.data.titulo}
+            </h3>
+            <p class="text-neutral-500 text-sm line-clamp-2 leading-relaxed">
+              {post.data.descripcion}
+            </p>
+            <div class="mt-4 flex items-center gap-2 text-primary-600 font-bold text-xs uppercase tracking-widest">
+              Leer artículo
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 

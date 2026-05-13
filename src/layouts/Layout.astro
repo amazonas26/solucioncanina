@@ -211,9 +211,14 @@ const categories = categoriesProp.length > 0
           </a>
         </div>
 
-        <div class="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-white/40 text-xs">
-          <p>&copy; {new Date().getFullYear()} Solución Canina. Todos los derechos reservados.</p>
-          <p>Hecho para ayudarte a elegir mejor.</p>
+        <div class="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/40 text-[10px] sm:text-xs">
+          <div class="flex flex-col gap-1">
+            <p>&copy; {new Date().getFullYear()} Solución Canina. Todos los derechos reservados.</p>
+            <p class="max-w-xl italic">
+              Como afiliados de Amazon, recibimos ingresos por las compras adscritas que cumplen los requisitos aplicables. Esto no tiene ningún coste para ti y nos ayuda a mantener la web.
+            </p>
+          </div>
+          <p class="shrink-0">Hecho para ayudarte a elegir mejor.</p>
         </div>
       </div>
     </footer>
