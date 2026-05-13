@@ -3,22 +3,35 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { CheckCircle2, XCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { slugify } from '../../utils/slugify';
+import { productSchema, breadcrumbSchema } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
-  
-  // Extraemos las categorías para pasarlas al Layout
+
   const categories = Array.from(
     new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
   );
 
-  return articulos.map((art) => ({
-    params: { slug: art.data.slug || slugify(art.data.nombre) },
-    props: { articulo: art, categories },
-  }));
+  return articulos.map((art) => {
+    const slug = art.data.slug || slugify(art.data.nombre);
+    const related = articulos
+      .filter((a) => a.data.categoria && a.data.categoria === art.data.categoria && (a.data.slug || slugify(a.data.nombre)) !== slug)
+      .slice(0, 4)
+      .map((a) => ({
+        slug: a.data.slug || slugify(a.data.nombre),
+        nombre: a.data.nombre,
+        imagen: a.data.imagen,
+        precio: a.data.precio,
+        marca: a.data.marca,
+      }));
+    return {
+      params: { slug },
+      props: { articulo: art, categories, related },
+    };
+  });
 }
 
-const { articulo, categories } = Astro.props;
+const { articulo, categories, related } = Astro.props;
 const {
   nombre,
   descripcion,
@@ -60,12 +73,46 @@ function fmtVentas(n) {
 const hasRating = typeof valoracion === 'number' && valoracion >= 3.7;
 const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
+
+const productSlug = articulo.data.slug || slugify(nombre);
+const productUrl = `/producto/${productSlug}`;
+const categoriaSlug = categoria ? slugify(categoria) : null;
+
+const productJsonLd = productSchema({
+  name: nombre,
+  description: descripcion,
+  image: imagen,
+  brand: marca,
+  sku: productSlug,
+  url: productUrl,
+  price: precio,
+  priceOriginal: precioOriginal,
+  category: categoria,
+  rating: typeof valoracion === 'number' && valoracion > 0 ? valoracion : undefined,
+  ratingCount: typeof valoracionesCount === 'number' && valoracionesCount > 0 ? valoracionesCount : undefined,
+});
+
+const breadcrumbItems = [{ name: 'Inicio', url: '/' }];
+if (categoria && categoriaSlug) {
+  breadcrumbItems.push({ name: categoria, url: `/categoria/${categoriaSlug}` });
+}
+breadcrumbItems.push({ name: nombre, url: productUrl });
+const breadcrumbJsonLd = breadcrumbSchema(breadcrumbItems);
+
+const seoDescription = descripcion || veredicto || `Reseña detallada de ${nombre}${marca ? ' de ' + marca : ''} en Solución Canina.`;
 ---
 
-<Layout title={`${nombre} - Reseña Editorial`} description={descripcion} categories={categories}>
+<Layout
+  title={`${nombre} - Reseña Editorial`}
+  description={seoDescription}
+  image={imagen}
+  type="product"
+  jsonLd={[productJsonLd, breadcrumbJsonLd]}
+  categories={categories}
+>
   <article class="max-w-6xl mx-auto">
     {/* Breadcrumbs */}
-    <nav class="flex mb-6 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+    <nav aria-label="Breadcrumb" class="flex mb-6 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       {categoria && (
@@ -87,7 +134,15 @@ const ventasTxt = fmtVentas(ventas);
             </div>
           )}
           {imagen ? (
-            <img src={imagen} alt={nombre} class="max-w-full max-h-[400px] object-contain mix-blend-multiply" />
+            <img
+              src={imagen}
+              alt={nombre}
+              width="600"
+              height="600"
+              loading="eager"
+              decoding="async"
+              class="max-w-full max-h-[400px] object-contain mix-blend-multiply"
+            />
           ) : (
             <div class="text-neutral-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
@@ -295,6 +350,34 @@ const ventasTxt = fmtVentas(ventas);
         )}
       </div>
     </div>
+
+    {related && related.length > 0 && (
+      <section class="mt-16 pt-10 border-t border-neutral-200">
+        <h2 class="text-xl sm:text-2xl font-serif font-black text-neutral-900 mb-6">También te puede interesar</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {related.map((r) => (
+            <a href={`/producto/${r.slug}`} class="group block bg-white border border-neutral-200 rounded-xl p-4 hover:shadow-md hover:-translate-y-0.5 transition-all">
+              <div class="aspect-square flex items-center justify-center mb-3 bg-neutral-50 rounded-lg overflow-hidden">
+                {r.imagen ? (
+                  <img
+                    src={r.imagen}
+                    alt={r.nombre}
+                    width="300"
+                    height="300"
+                    loading="lazy"
+                    decoding="async"
+                    class="max-w-full max-h-full object-contain mix-blend-multiply"
+                  />
+                ) : null}
+              </div>
+              {r.marca && <span class="block text-[10px] font-bold uppercase tracking-wide text-neutral-400 mb-1">{r.marca}</span>}
+              <h3 class="text-sm font-semibold text-neutral-900 leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">{r.nombre}</h3>
+              {r.precio && <p class="mt-2 text-sm font-black text-neutral-900">{r.precio}</p>}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
   </article>
   {/* Sticky Mobile CTA */}
   <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-neutral-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] sm:hidden z-50 flex items-center justify-between gap-4">

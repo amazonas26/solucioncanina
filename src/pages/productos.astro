@@ -2,17 +2,30 @@
 import Layout from "../layouts/Layout.astro";
 import SearchableGrid from "../components/SearchableGrid";
 import { getCollection } from "astro:content";
+import { slugify } from "../utils/slugify";
+import { itemListSchema } from "../utils/seo";
 
 const articulos = await getCollection("articulos");
 
 const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
+
+const catalogJsonLd = itemListSchema(
+  articulos.map((a) => ({
+    name: a.data.nombre,
+    url: `/producto/${a.data.slug || slugify(a.data.nombre)}`,
+    image: a.data.imagen,
+  })),
+  "Catálogo completo de productos para perros"
+);
 ---
 
 <Layout
-  title="Catálogo de Productos - Solución Canina"
+  title="Catálogo de Productos"
+  description="Catálogo completo de productos para perros: alimentación, accesorios, salud y juguetes. Selección curada y verificada."
   categories={categories}
+  jsonLd={[catalogJsonLd]}
 >
   <div class="mb-6 md:mb-10">
     <div class="border-b border-neutral-200 pb-4 mb-8">

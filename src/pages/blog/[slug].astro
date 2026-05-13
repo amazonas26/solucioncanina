@@ -2,23 +2,35 @@
 import Layout from '../../layouts/Layout.astro';
 import AffiliateBox from '../../components/AffiliateBox.astro';
 import { getCollection } from 'astro:content';
+import { articleSchema, breadcrumbSchema } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  
-  // Categorías de artículos para el Header
+
   const articulos = await getCollection('articulos');
   const categories = Array.from(
     new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
   );
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post, categories },
-  }));
+  return posts.map((post) => {
+    const related = posts
+      .filter((p) => p.slug !== post.slug && p.data.categoria === post.data.categoria)
+      .slice(0, 3)
+      .map((p) => ({
+        slug: p.slug,
+        titulo: p.data.titulo,
+        descripcion: p.data.descripcion,
+        imagen: p.data.imagen,
+        categoria: p.data.categoria,
+      }));
+    return {
+      params: { slug: post.slug },
+      props: { post, categories, related },
+    };
+  });
 }
 
-const { post, categories } = Astro.props;
+const { post, categories, related } = Astro.props;
 const { Content } = await post.render();
 
 const catLabels = {
@@ -28,13 +40,34 @@ const catLabels = {
   'alimentacion': 'Alimentación y Curiosidades'
 };
 const categoryLabel = catLabels[post.data.categoria as keyof typeof catLabels] || 'Blog';
+
+const postUrl = `/blog/${post.slug}`;
+const articleJsonLd = articleSchema({
+  title: post.data.titulo,
+  description: post.data.descripcion,
+  image: post.data.imagen,
+  url: postUrl,
+  section: categoryLabel,
+});
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Blog', url: '/blog' },
+  { name: post.data.titulo, url: postUrl },
+]);
 ---
 
-<Layout title={`${post.data.titulo} | Blog`} description={post.data.descripcion} categories={categories}>
+<Layout
+  title={`${post.data.titulo} | Blog`}
+  description={post.data.descripcion}
+  image={post.data.imagen}
+  type="article"
+  jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+  categories={categories}
+>
   <article class="max-w-3xl mx-auto py-8">
     
     {/* Breadcrumbs */}
-    <nav class="flex mb-8 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+    <nav aria-label="Breadcrumb" class="flex mb-8 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       <a href="/blog" class="hover:text-primary-600 transition-colors">Blog</a>
@@ -60,9 +93,13 @@ const categoryLabel = catLabels[post.data.categoria as keyof typeof catLabels] |
     {/* Image */}
     {post.data.imagen && (
       <figure class="mb-12 rounded-2xl overflow-hidden border border-neutral-200 shadow-sm">
-        <img 
-          src={post.data.imagen} 
-          alt={post.data.titulo} 
+        <img
+          src={post.data.imagen}
+          alt={post.data.titulo}
+          width="1200"
+          height="675"
+          loading="eager"
+          decoding="async"
           class="w-full h-auto aspect-video object-cover"
         />
       </figure>
@@ -72,6 +109,35 @@ const categoryLabel = catLabels[post.data.categoria as keyof typeof catLabels] |
     <div class="prose prose-lg prose-neutral mx-auto prose-headings:font-serif prose-headings:font-black prose-a:text-primary-600 prose-img:rounded-xl prose-img:border prose-img:border-neutral-200">
       <Content components={{ AffiliateBox }} />
     </div>
+
+    {related && related.length > 0 && (
+      <section class="mt-16 pt-10 border-t border-neutral-200">
+        <h2 class="text-xl sm:text-2xl font-serif font-black text-neutral-900 mb-6 text-center">Artículos relacionados</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {related.map((r) => (
+            <a href={`/blog/${r.slug}`} class="group block bg-white border border-neutral-200 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
+              {r.imagen && (
+                <div class="aspect-video overflow-hidden bg-neutral-100">
+                  <img
+                    src={r.imagen}
+                    alt={r.titulo}
+                    width="400"
+                    height="225"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              )}
+              <div class="p-4">
+                <h3 class="text-sm font-bold text-neutral-900 leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">{r.titulo}</h3>
+                {r.descripcion && <p class="mt-2 text-xs text-neutral-500 line-clamp-2">{r.descripcion}</p>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
 
     {/* Footer / CTA */}
     <div class="mt-16 pt-8 border-t border-neutral-200 text-center">

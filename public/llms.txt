@@ -1,0 +1,34 @@
+# Solución Canina
+
+> Guía editorial en español que selecciona y reseña los mejores productos para perros disponibles en Amazon España: alimentación, accesorios, salud, comportamiento, higiene y juguetes. Cada producto incluye veredicto editorial, pros, contras y análisis detallado.
+
+Sitio web estático en español (es-ES). Modelo: enlaces de afiliación a Amazon. No vendemos directamente. No sustituye el consejo veterinario.
+
+## Secciones principales
+
+- [Inicio](https://www.solucioncanina.es/): productos más vendidos, mejor valorados y con mayor descuento.
+- [Catálogo completo](https://www.solucioncanina.es/productos): todos los productos reseñados, con buscador y filtro por categoría.
+- [Blog y guías](https://www.solucioncanina.es/blog): artículos sobre comportamiento, salud, alimentación y guías de compra.
+
+## Categorías de producto
+
+Las categorías se generan dinámicamente desde el catálogo. Ejemplos habituales:
+
+- Alimentación específica
+- Salud e higiene
+- Comportamiento y ansiedad
+- Accesorios y paseo
+- Juguetes
+- Movilidad (rampas, escalones)
+
+## Información del sitio
+
+- Idioma: español (España)
+- Contacto: hola@solucioncanina.es
+- Sitemap: https://www.solucioncanina.es/sitemap-index.xml
+
+## Legal
+
+- [Aviso legal](https://www.solucioncanina.es/aviso-legal)
+- [Política de privacidad](https://www.solucioncanina.es/politica-privacidad)
+- [Política de cookies](https://www.solucioncanina.es/politica-cookies)

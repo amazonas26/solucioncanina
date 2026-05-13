@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import SearchableGrid from '../../components/SearchableGrid';
 import { getCollection } from 'astro:content';
 import { slugify } from '../../utils/slugify';
+import { itemListSchema, breadcrumbSchema } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -19,11 +20,32 @@ export async function getStaticPaths() {
 const { category, categories } = Astro.props;
 const allArticulos = await getCollection('articulos');
 const filteredArticulos = allArticulos.filter(a => a.data.categoria === category);
+
+const categorySlug = slugify(category);
+const categoryUrl = `/categoria/${categorySlug}`;
+const categoryListJsonLd = itemListSchema(
+  filteredArticulos.map((a) => ({
+    name: a.data.nombre,
+    url: `/producto/${a.data.slug || slugify(a.data.nombre)}`,
+    image: a.data.imagen,
+  })),
+  category
+);
+const categoryBreadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: category, url: categoryUrl },
+]);
+const categoryDescription = `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}: comparativa, precios y reseñas verificadas.`;
 ---
 
-<Layout title={`${category} - Solución Canina`} categories={categories}>
+<Layout
+  title={category}
+  description={categoryDescription}
+  categories={categories}
+  jsonLd={[categoryListJsonLd, categoryBreadcrumbJsonLd]}
+>
   <div class="mb-10">
-    <nav class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       <span class="text-neutral-900">{category}</span>

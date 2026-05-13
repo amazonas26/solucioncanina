@@ -35,6 +35,10 @@ const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RA
     <img
       src={imageUrl}
       alt={nombre}
+      width="400"
+      height="300"
+      loading="lazy"
+      decoding="async"
       class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
     />
 

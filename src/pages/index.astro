@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard.astro";
 import ProductCarouselWrapper from "../components/ProductCarouselWrapper.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../utils/slugify";
+import { itemListSchema } from "../utils/seo";
 
 const articulos = await getCollection("articulos");
 
@@ -59,7 +60,18 @@ const STAR_POINTS = (() => {
 
 <Layout
   title="Inicio - Los mejores productos para tu perro"
+  description="Selección curada y verificada de los mejores productos para perros en Amazon: alimentación, accesorios, salud, comportamiento y más."
   categories={categories}
+  jsonLd={[
+    itemListSchema(
+      topVendidos.map((a) => ({
+        name: a.data.nombre,
+        url: `/producto/${a.data.slug || slugify(a.data.nombre)}`,
+        image: a.data.imagen,
+      })),
+      "Productos más vendidos"
+    ),
+  ]}
 >
   {/* Hero Section */}
   <section

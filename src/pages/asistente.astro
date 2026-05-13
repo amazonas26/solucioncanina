@@ -17,10 +17,11 @@ const categories = Array.from(
 );
 ---
 
-<Layout 
-  title="Asistente de Compras Inteligente" 
-  description="Encuentra exactamente lo que tu perro necesita en 3 simples pasos. Nuestro asistente te recomendará las mejores opciones." 
+<Layout
+  title="Asistente de Compras Inteligente"
+  description="Encuentra exactamente lo que tu perro necesita en 3 simples pasos. Nuestro asistente te recomendará las mejores opciones."
   categories={categories}
+  noindex={true}
 >
   <div class="py-4 md:py-8">
     <ShoppingAssistant client:load articulos={articulosData} />
