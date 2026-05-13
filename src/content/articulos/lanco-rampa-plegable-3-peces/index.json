@@ -1,10 +1,11 @@
 {
-  "nombre": "Lanco Rampa Plegable 3 Piezas 182x41cm",
+  "nombre": "Rampa Plegable 3 Piezas 182x41cm",
   "descripcion": "Rampa plegable de 3 secciones de 182cm de largo para perros grandes. Superficie antideslizante, soporta hasta 100kg. Ideal para acceder al maletero o sofá.",
   "imagen": "/images/articulos/lanco-rampa-plegable-3-peces/imagen.jpg",
   "precio": "99.99€",
   "linkAmazon": "https://www.amazon.es/dp/B0BWL2JMTG",
   "categoria": "Rampas",
   "marca": "Lanco",
-  "valoracion": 3.6
+  "valoracion": 3.6,
+  "slug": "lanco-rampa-plegable-3-piezas-182x41cm"
 }

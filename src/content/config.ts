@@ -4,6 +4,7 @@ const articulosCollection = defineCollection({
   type: 'data',
   schema: z.object({
     nombre: z.string(),
+    slug: z.string().optional(),
     descripcion: z.string().optional(),
     imagen: z.string().optional(),
     precio: z.string().optional(),

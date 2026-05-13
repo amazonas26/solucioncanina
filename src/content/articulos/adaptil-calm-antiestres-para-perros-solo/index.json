@@ -1,10 +1,12 @@
 {
-  "nombre": "ADAPTIL Calm - Antiestrés para perros - Solo en casa, Miedos, Ruidos fuertes, Adopción - Difusor + Recambio 48ml",
+  "nombre": "Calm - Antiestrés para perros - Solo en casa, Miedos, Ruidos fuertes, Adopción - Difusor + Recambio 48ml",
   "linkAmazon": "https://www.amazon.es/dp/B01EJ9L2SQ",
   "categoria": "Ansiedad",
   "marca": "ADAPTIL",
-  "precio": "29.78€",
+  "precio": "29.63€",
   "imagen": "/images/articulos/adaptil-calm-antiestres-para-perros-solo/imagen.jpg",
   "ventas": 100,
-  "valoracion": 3.3
+  "valoracion": 3.3,
+  "descripcion": "Solución natural que proporciona un efecto de calma continua en situaciones estresantes. Útil para reducir los signos de estrés en casa, como dificultad para quedarse solo, mudanzas….",
+  "slug": "adaptil-calm-antiestres-para-perros-solo-en-casa-miedos-ruidos-fuertes-adopcion-difusor-recambio-48ml"
 }

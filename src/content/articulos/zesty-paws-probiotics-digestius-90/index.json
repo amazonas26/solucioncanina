@@ -1,10 +1,11 @@
 {
-  "nombre": "Zesty Paws Probióticos Digestivos 90 uds",
+  "nombre": "Probióticos Digestivos 90 uds",
   "descripcion": "Masticables probióticos con 6 cepas de bacterias beneficiosas, prebióticos y enzimas digestivas para una flora intestinal equilibrada y digestión óptima.",
   "imagen": "/images/articulos/zesty-paws-probiotics-digestius-90/imagen.jpg",
   "precio": "34.90€",
   "linkAmazon": "https://www.amazon.es/dp/B0CKHXWTFQ",
   "categoria": "Suplementos",
   "marca": "Zesty Paws",
-  "valoracion": 4.2
+  "valoracion": 4.2,
+  "slug": "zesty-paws-probioticos-digestivos-90-uds"
 }

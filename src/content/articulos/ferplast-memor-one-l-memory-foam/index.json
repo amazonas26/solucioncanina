@@ -1,10 +1,11 @@
 {
-  "nombre": "Ferplast MEMOR-One L Memory Foam",
+  "nombre": "MEMOR-One L Memory Foam",
   "descripcion": "Cama ortopédica con espuma de memoria de alta calidad. Funda exterior desmontable y lavable, relleno viscoelástico que se adapta al cuerpo del perro para mayor confort.",
   "imagen": "/images/articulos/ferplast-memor-one-l-memory-foam/imagen.jpg",
   "precio": "136.00€",
   "linkAmazon": "https://www.amazon.es/dp/B09M47Z3NL",
   "categoria": "Camas ortopédicas",
   "marca": "Ferplast",
-  "valoracion": 4.2
+  "valoracion": 4.2,
+  "slug": "ferplast-memor-one-l-memory-foam"
 }

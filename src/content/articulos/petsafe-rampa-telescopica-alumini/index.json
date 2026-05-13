@@ -1,10 +1,11 @@
 {
-  "nombre": "PetSafe Rampa Telescópica Aluminio",
+  "nombre": "Rampa Telescópica Aluminio",
   "descripcion": "Rampa telescópica de aluminio ligero y resistente. Se extiende de 91 a 152cm y soporta hasta 91kg. Con superficie antideslizante y correa de seguridad.",
   "imagen": "/images/articulos/petsafe-rampa-telescopica-alumini/imagen.jpg",
   "precio": "150.98€",
   "linkAmazon": "https://www.amazon.es/dp/B000RUJEUU",
   "categoria": "Rampas",
   "marca": "PetSafe",
-  "valoracion": 4.3
+  "valoracion": 4.3,
+  "slug": "petsafe-rampa-telescopica-aluminio"
 }

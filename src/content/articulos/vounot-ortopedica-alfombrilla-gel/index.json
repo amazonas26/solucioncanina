@@ -1,5 +1,5 @@
 {
-  "nombre": "VOUNOT Ortopédica + Alfombrilla Gel 115x81cm",
+  "nombre": "Ortopédica + Alfombrilla Gel 115x81cm",
   "descripcion": "Pack cama ortopédica con alfombrilla de gel refrescante incluida. Espuma de 9cm de grosor para máximo soporte articular, funda lavable y base antideslizante.",
   "imagen": "/images/articulos/vounot-ortopedica-alfombrilla-gel/imagen.jpg",
   "precio": "47.55€",
@@ -8,5 +8,6 @@
   "marca": "VOUNOT",
   "precioOriginal": "59.99€",
   "descuentoPct": 21,
-  "valoracion": 4.2
+  "valoracion": 4.2,
+  "slug": "vounot-ortopedica-alfombrilla-gel-115x81cm"
 }

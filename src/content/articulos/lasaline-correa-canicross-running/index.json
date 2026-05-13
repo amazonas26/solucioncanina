@@ -1,10 +1,11 @@
 {
-  "nombre": "LASALINE Correa Canicross Tracció Running",
+  "nombre": "Correa Canicross Tracció Running",
   "descripcion": "Correa elástica para canicross y running con perros. Cinturón lumbar acolchado para el corredor y amortiguador de tirones integrado. Longitud ajustable.",
   "imagen": "/images/articulos/lasaline-correa-canicross-running/imagen.jpg",
   "precio": "36.90€",
   "linkAmazon": "https://www.amazon.es/dp/B08GZNC788",
   "categoria": "Correas",
   "marca": "LASALINE",
-  "valoracion": 2.6
+  "valoracion": 2.6,
+  "slug": "lasaline-correa-canicross-traccio-running"
 }

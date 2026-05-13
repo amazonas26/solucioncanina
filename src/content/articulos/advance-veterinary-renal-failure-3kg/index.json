@@ -1,5 +1,5 @@
 {
-  "nombre": "Advance Veterinary Diets Renal Failure 3kg",
+  "nombre": "Veterinary Diets Renal Failure 3kg",
   "descripcion": "Alimento veterinario para perros con fallo renal crónico. Restricción de fósforo, sodio y proteínas para ralentizar la progresión de la enfermedad renal.",
   "imagen": "/images/articulos/advance-veterinary-renal-failure-3kg/imagen.jpg",
   "precio": "25.24€",
@@ -9,5 +9,6 @@
   "precioOriginal": "29.99€",
   "descuentoPct": 16,
   "ventas": 100,
-  "valoracion": 4.4
+  "valoracion": 4.4,
+  "slug": "advance-veterinary-diets-renal-failure-3kg"
 }

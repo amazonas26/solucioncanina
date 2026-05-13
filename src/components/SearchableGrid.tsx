@@ -594,7 +594,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
               {filteredArticulos.map((art) => (
                 <ProductCard
                   key={art.id}
-                  slug={slugify(art.data.nombre)}
+                  slug={art.data.slug || slugify(art.data.nombre)}
                   nombre={art.data.nombre}
                   linkAmazon={art.data.linkAmazon}
                   imagen={art.data.imagen}

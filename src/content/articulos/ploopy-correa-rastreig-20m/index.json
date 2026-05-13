@@ -1,10 +1,11 @@
 {
-  "nombre": "Ploopy Correa Adiestramiento Rastreo 20m",
+  "nombre": "Correa Adiestramiento Rastreo 20m",
   "descripcion": "Correa de rastreo de 20 metros de nailon de alta resistencia. Perfecta para adiestramiento en libertad controlada, con mosquetón de acero y asa de agarre.",
   "imagen": "/images/articulos/ploopy-correa-rastreig-20m/imagen.jpg",
   "precio": "12.99€",
   "linkAmazon": "https://www.amazon.es/dp/B06WP2TM32",
   "categoria": "Correas",
   "marca": "Ploopy",
-  "valoracion": 4.2
+  "valoracion": 4.2,
+  "slug": "ploopy-correa-adiestramiento-rastreo-20m"
 }

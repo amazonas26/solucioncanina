@@ -18,7 +18,7 @@ const { title, description = 'Encuentra los mejores artículos para tu perro en 
 const _articulos = await getCollection('articulos');
 
 const searchIndex = _articulos.map((a) => ({
-  slug: slugify(a.data.nombre),
+  slug: a.data.slug || slugify(a.data.nombre),
   nombre: a.data.nombre,
   marca: a.data.marca ?? '',
   categoria: a.data.categoria ?? '',

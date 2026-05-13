@@ -1,10 +1,11 @@
 {
-  "nombre": "FainFun Bozal Silicona Bandes Reflectants Talla M",
+  "nombre": "Bozal Silicona Bandes Reflectants Talla M",
   "descripcion": "Bozal de silicona con bandas reflectantes para mayor visibilidad nocturna. Diseño antiladridos y antimordiscos con ventilación óptima. Talla M ajustable.",
   "imagen": "/images/articulos/fainfun-bozal-silicona-reflectant-m/imagen.jpg",
   "precio": "12.99€",
   "linkAmazon": "https://www.amazon.es/dp/B09YT77K8V",
   "categoria": "Bozales",
   "marca": "FainFun",
-  "valoracion": 3.6
+  "valoracion": 3.6,
+  "slug": "fainfun-bozal-silicona-bandes-reflectants-talla-m"
 }

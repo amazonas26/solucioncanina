@@ -1,10 +1,12 @@
 {
-  "nombre": "ROYAL CANIN Canine RENAL Small Dog 1,5 KG",
+  "nombre": "CANIN Canine RENAL Small Dog 1,5 KG",
   "linkAmazon": "https://www.amazon.es/dp/B08MFR9R6T",
   "categoria": "Alimentación específica",
   "marca": "ROYAL",
   "precio": "21.14€",
   "imagen": "/images/articulos/royal-canin-canine-renal-small-dog/imagen.jpg",
   "ventas": 100,
-  "valoracion": 4.5
+  "valoracion": 4.5,
+  "descripcion": "Canine Renal Small Dog 1,5 Kg. Tipo de producto: Alimento para mascotas. Marca: Royal Canin.",
+  "slug": "royal-canin-canine-renal-small-dog-15-kg"
 }

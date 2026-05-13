@@ -30,6 +30,10 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+sys.path.insert(0, str(Path(__file__).parent))
+from _common import slugify as _slugify  # noqa: E402
+from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
+
 ARTICULOS_DIR = Path(__file__).parent.parent / "src" / "content" / "articulos"
 
 HEADERS = {
@@ -410,11 +414,39 @@ def main():
             failed.append((name, "sense URL"))
             continue
 
+        # ---------------------------------------------------------------
+        # Higienització del títol: si el `nombre` comença per la marca
+        # (ex: "Edipets, Correa Perro Larga…"), la traiem. Abans, però,
+        # ens assegurem de preservar l'slug actual al JSON perquè la URL
+        # del producte no canviï quan canviï el `nombre`.
+        # ---------------------------------------------------------------
+        nombre_actual = data.get("nombre", "")
+        marca = data.get("marca")
+        name_changed = False
+        slug_added = False
+        if nombre_actual and "slug" not in data:
+            if not dry_run:
+                data["slug"] = _slugify(nombre_actual)
+            slug_added = True
+        nombre_net = _strip_brand_prefix(nombre_actual, marca)
+        if nombre_net != nombre_actual:
+            print(f"  nombre: '{nombre_actual[:60]}…' -> '{nombre_net[:60]}…'")
+            if not dry_run:
+                data["nombre"] = nombre_net
+            name_changed = True
+
         new_data = fetch_product_data(url, session)
 
         if not new_data:
-            print(f"  -> NO TROBAT (es manté tal qual)")
+            print(f"  -> NO TROBAT (preu/valoració no actualitzats)")
             failed.append((name, "res trobat"))
+            # Encara així pot ser que tinguem canvis de nombre/slug a guardar.
+            if (name_changed or slug_added) and not dry_run:
+                save_json(json_path, data)
+                if name_changed:
+                    print("     · nombre netejat (marca treta) — guardat")
+                if slug_added:
+                    print("     · slug preservat al JSON — guardat")
         else:
             has_price = new_data.pop("_has_price", False)
             has_offer = new_data.pop("_has_offer", False)
@@ -446,13 +478,17 @@ def main():
                         if not dry_run:
                             data.pop(k, None)
 
-            if changed_keys:
+            if changed_keys or name_changed or slug_added:
                 if not dry_run:
                     save_json(json_path, data)
                 print("  -> ACTUALITZAT")
+                if name_changed:
+                    print("     · nombre netejat (marca treta)")
+                if slug_added:
+                    print("     · slug preservat al JSON")
                 for line in changed_keys:
                     print(f"     · {line}")
-                updated.append((name, changed_keys))
+                updated.append((name, changed_keys or ["(neteja nombre/slug)"]))
             else:
                 print("  -> sense canvis")
 

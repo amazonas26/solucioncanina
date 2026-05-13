@@ -1,5 +1,5 @@
 {
-  "nombre": "ThunderShirt Chaleco Antiansiedad para Perros",
+  "nombre": "Chaleco Antiansiedad para Perros",
   "descripcion": "Chaleco de presión suave que ayuda a calmar la ansiedad en perros durante tormentas, fuegos artificiales, viajes y otras situaciones estresantes. Sin medicamentos, eficaz en más del 80% de los perros.",
   "imagen": "/images/articulos/thundershirt-chaleco-antiansiedad/imagen.jpg",
   "precio": "32.79€",
@@ -8,5 +8,6 @@
   "marca": "ThunderShirt",
   "precioOriginal": "36.90€",
   "descuentoPct": 11,
-  "valoracion": 4.0
+  "valoracion": 4.0,
+  "slug": "thundershirt-chaleco-antiansiedad-para-perros"
 }

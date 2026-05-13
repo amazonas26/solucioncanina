@@ -1,10 +1,11 @@
 {
-  "nombre": "Multiva Calming Medium & Large 25 masticables",
+  "nombre": "Calming Medium & Large 25 masticables",
   "descripcion": "Masticables calmantes con triptófano, valeriana y vitamina B para reducir el estrés y la ansiedad en perros medianos y grandes. Sabor palatable.",
   "imagen": "/images/articulos/multiva-calming-medium-large/imagen.jpg",
   "precio": "18.00€",
   "linkAmazon": "https://www.amazon.es/dp/B073X12GK3",
   "categoria": "Ansiedad",
   "marca": "Multiva",
-  "valoracion": 3.7
+  "valoracion": 3.7,
+  "slug": "multiva-calming-medium-large-25-masticables"
 }

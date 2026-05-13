@@ -1,5 +1,5 @@
 {
-  "nombre": "Beaphar No Stress Kit Difusor Natural",
+  "nombre": "No Stress Kit Difusor Natural",
   "descripcion": "Kit difusor con feromonas naturales para reducir el estrés y la ansiedad en perros. Cubre hasta 50 m² durante 30 días, ideal para uso en casa.",
   "imagen": "/images/articulos/beaphar-no-stress-kit-difusor/imagen.jpg",
   "precio": "11.29€",
@@ -8,5 +8,6 @@
   "marca": "Beaphar",
   "precioOriginal": "17.80€",
   "descuentoPct": 37,
-  "valoracion": 3.4
+  "valoracion": 3.4,
+  "slug": "beaphar-no-stress-kit-difusor-natural"
 }

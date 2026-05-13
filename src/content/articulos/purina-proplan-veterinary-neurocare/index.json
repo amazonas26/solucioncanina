@@ -1,10 +1,11 @@
 {
-  "nombre": "Purina Pro Plan Veterinary Diets Neurocare",
+  "nombre": "Pro Plan Veterinary Diets Neurocare",
   "descripcion": "Pienso veterinario enriquecido con DHA, EPA y antioxidantes para el soporte cognitivo de perros mayores con deterioro neurológico o epilepsia.",
   "imagen": "/images/articulos/purina-proplan-veterinary-neurocare/imagen.jpg",
   "precio": "33.59€",
   "linkAmazon": "https://www.amazon.es/dp/B07G2BZ9KC",
   "categoria": "Alimentación específica",
   "marca": "Purina",
-  "valoracion": 4.1
+  "valoracion": 4.1,
+  "slug": "purina-pro-plan-veterinary-diets-neurocare"
 }

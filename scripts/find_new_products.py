@@ -32,6 +32,16 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+# Reutilitzem l'extractor de descripcions i les utilitats comunes.
+sys.path.insert(0, str(Path(__file__).parent))
+try:
+    from fetch_descriptions import fetch_description as _fetch_description  # noqa: E402
+except ImportError:
+    _fetch_description = None  # type: ignore[assignment]
+
+from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
+from _common import slugify as _common_slugify  # noqa: E402
+
 ROOT = Path(__file__).parent.parent
 ART = ROOT / "src" / "content" / "articulos"
 IMG = ROOT / "public" / "images" / "articulos"
@@ -581,9 +591,17 @@ def main():
             slug = unique_slug(base, slugs)
             slugs.add(slug)
 
+            # Nom net (sense la marca al davant). Ja calculem el slug
+            # equivalent que Astro generaria del nombre net i el guardem
+            # explícitament perquè futures actualitzacions del nombre no
+            # canviïn la URL del producte.
+            nombre_net = _strip_brand_prefix(c["title"], c["brand"])
+            slug_from_name = _common_slugify(nombre_net) or slug
+
             folder = ART / slug
             data: dict = {
-                "nombre": c["title"],
+                "nombre": nombre_net,
+                "slug": slug_from_name,
                 "descripcion": "",
                 "linkAmazon": f"https://www.amazon.es/dp/{c['asin']}",
                 "categoria": cat,
@@ -600,6 +618,21 @@ def main():
             ext = download_image(c["image"], IMG / slug)
             if ext:
                 data["imagen"] = f"/images/articulos/{slug}/imagen.{ext}"
+
+            # Descripció: intentem agafar-la d'Amazon (feature-bullets).
+            # Si Amazon no en serveix una d'útil, deixem el camp buit (es
+            # podrà omplir més tard amb `python scripts/fetch_descriptions.py`).
+            if _fetch_description is not None:
+                try:
+                    desc = _fetch_description(
+                        data["linkAmazon"], session, min_len=120, max_len=320
+                    )
+                    if desc:
+                        data["descripcion"] = desc
+                        print(f"     · descripció extreta ({len(desc)} chars)")
+                    time.sleep(random.uniform(2, 4))
+                except Exception as e:  # noqa: BLE001
+                    print(f"     · descripció FALL: {e}")
 
             data = {k: v for k, v in data.items() if v not in (None, "")}
 

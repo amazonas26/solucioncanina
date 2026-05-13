@@ -1,10 +1,11 @@
 {
-  "nombre": "Zesty Paws Calming Supplement 90 masticables",
+  "nombre": "Calming Supplement 90 masticables",
   "descripcion": "Suplemento calmante con Ashwagandha, L-Triptófano y melatonina para reducir el estrés y la ansiedad en perros. 90 masticables suaves de sabor atractivo.",
   "imagen": "/images/articulos/zesty-paws-calming-90-masticables/imagen.jpg",
   "precio": "34.90€",
   "linkAmazon": "https://www.amazon.es/dp/B0CKJ1995X",
   "categoria": "Ansiedad",
   "marca": "Zesty Paws",
-  "valoracion": 3.6
+  "valoracion": 3.6,
+  "slug": "zesty-paws-calming-supplement-90-masticables"
 }

@@ -197,7 +197,7 @@ const STAR_POINTS = (() => {
                 </div>
               </div>
               <ProductCard
-                slug={slugify(art.data.nombre)}
+                slug={art.data.slug || slugify(art.data.nombre)}
                 nombre={art.data.nombre}
                 linkAmazon={art.data.linkAmazon}
                 imagen={art.data.imagen}
@@ -256,7 +256,7 @@ const STAR_POINTS = (() => {
           {topDescuentos.map((art) => (
             <div class="w-56 flex-shrink-0 h-[420px]">
               <ProductCard
-                slug={slugify(art.data.nombre)}
+                slug={art.data.slug || slugify(art.data.nombre)}
                 nombre={art.data.nombre}
                 linkAmazon={art.data.linkAmazon}
                 imagen={art.data.imagen}
@@ -323,7 +323,7 @@ const STAR_POINTS = (() => {
           {topValorados.map((art) => (
             <div class="w-56 flex-shrink-0 h-[420px]">
               <ProductCard
-                slug={slugify(art.data.nombre)}
+                slug={art.data.slug || slugify(art.data.nombre)}
                 nombre={art.data.nombre}
                 linkAmazon={art.data.linkAmazon}
                 imagen={art.data.imagen}

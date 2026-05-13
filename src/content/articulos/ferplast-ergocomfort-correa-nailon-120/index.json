@@ -1,10 +1,11 @@
 {
-  "nombre": "Ferplast ERGOCOMFORT Correa Nailó 120cm",
+  "nombre": "ERGOCOMFORT Correa Nailó 120cm",
   "descripcion": "Correa de nailon resistente con empuñadura ergonómica acolchada de 120cm de largo. Costura reforzada y mosquetón giratorio para mayor durabilidad y comodidad.",
   "imagen": "/images/articulos/ferplast-ergocomfort-correa-nailon-120/imagen.jpg",
   "precio": "24.90€",
   "linkAmazon": "https://www.amazon.es/dp/B0036OB2L8",
   "categoria": "Correas",
   "marca": "Ferplast",
-  "valoracion": 4.5
+  "valoracion": 4.5,
+  "slug": "ferplast-ergocomfort-correa-nailo-120cm"
 }

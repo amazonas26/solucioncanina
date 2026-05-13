@@ -1,10 +1,11 @@
 {
-  "nombre": "Barkyn Condroprotector Líquido 100ml",
+  "nombre": "Condroprotector Líquido 100ml",
   "descripcion": "Condroprotector en formato líquido para añadir al pienso. Con glucosamina, ácido hialurónico y omega-3 para articulaciones de perros adultos y senior.",
   "imagen": "/images/articulos/barkyn-condroprotector-liquid-100ml/imagen.jpg",
   "precio": "23.99€",
   "linkAmazon": "https://www.amazon.es/dp/B0BHWGVRNG",
   "categoria": "Perros senior",
   "marca": "Barkyn",
-  "valoracion": 4.0
+  "valoracion": 4.0,
+  "slug": "barkyn-condroprotector-liquido-100ml"
 }
