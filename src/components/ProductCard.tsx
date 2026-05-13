@@ -23,6 +23,11 @@ const fmtCount = (n?: number) => {
   return n.toLocaleString('es-ES');
 };
 
+/** Misma política que `find_new_products.py` / `update_prices.py` (≥3,7). */
+const MIN_VISIBLE_RATING = 3.7;
+const showsRating = (v: number | undefined): v is number =>
+  typeof v === 'number' && v >= MIN_VISIBLE_RATING;
+
 export const ProductCard: React.FC<ProductCardProps> = ({
   slug,
   nombre,
@@ -101,7 +106,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </p>
 
         {/* Price + Rating */}
-        {(precio || (typeof valoracion === 'number' && valoracion > 0)) && (
+        {(precio || showsRating(valoracion)) && (
           <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-neutral-100">
             {precio ? (
               <div className="flex items-baseline gap-2 min-w-0">
@@ -118,7 +123,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               <span />
             )}
 
-            {typeof valoracion === 'number' && valoracion > 0 && (
+            {showsRating(valoracion) && (
               <div
                 className="flex items-center gap-1 shrink-0"
                 aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${

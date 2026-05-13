@@ -10,7 +10,9 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
         * preu original tatxat   -> camp `precioOriginal`     (ex: "39.99€")
         * descompte (badge -NN%) -> camp `descuentoPct`       (enter 0..100)
         * vendes/mes (social)    -> camp `ventas`             (enter, ex: 1000)
-        * valoració mitjana      -> camp `valoracion`         (float 0-5, ex: 4.6)
+        * valoració mitjana      -> camp `valoracion`         (float 0-5; només si ≥3,7,
+                                  alineat amb el catàleg; si Amazon mostra menys,
+                                  s'eliminen aquests camps del JSON)
         * nº de valoracions      -> camp `valoracionesCount`  (enter, ex: 1234)
   - `precioOriginal` i `descuentoPct` només es guarden si Amazon mostra
     SIMULTÀNIAMENT preu tatxat I badge "-NN%". Si la pàgina ja no mostra
@@ -35,6 +37,9 @@ from _common import slugify as _slugify  # noqa: E402
 from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
 
 ARTICULOS_DIR = Path(__file__).parent.parent / "src" / "content" / "articulos"
+
+# Mateixa política que `find_new_products.py`: no mostrar ni persistir notes baixes.
+MIN_CATALOG_RATING = 3.7
 
 HEADERS = {
     "User-Agent": (
@@ -342,9 +347,14 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
         out["ventas"] = int(sales)
 
     if rating is not None:
-        out["valoracion"] = rating
-    if rating_count is not None:
-        out["valoracionesCount"] = rating_count
+        if rating >= MIN_CATALOG_RATING:
+            out["valoracion"] = round(rating, 1)
+            if rating_count is not None:
+                out["valoracionesCount"] = int(rating_count)
+        else:
+            # La fitxa PDP pot tenir nota més baixa que el llistat de cerca;
+            # no persistim valoracions per sota del llindar del catàleg.
+            out["_strip_low_rating"] = True
 
     # Marcadors auxiliars per al pipeline (no s'escriuen al JSON).
     out["_has_price"] = current is not None
@@ -450,6 +460,7 @@ def main():
         else:
             has_price = new_data.pop("_has_price", False)
             has_offer = new_data.pop("_has_offer", False)
+            strip_low_rating = new_data.pop("_strip_low_rating", False)
 
             changed_keys = []
             for k in ("precio", "precioOriginal", "descuentoPct", "ventas", "valoracion", "valoracionesCount"):
@@ -475,6 +486,15 @@ def main():
                 for k in ("precioOriginal", "descuentoPct"):
                     if k in data:
                         changed_keys.append(f"{k}: {data[k]} -> (producte sense preu) net")
+                        if not dry_run:
+                            data.pop(k, None)
+
+            if strip_low_rating:
+                for k in ("valoracion", "valoracionesCount"):
+                    if k in data:
+                        changed_keys.append(
+                            f"{k}: {data[k]} -> (nota < {MIN_CATALOG_RATING}) net"
+                        )
                         if not dry_run:
                             data.pop(k, None)
 

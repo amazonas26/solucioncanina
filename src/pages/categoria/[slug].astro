@@ -39,11 +39,5 @@ const filteredArticulos = allArticulos.filter(a => a.data.categoria === category
     </div>
   </div>
 
-  <SearchableGrid client:load articulos={allArticulos} />
+  <SearchableGrid client:load articulos={allArticulos} initialCategory={category} />
 </Layout>
-
-<script define:vars={{ category }}>
-  // Pre-select category for SearchableGrid
-  window.__sc = window.__sc || {};
-  window.__sc.category = category;
-</script>

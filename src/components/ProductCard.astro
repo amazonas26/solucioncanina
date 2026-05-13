@@ -25,6 +25,8 @@ const fmtCount = (n?: number) => {
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
 const detailUrl = `/producto/${slug}`;
+const MIN_VISIBLE_RATING = 3.7;
+const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RATING;
 ---
 
 <div class="group relative flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-200 border border-neutral-200">
@@ -77,7 +79,7 @@ const detailUrl = `/producto/${slug}`;
     </p>
 
     {/* Price + Rating */}
-    {(precio || (typeof valoracion === 'number' && valoracion > 0)) && (
+    {(precio || showStars) && (
       <div class="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-neutral-100">
         {precio ? (
           <div class="flex items-baseline gap-2 min-w-0">
@@ -94,7 +96,7 @@ const detailUrl = `/producto/${slug}`;
           <span />
         )}
 
-        {typeof valoracion === 'number' && valoracion > 0 && (
+        {showStars && (
           <div
             class="flex items-center gap-1 shrink-0"
             aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''}`}

@@ -5,13 +5,17 @@ y crea fichas (`src/content/articulos/<slug>/index.json` + imagen) para
 los candidatos que aún no tengamos.
 
 Uso:
-    python scripts/find_new_products.py
+    python scripts/find_new_products.py              # por defecto: 3 por categoría
     python scripts/find_new_products.py --per-category=8
     python scripts/find_new_products.py --only="Rampas"
     python scripts/find_new_products.py --dry-run        # no escribe nada
     python scripts/find_new_products.py --no-create      # solo lista, no crea
+    python scripts/find_new_products.py --min-rating=4.0 # umbral personalizado
 
 Notas:
+  - No añade productos con valoración < 3,7 (si Amazon no muestra nota, se descarta).
+  - Evita duplicados por talla/peso/pack: normaliza el título y compara con el
+    catálogo y con los candidatos ya aceptados en la misma ejecución.
   - "Estricto": descarta resultados patrocinados, sin precio, sin imagen
     y sin marca identificable.
   - Hace pausas aleatorias para no acabar baneado por Amazon.
@@ -50,6 +54,9 @@ UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
+# Valoración mínima en resultados de búsqueda (escala 0-5).
+MIN_SEARCH_RATING = 3.7
+
 HEADERS = {
     "User-Agent": UA,
     "Accept-Language": "es-ES,es;q=0.9",
@@ -106,12 +113,13 @@ CATEGORY_QUERIES: dict[str, list[str]] = {
 
 def parse_args(argv: list[str]) -> dict:
     args = {
-        "per_category": 5,
+        "per_category": 3,
         "only": None,
         "dry_run": False,
         "no_create": False,
         "debug": False,
         "loose": False,
+        "min_rating": MIN_SEARCH_RATING,
     }
     for a in argv:
         if a == "--dry-run":
@@ -129,6 +137,11 @@ def parse_args(argv: list[str]) -> dict:
                 pass
         elif a.startswith("--only="):
             args["only"] = a.split("=", 1)[1].strip()
+        elif a.startswith("--min-rating="):
+            try:
+                args["min_rating"] = float(a.split("=", 1)[1].replace(",", "."))
+            except ValueError:
+                pass
     return args
 
 
@@ -189,10 +202,18 @@ def existing_fingerprints() -> list[tuple[str, str]]:
 
 
 _VARIANT_RX = re.compile(
-    r"\b(talla|tamano|tamaño|size|talle|color|negro|negra|blanco|blanca|"
-    r"gris|azul|rojo|verde|marron|s|m|l|xl|xxl|xs|"
-    r"\d+\s*(?:cm|kg|g|ml|l|m|uds|unidades|comprimidos|capsulas|"
-    r"masticables|piezas))\b",
+    r"\b(talla|tamano|tamaño|size|talle|pack|paquete|paquetes|bolsa|bolsas|"
+    r"color|negro|negra|blanco|blanca|gris|azul|rojo|verde|marron|"
+    r"xxs|xxxl|xxl|xl|xs|2xl|3xl|"
+    r"\bs\b|\bm\b|\bl\b|"
+    r"\d+\s*(?:cm|kg|kgs|g|gr|ml|m[lL]|cl|l|litro|litros|mm|m|uds?|ud|"
+    r"unidades?|comprimidos?|capsulas?|masticables?|piezas?|tiras?))\b",
+    flags=re.IGNORECASE,
+)
+
+# Pesos/medidas que sovint distingeixen la mateixa referència en talla (ex. 12 kg vs 2 kg).
+_SIZE_NUM_RX = re.compile(
+    r"\b\d+[.,]?\d*\s*(?:kg|kgs|g|gr|ml|m[lL]|cl|l|litros?|cm|cms|mm|m|oz|lb|lbs)\b",
     flags=re.IGNORECASE,
 )
 
@@ -202,6 +223,14 @@ def _normalize_title(t: str) -> str:
     s = unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode()
     s = s.lower()
     s = _VARIANT_RX.sub(" ", s)
+    s = _SIZE_NUM_RX.sub(" ", s)
+    # Multipacks tipus "2 x 500 g" o "3x400g"
+    s = re.sub(
+        r"\b\d+\s*[x×]\s*\d+[.,]?\d*\s*(?:g|kg|ml|l)?\b",
+        " ",
+        s,
+        flags=re.IGNORECASE,
+    )
     s = re.sub(r"[^a-z0-9 ]+", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
     return s
@@ -222,9 +251,12 @@ def is_duplicate(brand: str | None, title: str, fingerprints: list[tuple[str, st
       - O containment: tots els tokens significatius del títol més curt
         estan continguts al més llarg, amb com a mínim 2 tokens en comú.
     Es requereix la mateixa marca (si totes dues la tenen).
+
+    Es compara el títol sense prefix de marca (com al camp `nombre` del catàleg).
     """
     b = (brand or "").lower().strip()
-    t = _normalize_title(title)
+    title_clean = _strip_brand_prefix(title or "", brand or "")
+    t = _normalize_title(title_clean)
     if not t:
         return False
     t_tokens = {w for w in t.split() if w not in _STOPWORDS and len(w) > 2}
@@ -359,8 +391,58 @@ def fetch_search(session: requests.Session, query: str) -> BeautifulSoup | None:
     return soup
 
 
+def parse_card_rating(card) -> float | None:
+    """Valoración media visible en la tarjeta de resultados (0-5), o None."""
+    for el in card.select(".a-icon-alt"):
+        t = el.get_text(strip=True).replace("\xa0", " ")
+        if not t:
+            continue
+        m = re.search(
+            r"(?P<r>\d+[.,]\d+|\d+)\s*(?:de\s*5|out\s*of\s*5|/\s*5)",
+            t,
+            flags=re.IGNORECASE,
+        )
+        if m:
+            try:
+                v = float(m.group("r").replace(",", "."))
+            except ValueError:
+                continue
+            if 0 < v <= 5:
+                return v
+        if "estrella" in t.lower() or "star" in t.lower():
+            m2 = re.search(r"(?P<r>\d+[.,]\d+|\d+)", t)
+            if m2:
+                try:
+                    v = float(m2.group("r").replace(",", "."))
+                except ValueError:
+                    continue
+                if 0 < v <= 5:
+                    return v
+
+    for sel in (
+        "span.a-size-base.s-underline-text",
+        "span[aria-hidden='true'].a-size-base",
+    ):
+        el = card.select_one(sel)
+        if not el:
+            continue
+        raw = el.get_text(strip=True).replace(",", ".")
+        m = re.fullmatch(r"(\d+\.?\d*)", raw)
+        if m:
+            try:
+                v = float(m.group(1))
+            except ValueError:
+                continue
+            if 0 < v <= 5:
+                return v
+    return None
+
+
 def extract_candidates(
-    soup: BeautifulSoup, strict: bool = True, debug: bool = False
+    soup: BeautifulSoup,
+    strict: bool = True,
+    debug: bool = False,
+    min_rating: float = MIN_SEARCH_RATING,
 ) -> list[dict]:
     cards = soup.select("[data-component-type='s-search-result'][data-asin]")
     if debug:
@@ -451,6 +533,14 @@ def extract_candidates(
             reject("marca-generica" if brand else "sin-marca")
             continue
 
+        rating = parse_card_rating(card)
+        if rating is None:
+            reject("sin-valoracion")
+            continue
+        if rating < min_rating:
+            reject("valoracion-baja")
+            continue
+
         out.append({
             "asin": asin,
             "title": title,
@@ -458,6 +548,7 @@ def extract_candidates(
             "original": orig_val,
             "image": img_url,
             "brand": brand,
+            "rating": rating,
         })
 
     if debug and rejects:
@@ -511,10 +602,12 @@ def main():
     slugs = existing_slugs()
     cats_in_catalog = existing_categories()
     fingerprints = existing_fingerprints()
+    working_fps = list(fingerprints)
 
     print(f"Catálogo actual: {len(asins)} ASIN únicos, {len(slugs)} carpetas.")
     print(f"Categorías en uso: {sorted(cats_in_catalog)}")
     print(f"Objetivo: hasta {per_cat} candidatos NUEVOS por categoría.")
+    print(f"Valoración mínima en resultados de búsqueda: ≥{args['min_rating']}")
 
     # Validación: avisar si alguna categoría del script NO coincide con las
     # del catálogo (evita crear categorías duplicadas tipo "Bozal" vs "Bozales").
@@ -558,16 +651,28 @@ def main():
             if soup is None:
                 time.sleep(random.uniform(4, 7))
                 continue
-            for c in extract_candidates(soup, strict=not args["loose"], debug=args["debug"]):
+            for c in extract_candidates(
+                soup,
+                strict=not args["loose"],
+                debug=args["debug"],
+                min_rating=args["min_rating"],
+            ):
                 if c["asin"] in asins or c["asin"] in seen_asin:
                     continue
-                # Detector fuzzy: mateix brand + títol molt similar
-                if is_duplicate(c.get("brand"), c.get("title", ""), fingerprints):
+                # Detector fuzzy: mateix brand + títol molt similar (inclou variants de talla)
+                if is_duplicate(c.get("brand"), c.get("title", ""), working_fps):
                     if args["debug"]:
                         print(f"    debug: descartat per duplicat fuzzy → {c['title'][:60]}…")
                     continue
                 seen_asin.add(c["asin"])
                 candidates.append(c)
+                nt = _strip_brand_prefix(c.get("title", ""), c.get("brand"))
+                working_fps.append(
+                    (
+                        (c.get("brand") or "").lower().strip(),
+                        _normalize_title(nt),
+                    )
+                )
                 if len(candidates) >= per_cat:
                     break
             time.sleep(random.uniform(5, 9))
@@ -581,7 +686,8 @@ def main():
             short = c["title"][:80] + ("…" if len(c["title"]) > 80 else "")
             marker = "·" if no_create else "+"
             print(
-                f"  {marker} [{c['asin']}] {short}  ({euro_str(c['price'])}, marca: {c['brand']})"
+                f"  {marker} [{c['asin']}] {short}  "
+                f"({euro_str(c['price'])}, ★{c['rating']:.1f}, marca: {c['brand']})"
             )
 
             if no_create:
@@ -609,6 +715,10 @@ def main():
             }
             if c["price"]:
                 data["precio"] = euro_str(c["price"])
+            # Nota de la mateixa cerca que ha passat el filtre ≥ MIN_SEARCH_RATING
+            # (fins que `update_prices.py` torni a llegir la fitxa PDP).
+            if isinstance(c.get("rating"), (int, float)):
+                data["valoracion"] = round(float(c["rating"]), 1)
             # NOTA: NO guardem `precioOriginal` ni `descuentoPct` aquí.
             # Els llistats de cerca d'Amazon mostren preus tatxats que
             # sovint són PVP històrics o promos d'altres venedors. Deixem
@@ -642,10 +752,6 @@ def main():
                 encoding="utf-8",
             )
             asins.add(c["asin"])
-            fingerprints.append(
-                ((c.get("brand") or "").lower().strip(),
-                 _normalize_title(c.get("title", "")))
-            )
             created += 1
             print(f"     → creado: src/content/articulos/{slug}/")
             time.sleep(random.uniform(2, 4))

@@ -40,6 +40,7 @@ function parsePrice(p?: string): number | null {
 interface Articulo {
   data: {
     nombre: string;
+    slug?: string;
     linkAmazon: string;
     imagen?: string;
     descripcion?: string;
@@ -57,6 +58,8 @@ interface Articulo {
 
 interface SearchableGridProps {
   articulos: Articulo[];
+  /** Categoria inicial (p. ex. pàgines `/categoria/...`). Evita dependre de `window.__sc` (el script podia quedar fora de `</html>`). */
+  initialCategory?: string | null;
 }
 
 type SortOption = 'none' | 'sales-desc' | 'discount-desc' | 'rating-desc' | 'price-asc' | 'price-desc';
@@ -106,16 +109,36 @@ function shuffleWithSeed<T>(arr: T[], seed: number): T[] {
   return out;
 }
 
-export default function SearchableGrid({ articulos }: SearchableGridProps) {
+/** Mateix valor a SSR i al client (no usar Math.random() per evitar mismatch d'hidratació). */
+function hashIdsToSeed(ids: string[]): number {
+  const s = [...ids].sort().join('\0');
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+export default function SearchableGrid({
+  articulos,
+  initialCategory,
+}: SearchableGridProps) {
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(() => {
+    const c = initialCategory?.trim();
+    return c ? c : null;
+  });
 
   const [appliedFilters, setAppliedFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [draftFilters, setDraftFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  // Stable session seed — changes only on page load, not on re-renders
-  const sessionSeed = useMemo(() => Math.floor(Math.random() * 2 ** 32), []);
+  // Ordre «Recomendados» estable entre SSR i hidratació (abans: Math.random() → ordre diferent).
+  const sessionSeed = useMemo(
+    () => hashIdsToSeed(articulos.map((a) => a.id)),
+    [articulos]
+  );
 
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -134,8 +157,10 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
       setDraftFilters((f) => ({ ...f, sort: urlSort as SortOption }));
     }
 
-    if (typeof window.__sc?.category !== 'undefined') {
-      setSelectedCategory(window.__sc.category ?? null);
+    // Només llegir __sc si no ens han passat categoria per props (pàgina catàleg / altres).
+    if (initialCategory === undefined && typeof window.__sc?.category !== 'undefined') {
+      const c = window.__sc.category;
+      setSelectedCategory(typeof c === 'string' && c.trim() ? c.trim() : null);
     }
 
     const onSearch = (e: Event) => {
@@ -153,7 +178,7 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
       window.removeEventListener('sc:search', onSearch);
       window.removeEventListener('sc:category', onCategory);
     };
-  }, []);
+  }, [initialCategory]);
 
   // Tancar popover al fer click fora o pressionar Escape
   useEffect(() => {
@@ -210,9 +235,8 @@ export default function SearchableGrid({ articulos }: SearchableGridProps) {
         art.data.descripcion?.toLowerCase().includes(search.toLowerCase()) ||
         art.data.marca?.toLowerCase().includes(search.toLowerCase());
 
-      const matchesCategory = selectedCategory
-        ? art.data.categoria === selectedCategory
-        : true;
+      const catFilter = selectedCategory?.trim() || null;
+      const matchesCategory = catFilter ? art.data.categoria === catFilter : true;
 
       const price = parsePrice(art.data.precio);
       const matchesMin = min === null || (price !== null && price >= min);

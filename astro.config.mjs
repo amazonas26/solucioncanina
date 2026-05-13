@@ -12,5 +12,15 @@ export default defineConfig({
   integrations: [react(), keystatic(), mdx()],
   vite: {
     plugins: [tailwindcss()],
+    // Evita múltiples còpies de React (framer-motion / illes) → "Invalid hook call" / useState null a dev.
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react/jsx-runtime', 'framer-motion'],
+    },
+    ssr: {
+      noExternal: ['framer-motion'],
+    },
   },
 });

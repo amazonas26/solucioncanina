@@ -57,7 +57,7 @@ function fmtVentas(n) {
   return n.toLocaleString('es-ES');
 }
 
-const hasRating = typeof valoracion === 'number' && valoracion > 0;
+const hasRating = typeof valoracion === 'number' && valoracion >= 3.7;
 const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
 ---

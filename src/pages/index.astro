@@ -31,7 +31,7 @@ const topVendidos = articulos
 const topValorados = articulos
   .filter(
     (a) =>
-      typeof a.data.valoracion === "number" && (a.data.valoracion ?? 0) > 0,
+      typeof a.data.valoracion === "number" && (a.data.valoracion ?? 0) >= 3.7,
   )
   .sort((a, b) => {
     const diff = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);
