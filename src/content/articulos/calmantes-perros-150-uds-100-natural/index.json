@@ -7,5 +7,7 @@
   "marca": "Calmantes",
   "precio": "19.99€",
   "valoracion": 4.0,
-  "imagen": "/images/articulos/calmantes-perros-150-uds-100-natural/imagen.jpg"
+  "imagen": "/images/articulos/calmantes-perros-150-uds-100-natural/imagen.jpg",
+  "ventas": 200,
+  "valoracionesCount": 43
 }

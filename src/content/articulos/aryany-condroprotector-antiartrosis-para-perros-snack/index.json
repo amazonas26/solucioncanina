@@ -7,5 +7,8 @@
   "marca": "ARYANY",
   "precio": "21.90€",
   "valoracion": 4.3,
-  "imagen": "/images/articulos/aryany-condroprotector-antiartrosis-para-perros-snack/imagen.jpg"
+  "imagen": "/images/articulos/aryany-condroprotector-antiartrosis-para-perros-snack/imagen.jpg",
+  "precioOriginal": "23.90€",
+  "descuentoPct": 8,
+  "valoracionesCount": 38
 }

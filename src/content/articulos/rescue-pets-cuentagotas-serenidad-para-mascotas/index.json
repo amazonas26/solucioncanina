@@ -7,5 +7,7 @@
   "marca": "RESCUE",
   "precio": "17.90€",
   "valoracion": 4.3,
-  "imagen": "/images/articulos/rescue-pets-cuentagotas-serenidad-para-mascotas/imagen.jpg"
+  "imagen": "/images/articulos/rescue-pets-cuentagotas-serenidad-para-mascotas/imagen.jpg",
+  "ventas": 50,
+  "valoracionesCount": 1035
 }

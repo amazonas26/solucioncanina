@@ -29,11 +29,17 @@ const topVendidos = articulos
   .slice(0, 6);
 
 // Top 5 productos mejor valorados (de más a menos estrellas; desempate por nº de reseñas).
+// Si hay `valoracionesCount` en el JSON y es < 10, no entra (muestra insuficiente).
+// Si falta el campo (artículos antiguos antes del scraper), no se excluye para no vaciar la sección.
+const MIN_VALORACIONES_TOP_VALORADOS = 10;
 const topValorados = articulos
-  .filter(
-    (a) =>
-      typeof a.data.valoracion === "number" && (a.data.valoracion ?? 0) >= 3.7,
-  )
+  .filter((a) => {
+    const v = a.data.valoracion;
+    if (typeof v !== "number" || v < 3.7) return false;
+    const c = a.data.valoracionesCount;
+    if (typeof c === "number" && c < MIN_VALORACIONES_TOP_VALORADOS) return false;
+    return true;
+  })
   .sort((a, b) => {
     const diff = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);
     if (diff !== 0) return diff;

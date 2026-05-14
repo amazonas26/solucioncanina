@@ -19,6 +19,9 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
   - **Eliminació** del producte (carpeta `src/content/articulos/<slug>/` i imatges
     sota `public/images/articulos/<slug>/`) si:
     · **Valoració al PDP < 3,7** (amb nota llegible).
+    · **Menys de 10 valoracions**: es fa servir el recompte del PDP si n’hi ha;
+      si no, el camp `valoracionesCount` del JSON (si és vàlid). Si no es pot
+      determinar cap recompte, no s’elimina per aquest motiu.
     · **No disponible**: només si **no** s'extreu preu vàlid *i* el text dels
       blocs `#availability` / `#availability-brief` / `#outOfStock` (sense scripts)
       coincideix amb patrons d'esgotament. **No** es fa servir `#buybox` (conté
@@ -61,6 +64,7 @@ IMAGES_DIR = ROOT / "public" / "images" / "articulos"
 
 # Mateixa política que `find_new_products.py`: no mostrar ni persistir notes baixes.
 MIN_CATALOG_RATING = 3.7
+MIN_CATALOG_REVIEWS = 10
 
 # Frases d'esgotament només dins del bloc d'disponibilitat (mai dins #buybox sencer:
 # el buybox inclou <script> amb JSON on surt "unavailable" i això eliminava tot el catàleg).
@@ -108,7 +112,7 @@ HEADERS = {
 
 
 # ---------------------------------------------------------------------------
-# Eliminació de productes (no disponible / valoració baixa)
+# Eliminació de productes (no disponible / valoració baixa / poques ressenyes)
 # ---------------------------------------------------------------------------
 
 def is_captcha_page(soup: BeautifulSoup) -> bool:
@@ -402,21 +406,78 @@ def extract_rating(soup: BeautifulSoup) -> float | None:
     return None
 
 
+def _parse_amazon_review_count_token(raw: str) -> int | None:
+    """Converteix '1234', '1.234', '12.345' (separadors de milers ES) a int."""
+    raw = raw.strip()
+    if not raw or not re.fullmatch(r"[\d.,]+", raw):
+        return None
+    # Un sol separador ',' o '.' com a decimal improbable en recompte de ressenyes;
+    # a Amazon.es els milers van amb punt: 1.234
+    if raw.count(".") >= 1 and raw.replace(".", "").isdigit():
+        parts = raw.split(".")
+        if parts and parts[0] and all(p.isdigit() for p in parts):
+            if len(parts) == 1:
+                return int(parts[0])
+            if all(len(p) == 3 for p in parts[1:]) and 1 <= len(parts[0]) <= 3:
+                return int("".join(parts))
+    if raw.isdigit():
+        return int(raw)
+    if "," in raw and raw.replace(",", "").isdigit():
+        return int(raw.replace(",", ""))
+    return None
+
+
 def extract_rating_count(soup: BeautifulSoup) -> int | None:
-    """Nº total de valoracions (ex: '1.234 valoraciones')."""
+    """Nº total de valoracions al PDP (Amazon canvia markup sovint).
+
+    Ordre: enllaços a customerReviews amb «(1.234)»; després blocs de text coneguts
+    (#acrCustomerReviewText, data-hook, etc.). Abans només es capturava si sortia
+    la paraula «valoraciones»; moltes fitxes només mostren «(2)» sense aquesta paraula.
+    """
+    for a in soup.select(
+        'a[href*="customerReviews"], a[href*="CustomerReviews"], a[href*="#customerReviews"]'
+    ):
+        t = a.get_text(" ", strip=True)
+        m = re.search(r"\(\s*([\d.]+)\s*\)", t)
+        if m:
+            n = _parse_amazon_review_count_token(m.group(1))
+            if n and n > 0:
+                return n
+
     candidates: list[str] = []
     el = soup.select_one("#acrCustomerReviewText")
     if el:
         candidates.append(el.get_text(" ", strip=True))
-    for sel in ('[data-hook="total-review-count"]', "#averageCustomerReviews_feature_div"):
+    for sel in (
+        '[data-hook="total-review-count"]',
+        "#averageCustomerReviews_feature_div",
+        "#reviewsMedley",
+    ):
         for e in soup.select(sel):
             candidates.append(e.get_text(" ", strip=True))
 
+    kw = r"(?:valoraciones?|calificaciones?|reseñas?|reviews?|opiniones?|ratings?)"
     for txt in candidates:
-        m = re.search(r"(\d{1,3}(?:[.,]\d{3})*)\s*(?:valoraciones|reviews|opiniones|ratings)", txt, flags=re.IGNORECASE)
+        if not txt:
+            continue
+        m = re.search(
+            rf"(\d{{1,3}}(?:[.,]\d{{3}})*)\s*{kw}\b",
+            txt,
+            flags=re.IGNORECASE,
+        )
         if m:
             n = int(m.group(1).replace(".", "").replace(",", ""))
             if n > 0:
+                return n
+        m2 = re.search(rf"\b{kw}\b\s*[:(]?\s*(\d{{1,3}}(?:[.,]\d{{3}})*)", txt, flags=re.IGNORECASE)
+        if m2:
+            n = int(m2.group(1).replace(".", "").replace(",", ""))
+            if n > 0:
+                return n
+        m3 = re.search(r"\(\s*([\d.]+)\s*\)", txt)
+        if m3:
+            n = _parse_amazon_review_count_token(m3.group(1))
+            if n and n > 0:
                 return n
     return None
 
@@ -466,11 +527,27 @@ def extract_monthly_sales(soup: BeautifulSoup) -> int | None:
     return None
 
 
+def _coerce_review_count_json(value) -> int | None:
+    """Enter no negatiu des del JSON, o None."""
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        n = int(value)
+    except (TypeError, ValueError):
+        return None
+    return n if n >= 0 else None
+
+
 # ---------------------------------------------------------------------------
 # Pipeline per producte
 # ---------------------------------------------------------------------------
 
-def fetch_product_data(url: str, session: requests.Session) -> dict:
+def fetch_product_data(
+    url: str,
+    session: requests.Session,
+    *,
+    review_count_json: int | None = None,
+) -> dict:
     """Retorna camps d'actualització o `_delete_reason` si cal eliminar el producte."""
     out: dict = {}
     try:
@@ -489,6 +566,9 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
     current = extract_current_price(soup)
     rating = extract_rating(soup)
     rating_count = extract_rating_count(soup)
+    eff_reviews: int | None = (
+        int(rating_count) if rating_count is not None else review_count_json
+    )
 
     unavailable = detect_product_unavailable(soup, has_price=(current is not None))
     delete_reason: str | None = None
@@ -496,6 +576,8 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
         delete_reason = "no_disponible"
     elif rating is not None and rating < MIN_CATALOG_RATING:
         delete_reason = "valoracio_baixa"
+    elif eff_reviews is not None and eff_reviews < MIN_CATALOG_REVIEWS:
+        delete_reason = "pocs_reviews"
 
     if delete_reason:
         out["_delete_reason"] = delete_reason
@@ -505,6 +587,9 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
             print(f"  · valoració PDP: {rating} (< {MIN_CATALOG_RATING})")
         if unavailable:
             print("  · Amazon indica no disponible / sense estoc")
+        if delete_reason == "pocs_reviews":
+            src = "PDP" if rating_count is not None else "JSON"
+            print(f"  · valoracions ({src}): {eff_reviews} (< {MIN_CATALOG_REVIEWS})")
         return out
 
     original = extract_original_price(soup, current)
@@ -634,7 +719,11 @@ def main():
                 data["nombre"] = nombre_net
             name_changed = True
 
-        new_data = fetch_product_data(url, session)
+        new_data = fetch_product_data(
+            url,
+            session,
+            review_count_json=_coerce_review_count_json(data.get("valoracionesCount")),
+        )
         delete_reason = new_data.pop("_delete_reason", None)
 
         if delete_reason:
@@ -642,6 +731,7 @@ def main():
             label = {
                 "no_disponible": "no disponible a Amazon",
                 "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
+                "pocs_reviews": f"menys de {MIN_CATALOG_REVIEWS} valoracions",
             }.get(delete_reason, delete_reason)
             if dry_run:
                 print(f"  -> [DRY RUN] s'eliminaria ({label}) — secció: «{cat}»")
@@ -717,7 +807,12 @@ def main():
         time.sleep(delay)
 
     print("=" * 60)
-    print("ELIMINACIONS (no disponible o valoració < {:.1f})".format(MIN_CATALOG_RATING))
+    print(
+        "ELIMINACIONS (no disponible, valoració < {:.1f}, o < {} valoracions)".format(
+            MIN_CATALOG_RATING,
+            MIN_CATALOG_REVIEWS,
+        )
+    )
     if dry_run and n_removed:
         print(f"  S'haurien eliminat: {n_removed} producte(s)")
     elif not dry_run and n_removed:
@@ -734,6 +829,7 @@ def main():
                 lbl = {
                     "no_disponible": "no disponible",
                     "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
+                    "pocs_reviews": f"menys de {MIN_CATALOG_REVIEWS} valoracions",
                 }.get(reason, reason)
                 print(f"    · {lbl}: {cnt}")
 
@@ -770,6 +866,10 @@ def main():
             for p in all_products
             if isinstance(p.get("valoracion"), (int, float))
             and p["valoracion"] >= MIN_CATALOG_RATING
+            and not (
+                type(p.get("valoracionesCount")) is int
+                and p["valoracionesCount"] < MIN_CATALOG_REVIEWS
+            )
         ],
         key=lambda p: (p["valoracion"], p.get("valoracionesCount", 0) or 0),
         reverse=True,

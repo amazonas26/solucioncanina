@@ -10,10 +10,12 @@ Uso:
     python scripts/find_new_products.py --only="Rampas"
     python scripts/find_new_products.py --dry-run        # no escribe nada
     python scripts/find_new_products.py --no-create      # solo lista, no crea
-    python scripts/find_new_products.py --min-rating=4.0 # umbral personalizado
+    python scripts/find_new_products.py --min-rating=3.7 --min-reviews=15
 
 Notas:
-  - No añade productos con valoración < 3,7 (si Amazon no muestra nota, se descarta).
+  - Solo candidatos con **precio** en la tarjeta (listado comprable), nota **>
+    3,6** (configurable con `--min-rating`) y **≥ 10 valoraciones** visibles en SERP
+    (`--min-reviews`, por defecto 10 = «más de 9»).
   - Evita duplicados por talla/peso/pack: normaliza el título y compara con el
     catálogo y con los candidatos ya aceptados en la misma ejecución.
   - "Estricto": descarta resultados patrocinados, sin precio, sin imagen
@@ -54,8 +56,10 @@ UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
-# Valoración mínima en resultados de búsqueda (escala 0-5).
-MIN_SEARCH_RATING = 3.7
+# Umbral de estrellas en SERP: se exige nota estrictamente mayor (p. ej. > 3,6).
+MIN_SEARCH_MIN_STARS = 3.6
+# Valoraciones mínimas en la tarjeta de búsqueda (≥ este número; 10 = «más de 9»).
+MIN_SEARCH_MIN_REVIEWS = 10
 
 HEADERS = {
     "User-Agent": UA,
@@ -119,7 +123,8 @@ def parse_args(argv: list[str]) -> dict:
         "no_create": False,
         "debug": False,
         "loose": False,
-        "min_rating": MIN_SEARCH_RATING,
+        "min_rating": MIN_SEARCH_MIN_STARS,
+        "min_reviews": MIN_SEARCH_MIN_REVIEWS,
     }
     for a in argv:
         if a == "--dry-run":
@@ -137,6 +142,11 @@ def parse_args(argv: list[str]) -> dict:
                 pass
         elif a.startswith("--only="):
             args["only"] = a.split("=", 1)[1].strip()
+        elif a.startswith("--min-reviews="):
+            try:
+                args["min_reviews"] = max(1, int(a.split("=", 1)[1]))
+            except ValueError:
+                pass
         elif a.startswith("--min-rating="):
             try:
                 args["min_rating"] = float(a.split("=", 1)[1].replace(",", "."))
@@ -438,11 +448,61 @@ def parse_card_rating(card) -> float | None:
     return None
 
 
+def parse_card_review_count(card) -> int | None:
+    """Número de valoraciones/resenas en la tarjeta SERP (entero > 0), o None."""
+    for a in card.select('a[href*="customerReviews"], a[href*="#customerReviews"]'):
+        t = a.get_text(" ", strip=True)
+        m = re.search(r"\(\s*([\d.]+)\s*\)", t)
+        if m:
+            try:
+                n = int(m.group(1).replace(".", ""))
+            except ValueError:
+                continue
+            if n > 0:
+                return n
+    for sel in ("span.a-size-base.s-underline-text", "span[aria-hidden='true'].a-size-base"):
+        for el in card.select(sel):
+            t = el.get_text(strip=True)
+            m = re.match(r"^\(\s*([\d.]+)\s*\)$", t)
+            if m:
+                try:
+                    n = int(m.group(1).replace(".", ""))
+                except ValueError:
+                    continue
+                if n > 0:
+                    return n
+    blob = card.get_text(" ", strip=True)
+    m = re.search(
+        r"(\d{1,3}(?:\.\d{3})+)\s*(?:valoraciones?|reseñas?|reviews|opiniones)\b",
+        blob,
+        flags=re.IGNORECASE,
+    )
+    if m:
+        try:
+            return int(m.group(1).replace(".", ""))
+        except ValueError:
+            pass
+    m2 = re.search(
+        r"\b(\d{1,5})\s*(?:valoraciones?|reseñas?|reviews|opiniones)\b",
+        blob,
+        flags=re.IGNORECASE,
+    )
+    if m2:
+        try:
+            n = int(m2.group(1))
+            if n > 0:
+                return n
+        except ValueError:
+            pass
+    return None
+
+
 def extract_candidates(
     soup: BeautifulSoup,
     strict: bool = True,
     debug: bool = False,
-    min_rating: float = MIN_SEARCH_RATING,
+    min_rating: float = MIN_SEARCH_MIN_STARS,
+    min_reviews: int = MIN_SEARCH_MIN_REVIEWS,
 ) -> list[dict]:
     cards = soup.select("[data-component-type='s-search-result'][data-asin]")
     if debug:
@@ -537,8 +597,17 @@ def extract_candidates(
         if rating is None:
             reject("sin-valoracion")
             continue
-        if rating < min_rating:
+        # Estrictamente mayor que `min_rating` (p. ej. > 3,6).
+        if rating <= min_rating:
             reject("valoracion-baja")
+            continue
+
+        reviews = parse_card_review_count(card)
+        if reviews is None:
+            reject("sin-num-valoraciones")
+            continue
+        if reviews < min_reviews:
+            reject("pocas-valoraciones")
             continue
 
         out.append({
@@ -549,6 +618,7 @@ def extract_candidates(
             "image": img_url,
             "brand": brand,
             "rating": rating,
+            "review_count": reviews,
         })
 
     if debug and rejects:
@@ -607,7 +677,7 @@ def main():
     print(f"Catálogo actual: {len(asins)} ASIN únicos, {len(slugs)} carpetas.")
     print(f"Categorías en uso: {sorted(cats_in_catalog)}")
     print(f"Objetivo: hasta {per_cat} candidatos NUEVOS por categoría.")
-    print(f"Valoración mínima en resultados de búsqueda: ≥{args['min_rating']}")
+    print(f"Valoración mínima en SERP: >{args['min_rating']}  |  Reseñas mínimas: ≥{args['min_reviews']}")
 
     # Validación: avisar si alguna categoría del script NO coincide con las
     # del catálogo (evita crear categorías duplicadas tipo "Bozal" vs "Bozales").
@@ -656,6 +726,7 @@ def main():
                 strict=not args["loose"],
                 debug=args["debug"],
                 min_rating=args["min_rating"],
+                min_reviews=args["min_reviews"],
             ):
                 if c["asin"] in asins or c["asin"] in seen_asin:
                     continue
@@ -687,7 +758,7 @@ def main():
             marker = "·" if no_create else "+"
             print(
                 f"  {marker} [{c['asin']}] {short}  "
-                f"({euro_str(c['price'])}, ★{c['rating']:.1f}, marca: {c['brand']})"
+                f"({euro_str(c['price'])}, ★{c['rating']:.1f}, {c['review_count']} reseñas, marca: {c['brand']})"
             )
 
             if no_create:
@@ -719,6 +790,8 @@ def main():
             # (fins que `update_prices.py` torni a llegir la fitxa PDP).
             if isinstance(c.get("rating"), (int, float)):
                 data["valoracion"] = round(float(c["rating"]), 1)
+            if isinstance(c.get("review_count"), int) and c["review_count"] > 0:
+                data["valoracionesCount"] = c["review_count"]
             # NOTA: NO guardem `precioOriginal` ni `descuentoPct` aquí.
             # Els llistats de cerca d'Amazon mostren preus tatxats que
             # sovint són PVP històrics o promos d'altres venedors. Deixem

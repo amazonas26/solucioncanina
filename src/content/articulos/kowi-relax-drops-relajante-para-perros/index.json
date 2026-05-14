@@ -7,5 +7,7 @@
   "marca": "KOWI",
   "precio": "18.50€",
   "valoracion": 3.9,
-  "imagen": "/images/articulos/kowi-relax-drops-relajante-para-perros/imagen.jpg"
+  "imagen": "/images/articulos/kowi-relax-drops-relajante-para-perros/imagen.jpg",
+  "ventas": 50,
+  "valoracionesCount": 202
 }
