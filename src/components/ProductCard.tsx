@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingCart, ExternalLink, Package } from 'lucide-react';
+import { Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ProductCardProps {
