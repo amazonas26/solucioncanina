@@ -156,7 +156,7 @@ const seoDescription =
         <a
           href={linkAmazon}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="sponsored nofollow noopener noreferrer"
           class="group block relative rounded-3xl border border-neutral-100 bg-gradient-to-b from-white to-neutral-50/50 p-8 md:p-12 flex items-center justify-center min-h-[300px] md:min-h-[400px] shadow-sm overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-primary-500/5 cursor-zoom-in"
           title="Ver en Amazon"
         >
@@ -179,11 +179,12 @@ const seoDescription =
             imagen ? (
               <img
                 src={imagen}
-                alt=""
+                alt={nombre}
                 width="600"
                 height="600"
                 loading="eager"
                 decoding="async"
+                fetchpriority="high"
                 class="max-w-full max-h-[450px] object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
               />
             ) : (
@@ -361,7 +362,7 @@ const seoDescription =
           <a
             href={linkAmazon}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="sponsored nofollow noopener noreferrer"
             class="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#FF9900] hover:bg-[#E68A00] text-black font-black text-sm rounded-2xl transition-all shadow-lg shadow-orange-500/10 hover:shadow-orange-500/20 hover:-translate-y-0.5 active:translate-y-0"
           >
             Ver mejor precio en Amazon
@@ -633,7 +634,7 @@ const seoDescription =
                       <a
                         href={r.linkAmazon}
                         target="_blank"
-                        rel="noopener noreferrer"
+                        rel="sponsored nofollow noopener noreferrer"
                         class="flex items-center justify-center gap-2 w-full py-3 bg-[#FF9900] hover:bg-[#E68A00] text-black text-[11px] font-black rounded-2xl transition-all shadow-md shadow-orange-500/5 hover:shadow-orange-500/20 active:scale-[0.98]"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
@@ -669,7 +670,7 @@ const seoDescription =
     <a
       href={linkAmazon}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="sponsored nofollow noopener noreferrer"
       class="flex-1 flex items-center justify-center px-6 py-4 bg-[#FF9900] active:scale-95 text-black font-black text-sm rounded-2xl transition-all shadow-lg shadow-orange-500/20"
     >
       Ver en Amazon

@@ -10,23 +10,42 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
         * preu original tatxat   -> camp `precioOriginal`     (ex: "39.99€")
         * descompte (badge -NN%) -> camp `descuentoPct`       (enter 0..100)
         * vendes/mes (social)    -> camp `ventas`             (enter, ex: 1000)
-        * valoració mitjana      -> camp `valoracion`         (float 0-5; només si ≥3,7,
-                                  alineat amb el catàleg; si Amazon mostra menys,
-                                  s'eliminen aquests camps del JSON)
+        * valoració mitjana      -> camp `valoracion` (només si ≥3,7; si és més baixa
+                                  s'elimina el producte sencer, vegeu més amunt)
         * nº de valoracions      -> camp `valoracionesCount`  (enter, ex: 1234)
   - `precioOriginal` i `descuentoPct` només es guarden si Amazon mostra
     SIMULTÀNIAMENT preu tatxat I badge "-NN%". Si la pàgina ja no mostra
-    oferta (o el producte està No disponible), els camps es NETEGEN del JSON.
+    oferta, els camps es NETEGEN del JSON.
+  - **Eliminació** del producte (carpeta `src/content/articulos/<slug>/` i imatges
+    sota `public/images/articulos/<slug>/`) si:
+    · **Valoració al PDP < 3,7** (amb nota llegible).
+    · **No disponible**: només si **no** s'extreu preu vàlid *i* el text dels
+      blocs `#availability` / `#availability-brief` / `#outOfStock` (sense scripts)
+      coincideix amb patrons d'esgotament. **No** es fa servir `#buybox` (conté
+      JSON amb la paraula "unavailable" i generava falsos positius a tot el catàleg).
+      Si hi ha **preu vàlid**, no s'elimina mai per «no disponible».
+    Al final: **nombre total eliminat** i **desglossament per categoria**
+    (secció). En CAPTCHA o error de xarxa **no** s'elimina res.
+  - Opcional **`--refill-deleted`**: després d'eliminar (sense `--dry-run`), per
+    cada categoria amb N baixes executa `scripts/find_new_products.py` amb
+    `--only` i `--per-category=N` per intentar omplir forats (mateixes queries
+    que el script de nous productes). En dry-run només s'anuncia què es cridaria.
 
 Ús:
     python scripts/update_prices.py [--dry-run] [--only SLUG] [--limit N]
+    python scripts/update_prices.py --refill-deleted
+        # després d'eliminar productes, per cada secció amb baixes crida
+        # `find_new_products.py --only=<categoria> --per-category=<N>` (N = eliminats).
 """
 
 import json
-import time
 import random
 import re
+import shutil
+import subprocess
 import sys
+import time
+from collections import Counter
 from pathlib import Path
 
 import requests
@@ -36,10 +55,44 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _common import slugify as _slugify  # noqa: E402
 from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
 
-ARTICULOS_DIR = Path(__file__).parent.parent / "src" / "content" / "articulos"
+ROOT = Path(__file__).parent.parent
+ARTICULOS_DIR = ROOT / "src" / "content" / "articulos"
+IMAGES_DIR = ROOT / "public" / "images" / "articulos"
 
 # Mateixa política que `find_new_products.py`: no mostrar ni persistir notes baixes.
 MIN_CATALOG_RATING = 3.7
+
+# Frases d'esgotament només dins del bloc d'disponibilitat (mai dins #buybox sencer:
+# el buybox inclou <script> amb JSON on surt "unavailable" i això eliminava tot el catàleg).
+_OOS_PATTERNS = re.compile(
+    r"(?:^|[\s,.;(])"
+    r"(no disponible|no disponible temporalmente|no disponible temporalment|"
+    r"sin stock|agotado|no hay existencias|no hay suficientes unidades|"
+    r"actualmente no disponible|desconocida disponibilidad|"
+    r"currently unavailable|temporarily out of stock)"
+    r"(?:$|[\s,.;)]|\b)",
+    re.IGNORECASE,
+)
+
+
+def _availability_clean_text(soup: BeautifulSoup) -> str:
+    """Text visible dels blocs d'estoc d'Amazon (sense <script>/<style>).
+
+    No modifica el `soup` original (parseja una còpia del subarbre).
+    """
+    parts: list[str] = []
+    for sel in ("#availability", "#availability-brief", "#outOfStock"):
+        el = soup.select_one(sel)
+        if not el:
+            continue
+        frag = BeautifulSoup(str(el), "html.parser")
+        for bad in frag.find_all(["script", "style"]):
+            bad.decompose()
+        t = frag.get_text(" ", strip=True).lower()
+        if t:
+            parts.append(t)
+    return " ".join(parts)
+
 
 HEADERS = {
     "User-Agent": (
@@ -52,6 +105,121 @@ HEADERS = {
     "Connection": "keep-alive",
     "DNT": "1",
 }
+
+
+# ---------------------------------------------------------------------------
+# Eliminació de productes (no disponible / valoració baixa)
+# ---------------------------------------------------------------------------
+
+def is_captcha_page(soup: BeautifulSoup) -> bool:
+    txt = soup.get_text(" ", strip=True).lower()
+    markers = (
+        "introduce los caracteres",
+        "enter the characters",
+        "discúlpenos",
+        "robot check",
+        "automated access",
+    )
+    return any(m in txt for m in markers)
+
+
+def detect_product_unavailable(soup: BeautifulSoup, *, has_price: bool) -> bool:
+    """True només si no hi ha preu vàlid i el missatge d'estoc és clarament d'esgotament.
+
+    Si Amazon mostra un preu d'compra vàlid (`has_price`), mai es considera
+    no disponible (evita falsos positius del títol, mòduls relacionats, etc.).
+    """
+    if has_price:
+        return False
+    blob = _availability_clean_text(soup)
+    if not blob.strip():
+        return False
+    # Senyals forts de producte comprable sense preu llegit (p. ex. parser desactualitzat)
+    if re.search(r"\ben stock\b", blob, re.IGNORECASE):
+        return False
+    if re.search(r"\bdisponible\b", blob, re.IGNORECASE) and not re.search(
+        r"no\s+disponible", blob, re.IGNORECASE
+    ):
+        return False
+    return bool(_OOS_PATTERNS.search(blob))
+
+
+def remove_product_from_disk(slug: str) -> None:
+    """Elimina carpeta de contingut i d'imatges del producte (rutes sota el repo)."""
+    art = (ARTICULOS_DIR / slug).resolve()
+    img = (IMAGES_DIR / slug).resolve()
+    root = ROOT.resolve()
+    if not str(art).startswith(str(root)) or art.name != slug:
+        raise RuntimeError(f"Refús d'eliminar ruta insegura: {art}")
+    if not str(img).startswith(str(root)):
+        raise RuntimeError(f"Refús d'eliminar ruta insegura: {img}")
+    if art.is_dir():
+        shutil.rmtree(art)
+    if img.is_dir():
+        shutil.rmtree(img)
+
+
+def _find_new_products_script() -> Path:
+    return Path(__file__).resolve().parent / "find_new_products.py"
+
+
+def _refill_supported_categories() -> set[str]:
+    """Categories per les quals `find_new_products.py` té `CATEGORY_QUERIES`."""
+    try:
+        import find_new_products as fnp  # noqa: PLC0415
+
+        return set(fnp.CATEGORY_QUERIES.keys())
+    except Exception:
+        return set()
+
+
+def maybe_refill_deleted(
+    removed_by_cat: Counter[str],
+    *,
+    dry_run: bool,
+    do_refill: bool,
+) -> None:
+    """Per cada secció amb N eliminacions, crida find_new_products per buscar N candidats nous."""
+    if not do_refill or not removed_by_cat:
+        return
+
+    supported = _refill_supported_categories()
+    actionable = [
+        (c, n)
+        for c, n in removed_by_cat.items()
+        if c and c != "Sense categoria" and n > 0 and c in supported
+    ]
+    if not actionable:
+        return
+
+    print("\n" + "=" * 60)
+    print("REFILL (substituir eliminats amb nous productes a Amazon)")
+    if dry_run:
+        for cat, n in sorted(actionable, key=lambda x: (-x[1], x[0])):
+            print(
+                f"  · «{cat}» ({n} baixa/es): s'hauria executat\n"
+                f"      python scripts/find_new_products.py --only={cat!r} --per-category={n}"
+            )
+        print("  (amb --dry-run no es crida el script ni es creen fitxes)\n")
+        return
+
+    script = _find_new_products_script()
+    if not script.is_file():
+        print(f"  ERROR: no trobo {script}")
+        return
+
+    for cat, n in sorted(actionable, key=lambda x: (-x[1], x[0])):
+        cmd = [
+            sys.executable,
+            str(script),
+            f"--only={cat}",
+            f"--per-category={n}",
+        ]
+        print(f"\n  ▶ {' '.join(cmd)}")
+        proc = subprocess.run(cmd, cwd=str(ROOT))
+        if proc.returncode != 0:
+            print(f"     ⚠ find_new_products ha acabat amb codi {proc.returncode}")
+    print()
 
 
 # ---------------------------------------------------------------------------
@@ -303,7 +471,7 @@ def extract_monthly_sales(soup: BeautifulSoup) -> int | None:
 # ---------------------------------------------------------------------------
 
 def fetch_product_data(url: str, session: requests.Session) -> dict:
-    """Retorna {precio?, precioOriginal?, descuentoPct?, ventas?}."""
+    """Retorna camps d'actualització o `_delete_reason` si cal eliminar el producte."""
     out: dict = {}
     try:
         resp = session.get(url, headers=HEADERS, timeout=20)
@@ -314,12 +482,34 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
 
     soup = BeautifulSoup(resp.text, "html.parser")
 
+    if is_captcha_page(soup):
+        print("  ⚠ CAPTCHA d'Amazon: no s'actualitza ni elimina aquest producte.")
+        return out
+
     current = extract_current_price(soup)
+    rating = extract_rating(soup)
+    rating_count = extract_rating_count(soup)
+
+    unavailable = detect_product_unavailable(soup, has_price=(current is not None))
+    delete_reason: str | None = None
+    if unavailable:
+        delete_reason = "no_disponible"
+    elif rating is not None and rating < MIN_CATALOG_RATING:
+        delete_reason = "valoracio_baixa"
+
+    if delete_reason:
+        out["_delete_reason"] = delete_reason
+        out["_has_price"] = current is not None
+        out["_has_offer"] = False
+        if rating is not None and rating < MIN_CATALOG_RATING:
+            print(f"  · valoració PDP: {rating} (< {MIN_CATALOG_RATING})")
+        if unavailable:
+            print("  · Amazon indica no disponible / sense estoc")
+        return out
+
     original = extract_original_price(soup, current)
     discount = extract_discount_pct(soup)
     sales = extract_monthly_sales(soup)
-    rating = extract_rating(soup)
-    rating_count = extract_rating_count(soup)
 
     if current:
         out["precio"] = _euro_str(current)
@@ -346,15 +536,10 @@ def fetch_product_data(url: str, session: requests.Session) -> dict:
     if sales:
         out["ventas"] = int(sales)
 
-    if rating is not None:
-        if rating >= MIN_CATALOG_RATING:
-            out["valoracion"] = round(rating, 1)
-            if rating_count is not None:
-                out["valoracionesCount"] = int(rating_count)
-        else:
-            # La fitxa PDP pot tenir nota més baixa que el llistat de cerca;
-            # no persistim valoracions per sota del llindar del catàleg.
-            out["_strip_low_rating"] = True
+    if rating is not None and rating >= MIN_CATALOG_RATING:
+        out["valoracion"] = round(rating, 1)
+        if rating_count is not None:
+            out["valoracionesCount"] = int(rating_count)
 
     # Marcadors auxiliars per al pipeline (no s'escriuen al JSON).
     out["_has_price"] = current is not None
@@ -380,6 +565,7 @@ def save_json(path: Path, data: dict):
 
 def parse_args(argv: list[str]) -> dict:
     dry_run = "--dry-run" in argv
+    refill_deleted = "--refill-deleted" in argv
     only = None
     limit = None
     for a in argv:
@@ -390,7 +576,7 @@ def parse_args(argv: list[str]) -> dict:
                 limit = int(a.split("=", 1)[1])
             except ValueError:
                 pass
-    return {"dry_run": dry_run, "only": only, "limit": limit}
+    return {"dry_run": dry_run, "only": only, "limit": limit, "refill_deleted": refill_deleted}
 
 
 def main():
@@ -409,6 +595,9 @@ def main():
 
     updated = []
     failed = []
+    removed_by_cat: Counter[str] = Counter()
+    removed_by_reason: Counter[str] = Counter()
+    n_removed = 0
 
     for json_path in products:
         data = load_json(json_path)
@@ -446,6 +635,26 @@ def main():
             name_changed = True
 
         new_data = fetch_product_data(url, session)
+        delete_reason = new_data.pop("_delete_reason", None)
+
+        if delete_reason:
+            cat = (data.get("categoria") or "").strip() or "Sense categoria"
+            label = {
+                "no_disponible": "no disponible a Amazon",
+                "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
+            }.get(delete_reason, delete_reason)
+            if dry_run:
+                print(f"  -> [DRY RUN] s'eliminaria ({label}) — secció: «{cat}»")
+            else:
+                remove_product_from_disk(slug)
+                print(f"  -> ELIMINAT ({label}) — secció: «{cat}»")
+            removed_by_cat[cat] += 1
+            removed_by_reason[delete_reason] += 1
+            n_removed += 1
+            delay = random.uniform(3, 7)
+            print(f"  (esperant {delay:.1f}s...)\n")
+            time.sleep(delay)
+            continue
 
         if not new_data:
             print(f"  -> NO TROBAT (preu/valoració no actualitzats)")
@@ -460,7 +669,6 @@ def main():
         else:
             has_price = new_data.pop("_has_price", False)
             has_offer = new_data.pop("_has_offer", False)
-            strip_low_rating = new_data.pop("_strip_low_rating", False)
 
             changed_keys = []
             for k in ("precio", "precioOriginal", "descuentoPct", "ventas", "valoracion", "valoracionesCount"):
@@ -489,15 +697,6 @@ def main():
                         if not dry_run:
                             data.pop(k, None)
 
-            if strip_low_rating:
-                for k in ("valoracion", "valoracionesCount"):
-                    if k in data:
-                        changed_keys.append(
-                            f"{k}: {data[k]} -> (nota < {MIN_CATALOG_RATING}) net"
-                        )
-                        if not dry_run:
-                            data.pop(k, None)
-
             if changed_keys or name_changed or slug_added:
                 if not dry_run:
                     save_json(json_path, data)
@@ -517,8 +716,35 @@ def main():
         print(f"  (esperant {delay:.1f}s...)\n")
         time.sleep(delay)
 
+    print("=" * 60)
+    print("ELIMINACIONS (no disponible o valoració < {:.1f})".format(MIN_CATALOG_RATING))
+    if dry_run and n_removed:
+        print(f"  S'haurien eliminat: {n_removed} producte(s)")
+    elif not dry_run and n_removed:
+        print(f"  Total eliminats: {n_removed} producte(s)")
+    else:
+        print("  Cap eliminació en aquesta execució.")
+    if n_removed:
+        print("  Per secció (camp «categoria» al JSON):")
+        for cat, cnt in sorted(removed_by_cat.items(), key=lambda x: (-x[1], x[0])):
+            print(f"    · {cat}: {cnt}")
+        if removed_by_reason:
+            print("  Per motiu:")
+            for reason, cnt in sorted(removed_by_reason.items(), key=lambda x: (-x[1], x[0])):
+                lbl = {
+                    "no_disponible": "no disponible",
+                    "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
+                }.get(reason, reason)
+                print(f"    · {lbl}: {cnt}")
+
+    maybe_refill_deleted(
+        removed_by_cat,
+        dry_run=dry_run,
+        do_refill=args["refill_deleted"],
+    )
+
     # -----------------------------------------------------------------------
-    # Resums Top 6
+    # Resums Top 6 (després del refill per reflectir nous ítems)
     # -----------------------------------------------------------------------
     all_products: list[dict] = []
     for json_path in sorted(ARTICULOS_DIR.glob("*/index.json")):
@@ -539,7 +765,12 @@ def main():
     )[:6]
 
     top_rated = sorted(
-        [p for p in all_products if isinstance(p.get("valoracion"), (int, float)) and p["valoracion"] > 0],
+        [
+            p
+            for p in all_products
+            if isinstance(p.get("valoracion"), (int, float))
+            and p["valoracion"] >= MIN_CATALOG_RATING
+        ],
         key=lambda p: (p["valoracion"], p.get("valoracionesCount", 0) or 0),
         reverse=True,
     )[:5]
@@ -575,7 +806,9 @@ def main():
             print(f"  {name}: {reason}")
 
     if dry_run:
-        print("\n[DRY RUN] No s'ha escrit res.")
+        print("\n[DRY RUN] Cap canvi al disc: ni JSON actualitzats ni carpetes eliminades.")
+        if args["refill_deleted"]:
+            print("         (--refill-deleted: les crides a find_new_products només s'han llistat més amunt.)")
 
 
 if __name__ == "__main__":

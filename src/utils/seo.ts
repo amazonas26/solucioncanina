@@ -36,7 +36,7 @@ export function websiteSchema() {
     inLanguage: 'es-ES',
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/productos?q={search_term_string}`,
+      target: `${SITE_URL}/productos?search={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };
@@ -148,6 +148,31 @@ export function productSchema(input: ProductInput) {
   }
 
   return schema;
+}
+
+export interface CollectionPageInput {
+  name: string;
+  description?: string;
+  url: string;
+  numberOfItems?: number;
+}
+
+export function collectionPageSchema(input: CollectionPageInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: input.name,
+    description: input.description,
+    url: absUrl(input.url),
+    inLanguage: 'es-ES',
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+    ...(input.numberOfItems !== undefined && {
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: input.numberOfItems,
+      },
+    }),
+  };
 }
 
 export interface ListItem {

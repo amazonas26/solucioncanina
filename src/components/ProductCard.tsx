@@ -160,7 +160,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <a
             href={linkAmazon}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="sponsored nofollow noopener noreferrer"
             className="flex items-center justify-center w-full px-2 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-black text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-xl transition-all shadow-sm hover:shadow-orange-500/20 active:scale-[0.98]"
           >
             <span className="hidden xs:inline">Ver mejor precio</span>

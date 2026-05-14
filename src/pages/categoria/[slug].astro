@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import SearchableGrid from '../../components/SearchableGrid';
 import { getCollection } from 'astro:content';
 import { slugify } from '../../utils/slugify';
-import { itemListSchema, breadcrumbSchema } from '../../utils/seo';
+import { itemListSchema, breadcrumbSchema, collectionPageSchema } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -35,6 +35,12 @@ const categoryBreadcrumbJsonLd = breadcrumbSchema([
   { name: 'Inicio', url: '/' },
   { name: category, url: categoryUrl },
 ]);
+const categoryPageJsonLd = collectionPageSchema({
+  name: category,
+  description: `Productos para perros en la categoría ${category.toLowerCase()}.`,
+  url: categoryUrl,
+  numberOfItems: filteredArticulos.length,
+});
 const categoryDescription = `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}: comparativa, precios y reseñas verificadas.`;
 ---
 
@@ -42,7 +48,7 @@ const categoryDescription = `Selección curada de ${filteredArticulos.length} ${
   title={category}
   description={categoryDescription}
   categories={categories}
-  jsonLd={[categoryListJsonLd, categoryBreadcrumbJsonLd]}
+  jsonLd={[categoryPageJsonLd, categoryListJsonLd, categoryBreadcrumbJsonLd]}
 >
   <div class="mb-10">
     <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">

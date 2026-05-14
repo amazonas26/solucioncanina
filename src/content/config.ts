@@ -31,6 +31,9 @@ const blogCollection = defineCollection({
     descripcion: z.string().optional(),
     imagen: z.string().optional(),
     categoria: z.enum(['comportamiento', 'guias', 'salud', 'alimentacion']).default('guias'),
+    autor: z.string().default('Equipo Solución Canina'),
+    fechaPublicacion: z.coerce.date().optional(),
+    fechaActualizacion: z.coerce.date().optional(),
   }),
 });
 

@@ -42,12 +42,22 @@ const catLabels = {
 const categoryLabel = catLabels[post.data.categoria as keyof typeof catLabels] || 'Blog';
 
 const postUrl = `/blog/${post.slug}`;
+const fechaPub = post.data.fechaPublicacion ?? new Date();
+const fechaMod = post.data.fechaActualizacion ?? fechaPub;
+const fechaFmt = new Intl.DateTimeFormat('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+const fechaPubTxt = fechaFmt.format(fechaPub);
+const fechaModTxt = fechaFmt.format(fechaMod);
+const showUpdated = fechaMod.getTime() !== fechaPub.getTime();
+
 const articleJsonLd = articleSchema({
   title: post.data.titulo,
   description: post.data.descripcion,
   image: post.data.imagen,
   url: postUrl,
   section: categoryLabel,
+  author: post.data.autor,
+  datePublished: fechaPub.toISOString(),
+  dateModified: fechaMod.toISOString(),
 });
 const breadcrumbJsonLd = breadcrumbSchema([
   { name: 'Inicio', url: '/' },
@@ -88,6 +98,17 @@ const breadcrumbJsonLd = breadcrumbSchema([
           {post.data.descripcion}
         </p>
       )}
+      <p class="mt-5 text-xs font-medium text-neutral-400">
+        <span>Por <span class="text-neutral-600">{post.data.autor}</span></span>
+        <span class="mx-1.5 text-neutral-300">·</span>
+        <span>Publicado <time datetime={fechaPub.toISOString()}>{fechaPubTxt}</time></span>
+        {showUpdated && (
+          <>
+            <span class="mx-1.5 text-neutral-300">·</span>
+            <span>Actualizado <time datetime={fechaMod.toISOString()}>{fechaModTxt}</time></span>
+          </>
+        )}
+      </p>
     </header>
 
     {/* Image */}
@@ -100,6 +121,7 @@ const breadcrumbJsonLd = breadcrumbSchema([
           height="675"
           loading="eager"
           decoding="async"
+          fetchpriority="high"
           class="w-full h-auto aspect-video object-cover"
         />
       </figure>
