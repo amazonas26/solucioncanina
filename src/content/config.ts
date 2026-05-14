@@ -34,6 +34,10 @@ const blogCollection = defineCollection({
     autor: z.string().default('Equipo Solución Canina'),
     fechaPublicacion: z.coerce.date().optional(),
     fechaActualizacion: z.coerce.date().optional(),
+    faqs: z.array(z.object({
+      pregunta: z.string(),
+      respuesta: z.string(),
+    })).optional(),
   }),
 });
 

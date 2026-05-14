@@ -181,6 +181,26 @@ export interface ListItem {
   image?: string;
 }
 
+export interface FaqItem {
+  pregunta: string;
+  respuesta: string;
+}
+
+export function faqPageSchema(items: FaqItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((it) => ({
+      '@type': 'Question',
+      name: it.pregunta,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: it.respuesta,
+      },
+    })),
+  };
+}
+
 export function itemListSchema(items: ListItem[], name: string) {
   return {
     '@context': 'https://schema.org',
