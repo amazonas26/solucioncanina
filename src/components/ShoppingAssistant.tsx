@@ -272,12 +272,18 @@ export default function ShoppingAssistant({ articulos }: Props) {
               {QUESTIONS[step].subtitle}
             </p>
 
-            <div className={`grid gap-5 w-full mx-auto ${step === 0 ? 'max-w-md grid-cols-1' : 'max-w-5xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3'}`}>
-              {QUESTIONS[step].options.map((opt, i) => (
+            <div className={step === 0 
+              ? "flex justify-center w-full" 
+              : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-5xl mx-auto"
+            }>
+              {QUESTIONS[step].options.map((opt) => (
                 <button
                   key={opt.value}
                   onClick={() => handleOptionClick(opt.value)}
-                  className={`relative overflow-hidden group flex ${step === 0 ? 'justify-center items-center bg-navy-700 text-white p-6 md:p-8 rounded-2xl' : 'text-left flex-col bg-white p-4 md:p-5 rounded-xl'} border-2 ${step === 0 ? 'border-navy-700' : 'border-neutral-200'} hover:border-primary-500 hover:shadow-xl transition-all hover:-translate-y-1.5`}
+                  className={step === 0 
+                    ? "bg-navy-700 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-xl hover:bg-navy-800 hover:-translate-y-1 transition-all cursor-pointer"
+                    : "relative overflow-hidden group flex text-left flex-col bg-white p-5 rounded-xl border-2 border-neutral-200 hover:border-primary-500 hover:shadow-xl transition-all hover:-translate-y-1.5 cursor-pointer"
+                  }
                 >
                   {step !== 0 && (
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
