@@ -6,7 +6,7 @@ description: >
   busca el preu actual, preu original i descompte a Amazon.es via web search, i sobreescriu
   els camps `precio`, `precioOriginal` i `descuentoPct` al JSON.
   Usa aquesta skill sempre que l'usuari vulgui actualitzar preus, estoc o descomptes de productes,
-  mencioni "fetch-product", "actualitzar productes", "preus Amazon", o llanci `npm run fetch-product-images`.
+  mencioni "fetch-product", "actualitzar productes", "preus Amazon", o llanci `pnpm run fetch-product-images`.
 ---
 
 # Fetch Product Data — Skill
@@ -145,5 +145,5 @@ Quan l'usuari demana actualitzar-los tots, processa'ls en seqüència i mostra e
 - "Fes un fetch dels productes"
 - "Comprova si han canviat els preus a Amazon"
 - "Actualitza el preu del julius-k9"
-- `npm run fetch-product-images` (l'usuari menciona que l'ha llançat)
+- `pnpm run fetch-product-images` (l'usuari menciona que l'ha llançat)
 - "Hi ha descomptes nous a Amazon?"

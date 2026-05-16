@@ -842,8 +842,8 @@ def main():
         print("\n[NO-CREATE] Solo se ha listado. Ejecuta sin --no-create/--dry-run para crear las fichas.")
     print(
         "\nSiguientes pasos sugeridos:"
-        "\n  1. Revisa las fichas en Keystatic (npm run dev → /keystatic) y rellena la descripción."
-        "\n  2. Ejecuta: npm run fetch-product-images   # para imagen de alta resolución."
+        "\n  1. Revisa las fichas (pnpm run dev) y rellena la descripción."
+        "\n  2. Ejecuta: pnpm run fetch-product-images   # para imagen de alta resolución."
         "\n  3. Ejecuta: python scripts/update_prices.py # para descuentos y ventas."
     )
 

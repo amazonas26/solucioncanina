@@ -5,8 +5,10 @@
   "linkAmazon": "https://www.amazon.es/dp/B06XKNKQPG",
   "categoria": "Alimentación específica",
   "marca": "Veterinary",
-  "precio": "84.82€",
+  "precio": "85.32€",
   "imagen": "/images/articulos/veterinary-hpm-virbac-hpm-perro-k1/imagen.jpg",
   "valoracion": 4.6,
-  "valoracionesCount": 255
+  "valoracionesCount": 256,
+  "precioOriginal": "88.81€",
+  "descuentoPct": 4
 }
