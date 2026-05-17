@@ -141,3 +141,312 @@
   background: #3C9E91;
   color: white;
 }
+
+/* ==========================================================================
+   PREMIUM EDITORIAL BLOG & ARTICLES STYLING SYSTEM
+   ========================================================================== */
+
+/* Container and base typography settings */
+.prose {
+  max-width: 52rem; /* 832px - ideal reading width */
+  font-family: var(--font-sans);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.85;
+  color: var(--color-neutral-700);
+}
+
+/* Beautiful Dropcap for the first letter of the first paragraph */
+.prose > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--color-primary-600);
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.65rem;
+  margin-top: 0.25rem;
+  text-shadow: 2px 2px 0px var(--color-primary-50);
+}
+
+/* Elegant and bold Paragraph spacings */
+.prose p {
+  margin-bottom: 1.75rem;
+  text-wrap: pretty;
+}
+
+/* Stunning headings styling */
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem; /* 32px */
+  font-weight: 900;
+  color: var(--color-navy-800);
+  border-left: 5px solid var(--color-primary-500);
+  padding-left: 1.25rem;
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem; /* 24px */
+  font-weight: 800;
+  color: var(--color-navy-700);
+  margin-top: 2.5rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.prose h4 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem; /* 20px */
+  font-weight: 700;
+  color: var(--color-navy-600);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Beautiful themed separators (Paw divider 🐾) */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-neutral-300), transparent);
+  margin: 3.5rem 0;
+  position: relative;
+  overflow: visible;
+}
+
+.prose hr::after {
+  content: '🐾';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 0 1rem;
+  color: var(--color-primary-500);
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.prose hr:hover::after {
+  transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+}
+
+/* Customized premium list styling */
+.prose ul {
+  list-style: none;
+  padding-left: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.prose ul li {
+  position: relative;
+  margin-bottom: 0.65rem;
+  padding-left: 1.75rem;
+}
+
+.prose ul li::before {
+  content: "•";
+  color: var(--color-primary-500);
+  font-weight: 800;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 0.25rem;
+  top: -0.2rem;
+  line-height: 1;
+}
+
+.prose ol {
+  counter-reset: custom-counter;
+  list-style: none;
+  padding-left: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.prose ol li {
+  counter-increment: custom-counter;
+  position: relative;
+  margin-bottom: 0.65rem;
+  padding-left: 1.75rem;
+}
+
+.prose ol li::before {
+  content: counter(custom-counter) ".";
+  color: var(--color-primary-600);
+  font-weight: 800;
+  font-size: 1.05rem;
+  position: absolute;
+  left: 0.25rem;
+  top: 0;
+  font-family: var(--font-sans);
+}
+
+/* Beautiful inline links styling */
+.prose p a, .prose li a {
+  color: var(--color-primary-600);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-primary-200);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 0.15rem;
+}
+
+.prose p a:hover, .prose li a:hover {
+  color: var(--color-primary-700);
+  border-bottom-color: var(--color-primary-600);
+  background-color: var(--color-primary-50);
+  border-radius: 4px;
+}
+
+/* Automatically style bold inline markdown links (**[text](url)**) as badges */
+.prose strong a, .prose a strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%);
+  color: var(--color-primary-800) !important;
+  border: 1px solid var(--color-primary-200);
+  padding: 0.15rem 0.65rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-decoration: none !important;
+  border-bottom: 1px solid var(--color-primary-200) !important; /* Override standard link style */
+  box-shadow: 0 1px 3px rgba(60, 158, 145, 0.05);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin: 0 0.1rem;
+}
+
+.prose strong a:hover, .prose a strong:hover {
+  background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%);
+  color: var(--color-primary-900) !important;
+  border-color: var(--color-primary-300);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 8px rgba(60, 158, 145, 0.12);
+  background-color: transparent !important; /* Cancel standard link hover bg */
+}
+
+/* Style images and their captions */
+.prose figure {
+  margin: 2.5rem 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  width: 100%;
+  height: auto;
+}
+
+/* Beautiful inline product recommendation grids inside articles */
+.prose .grid {
+  margin: 2.5rem 0;
+}
+
+.prose .grid .border-neutral-200 {
+  border: 1px solid var(--color-neutral-200) !important;
+  background-color: var(--color-neutral-50) !important;
+  border-radius: 1.25rem !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.prose .grid .border-neutral-200::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary-400), var(--color-navy-500));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.prose .grid .border-neutral-200:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary-300) !important;
+  background-color: white !important;
+  box-shadow: 0 16px 32px rgba(60, 158, 145, 0.08) !important;
+}
+
+.prose .grid .border-neutral-200:hover::before {
+  opacity: 1;
+}
+
+/* Style CTA button inside article recommendation grids to be solid & premium */
+.prose .grid a[href^="/producto/"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  padding: 0.75rem 1.25rem !important;
+  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%) !important;
+  color: white !important;
+  font-weight: 800 !important;
+  border-radius: 0.85rem !important;
+  font-size: 0.875rem !important;
+  text-decoration: none !important;
+  border: none !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 10px rgba(47, 127, 117, 0.15) !important;
+  margin-top: 0.5rem;
+}
+
+.prose .grid a[href^="/producto/"]:hover {
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%) !important;
+  transform: translateY(-1.5px) !important;
+  box-shadow: 0 6px 16px rgba(47, 127, 117, 0.25) !important;
+}
+
+/* Beautiful custom formatting for not-prose boxes */
+.not-prose.bg-blue-50 {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.75) 0%, rgba(219, 234, 254, 0.5) 100%) !important;
+  border: none !important;
+  border-left: 5px solid #2563eb !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.04);
+  padding: 1.5rem !important;
+  transition: transform 0.2s ease;
+}
+
+.not-prose.bg-blue-50:hover {
+  transform: scale(1.005);
+}
+
+.not-prose.bg-red-50 {
+  background: linear-gradient(135deg, rgba(254, 242, 242, 0.75) 0%, rgba(254, 226, 226, 0.5) 100%) !important;
+  border: none !important;
+  border-left: 5px solid #dc2626 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.04);
+  padding: 1.5rem !important;
+  transition: transform 0.2s ease;
+}
+
+.not-prose.bg-red-50:hover {
+  transform: scale(1.005);
+}
+
+.not-prose.bg-primary-50 {
+  background: linear-gradient(135deg, rgba(238, 249, 247, 0.75) 0%, rgba(213, 240, 236, 0.5) 100%) !important;
+  border: none !important;
+  border-left: 5px solid var(--color-primary-500) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 16px rgba(60, 158, 145, 0.04);
+  padding: 1.5rem !important;
+  transition: transform 0.2s ease;
+}
+
+.not-prose.bg-primary-50:hover {
+  transform: scale(1.005);
+}

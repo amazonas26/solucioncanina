@@ -80,7 +80,7 @@ const allBlogJsonLd = faqJsonLd
   jsonLd={allBlogJsonLd}
   categories={categories}
 >
-  <article class="max-w-3xl mx-auto py-8">
+  <article class="max-w-3xl mx-auto py-8 px-4 md:px-0">
     
     {/* Breadcrumbs */}
     <nav aria-label="Breadcrumb" class="flex mb-8 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
@@ -92,34 +92,46 @@ const allBlogJsonLd = faqJsonLd
     </nav>
 
     {/* Header */}
-    <header class="mb-10 text-center">
-      <span class="inline-block px-3 py-1 bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-wider rounded-md mb-4 border border-primary-100">
+    <header class="mb-12 text-center">
+      <span class="inline-block px-3.5 py-1.5 bg-primary-50/80 text-primary-700 text-[10px] font-black uppercase tracking-[0.15em] rounded-full mb-5 border border-primary-100/60 shadow-sm backdrop-blur-sm">
         {categoryLabel}
       </span>
-      <h1 class="text-3xl md:text-5xl font-serif font-black text-neutral-900 leading-tight mb-6">
+      <h1 class="text-3xl md:text-5xl font-serif font-black text-neutral-900 leading-[1.15] mb-6 tracking-tight">
         {post.data.titulo}
       </h1>
       {post.data.descripcion && (
-        <p class="text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed">
+        <p class="text-lg md:text-xl font-serif text-neutral-500/90 max-w-2xl mx-auto leading-relaxed italic mb-8">
           {post.data.descripcion}
         </p>
       )}
-      <p class="mt-5 text-xs font-medium text-neutral-400">
-        <span>Por <span class="text-neutral-600">{post.data.autor}</span></span>
-        <span class="mx-1.5 text-neutral-300">·</span>
-        <span>Publicado <time datetime={fechaPub.toISOString()}>{fechaPubTxt}</time></span>
+      
+      <div class="mt-8 flex items-center justify-center gap-3 text-xs text-neutral-400 border-y border-neutral-100 py-3.5 max-w-lg mx-auto">
+        <div class="flex items-center gap-1.5">
+          <span class="p-1 bg-neutral-50 rounded-full text-neutral-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <span class="font-bold text-neutral-600">{post.data.autor}</span>
+        </div>
+        <span class="text-neutral-200">|</span>
+        <div class="flex items-center gap-1.5">
+          <span>Publicado:</span>
+          <time datetime={fechaPub.toISOString()} class="font-semibold text-neutral-500">{fechaPubTxt}</time>
+        </div>
         {showUpdated && (
           <>
-            <span class="mx-1.5 text-neutral-300">·</span>
-            <span>Actualizado <time datetime={fechaMod.toISOString()}>{fechaModTxt}</time></span>
+            <span class="text-neutral-200">|</span>
+            <div class="flex items-center gap-1.5">
+              <span>Actualizado:</span>
+              <time datetime={fechaMod.toISOString()} class="font-semibold text-neutral-500">{fechaModTxt}</time>
+            </div>
           </>
         )}
-      </p>
+      </div>
     </header>
 
     {/* Image */}
     {post.data.imagen && (
-      <figure class="mb-12 rounded-2xl overflow-hidden border border-neutral-200 shadow-sm">
+      <figure class="mb-12 rounded-3xl overflow-hidden border border-neutral-200/60 shadow-lg shadow-neutral-100/50">
         <img
           src={post.data.imagen}
           alt={post.data.titulo}
@@ -139,27 +151,28 @@ const allBlogJsonLd = faqJsonLd
     </div>
 
     {related && related.length > 0 && (
-      <section class="mt-16 pt-10 border-t border-neutral-200">
-        <h2 class="text-xl sm:text-2xl font-serif font-black text-neutral-900 mb-6 text-center">Artículos relacionados</h2>
+      <section class="mt-20 pt-12 border-t border-neutral-150">
+        <h2 class="text-2xl font-serif font-black text-neutral-900 mb-8 text-center tracking-tight">Artículos relacionados</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {related.map((r) => (
-            <a href={`/blog/${r.slug}`} class="group block bg-white border border-neutral-200 rounded-xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
+            <a href={`/blog/${r.slug}`} class="group block bg-white border border-neutral-100 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-neutral-100 hover:-translate-y-1 transition-all duration-300">
               {r.imagen && (
-                <div class="aspect-video overflow-hidden bg-neutral-100">
+                <div class="aspect-[16/10] overflow-hidden bg-neutral-50 relative">
                   <img
                     src={r.imagen}
                     alt={r.titulo}
                     width="400"
-                    height="225"
+                    height="250"
                     loading="lazy"
                     decoding="async"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               )}
-              <div class="p-4">
-                <h3 class="text-sm font-bold text-neutral-900 leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">{r.titulo}</h3>
-                {r.descripcion && <p class="mt-2 text-xs text-neutral-500 line-clamp-2">{r.descripcion}</p>}
+              <div class="p-5">
+                <h3 class="text-sm font-bold text-neutral-900 leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors font-serif mb-2">{r.titulo}</h3>
+                {r.descripcion && <p class="text-xs text-neutral-500 line-clamp-2 leading-relaxed">{r.descripcion}</p>}
               </div>
             </a>
           ))}
@@ -168,12 +181,20 @@ const allBlogJsonLd = faqJsonLd
     )}
 
     {/* Footer / CTA */}
-    <div class="mt-16 pt-8 border-t border-neutral-200 text-center">
-      <h3 class="text-xl font-serif font-bold text-neutral-900 mb-4">¿Encontraste lo que buscabas?</h3>
-      <p class="text-neutral-500 mb-6">Explora nuestro catálogo completo de soluciones para tu perro.</p>
-      <a href="/#articulos" class="inline-flex items-center gap-2 px-8 py-3.5 bg-navy-700 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors shadow-sm">
+    <div class="mt-20 rounded-3xl bg-gradient-to-br from-navy-800 to-navy-900 p-8 sm:p-12 text-center text-white relative overflow-hidden shadow-xl shadow-navy-900/10 group/cta">
+      <div class="absolute -right-16 -bottom-16 opacity-5 group-hover/cta:scale-110 transition-transform duration-500 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <span class="inline-block px-3 py-1 bg-primary-500/20 text-primary-300 text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-4 border border-primary-400/25">
+        Catálogo Completo
+      </span>
+      <h3 class="text-2xl sm:text-3xl font-serif font-black text-white mb-3 tracking-tight">¿Encontraste lo que buscabas?</h3>
+      <p class="text-neutral-300 max-w-md mx-auto mb-8 text-sm leading-relaxed">
+        Explora cientos de análisis honestos y recomendaciones personalizadas para la salud, alimentación y felicidad de tu compañero.
+      </p>
+      <a href="/#articulos" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-50 to-primary-100 hover:from-primary-100 hover:to-primary-200 text-primary-900 font-black text-sm rounded-xl transition-all duration-300 shadow-lg shadow-white/5 hover:shadow-white/10 hover:-translate-y-0.5 active:translate-y-0">
         Ver todos los productos
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/cta:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
 
