@@ -2,12 +2,14 @@
   "nombre": "Cama Ortopédica Grande Viscoelástica",
   "descripcion": "Cama ortopédica de espuma viscoelástica de alta densidad para perros grandes. Con funda extraíble y lavable, reborde acolchado y base antideslizante.",
   "imagen": "/images/articulos/joyelf-cama-ortopedica-grande/imagen.jpg",
-  "precio": "89.99€",
+  "precio": "59.16€",
   "linkAmazon": "https://www.amazon.es/dp/B06XQ492N8",
   "categoria": "Camas ortopédicas",
   "marca": "JOYELF",
   "ventas": 50,
   "valoracion": 4.6,
   "slug": "joyelf-cama-ortopedica-grande-viscoelastica",
-  "valoracionesCount": 30209
+  "valoracionesCount": 30210,
+  "precioOriginal": "89.99€",
+  "descuentoPct": 34
 }
