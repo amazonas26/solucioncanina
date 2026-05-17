@@ -87,12 +87,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Content */}
       <div className="flex flex-col flex-grow p-3 sm:p-4">
-        {marca && (
-          <div className="flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold text-neutral-400 mb-1 sm:mb-1.5 uppercase tracking-wider">
-            <Package size={8} className="sm:w-2.5 sm:h-2.5" />
-            {marca}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-1.5 mb-1 sm:mb-1.5">
+          {marca && (
+            <div className="flex items-center gap-1 text-[9px] sm:text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+              <Package size={8} className="sm:w-2.5 sm:h-2.5" />
+              {marca}
+            </div>
+          )}
+          {marca && ['ADVANCE', 'LENDA', 'ARTERO'].includes(marca.toUpperCase()) && (
+            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[8px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 rounded-md">
+              🇪🇸 MARCA ESPAÑOLA
+            </span>
+          )}
+          {categoria === 'Alimentación específica' && (
+            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[8px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200 rounded-md">
+              🩺 DIETA CLÍNICA
+            </span>
+          )}
+        </div>
 
         <a href={detailUrl} className="block">
           <h3 className="text-xs sm:text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-1.5 sm:mb-2 font-serif">
