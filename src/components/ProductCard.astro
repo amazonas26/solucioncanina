@@ -65,11 +65,23 @@ const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RA
   
   <!-- Content -->
   <div class="flex flex-col flex-grow p-4">
-    {marca && (
-      <p class="text-[10px] font-semibold text-neutral-400 mb-1.5 uppercase tracking-wider">
-        {marca}
-      </p>
-    )}
+    <div class="flex flex-wrap items-center gap-2 mb-1.5">
+      {marca && (
+        <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+          {marca}
+        </p>
+      )}
+      {marca && ["ADVANCE", "LENDA", "ARTERO"].includes(marca.toUpperCase()) && (
+        <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[8px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 rounded-md">
+          🇪🇸 MARCA ESPAÑOLA
+        </span>
+      )}
+      {categoria === "Alimentación específica" && (
+        <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[8px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200 rounded-md">
+          🩺 DIETA CLÍNICA
+        </span>
+      )}
+    </div>
     
     <a href={detailUrl} class="block">
       <h3 class="text-sm font-bold text-neutral-900 line-clamp-2 group-hover:text-primary-600 transition-colors leading-snug mb-2 font-serif">
