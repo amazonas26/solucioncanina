@@ -9,7 +9,11 @@
   "ventas": 50,
   "valoracion": 4.6,
   "slug": "joyelf-cama-ortopedica-grande-viscoelastica",
-  "valoracionesCount": 30210,
+  "valoracionesCount": 30209,
   "precioOriginal": "89.99€",
-  "descuentoPct": 34
+  "descuentoPct": 34,
+  "secciones": [
+    "Descanso ortopédico",
+    "Perros senior"
+  ]
 }

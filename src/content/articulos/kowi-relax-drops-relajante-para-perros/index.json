@@ -6,8 +6,11 @@
   "categoria": "Ansiedad",
   "marca": "KOWI",
   "precio": "18.50€",
-  "valoracion": 4.0,
+  "valoracion": 4,
   "imagen": "/images/articulos/kowi-relax-drops-relajante-para-perros/imagen.jpg",
   "ventas": 50,
-  "valoracionesCount": 204
+  "valoracionesCount": 204,
+  "secciones": [
+    "Ansiedad y estrés"
+  ]
 }

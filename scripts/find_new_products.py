@@ -45,8 +45,10 @@ try:
 except ImportError:
     _fetch_description = None  # type: ignore[assignment]
 
+from _common import amazon_affiliate_url as _amazon_affiliate_url  # noqa: E402
 from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
 from _common import slugify as _common_slugify  # noqa: E402
+from secciones_rules import CATALOG_CATEGORIES, compute_secciones  # noqa: E402
 
 ROOT = Path(__file__).parent.parent
 ART = ROOT / "src" / "content" / "articulos"
@@ -70,45 +72,8 @@ HEADERS = {
     "DNT": "1",
 }
 
-# Cada categoría se mapea a una o varias búsquedas en Amazon.es.
-# IMPORTANTE: las claves deben coincidir EXACTAMENTE con las categorías
-# existentes en el catálogo (`src/content/articulos/*/index.json` -> campo
-# `categoria`). El script verifica esto al arrancar y avisa si difieren.
-# Si añades una categoría nueva al catálogo, añade aquí sus queries.
-CATEGORY_QUERIES: dict[str, list[str]] = {
-    "Rampas": [
-        "rampa perro plegable coche",
-        "rampa perro grande maletero",
-    ],
-    "Ansiedad": [
-        "antiestres perro feromonas",
-        "calmante perro ansiedad masticables",
-    ],
-    "Camas ortopédicas": [
-        "cama ortopedica perro grande",
-        "cama viscoelastica perro",
-    ],
-    "Alimentación específica": [
-        "pienso veterinario perro renal",
-        "pienso prescripcion perro digestivo",
-    ],
-    "Suplementos": [
-        "condroprotector perro glucosamina",
-        "aceite salmon perro omega 3",
-    ],
-    "Perros senior": [
-        "suplemento articulaciones perro senior",
-        "perro senior pienso",
-    ],
-    "Correas": [
-        "correa perro adiestramiento larga",
-        "correa canicross perro",
-    ],
-    "Bozales": [
-        "bozal perro silicona cesta",
-        "bozal perro grande",
-    ],
-}
+# Categorías de producto y queries de búsqueda (ver scripts/secciones_rules.py).
+CATEGORY_QUERIES = CATALOG_CATEGORIES
 
 
 # ---------------------------------------------------------------------------
@@ -780,7 +745,7 @@ def main():
                 "nombre": nombre_net,
                 "slug": slug_from_name,
                 "descripcion": "",
-                "linkAmazon": f"https://www.amazon.es/dp/{c['asin']}",
+                "linkAmazon": _amazon_affiliate_url(c["asin"]),
                 "categoria": cat,
                 "marca": c["brand"] or "",
             }
@@ -817,6 +782,7 @@ def main():
                 except Exception as e:  # noqa: BLE001
                     print(f"     · descripció FALL: {e}")
 
+            data["secciones"] = compute_secciones(data)
             data = {k: v for k, v in data.items() if v not in (None, "")}
 
             folder.mkdir(parents=True, exist_ok=True)
@@ -845,6 +811,7 @@ def main():
         "\n  1. Revisa las fichas (pnpm run dev) y rellena la descripción."
         "\n  2. Ejecuta: pnpm run fetch-product-images   # para imagen de alta resolución."
         "\n  3. Ejecuta: python scripts/update_prices.py # para descuentos y ventas."
+        "\n  4. Ejecuta: python scripts/update_secciones.py # si cambias reglas de secciones."
     )
 
 

@@ -8,5 +8,9 @@
   "precio": "15.99€",
   "imagen": "/images/articulos/articulaciones-perrocondroprotector-perrossuplementos-para-l/imagen.jpg",
   "valoracion": 4.4,
-  "valoracionesCount": 91
+  "valoracionesCount": 93,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ]
 }

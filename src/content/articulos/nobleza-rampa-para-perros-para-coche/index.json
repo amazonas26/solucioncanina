@@ -3,12 +3,16 @@
   "linkAmazon": "https://www.amazon.es/dp/B0F384NYCZ/?tag=solucioncanin-21",
   "categoria": "Rampas",
   "marca": "Nobleza",
-  "precio": "67.99€",
-  "precioOriginal": "79.99€",
-  "descuentoPct": 15,
+  "precio": "79.99€",
   "imagen": "/images/articulos/nobleza-rampa-para-perros-para-coche/imagen.jpg",
   "valoracion": 4.2,
   "descripcion": "Antideslizante y confort: Tejido 3D ultra adherente incluso bajo lluvia + superficie acolchada que absorbe impactos para proteger articulaciones de perros mayores; material hipoalergénico ideal para mascotas nerviosas al subir a coches altos. Seguridad total: Mosquetón de fijación al asiento del coche + 4 pies antideslizantes ajustables + bordes de aluminio reforzado + 6 barras portantes para 110 kg; garantiza estabilidad máxima en todo tipo de superficies.",
   "slug": "nobleza-rampa-para-perros-para-coche-170-cm-rampa-plegable-cama-para-mascotas-de-metal-con-alfombra-antideslizante-para-perros-menos-de-110kg-escalera-para-perros-medianos-grande",
-  "valoracionesCount": 12
+  "valoracionesCount": 12,
+  "ventas": 50,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior",
+    "Subir al coche o sofá"
+  ]
 }

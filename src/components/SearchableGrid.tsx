@@ -12,6 +12,11 @@ import { ProductCard } from './ProductCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import {
+  problemSections,
+  productInSection,
+  countProductsInSection,
+} from '../utils/problemSections';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,6 +53,7 @@ interface Articulo {
     precioOriginal?: string;
     descuentoPct?: number;
     categoria?: string;
+    secciones?: string[];
     marca?: string;
     valoracion?: number;
     valoracionesCount?: number;
@@ -58,8 +64,10 @@ interface Articulo {
 
 interface SearchableGridProps {
   articulos: Articulo[];
-  /** Categoria inicial (p. ex. pàgines `/categoria/...`). Evita dependre de `window.__sc` (el script podia quedar fora de `</html>`). */
+  /** Categoria inicial (p. ex. pàgines `/categoria/bozales`). */
   initialCategory?: string | null;
+  /** Secció per necessitat (p. ex. pàgines `/categoria/movilidad-y-artrosis`). */
+  initialSectionSlug?: string | null;
 }
 
 type SortOption = 'none' | 'sales-desc' | 'discount-desc' | 'rating-desc' | 'price-asc' | 'price-desc';
@@ -123,6 +131,7 @@ function hashIdsToSeed(ids: string[]): number {
 export default function SearchableGrid({
   articulos,
   initialCategory,
+  initialSectionSlug,
 }: SearchableGridProps) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(() => {
@@ -214,6 +223,20 @@ export default function SearchableGrid({
     return Array.from(cats).sort();
   }, [articulos]);
 
+  const visibleSections = useMemo(
+    () =>
+      problemSections.filter((section) => countProductsInSection(articulos, section) > 0),
+    [articulos],
+  );
+
+  const activeSection = useMemo(
+    () =>
+      initialSectionSlug
+        ? problemSections.find((section) => section.slug === initialSectionSlug) ?? null
+        : null,
+    [initialSectionSlug],
+  );
+
   // Núm de filtres aplicats (no compta categoria ni cerca)
   const activeFiltersCount = useMemo(() => {
     let n = 0;
@@ -236,7 +259,11 @@ export default function SearchableGrid({
         art.data.marca?.toLowerCase().includes(search.toLowerCase());
 
       const catFilter = selectedCategory?.trim() || null;
-      const matchesCategory = catFilter ? art.data.categoria === catFilter : true;
+      const matchesCatalogFilter = activeSection
+        ? productInSection(art, activeSection)
+        : catFilter
+          ? art.data.categoria === catFilter
+          : true;
 
       const price = parsePrice(art.data.precio);
       const matchesMin = min === null || (price !== null && price >= min);
@@ -248,7 +275,7 @@ export default function SearchableGrid({
       const matchesDiscount = !appliedFilters.onlyDiscounts
         || (typeof art.data.descuentoPct === 'number' && art.data.descuentoPct > 0);
 
-      return matchesSearch && matchesCategory && matchesMin && matchesMax && matchesRating && matchesDiscount;
+      return matchesSearch && matchesCatalogFilter && matchesMin && matchesMax && matchesRating && matchesDiscount;
     });
 
     // Ordenació
@@ -282,7 +309,7 @@ export default function SearchableGrid({
     }
 
     return list;
-  }, [articulos, search, selectedCategory, appliedFilters, sessionSeed]);
+  }, [articulos, search, selectedCategory, activeSection, appliedFilters, sessionSeed]);
 
   const handleOpenFilters = () => {
     setDraftFilters(appliedFilters);
@@ -535,33 +562,64 @@ export default function SearchableGrid({
           </div>
         </div>
 
-        {/* Chips de categoria */}
-        <div className="flex flex-wrap gap-2" id="category-filters">
-          <a
-            href="/productos"
-            className={cn(
-              "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
-              !selectedCategory
-                ? "bg-navy-700 text-white shadow-sm"
-                : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
-            )}
-          >
-            Todos
-          </a>
-          {categories.map((cat) => (
-            <a
-              key={cat}
-              href={`/categoria/${slugify(cat)}`}
-              className={cn(
-                "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
-                cat === selectedCategory
-                  ? "bg-primary-600 text-white shadow-sm"
-                  : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200"
-              )}
-            >
-              {cat}
-            </a>
-          ))}
+        {/* Filtros por necesidad y tipo de producto */}
+        <div className="space-y-4" id="category-filters">
+          {visibleSections.length > 0 && (
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-2">
+                Por necesidad
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {visibleSections.map((section) => (
+                  <a
+                    key={section.slug}
+                    href={`/categoria/${section.slug}`}
+                    className={cn(
+                      "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                      initialSectionSlug === section.slug
+                        ? "bg-primary-600 text-white shadow-sm"
+                        : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                    )}
+                  >
+                    {section.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-2">
+              Por tipo de producto
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="/productos"
+                className={cn(
+                  "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                  !selectedCategory && !initialSectionSlug
+                    ? "bg-navy-700 text-white shadow-sm"
+                    : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                )}
+              >
+                Todos
+              </a>
+              {categories.map((cat) => (
+                <a
+                  key={cat}
+                  href={`/categoria/${slugify(cat)}`}
+                  className={cn(
+                    "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                    cat === selectedCategory && !initialSectionSlug
+                      ? "bg-navy-700 text-white shadow-sm"
+                      : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                  )}
+                >
+                  {cat}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Resum de filtres actius */}

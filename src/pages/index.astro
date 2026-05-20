@@ -1,11 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SearchableGrid from "../components/SearchableGrid";
 import ProductCard from "../components/ProductCard.astro";
 import ProductCarouselWrapper from "../components/ProductCarouselWrapper.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../utils/slugify";
 import { itemListSchema } from "../utils/seo";
+import { problemSections, countProductsInSection } from "../utils/problemSections";
 
 const articulos = await getCollection("articulos");
 
@@ -13,41 +13,66 @@ const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-// Top 6 productos con mayor descuento (de más a menos).
-const topDescuentos = articulos
-  .filter(
-    (a) =>
-      typeof a.data.descuentoPct === "number" && (a.data.descuentoPct ?? 0) > 0,
-  )
-  .sort((a, b) => (b.data.descuentoPct ?? 0) - (a.data.descuentoPct ?? 0))
-  .slice(0, 6);
+const categoryDetails: Record<string, { description: string; icon: string }> = {
+  "Camas ortopédicas": {
+    description: "Descanso cómodo para perros adultos, grandes o con articulaciones sensibles.",
+    icon: "bed",
+  },
+  Condroprotectores: {
+    description: "Suplementos pensados para cuidar movilidad, cartílago y articulaciones.",
+    icon: "joint",
+  },
+  "Alimentación específica": {
+    description: "Piensos y dietas para necesidades renales, digestivas o veterinarias.",
+    icon: "bowl",
+  },
+  Ansiedad: {
+    description: "Feromonas, snacks y soluciones para perros nerviosos o con estrés.",
+    icon: "calm",
+  },
+  Bozales: {
+    description: "Opciones seguras para paseos, transporte, entrenamiento y visitas al veterinario.",
+    icon: "muzzle",
+  },
+  Correas: {
+    description: "Correas largas, resistentes y de adiestramiento para paseos más controlados.",
+    icon: "lead",
+  },
+  Rampas: {
+    description: "Rampas y escaleras para subir al coche, sofá o cama con menos esfuerzo.",
+    icon: "ramp",
+  },
+};
+
+const categoryCards = categories
+  .map((category) => ({
+    name: category,
+    href: `/categoria/${slugify(category)}`,
+    count: articulos.filter((a) => a.data.categoria === category).length,
+    description:
+      categoryDetails[category]?.description ??
+      `Productos seleccionados dentro de la sección ${category.toLowerCase()}.`,
+    icon: categoryDetails[category]?.icon ?? "paw",
+  }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+const problemCards = problemSections
+  .map((section) => ({
+    name: section.name,
+    href: `/categoria/${section.slug}`,
+    count: countProductsInSection(articulos, section),
+    description: section.description,
+    icon: section.icon,
+  }))
+  .filter((section) => section.count > 0);
+
+const sectionCards = [...problemCards, ...categoryCards];
 
 // Top 6 productos más vendidos (de más a menos).
 const topVendidos = articulos
   .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0)
   .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
   .slice(0, 6);
-
-// Top 5 productos mejor valorados (de más a menos estrellas; desempate por nº de reseñas).
-// Si hay `valoracionesCount` en el JSON y es < 10, no entra (muestra insuficiente).
-// Si falta el campo (artículos antiguos antes del scraper), no se excluye para no vaciar la sección.
-const MIN_VALORACIONES_TOP_VALORADOS = 10;
-const topValorados = articulos
-  .filter((a) => {
-    const v = a.data.valoracion;
-    if (typeof v !== "number" || v < 3.7) return false;
-    const c = a.data.valoracionesCount;
-    if (typeof c === "number" && c < MIN_VALORACIONES_TOP_VALORADOS) return false;
-    return true;
-  })
-  .sort((a, b) => {
-    const diff = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);
-    if (diff !== 0) return diff;
-    return (
-      (b.data.valoracionesCount ?? 0) - (a.data.valoracionesCount ?? 0)
-    );
-  })
-  .slice(0, 5);
 
 // Últimos 3 artículos del Blog
 const allBlogPosts = await getCollection("blog");
@@ -262,130 +287,111 @@ const STAR_POINTS = (() => {
     }
   </section>
 
-  {/* Descuentos */}
-  <section class="mb-14 md:mb-20" id="descuentos">
+  {/* Secciones de producto */}
+  <section class="mb-14 md:mb-20" id="secciones-producto">
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <p
-            class="text-xs font-bold uppercase tracking-wider text-red-500 mb-1"
+            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
           >
-            Ofertas
+            Guía por necesidades
           </p>
           <h2
             class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
-            Mejores descuentos
+            Secciones para perros con problemas
           </h2>
         </div>
-        <a href="/productos?sort=discount-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver todos los mayores descuentos
+        <a href="/productos" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ver catálogo completo
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>
       </div>
     </div>
 
-    {
-      topDescuentos.length > 0 ? (
-        <ProductCarouselWrapper>
-          {topDescuentos.map((art) => (
-            <div class="w-56 flex-shrink-0 h-[420px]">
-              <ProductCard
-                slug={art.data.slug || slugify(art.data.nombre)}
-                nombre={art.data.nombre}
-                linkAmazon={art.data.linkAmazon}
-                imagen={art.data.imagen}
-                descripcion={art.data.descripcion}
-                precio={art.data.precio}
-                precioOriginal={art.data.precioOriginal}
-                descuentoPct={art.data.descuentoPct}
-                categoria={art.data.categoria}
-                marca={art.data.marca}
-                valoracion={art.data.valoracion}
-                valoracionesCount={art.data.valoracionesCount}
-              />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {sectionCards.map((category) => (
+        <a
+          href={category.href}
+          class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          aria-label={`Ver productos de ${category.name}`}
+        >
+          <div class="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary-50 transition-transform duration-300 group-hover:scale-125"></div>
+          <div class="relative flex h-full flex-col gap-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-700 ring-1 ring-primary-200">
+                {category.icon === "bed" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 7v11"></path><path d="M21 12v6"></path><path d="M3 14h18"></path><path d="M7 14V9a2 2 0 0 1 2-2h7a5 5 0 0 1 5 5v2"></path><path d="M3 10h4"></path>
+                  </svg>
+                )}
+                {category.icon === "joint" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 8a3 3 0 1 1 4.2-2.8"></path><path d="M17 16a3 3 0 1 1-4.2 2.8"></path><path d="M8.5 9.5 14.5 15.5"></path><path d="m13 7 4 4"></path><path d="m7 13 4 4"></path>
+                  </svg>
+                )}
+                {category.icon === "bowl" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 11h16l-1.4 5.5A4 4 0 0 1 14.7 20H9.3a4 4 0 0 1-3.9-3.5L4 11Z"></path><path d="M7 11c0-2.2 2.2-4 5-4s5 1.8 5 4"></path><path d="M10 4h4"></path>
+                  </svg>
+                )}
+                {category.icon === "kidney" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M8 4c-2.4 0-4 2.2-4 5.7C4 14 6.1 18 9 18c1.7 0 3-1.4 3-3.1V8.6C12 6 10.3 4 8 4Z"></path><path d="M16 4c2.4 0 4 2.2 4 5.7C20 14 17.9 18 15 18c-1.7 0-3-1.4-3-3.1V8.6C12 6 13.7 4 16 4Z"></path>
+                  </svg>
+                )}
+                {category.icon === "calm" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 21s-7-4.4-7-11a4 4 0 0 1 7-2.7A4 4 0 0 1 19 10c0 6.6-7 11-7 11Z"></path><path d="M8 12h8"></path>
+                  </svg>
+                )}
+                {category.icon === "senior" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"></path><circle cx="12" cy="8" r="4"></circle><path d="M18 4v5"></path><path d="M20.5 6.5h-5"></path>
+                  </svg>
+                )}
+                {category.icon === "muzzle" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 10a7 7 0 0 1 14 0v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-4Z"></path><path d="M8 13h8"></path><path d="M9 17v-4"></path><path d="M15 17v-4"></path><path d="M7 9h10"></path>
+                  </svg>
+                )}
+                {category.icon === "lead" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 7a4 4 0 1 1 5.7 3.6L7.5 15.8a2.4 2.4 0 1 0 3.4 3.4L19 11"></path><path d="M6 6h.01"></path>
+                  </svg>
+                )}
+                {category.icon === "ramp" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 18h18"></path><path d="m5 18 10-10h4"></path><path d="M10 13h3"></path><path d="M7 16h3"></path>
+                  </svg>
+                )}
+                {category.icon === "paw" && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="14" r="4"></circle><circle cx="6" cy="9" r="2"></circle><circle cx="11" cy="6" r="2"></circle><circle cx="16" cy="9" r="2"></circle><circle cx="18" cy="14" r="2"></circle>
+                  </svg>
+                )}
+              </div>
+              <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-black text-neutral-500">
+                {category.count} {category.count === 1 ? "producto" : "productos"}
+              </span>
             </div>
-          ))}
-        </ProductCarouselWrapper>
-      ) : (
-        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
-          <p class="text-neutral-500 text-sm">
-            Todavía no hay productos con descuento marcado. Ejecuta{" "}
-            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
-              python scripts/update_prices.py
-            </code>{" "}
-            para detectarlos automáticamente.
-          </p>
-        </div>
-      )
-    }
-  </section>
-
-  {/* Mejores valorados */}
-  <section class="mb-14 md:mb-20" id="mejores-valorados">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-amber-500 mb-1">
-            Reseñas
-          </p>
-          <h2 class="flex items-center gap-2 md:gap-3 text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="#FACC15"
-              stroke="#EAB308"
-              stroke-width="1.5"
-              stroke-linejoin="round"
-              class="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
-              aria-hidden="true"
-            >
-              <polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96"></polygon>
-            </svg>
-            Mejores valorados
-          </h2>
-        </div>
-        <a href="/productos?sort=rating-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver todos los mejor valorados
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            <div>
+              <h3 class="mb-2 text-xl font-black text-neutral-900 transition-colors group-hover:text-primary-700">
+                {category.name}
+              </h3>
+              <p class="text-sm leading-relaxed text-neutral-500">
+                {category.description}
+              </p>
+            </div>
+            <div class="mt-auto flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary-600">
+              Ver sección
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </div>
+          </div>
         </a>
-      </div>
+      ))}
     </div>
-
-    {
-      topValorados.length > 0 ? (
-        <ProductCarouselWrapper>
-          {topValorados.map((art) => (
-            <div class="w-56 flex-shrink-0 h-[420px]">
-              <ProductCard
-                slug={art.data.slug || slugify(art.data.nombre)}
-                nombre={art.data.nombre}
-                linkAmazon={art.data.linkAmazon}
-                imagen={art.data.imagen}
-                descripcion={art.data.descripcion}
-                precio={art.data.precio}
-                precioOriginal={art.data.precioOriginal}
-                descuentoPct={art.data.descuentoPct}
-                categoria={art.data.categoria}
-                marca={art.data.marca}
-                valoracion={art.data.valoracion}
-                valoracionesCount={art.data.valoracionesCount}
-              />
-            </div>
-          ))}
-        </ProductCarouselWrapper>
-      ) : (
-        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
-          <p class="text-neutral-500 text-sm">
-            Aún no hay datos de valoración. Ejecuta{" "}
-            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
-              python scripts/update_prices.py
-            </code>{" "}
-            para rellenar el campo <code>valoracion</code>.
-          </p>
-        </div>
-      )
-    }
   </section>
 
 
@@ -485,10 +491,9 @@ const STAR_POINTS = (() => {
         </p>
         <p>
           Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte
-          opciones claras, sin marearte con cientos de resultados. A medida que
-          crezca el catálogo, añadiremos secciones como <strong
-            >Más vendidos</strong
-          > y <strong>Descuentos</strong> para destacar tendencias y oportunidades.
+          opciones claras, sin marearte con cientos de resultados, con secciones
+          por tipo de producto y rankings de popularidad cuando los datos lo
+          permiten.
         </p>
       </div>
 

@@ -6,8 +6,11 @@
   "categoria": "Ansiedad",
   "marca": "Coachi",
   "precio": "6.79€",
-  "valoracion": 4.0,
+  "valoracion": 4.1,
   "imagen": "/images/articulos/coachi-recompensas-calmantes-para-perros-sin/imagen.jpg",
   "ventas": 50,
-  "valoracionesCount": 506
+  "valoracionesCount": 508,
+  "secciones": [
+    "Ansiedad y estrés"
+  ]
 }

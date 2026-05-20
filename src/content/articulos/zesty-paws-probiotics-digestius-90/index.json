@@ -8,7 +8,12 @@
   "marca": "Zesty Paws",
   "valoracion": 4.2,
   "slug": "zesty-paws-probioticos-digestivos-90-uds",
-  "valoracionesCount": 1117,
+  "valoracionesCount": 1118,
   "precioOriginal": "34.90€",
-  "descuentoPct": 15
+  "descuentoPct": 15,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Digestión sensible",
+    "Perros senior"
+  ]
 }

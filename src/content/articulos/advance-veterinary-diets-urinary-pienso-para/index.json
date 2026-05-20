@@ -5,9 +5,12 @@
   "linkAmazon": "https://www.amazon.es/dp/B0041LZ5HW/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Advance",
-  "precio": "28.40€",
+  "precio": "28.38€",
   "imagen": "/images/articulos/advance-veterinary-diets-urinary-pienso-para/imagen.jpg",
   "ventas": 100,
   "valoracion": 4.4,
-  "valoracionesCount": 1114
+  "valoracionesCount": 1115,
+  "secciones": [
+    "Problemas renales y urinarios"
+  ]
 }

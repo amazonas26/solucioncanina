@@ -5,6 +5,8 @@
  * i actualitza el camp imagen a cada index.json.
  *
  * Ús: node scripts/fetch-amazon-images.mjs [--dry-run] [--delay=1500]
+ *     node scripts/fetch-amazon-images.mjs --only=slug1,slug2
+ *     node scripts/fetch-amazon-images.mjs --skip-ok   # salta si imagen.jpg > 80 KB
  *
  * Nota: Amazon pot limitar peticions massives; hi ha una pausa entre productes.
  */
@@ -17,65 +19,147 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 
 const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+
+/** Amazon devuelve CAPTCHA / HTML mínimo si pedimos br+gzip explícito en Node. */
+const HTML_HEADERS = {
+  'User-Agent': UA,
+  'Accept-Language': 'es-ES,es;q=0.9',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  Referer: 'https://www.amazon.es/',
+};
 
 function parseArgs(argv) {
   let dryRun = false;
   let delayMs = 1500;
+  let only = null;
+  let skipOk = false;
   for (const a of argv) {
     if (a === '--dry-run') dryRun = true;
+    if (a === '--skip-ok') skipOk = true;
     const m = /^--delay=(\d+)$/.exec(a);
     if (m) delayMs = Math.max(0, parseInt(m[1], 10));
+    const o = /^--only=(.+)$/.exec(a);
+    if (o) only = new Set(o[1].split(',').map((s) => s.trim()).filter(Boolean));
   }
-  return { dryRun, delayMs };
+  return { dryRun, delayMs, only, skipOk };
+}
+
+const MIN_OK_BYTES = 80_000;
+
+async function hasGoodLocalImage(slug) {
+  const dir = path.join(ROOT, 'public/images/articulos', slug);
+  for (const ext of ['jpg', 'jpeg', 'webp', 'png']) {
+    try {
+      const st = await fs.stat(path.join(dir, `imagen.${ext}`));
+      if (st.size >= MIN_OK_BYTES) return true;
+    } catch {
+      /* missing */
+    }
+  }
+  return false;
 }
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function extractMainImageUrl(html) {
-  const candidates = [
-    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_SL1500_\.jpg/gi,
-    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_SL1200_\.jpg/gi,
-    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_SL1000_\.jpg/gi,
-  ];
+function cleanUrl(raw) {
+  return raw
+    .split('&quot;')[0]
+    .split('"')[0]
+    .replace(/\\u0026/g, '&')
+    .replace(/&amp;/g, '&')
+    .trim();
+}
 
-  for (const re of candidates) {
-    const seen = new Set();
-    for (const m of html.matchAll(re)) {
-      let url = m[0];
-      url = url.split('&quot;')[0].replace(/\\u0026/g, '&');
-      if (url.includes('_AC_US') || url.includes('_SR38,')) continue;
-      if (seen.has(url)) continue;
-      seen.add(url);
-      return url;
-    }
-  }
+function isProductImageUrl(url) {
+  if (!url.includes('media-amazon.com/images/I/')) return false;
+  if (url.includes('_AC_US') || url.includes('_SR38,')) return false;
+  if (/\.(js|css)(\?|$)/i.test(url)) return false;
+  return true;
+}
 
+function pickBestSlUrl(html) {
   let bestUrl = null;
   let bestN = 0;
   const reAny =
-    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_SL(\d+)_\.jpg/gi;
+    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_SL(\d+)_\.(?:jpg|jpeg|png|webp)/gi;
   for (const m of html.matchAll(reAny)) {
     const n = parseInt(m[1], 10);
-    const u = m[0].split('&quot;')[0];
-    if (n < 400 || u.includes('_AC_US')) continue;
+    const u = cleanUrl(m[0]);
+    if (!isProductImageUrl(u) || n < 400) continue;
     if (n > bestN) {
       bestN = n;
       bestUrl = u;
     }
   }
-  if (bestUrl) return bestUrl.split('&amp;')[0];
+  return bestUrl;
+}
 
-  // Format nou sense _SL (ex. _AC_SX2940_SY165_.jpg o _AC_QL95_SX1960_SY110_.jpg)
+function extractFromHiRes(html) {
+  const urls = [];
+  for (const m of html.matchAll(/"hiRes":"(https:\/\/[^"]+)"/g)) {
+    const u = cleanUrl(m[1]);
+    if (isProductImageUrl(u)) urls.push(u);
+  }
+  return urls[0] || null;
+}
+
+function extractFromDynamicImage(html) {
+  const m = html.match(/data-a-dynamic-image="(\{[^"]+\})"/);
+  if (!m) return null;
+  const decoded = m[1]
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&');
+  let bestUrl = null;
+  let bestArea = 0;
+  for (const um of decoded.matchAll(/"(https:\/\/m\.media-amazon\.com\/images\/I\/[^"]+)":\[(\d+),(\d+)\]/g)) {
+    const u = cleanUrl(um[1]);
+    const w = parseInt(um[2], 10);
+    const h = parseInt(um[3], 10);
+    if (!isProductImageUrl(u)) continue;
+    const area = w * h;
+    if (area > bestArea) {
+      bestArea = area;
+      bestUrl = u;
+    }
+  }
+  return bestUrl;
+}
+
+function extractMainImageUrl(html) {
+  if (html.length < 50_000) return null;
+
+  const hiRes = extractFromHiRes(html);
+  if (hiRes) return hiRes;
+
+  const sl = pickBestSlUrl(html);
+  if (sl) return sl;
+
+  const dynamic = extractFromDynamicImage(html);
+  if (dynamic) {
+    // Preferir variante _AC_SL* si existe en el mismo HTML
+    const idMatch = dynamic.match(/\/images\/I\/([A-Za-z0-9._%+-]+)/);
+    if (idMatch) {
+      const id = idMatch[1].replace(/[.+]/g, '\\$&');
+      const hi = new RegExp(
+        `https://m\\.media-amazon\\.com/images/I/${id}_AC_SL(\\d+)_\\.(?:jpg|jpeg|webp)`,
+        'i',
+      ).exec(html);
+      if (hi) return cleanUrl(hi[0]);
+    }
+    return dynamic;
+  }
+
+  let bestUrl = null;
   let bestArea = 0;
   const reSxSy =
-    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_(?:QL\d+_)?SX(\d+)_SY(\d+)_\.jpg/gi;
+    /https:\/\/m\.media-amazon\.com\/images\/I\/[A-Za-z0-9._%+-]+_AC_(?:QL\d+_)?SX(\d+)_SY(\d+)_\.(?:jpg|jpeg|webp)/gi;
   for (const m of html.matchAll(reSxSy)) {
     const sx = parseInt(m[1], 10);
     const sy = parseInt(m[2], 10);
-    let u = m[0].split('&quot;')[0].split('&amp;')[0];
+    const u = cleanUrl(m[0]);
     if (u.includes('FMwebp') || u.includes('FMavif')) continue;
     if (sx < 200 || sy < 200) continue;
     const area = sx * sy;
@@ -84,7 +168,14 @@ function extractMainImageUrl(html) {
       bestUrl = u;
     }
   }
-  return bestUrl || null;
+  return bestUrl;
+}
+
+function looksLikeBlockedPage(html) {
+  return (
+    html.length < 50_000 ||
+    /api-services-support@amazon\.com|captcha|robot check/i.test(html)
+  );
 }
 
 function extFromBuffer(buf) {
@@ -110,15 +201,16 @@ function extFromBuffer(buf) {
 async function fetchHtml(url) {
   const res = await fetch(url, {
     redirect: 'follow',
-    headers: {
-      'User-Agent': UA,
-      'Accept-Language': 'es-ES,es;q=0.9',
-      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Encoding': 'gzip, deflate, br',
-    },
+    headers: HTML_HEADERS,
   });
   if (!res.ok) throw new Error(`HTML HTTP ${res.status}`);
-  return await res.text();
+  const html = await res.text();
+  if (looksLikeBlockedPage(html)) {
+    throw new Error(
+      'Resposta bloquejada o CAPTCHA d’Amazon (HTML massa curt). Espera i torna-ho a provar.',
+    );
+  }
+  return html;
 }
 
 async function fetchImageBytes(imageUrl) {
@@ -136,10 +228,11 @@ async function fetchImageBytes(imageUrl) {
 }
 
 async function main() {
-  const { dryRun, delayMs } = parseArgs(process.argv.slice(2));
+  const { dryRun, delayMs, only, skipOk } = parseArgs(process.argv.slice(2));
   const articulosDir = path.join(ROOT, 'src/content/articulos');
   const entries = await fs.readdir(articulosDir, { withFileTypes: true });
-  const slugs = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  let slugs = entries.filter((e) => e.isDirectory()).map((e) => e.name);
+  if (only) slugs = slugs.filter((s) => only.has(s));
 
   let ok = 0;
   let fail = 0;
@@ -170,6 +263,12 @@ async function main() {
       continue;
     }
 
+    if (skipOk && !dryRun && (await hasGoodLocalImage(slug))) {
+      console.log(`skip (imatge OK)`);
+      ok++;
+      continue;
+    }
+
     process.stdout.write(`→ ${slug} … `);
 
     try {
@@ -177,7 +276,7 @@ async function main() {
 
       const imageUrl = extractMainImageUrl(html);
       if (!imageUrl) {
-        throw new Error('No s’ha trobat cap URL d’imatge _AC_SL* al HTML');
+        throw new Error('No s’ha trobat cap URL d’imatge de producte al HTML');
       }
 
       if (dryRun) {

@@ -11,5 +11,8 @@
   "ventas": 200,
   "valoracionesCount": 47,
   "precioOriginal": "29.99€",
-  "descuentoPct": 33
+  "descuentoPct": 33,
+  "secciones": [
+    "Ansiedad y estrés"
+  ]
 }

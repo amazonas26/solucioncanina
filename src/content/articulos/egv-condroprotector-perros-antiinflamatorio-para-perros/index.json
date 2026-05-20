@@ -7,7 +7,11 @@
   "marca": "EGV",
   "precio": "24.95€",
   "valoracion": 4.7,
-  "valoracionesCount": 65,
+  "valoracionesCount": 66,
   "imagen": "/images/articulos/egv-condroprotector-perros-antiinflamatorio-para-perros/imagen.jpg",
-  "ventas": 50
+  "ventas": 50,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ]
 }

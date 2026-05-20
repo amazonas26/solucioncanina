@@ -8,5 +8,8 @@
   "marca": "Royal Canin",
   "valoracion": 4.3,
   "slug": "royal-canin-veterinary-renal-special-2kg",
-  "valoracionesCount": 54
+  "valoracionesCount": 54,
+  "secciones": [
+    "Problemas renales y urinarios"
+  ]
 }

@@ -8,5 +8,8 @@
   "precio": "17.56€",
   "imagen": "/images/articulos/artero-bozal-de-silicona-para-perros/imagen.jpg",
   "valoracion": 3.9,
-  "valoracionesCount": 10
+  "valoracionesCount": 10,
+  "secciones": [
+    "Paseos seguros y control"
+  ]
 }

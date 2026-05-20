@@ -5,10 +5,15 @@
   "linkAmazon": "https://www.amazon.es/dp/B0CH9SL9MF/?tag=solucioncanin-21",
   "categoria": "Rampas",
   "marca": "PawHut",
-  "precio": "68.99€",
+  "precio": "65.99€",
   "valoracion": 4.2,
   "imagen": "/images/articulos/pawhut-rampa-para-perros-plegable-con/imagen.jpg",
   "valoracionesCount": 12,
   "precioOriginal": "71.99€",
-  "descuentoPct": 4
+  "descuentoPct": 8,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior",
+    "Subir al coche o sofá"
+  ]
 }

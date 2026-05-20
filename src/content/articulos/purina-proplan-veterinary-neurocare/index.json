@@ -8,5 +8,8 @@
   "marca": "Purina",
   "valoracion": 4.1,
   "slug": "purina-pro-plan-veterinary-diets-neurocare",
-  "valoracionesCount": 35
+  "valoracionesCount": 35,
+  "secciones": [
+    "Perros senior"
+  ]
 }

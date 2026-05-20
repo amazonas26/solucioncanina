@@ -11,5 +11,9 @@
   "descuentoPct": 5,
   "ventas": 50,
   "valoracion": 4.4,
-  "valoracionesCount": 7452
+  "valoracionesCount": 7459,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ]
 }

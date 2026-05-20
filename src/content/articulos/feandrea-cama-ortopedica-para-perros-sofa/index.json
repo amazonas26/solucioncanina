@@ -10,5 +10,10 @@
   "precioOriginal": "52.99€",
   "descuentoPct": 19,
   "valoracion": 4.4,
-  "valoracionesCount": 4271
+  "valoracionesCount": 4279,
+  "ventas": 50,
+  "secciones": [
+    "Descanso ortopédico",
+    "Perros senior"
+  ]
 }

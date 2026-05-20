@@ -29,6 +29,8 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
       Si hi ha **preu vàlid**, no s'elimina mai per «no disponible».
     Al final: **nombre total eliminat** i **desglossament per categoria**
     (secció). En CAPTCHA o error de xarxa **no** s'elimina res.
+  - En guardar qualsevol `index.json`, s'assegura `linkAmazon` amb
+    `?tag=solucioncanin-21` (vegeu `_common.ensure_affiliate_link`).
   - Opcional **`--refill-deleted`**: després d'eliminar (sense `--dry-run`), per
     cada categoria amb N baixes executa `scripts/find_new_products.py` amb
     `--only` i `--per-category=N` per intentar omplir forats (mateixes queries
@@ -55,6 +57,7 @@ import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).parent))
+from _common import ensure_affiliate_link as _ensure_affiliate_link  # noqa: E402
 from _common import slugify as _slugify  # noqa: E402
 from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
 
@@ -642,6 +645,8 @@ def load_json(path: Path) -> dict:
 
 
 def save_json(path: Path, data: dict):
+    if _ensure_affiliate_link(data):
+        pass  # tag afiliat sempre al guardar
     path.write_text(
         json.dumps(data, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

@@ -12,6 +12,10 @@ from __future__ import annotations
 import re
 import unicodedata
 
+# Store ID Amazon Associates (solucioncanina.es)
+DEFAULT_AMAZON_TAG = "solucioncanin-21"
+_ASIN_IN_URL_RE = re.compile(r"/(?:dp|gp/product)/([A-Z0-9]{10})", re.IGNORECASE)
+
 
 # Separadors típics després de la marca al títol d'Amazon:
 #   ',', ' -', ' –', ' —', ':', '|', '·', '•'
@@ -79,3 +83,39 @@ def strip_brand_prefix(title: str, brand: str | None) -> str:
     if rest[0].islower():
         rest = rest[0].upper() + rest[1:]
     return rest
+
+
+def extract_asin(url_or_asin: str) -> str | None:
+    """Extreu ASIN d'una URL d'Amazon o retorna l'ASIN si ja en té format."""
+    s = (url_or_asin or "").strip()
+    if not s:
+        return None
+    m = _ASIN_IN_URL_RE.search(s)
+    if m:
+        return m.group(1).upper()
+    if re.fullmatch(r"[A-Z0-9]{10}", s, re.IGNORECASE):
+        return s.upper()
+    return None
+
+
+def amazon_affiliate_url(url_or_asin: str, tag: str = DEFAULT_AMAZON_TAG) -> str:
+    """URL canònica d'afiliat: https://www.amazon.es/dp/{ASIN}/?tag={tag}"""
+    asin = extract_asin(url_or_asin)
+    if not asin:
+        raise ValueError(f"No s'ha pogut extreure ASIN de: {url_or_asin!r}")
+    return f"https://www.amazon.es/dp/{asin}/?tag={tag}"
+
+
+def ensure_affiliate_link(data: dict, tag: str = DEFAULT_AMAZON_TAG) -> bool:
+    """Afegeix o normalitza tag= al camp linkAmazon. Retorna True si ha canviat."""
+    url = (data.get("linkAmazon") or "").strip()
+    if not url:
+        return False
+    try:
+        new_url = amazon_affiliate_url(url, tag)
+    except ValueError:
+        return False
+    if new_url == url:
+        return False
+    data["linkAmazon"] = new_url
+    return True

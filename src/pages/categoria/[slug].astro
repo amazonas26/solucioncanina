@@ -4,6 +4,7 @@ import SearchableGrid from '../../components/SearchableGrid';
 import { getCollection } from 'astro:content';
 import { slugify } from '../../utils/slugify';
 import { itemListSchema, breadcrumbSchema, collectionPageSchema } from '../../utils/seo';
+import { problemSections, productInSection } from '../../utils/problemSections';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -11,17 +12,27 @@ export async function getStaticPaths() {
     new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
   );
 
-  return categories.map((category) => ({
+  const categoryPaths = categories.map((category) => ({
     params: { slug: slugify(category) },
-    props: { category, categories },
+    props: { category, categories, sectionSlug: null },
   }));
+
+  const problemPaths = problemSections.map((section) => ({
+    params: { slug: section.slug },
+    props: { category: section.name, categories, sectionSlug: section.slug },
+  }));
+
+  return [...categoryPaths, ...problemPaths];
 }
 
-const { category, categories } = Astro.props;
+const { category, categories, sectionSlug } = Astro.props;
 const allArticulos = await getCollection('articulos');
-const filteredArticulos = allArticulos.filter(a => a.data.categoria === category);
+const problemSection = problemSections.find((section) => section.slug === sectionSlug);
+const filteredArticulos = problemSection
+  ? allArticulos.filter((a) => productInSection(a, problemSection))
+  : allArticulos.filter(a => a.data.categoria === category);
 
-const categorySlug = slugify(category);
+const categorySlug = problemSection?.slug ?? slugify(category);
 const categoryUrl = `/categoria/${categorySlug}`;
 const categoryListJsonLd = itemListSchema(
   filteredArticulos.map((a) => ({
@@ -41,7 +52,8 @@ const categoryPageJsonLd = collectionPageSchema({
   url: categoryUrl,
   numberOfItems: filteredArticulos.length,
 });
-const categoryDescription = `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}: comparativa, precios y reseñas verificadas.`;
+const categoryDescription = problemSection?.description ??
+  `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}: comparativa, precios y reseñas verificadas.`;
 ---
 
 <Layout
@@ -62,10 +74,15 @@ const categoryDescription = `Selección curada de ${filteredArticulos.length} ${
         {category}
       </h1>
       <p class="text-neutral-500 text-sm">
-        Explora nuestra selección de {filteredArticulos.length} {filteredArticulos.length === 1 ? 'producto' : 'productos'} para {category.toLowerCase()}.
+        {problemSection?.description ?? `Explora nuestra selección de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}.`}
       </p>
     </div>
   </div>
 
-  <SearchableGrid client:visible articulos={allArticulos} initialCategory={category} />
+  <SearchableGrid
+    client:load
+    articulos={allArticulos}
+    initialCategory={problemSection ? null : category}
+    initialSectionSlug={sectionSlug}
+  />
 </Layout>

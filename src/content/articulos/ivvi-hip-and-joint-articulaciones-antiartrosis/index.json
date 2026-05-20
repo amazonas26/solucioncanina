@@ -9,5 +9,9 @@
   "imagen": "/images/articulos/ivvi-hip-and-joint-articulaciones-antiartrosis/imagen.jpg",
   "ventas": 300,
   "valoracion": 4.5,
-  "valoracionesCount": 1519
+  "valoracionesCount": 1520,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ]
 }

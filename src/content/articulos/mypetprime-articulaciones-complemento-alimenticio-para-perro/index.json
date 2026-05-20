@@ -9,7 +9,11 @@
   "imagen": "/images/articulos/mypetprime-articulaciones-complemento-alimenticio-para-perro/imagen.jpg",
   "precioOriginal": "24.99€",
   "descuentoPct": 5,
-  "ventas": 100,
+  "ventas": 50,
   "valoracion": 4.2,
-  "valoracionesCount": 1707
+  "valoracionesCount": 1715,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ]
 }

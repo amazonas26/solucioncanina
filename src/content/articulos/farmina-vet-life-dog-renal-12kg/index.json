@@ -5,9 +5,10 @@
   "marca": "FARMINA",
   "precio": "66.84€",
   "imagen": "/images/articulos/farmina-vet-life-dog-renal-12kg/imagen.jpg",
-  "precioOriginal": "87.90€",
-  "descuentoPct": 24,
   "valoracion": 4.6,
   "slug": "farmina-vet-life-dog-renal-12kg",
-  "valoracionesCount": 17
+  "valoracionesCount": 17,
+  "secciones": [
+    "Problemas renales y urinarios"
+  ]
 }

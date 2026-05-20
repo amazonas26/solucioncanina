@@ -8,5 +8,12 @@
   "precio": "78.90€",
   "imagen": "/images/articulos/vevor-rampa-para-perros-180-x/imagen.jpg",
   "valoracion": 3.7,
-  "valoracionesCount": 15
+  "valoracionesCount": 15,
+  "precioOriginal": "83.99€",
+  "descuentoPct": 6,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior",
+    "Subir al coche o sofá"
+  ]
 }

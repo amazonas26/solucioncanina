@@ -3,12 +3,15 @@
   "linkAmazon": "https://www.amazon.es/dp/B0CZTJYLV2/?tag=solucioncanin-21",
   "categoria": "Rampas",
   "marca": "tectake®",
-  "precio": "43.90€",
-  "precioOriginal": "46.90€",
-  "descuentoPct": 6,
+  "precio": "46.90€",
   "imagen": "/images/articulos/tectake-rampa-para-perros-plegable-y/imagen.jpg",
   "valoracion": 3.9,
   "descripcion": "Accesibilidad y comodidad: Facilita la vida de tu mascota con nuestra rampa plegable para perros, ideal para ayudarles a subir al coche y a superar escaleras sin esfuerzo. Soporta hasta 90 kg, perfecta para perros grandes. Su diseño plegable y ligero hace que sea fácil de transportar y almacenar. Dimensiones: 155 x 40 x 14 cm. Seguridad ante todo: Nuestra rampa cuenta con una superficie de papel de lija antideslizante para prevenir accidentes. Los carriles guía en los laterales aseguran que tu mascota suba y baje sin riesgos, dándote tranquilidad en cada uso. Ideal para perros de todas las edades, especialmente aquellos con problemas de movilidad.",
   "slug": "tectake-rampa-para-perros-plegable-y-antidelizante-rampa-de-coche-para-perros-hasta-90kg-con-correas-para-transporte-y-carriles-guia-resistente-para-cama-y-sofa-escalera-para-perros-155x40x14cm",
-  "valoracionesCount": 127
+  "valoracionesCount": 127,
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior",
+    "Subir al coche o sofá"
+  ]
 }
