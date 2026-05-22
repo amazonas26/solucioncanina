@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import ProductCarouselWrapper from "../components/ProductCarouselWrapper.astro";
+import SectionIcon from "../components/SectionIcon.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../utils/slugify";
 import { itemListSchema } from "../utils/seo";
@@ -44,7 +45,19 @@ const categoryDetails: Record<string, { description: string; icon: string }> = {
   },
 };
 
+// Categorías genéricas ya cubiertas por una sección por problema (evita duplicar entradas
+// que llevan al mismo contenido por dos URLs distintas, dañando SEO y la UX).
+const CATEGORIES_COVERED_BY_PROBLEM_SECTIONS = new Set([
+  "Camas ortopédicas",
+  "Condroprotectores",
+  "Rampas",
+  "Correas",
+  "Bozales",
+  "Ansiedad",
+]);
+
 const categoryCards = categories
+  .filter((category) => !CATEGORIES_COVERED_BY_PROBLEM_SECTIONS.has(category))
   .map((category) => ({
     name: category,
     href: `/categoria/${slugify(category)}`,
@@ -74,10 +87,15 @@ const topVendidos = articulos
   .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
   .slice(0, 6);
 
-// Últimos 3 artículos del Blog
+// Últimos 3 artículos del Blog (orden cronológico real por fechaPublicacion).
 const allBlogPosts = await getCollection("blog");
 const latestPosts = allBlogPosts
-  .sort((a, b) => b.id.localeCompare(a.id)) // Orden inverso por ID (asumiendo que ID/Nombre de archivo es secuencial o alfabético)
+  .sort((a, b) => {
+    const tA = a.data.fechaPublicacion?.getTime() ?? 0;
+    const tB = b.data.fechaPublicacion?.getTime() ?? 0;
+    if (tA !== tB) return tB - tA;
+    return b.id.localeCompare(a.id);
+  })
   .slice(0, 3);
 
 // Polígono "starburst" para el sello TOP #N (16 puntas).
@@ -96,8 +114,8 @@ const STAR_POINTS = (() => {
 ---
 
 <Layout
-  title="Inicio - Los mejores productos para tu perro"
-  description="Selección curada y verificada de los mejores productos para perros en Amazon: alimentación, accesorios, salud, comportamiento y más."
+  title="Solución Canina · Decisiones bien hechas para vivir mejor con tu perro"
+  description="Análisis honestos, criterio claro y solo recomendaciones que aguantarían la pregunta '¿se lo darías al tuyo?'. Sin marearte, sin spam de marketplace."
   categories={categories}
   jsonLd={[
     itemListSchema(
@@ -161,21 +179,22 @@ const STAR_POINTS = (() => {
           stroke-linecap="round"
           stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg
         >
-        Selección 2026 · Verificada
+        Análisis editorial · Sin presión de venta
       </div>
 
       <h1
         class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-neutral-900 mb-5 leading-tight"
       >
-        Los mejores productos <br class="hidden sm:block" />
-        <span class="text-primary-600">para tu perro</span>
+        Decisiones bien hechas <br class="hidden sm:block" />
+        <span class="text-primary-600">para vivir mejor con tu perro</span>
       </h1>
 
       <p
-        class="text-base md:text-lg text-neutral-500 mb-8 max-w-xl leading-relaxed"
+        class="text-base md:text-lg text-neutral-600 mb-8 max-w-xl leading-relaxed"
       >
-        Analizamos y seleccionamos los productos mejor valorados en Amazon para
-        que encuentres exactamente lo que tu perro necesita.
+        Analizamos producto a producto con criterio veterinario y de educadores.
+        Aquí no recomendamos nada que no le daríamos al nuestro — y los enlaces
+        a Amazon están al final del análisis, no al principio.
       </p>
 
       <div class="flex flex-wrap gap-3">
@@ -209,6 +228,129 @@ const STAR_POINTS = (() => {
     </div>
   </section>
 
+  {/* Artículos destacados del Blog */}
+  <section class="mb-14 md:mb-20" id="blog-destacado">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">
+            Contenido Editorial
+          </p>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
+            Guías y Consejos Caninos
+          </h2>
+        </div>
+        <a href="/blog" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ir al blog completo
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {latestPosts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+          <div class="aspect-[16/9] overflow-hidden relative">
+            {post.data.imagen ? (
+              <img
+                src={post.data.imagen}
+                alt={post.data.titulo}
+                width="640"
+                height="360"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <div class="w-full h-full bg-neutral-100 flex items-center justify-center text-neutral-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+              </div>
+            )}
+            <div class="absolute top-4 left-4">
+              <span class="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-primary-700 text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
+                {post.data.categoria}
+              </span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-black text-neutral-900 leading-tight mb-3 group-hover:text-primary-600 transition-colors">
+              {post.data.titulo}
+            </h3>
+            <p class="text-neutral-500 text-sm line-clamp-2 leading-relaxed">
+              {post.data.descripcion}
+            </p>
+            <div class="mt-4 flex items-center gap-2 text-primary-600 font-bold text-xs uppercase tracking-widest">
+              Leer artículo
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* Secciones de producto */}
+  <section class="mb-14 md:mb-20" id="secciones-producto">
+    <div class="border-b border-neutral-200 pb-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <p
+            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
+          >
+            Guía por necesidades
+          </p>
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
+          >
+            ¿Qué le pasa a tu perro? Empieza por aquí
+          </h2>
+          <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
+            Cada sección parte de un problema real (ansiedad, articulaciones, descanso, paseo)
+            y explica antes de nada qué pasa y qué mirar. Los productos vienen después.
+          </p>
+        </div>
+        <a href="/productos" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+          Ver catálogo completo
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {sectionCards.map((category) => (
+        <a
+          href={category.href}
+          class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          aria-label={`Ver productos de ${category.name}`}
+        >
+          <div class="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary-50 transition-transform duration-300 group-hover:scale-125"></div>
+          <div class="relative flex h-full flex-col gap-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-700 ring-1 ring-primary-200">
+                <SectionIcon name={category.icon} />
+              </div>
+              <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-black text-neutral-500">
+                {category.count} {category.count === 1 ? "producto" : "productos"}
+              </span>
+            </div>
+            <div>
+              <h3 class="mb-2 text-xl font-black text-neutral-900 transition-colors group-hover:text-primary-700">
+                {category.name}
+              </h3>
+              <p class="text-sm leading-relaxed text-neutral-500">
+                {category.description}
+              </p>
+            </div>
+            <div class="mt-auto flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary-600">
+              Ver sección
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
   {/* Productos más vendidos */}
   <section class="mb-14 md:mb-20" id="top-vendidos">
     <div class="border-b border-neutral-200 pb-4 mb-8">
@@ -217,13 +359,17 @@ const STAR_POINTS = (() => {
           <p
             class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
           >
-            Ranking
+            Curaduría del mes
           </p>
           <h2
             class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
-            Productos más vendidos
+            Lo que mejor está funcionando este mes
           </h2>
+          <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
+            Los productos que más están conectando con nuestros lectores. No es solo
+            ranking de ventas: es lo que pasa nuestros criterios y, encima, la gente repite la compra.
+          </p>
         </div>
         <a href="/productos?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
           Ver todos los más populares
@@ -287,175 +433,6 @@ const STAR_POINTS = (() => {
     }
   </section>
 
-  {/* Secciones de producto */}
-  <section class="mb-14 md:mb-20" id="secciones-producto">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
-          >
-            Guía por necesidades
-          </p>
-          <h2
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            Secciones para perros con problemas
-          </h2>
-        </div>
-        <a href="/productos" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver catálogo completo
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {sectionCards.map((category) => (
-        <a
-          href={category.href}
-          class="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-          aria-label={`Ver productos de ${category.name}`}
-        >
-          <div class="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary-50 transition-transform duration-300 group-hover:scale-125"></div>
-          <div class="relative flex h-full flex-col gap-5">
-            <div class="flex items-start justify-between gap-4">
-              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-700 ring-1 ring-primary-200">
-                {category.icon === "bed" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3 7v11"></path><path d="M21 12v6"></path><path d="M3 14h18"></path><path d="M7 14V9a2 2 0 0 1 2-2h7a5 5 0 0 1 5 5v2"></path><path d="M3 10h4"></path>
-                  </svg>
-                )}
-                {category.icon === "joint" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 8a3 3 0 1 1 4.2-2.8"></path><path d="M17 16a3 3 0 1 1-4.2 2.8"></path><path d="M8.5 9.5 14.5 15.5"></path><path d="m13 7 4 4"></path><path d="m7 13 4 4"></path>
-                  </svg>
-                )}
-                {category.icon === "bowl" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M4 11h16l-1.4 5.5A4 4 0 0 1 14.7 20H9.3a4 4 0 0 1-3.9-3.5L4 11Z"></path><path d="M7 11c0-2.2 2.2-4 5-4s5 1.8 5 4"></path><path d="M10 4h4"></path>
-                  </svg>
-                )}
-                {category.icon === "kidney" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M8 4c-2.4 0-4 2.2-4 5.7C4 14 6.1 18 9 18c1.7 0 3-1.4 3-3.1V8.6C12 6 10.3 4 8 4Z"></path><path d="M16 4c2.4 0 4 2.2 4 5.7C20 14 17.9 18 15 18c-1.7 0-3-1.4-3-3.1V8.6C12 6 13.7 4 16 4Z"></path>
-                  </svg>
-                )}
-                {category.icon === "calm" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 21s-7-4.4-7-11a4 4 0 0 1 7-2.7A4 4 0 0 1 19 10c0 6.6-7 11-7 11Z"></path><path d="M8 12h8"></path>
-                  </svg>
-                )}
-                {category.icon === "senior" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"></path><circle cx="12" cy="8" r="4"></circle><path d="M18 4v5"></path><path d="M20.5 6.5h-5"></path>
-                  </svg>
-                )}
-                {category.icon === "muzzle" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 10a7 7 0 0 1 14 0v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-4Z"></path><path d="M8 13h8"></path><path d="M9 17v-4"></path><path d="M15 17v-4"></path><path d="M7 9h10"></path>
-                  </svg>
-                )}
-                {category.icon === "lead" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 7a4 4 0 1 1 5.7 3.6L7.5 15.8a2.4 2.4 0 1 0 3.4 3.4L19 11"></path><path d="M6 6h.01"></path>
-                  </svg>
-                )}
-                {category.icon === "ramp" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3 18h18"></path><path d="m5 18 10-10h4"></path><path d="M10 13h3"></path><path d="M7 16h3"></path>
-                  </svg>
-                )}
-                {category.icon === "paw" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="11" cy="14" r="4"></circle><circle cx="6" cy="9" r="2"></circle><circle cx="11" cy="6" r="2"></circle><circle cx="16" cy="9" r="2"></circle><circle cx="18" cy="14" r="2"></circle>
-                  </svg>
-                )}
-              </div>
-              <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-black text-neutral-500">
-                {category.count} {category.count === 1 ? "producto" : "productos"}
-              </span>
-            </div>
-            <div>
-              <h3 class="mb-2 text-xl font-black text-neutral-900 transition-colors group-hover:text-primary-700">
-                {category.name}
-              </h3>
-              <p class="text-sm leading-relaxed text-neutral-500">
-                {category.description}
-              </p>
-            </div>
-            <div class="mt-auto flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary-600">
-              Ver sección
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
-
-  {/* Artículos destacados del Blog */}
-  <section class="mb-14 md:mb-20" id="blog-destacado">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">
-            Contenido Editorial
-          </p>
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
-            Guías y Consejos Caninos
-          </h2>
-        </div>
-        <a href="/blog" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ir al blog completo
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {latestPosts.map((post) => (
-        <a href={`/blog/${post.slug}`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-          <div class="aspect-[16/9] overflow-hidden relative">
-            {post.data.imagen ? (
-              <img
-                src={post.data.imagen}
-                alt={post.data.titulo}
-                width="640"
-                height="360"
-                loading="lazy"
-                decoding="async"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            ) : (
-              <div class="w-full h-full bg-neutral-100 flex items-center justify-center text-neutral-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
-              </div>
-            )}
-            <div class="absolute top-4 left-4">
-              <span class="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-primary-700 text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
-                {post.data.categoria}
-              </span>
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-lg font-black text-neutral-900 leading-tight mb-3 group-hover:text-primary-600 transition-colors">
-              {post.data.titulo}
-            </h3>
-            <p class="text-neutral-500 text-sm line-clamp-2 leading-relaxed">
-              {post.data.descripcion}
-            </p>
-            <div class="mt-4 flex items-center gap-2 text-primary-600 font-bold text-xs uppercase tracking-widest">
-              Leer artículo
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </div>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
   {/* Sobre nosotros */}
   <section id="sobre-nosotros" class="scroll-mt-28">
     <div class="border-b border-neutral-200 pb-4 mb-8">
@@ -480,20 +457,22 @@ const STAR_POINTS = (() => {
         class="lg:col-span-2 space-y-4 text-neutral-600 text-sm leading-relaxed"
       >
         <p class="text-base text-neutral-800 font-semibold leading-relaxed">
-          Solución Canina es un catálogo de productos para perros pensado para
-          ayudarte a elegir mejor y comprar con más confianza.
+          Solución Canina nació porque las webs de productos para perros casi
+          siempre tienen el mismo problema: te empujan a comprar antes de
+          entender qué necesitas.
         </p>
         <p>
-          Reunimos artículos populares y bien valorados en Amazon (camas
-          ortopédicas, suplementos, rampas, alimentación específica y más) y los
-          organizamos por categorías para que encuentres rápido lo que
-          necesitas.
+          Aquí lo hacemos al revés. Empezamos por el problema —ansiedad,
+          articulaciones, descanso, paseo, dieta veterinaria— y solo después
+          hablamos de productos. Cada ficha es un análisis nuestro, escrito
+          por personas que conviven con perros y que se hacen las mismas
+          preguntas que tú antes de comprar.
         </p>
         <p>
-          Nuestro objetivo es simple: facilitarte la búsqueda y mostrarte
-          opciones claras, sin marearte con cientos de resultados, con secciones
-          por tipo de producto y rankings de popularidad cuando los datos lo
-          permiten.
+          No vendemos directamente. Si compras a través de los enlaces de
+          Amazon que aparecen al final del análisis, ganamos una pequeña
+          comisión. Eso paga el catálogo y no condiciona qué entra ni qué se
+          queda fuera.
         </p>
       </div>
 
@@ -502,69 +481,32 @@ const STAR_POINTS = (() => {
           <h3
             class="text-xs font-bold uppercase tracking-wider text-white/50 mb-3"
           >
-            Cómo trabajamos
+            Cómo decidimos qué entra en el catálogo
           </h3>
           <ul class="space-y-2.5 text-sm">
-            <li class="flex items-start gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-primary-300 mt-0.5 shrink-0"
-                ><path d="M20 6 9 17l-5-5"></path></svg
-              >
-              Organizamos por necesidades (ansiedad, senior, digestivo, etc.).
-            </li>
-            <li class="flex items-start gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-primary-300 mt-0.5 shrink-0"
-                ><path d="M20 6 9 17l-5-5"></path></svg
-              >
-              Priorizamos claridad: nombre, descripción y enlace directo.
-            </li>
-            <li class="flex items-start gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-primary-300 mt-0.5 shrink-0"
-                ><path d="M20 6 9 17l-5-5"></path></svg
-              >
-              Actualizamos el catálogo para mantenerlo útil y ordenado.
-            </li>
+            {[
+              "Resuelve un problema concreto y identificable.",
+              "Composición o materiales con evidencia detrás, no marketing.",
+              "Valoraciones reales sostenidas en el tiempo, no picos puntuales.",
+              "Relación calidad-precio honesta para el caso de uso real.",
+            ].map((item) => (
+              <li class="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
         <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-6">
           <h3
             class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-3"
           >
-            Nota importante
+            Lo que no hacemos
           </h3>
           <p class="text-sm text-neutral-500 leading-relaxed">
             Esta web no sustituye el consejo veterinario. En dietas veterinarias
-            o problemas de salud, consulta con tu veterinario antes de cambiar
-            alimentación o suplementos.
+            o cuadros clínicos, consulta con tu veterinario antes de cambiar
+            alimentación o introducir suplementos. Aquí no recomendamos a ciegas.
           </p>
         </div>
       </div>

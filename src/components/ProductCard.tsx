@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 interface ProductCardProps {
   slug: string;
   nombre: string;
-  linkAmazon: string;
+  linkAmazon?: string;
   imagen?: string;
   descripcion?: string;
   precio?: string;
@@ -31,7 +31,6 @@ const showsRating = (v: number | undefined): v is number =>
 export const ProductCard: React.FC<ProductCardProps> = ({
   slug,
   nombre,
-  linkAmazon,
   imagen,
   descripcion,
   precio,
@@ -167,16 +166,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        {/* Action Button */}
+        {/* Action Button — enllaç intern a l'anàlisi */}
         <div className="mt-auto">
           <a
-            href={linkAmazon}
-            target="_blank"
-            rel="sponsored nofollow noopener noreferrer"
-            className="flex items-center justify-center w-full px-2 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-black text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-xl transition-all shadow-sm hover:shadow-orange-500/20 active:scale-[0.98]"
+            href={detailUrl}
+            className="flex items-center justify-center w-full px-2 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-bold text-primary-700 bg-white border-2 border-primary-600 hover:bg-primary-50 rounded-xl transition-colors"
           >
-            <span className="hidden xs:inline">Ver mejor precio</span>
-            <span className="xs:hidden">Ver precio</span>
+            Ver análisis
           </a>
         </div>
       </div>

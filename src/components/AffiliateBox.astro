@@ -10,6 +10,8 @@ interface Props {
 }
 
 const { title, image, link, pros, price, badge } = Astro.props;
+const isInternalProduct = link.startsWith('/producto/');
+const ctaLabel = isInternalProduct ? 'Ver análisis' : 'Dónde comprarlo';
 ---
 
 <div class="my-10 rounded-2xl border border-primary-100 bg-gradient-to-br from-white to-primary-50/20 overflow-hidden relative shadow-sm hover:shadow-md hover:scale-[1.005] hover:border-primary-200 transition-all duration-300 group/affbox">
@@ -45,16 +47,26 @@ const { title, image, link, pros, price, badge } = Astro.props;
             {price}
           </div>
         )}
-        <a 
-          href={link} 
-          target="_blank" 
-          rel="sponsored nofollow noopener noreferrer"
-          class="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-sm font-black text-black bg-gradient-to-r from-[#FF9900] to-[#FFB84D] hover:from-[#E68A00] hover:to-[#FF9900] rounded-xl transition-all duration-300 flex-1 w-full !no-underline whitespace-nowrap shadow-md shadow-orange-500/10 hover:shadow-orange-500/20 hover:-translate-y-0.5 active:translate-y-0"
+        <a
+          href={link}
+          target={isInternalProduct ? undefined : "_blank"}
+          rel={isInternalProduct ? undefined : "sponsored nofollow noopener noreferrer"}
+          class={`inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl transition-colors flex-1 w-full !no-underline whitespace-nowrap ${
+            isInternalProduct
+              ? "bg-primary-600 hover:bg-primary-700 text-white"
+              : "border-2 border-primary-600 text-primary-700 bg-white hover:bg-primary-50"
+          }`}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/affbox:translate-x-0.5"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-          Ver precio en Amazon
+          {ctaLabel}
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/affbox:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
+      {!isInternalProduct && (
+        <p class="mt-3 text-[11px] text-neutral-400 leading-relaxed">
+          Te llevamos a Amazon. Solución Canina no vende directamente —
+          ganamos una pequeña comisión si decides comprar allí.
+        </p>
+      )}
     </div>
   </div>
 </div>

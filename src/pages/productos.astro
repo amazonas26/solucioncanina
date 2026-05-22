@@ -6,6 +6,13 @@ import { slugify } from "../utils/slugify";
 import { itemListSchema, collectionPageSchema } from "../utils/seo";
 
 const articulos = await getCollection("articulos");
+const publicArticulos = articulos.map((art) => ({
+  ...art,
+  data: {
+    ...art.data,
+    linkAmazon: "",
+  },
+}));
 
 const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
@@ -52,7 +59,7 @@ const catalogPageJsonLd = collectionPageSchema({
     </div>
 
     <div id="articulos">
-      <SearchableGrid client:load articulos={articulos} />
+      <SearchableGrid client:load articulos={publicArticulos} />
     </div>
   </div>
 </Layout>

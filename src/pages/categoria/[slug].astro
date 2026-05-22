@@ -4,7 +4,7 @@ import SearchableGrid from '../../components/SearchableGrid';
 import { getCollection } from 'astro:content';
 import { slugify } from '../../utils/slugify';
 import { itemListSchema, breadcrumbSchema, collectionPageSchema } from '../../utils/seo';
-import { problemSections, productInSection } from '../../utils/problemSections';
+import { problemSections, productInPrimarySection, getCategoryGuide } from '../../utils/problemSections';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -27,9 +27,16 @@ export async function getStaticPaths() {
 
 const { category, categories, sectionSlug } = Astro.props;
 const allArticulos = await getCollection('articulos');
+const publicArticulos = allArticulos.map((art) => ({
+  ...art,
+  data: {
+    ...art.data,
+    linkAmazon: '',
+  },
+}));
 const problemSection = problemSections.find((section) => section.slug === sectionSlug);
 const filteredArticulos = problemSection
-  ? allArticulos.filter((a) => productInSection(a, problemSection))
+  ? allArticulos.filter((a) => productInPrimarySection(a, problemSection))
   : allArticulos.filter(a => a.data.categoria === category);
 
 const categorySlug = problemSection?.slug ?? slugify(category);
@@ -54,6 +61,17 @@ const categoryPageJsonLd = collectionPageSchema({
 });
 const categoryDescription = problemSection?.description ??
   `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}: comparativa, precios y reseñas verificadas.`;
+
+const categoryGuide = problemSection
+  ? {
+      problema: problemSection.problema,
+      cuandoConviene: problemSection.cuandoConviene,
+      queMirar: problemSection.queMirar,
+    }
+  : getCategoryGuide(category);
+const hasGuide = Boolean(
+  categoryGuide && (categoryGuide.problema || categoryGuide.cuandoConviene || categoryGuide.queMirar)
+);
 ---
 
 <Layout
@@ -74,14 +92,54 @@ const categoryDescription = problemSection?.description ??
         {category}
       </h1>
       <p class="text-neutral-500 text-sm">
-        {problemSection?.description ?? `Explora nuestra selección de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}.`}
+        {problemSection?.description ?? `Selección curada de ${filteredArticulos.length} ${filteredArticulos.length === 1 ? 'producto' : 'productos'} para ${category.toLowerCase()}.`}
       </p>
     </div>
   </div>
 
+  {hasGuide && categoryGuide && (
+    <section class="mb-12 grid gap-6 md:grid-cols-3 md:gap-8">
+      {categoryGuide.problema && (
+        <div class="md:col-span-3 bg-white border border-neutral-200 rounded-2xl p-6 md:p-8">
+          <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-2">El problema en breve</p>
+          <p class="text-neutral-700 leading-relaxed text-base">
+            {categoryGuide.problema}
+          </p>
+        </div>
+      )}
+      {categoryGuide.cuandoConviene && categoryGuide.cuandoConviene.length > 0 && (
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 md:col-span-1">
+          <p class="text-xs font-bold uppercase tracking-wide text-amber-700 mb-3">Cuándo conviene plantearse algo</p>
+          <ul class="space-y-2 text-sm text-amber-900">
+            {categoryGuide.cuandoConviene.map((item) => (
+              <li class="flex gap-2"><span class="text-amber-500 mt-0.5">•</span><span>{item}</span></li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {categoryGuide.queMirar && categoryGuide.queMirar.length > 0 && (
+        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 md:col-span-2">
+          <p class="text-xs font-bold uppercase tracking-wide text-emerald-700 mb-3">Qué mirar antes de comprar</p>
+          <ul class="space-y-2 text-sm text-emerald-900">
+            {categoryGuide.queMirar.map((item) => (
+              <li class="flex gap-2"><span class="text-emerald-500 mt-0.5">✓</span><span>{item}</span></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )}
+
+  <div class="mb-4 flex items-baseline justify-between">
+    <h2 class="text-lg font-bold text-neutral-900">
+      {filteredArticulos.length} {filteredArticulos.length === 1 ? 'opción analizada' : 'opciones analizadas'}
+    </h2>
+    <p class="text-xs text-neutral-500 hidden sm:block">Filtra y compara abajo. Cada ficha incluye análisis propio.</p>
+  </div>
+
   <SearchableGrid
     client:load
-    articulos={allArticulos}
+    articulos={publicArticulos}
     initialCategory={problemSection ? null : category}
     initialSectionSlug={sectionSlug}
   />

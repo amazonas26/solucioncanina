@@ -11,7 +11,10 @@ const articulos = await getCollection('articulos');
 const articulosData = articulos.map(art => ({
   id: art.id,
   slug: art.data.slug || slugify(art.data.nombre),
-  data: art.data
+  data: {
+    ...art.data,
+    linkAmazon: '',
+  },
 }));
 
 const categories = Array.from(

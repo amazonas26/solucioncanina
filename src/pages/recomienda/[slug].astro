@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import { slugify } from "../../utils/slugify";
+
+export async function getStaticPaths() {
+  const articulos = await getCollection("articulos");
+
+  return articulos.map((articulo) => ({
+    params: { slug: articulo.data.slug || slugify(articulo.data.nombre) },
+    props: {
+      target: articulo.data.linkAmazon,
+      nombre: articulo.data.nombre,
+    },
+  }));
+}
+
+const { target, nombre } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <title>Redirigiendo...</title>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+    <p>
+      Redirigiendo a la tienda.
+      <a href={target} rel="sponsored nofollow noopener noreferrer">Continuar</a>
+      a {nombre}.
+    </p>
+  </body>
+</html>

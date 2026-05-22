@@ -16,6 +16,7 @@ const articulosCollection = defineCollection({
     linkAmazon: z.string().url(),
     categoria: z.string().optional(),
     secciones: z.array(z.string()).optional(),
+    seccionPrimaria: z.string().optional(),
     marca: z.string().optional(),
     veredicto: z.string().optional(),
     analisis: z.string().optional(),

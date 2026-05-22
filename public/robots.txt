@@ -4,6 +4,7 @@ User-agent: *
 Allow: /
 Disallow: /keystatic
 Disallow: /asistente
+Disallow: /recomienda/
 
 # AI crawlers — allowed (we want to be cited)
 User-agent: GPTBot

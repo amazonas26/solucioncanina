@@ -1,8 +1,10 @@
 ---
+import { outboundProductUrl } from '../utils/outbound';
+
 interface Props {
   slug: string;
   nombre: string;
-  linkAmazon: string;
+  linkAmazon?: string;
   imagen?: string;
   descripcion?: string;
   precio?: string;
@@ -14,7 +16,7 @@ interface Props {
   valoracionesCount?: number;
 }
 
-const { slug, nombre, linkAmazon, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca, valoracion, valoracionesCount } = Astro.props;
+const { slug, nombre, imagen, descripcion, precio, precioOriginal, descuentoPct, categoria, marca, valoracion, valoracionesCount } = Astro.props;
 
 const fmtCount = (n?: number) => {
   if (!n || n <= 0) return null;
@@ -25,6 +27,7 @@ const fmtCount = (n?: number) => {
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
 const detailUrl = `/producto/${slug}`;
+const outboundUrl = outboundProductUrl(slug);
 const MIN_VISIBLE_RATING = 3.7;
 const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RATING;
 ---
@@ -143,13 +146,11 @@ const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RA
     )}
     
     <div class="mt-auto">
-      <a 
-        href={linkAmazon} 
-        target="_blank" 
-        rel="sponsored nofollow noopener noreferrer"
-        class="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-black bg-[#FF9900] hover:bg-[#E68A00] rounded-lg transition-colors whitespace-nowrap"
+      <a
+        href={detailUrl}
+        class="flex items-center justify-center w-full px-4 py-2.5 text-sm font-bold text-primary-700 bg-white border-2 border-primary-600 hover:bg-primary-50 rounded-lg transition-colors whitespace-nowrap"
       >
-        Ver precio en Amazon
+        Ver análisis
       </a>
     </div>
   </div>

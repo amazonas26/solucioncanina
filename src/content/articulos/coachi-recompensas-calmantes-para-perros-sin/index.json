@@ -5,12 +5,14 @@
   "linkAmazon": "https://www.amazon.es/dp/B0DJFR1L2H/?tag=solucioncanin-21",
   "categoria": "Ansiedad",
   "marca": "Coachi",
-  "precio": "6.79€",
+  "precio": "6.19€",
   "valoracion": 4.1,
   "imagen": "/images/articulos/coachi-recompensas-calmantes-para-perros-sin/imagen.jpg",
   "ventas": 50,
-  "valoracionesCount": 508,
+  "valoracionesCount": 510,
   "secciones": [
     "Ansiedad y estrés"
-  ]
+  ],
+  "precioOriginal": "6.79€",
+  "descuentoPct": 9
 }

@@ -78,6 +78,7 @@ export default defineConfig({
         !page.includes('/aviso-legal') &&
         !page.includes('/politica-privacidad') &&
         !page.includes('/politica-cookies') &&
+        !page.includes('/recomienda/') &&
         !page.includes('/404'),
       serialize(item) {
         if (item.url.endsWith('/') && item.url.split('/').length === 4) {
