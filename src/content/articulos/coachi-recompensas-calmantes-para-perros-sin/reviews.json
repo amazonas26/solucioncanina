@@ -1,0 +1,154 @@
+{
+  "asin": "B0DJFR1L2H",
+  "fetched_at": "2026-05-26T16:27:29Z",
+  "source": "amazon.es/product-reviews",
+  "count": 13,
+  "reviews": [
+    {
+      "stars": 5.0,
+      "title": "De momento parece que hacen efecto",
+      "body": "Le di uno a mi perrita cuando llegó el paquete y a la hora estaba dormida ; espero que le haga efecto cuando haya tormenta y al montarla en el coche ; de sabor le gustó",
+      "date": "Reseñado en España el 30 de abril de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Encantada con la compra",
+      "body": "Yo lo compre para a ver si mi perro se relajanba algo, pero no se relajó pero por que mi cachorro no se releja con nada ya que es un border collie de 8 meses pero fueron unas chuches que le encantaban y se las tomaba muy bien.",
+      "date": "Reseñado en España el 1 de enero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 3.0,
+      "title": "Caras y poco efectivas",
+      "body": "Caras,poco efectivas y pocas unidades",
+      "date": "Reseñado en España el 12 de enero de 2025",
+      "helpful": 3,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "C",
+      "tema": "eficacia"
+    },
+    {
+      "stars": 4.0,
+      "title": "ayuda en episodios de stress y calma al animal",
+      "body": "Esencial para las mascotas",
+      "date": "Reseñado en España el 10 de octubre de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Es estupendo para calmar en situaciones de estrés.",
+      "body": "Le gustó,seguiré comprando.",
+      "date": "Reseñado en España el 13 de febrero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Creo que funciona",
+      "body": "Yo a mi perro le he dado una chuche de estas y se ha ido a dormir . No se si es una casulidad o estaba simplemente cansado .No pienso usarlas todos los dias ,pero puntualmente y cuando haga falta si . Volvere a escribir otra reseña . Saludos",
+      "date": "Reseñado en España el 18 de noviembre de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 2.0,
+      "title": "No sirven para dejarlos solos",
+      "body": "Comérselas se las come pero no le relajSn ni media. Hemos probado a cambiar la dosis y da igual. Las queríamos usar para cuando nos vamos de casa y no funcionan. Le doy 2 estrellas porque al menos se las come",
+      "date": "Reseñado en España el 28 de diciembre de 2025",
+      "helpful": 2,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "C",
+      "tema": "eficacia"
+    },
+    {
+      "stars": 5.0,
+      "title": "Según tamaño",
+      "body": "Este producto es para perros grandes para mí Tekel demasiado grande",
+      "date": "Reseñado en España el 8 de enero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Great",
+      "body": "My dog loves them",
+      "date": "Revisado en Bélgica el 7 de junio de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Qualité prix",
+      "body": "Tres efficace",
+      "date": "Reseñado en Francia el 24 de febrero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Mycket bra lugnande effekt.",
+      "body": "Stor stjärna med bra lugnande effekt. Stjärnan är lite stor för små hundar men är lätt att bryta i mindre bitar.",
+      "date": "Reseñado en Suecia el 8 de abril de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": null,
+      "tema": "stor_stjärna"
+    },
+    {
+      "stars": 5.0,
+      "title": "schmeckt den hunden",
+      "body": "schmecken beiden malteser mischlingen sehr gut. sie waren an silvester ruhiger als sonst",
+      "date": "Reseñado en Alemania el 6 de enero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": "schmecken"
+    },
+    {
+      "stars": 5.0,
+      "title": "Good bed time treat for puppy.",
+      "body": "Easy to break into smaller pieces for my puppy who loves it as her bed time treat.",
+      "date": "Reseñado en el Reino Unido el 15 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": "easy_to_break_into_smaller_pieces"
+    }
+  ],
+  "classified_at": "2026-05-26T16:39:58Z",
+  "classified_with": "qwen2.5:3b-instruct",
+  "defect_rate": 0.154
+}

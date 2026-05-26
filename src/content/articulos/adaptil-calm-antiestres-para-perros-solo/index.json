@@ -6,11 +6,25 @@
   "categoria": "Ansiedad",
   "marca": "ADAPTIL",
   "precio": "24.45€",
-  "valoracion": 3.8,
+  "valoracion": 3.9,
   "imagen": "/images/articulos/adaptil-calm-antiestres-para-perros-solo/imagen.jpg",
   "ventas": 100,
-  "valoracionesCount": 535,
+  "valoracionesCount": 536,
   "secciones": [
     "Ansiedad y estrés"
-  ]
+  ],
+  "veredicto": "Buen producto que puede mejorar la ansiedad en perros, especialmente con problemas específicos.",
+  "analisis": "Calm - Antiestrés para perros de ADAPTIL es un producto natural diseñado para reducir el estrés en perros. Las reseñas positivas muestran que funciona bien para varios propósitos, como la independencia y el miedo a los ruidos. Sin embargo, algunos dueños no notaron una diferencia significativa o señalaron que el producto se agotaba con el tiempo. El uso de Calm requiere paciencia y adaptación por parte del perro.",
+  "pros": [
+    "Ayuda a reducir la ansiedad en perros con problemas específicos, como miedo a los ruidos o dificultad para quedarse solo.",
+    "Funciona bien para perros de diferentes edades, incluyendo perros mayores.",
+    "El producto es natural y puede ser una opción segura para controlar el estrés en casa."
+  ],
+  "contras": [
+    "Puede no funcionar para todos los perros. Algunos dueños notaron que no notaban ninguna diferencia en su perro.",
+    "El efecto puede disiparse con el tiempo, lo que requiere la paciencia del dueño para mantener el beneficio."
+  ],
+  "paraQuien": "Calm es ideal para perros de todas las edades y razas que luchan con problemas específicos de ansiedad en casa. No funciona para todos los perros o situaciones, especialmente si no se nota ninguna diferencia después de usarlo por un tiempo.",
+  "_generated_at": "2026-05-26T16:15:48Z",
+  "_generated_with": "qwen2.5:3b-instruct"
 }

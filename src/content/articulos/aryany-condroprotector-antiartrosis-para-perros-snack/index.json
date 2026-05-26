@@ -1,16 +1,18 @@
 {
-  "nombre": "Condroprotector Antiartrosis para Perros Snack Masticable - Glucosamina, Condroitina, MSM, Ácido Hialurónico, Colágeno - Cuidado Articular y Movilidad para Perros Pequeños, Medianos y Grandes",
-  "slug": "condroprotector-antiartrosis-para-perros-snack-masticable-glucosamina-condroitina-msm-acido-hialuronico-colageno-cuidado-articular-y-movilidad-para-perros-pequenos-medianos-y-grandes",
+  "nombre": "Condroprotector Snack Masticable para Perros (antiartrosis)",
+  "slug": "aryany-condroprotector-snack-masticable-perros",
   "descripcion": "Acción antiartrosis y vitalidad: Diseñado para aliviar la cojera y la rigidez en perros senior, actuando como un potente refuerzo articular. Su fórmula avanzada ayuda a frenar el desgaste y devuelve la movilidad a perros desde las primeras semanas.",
   "linkAmazon": "https://www.amazon.es/dp/B0FWTX47L1/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
-  "marca": "ARYANY",
-  "precio": "26.90€",
+  "marca": "Aryany",
+  "precio": "13.99€",
   "valoracion": 4.3,
   "imagen": "/images/articulos/aryany-condroprotector-antiartrosis-para-perros-snack/imagen.jpg",
   "valoracionesCount": 38,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
-  ]
+  ],
+  "precioOriginal": "23.90€",
+  "descuentoPct": 41
 }

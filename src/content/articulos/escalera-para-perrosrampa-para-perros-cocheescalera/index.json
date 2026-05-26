@@ -7,13 +7,11 @@
   "marca": "Escalera",
   "precio": "62.89€",
   "valoracion": 4.3,
-  "valoracionesCount": 57,
+  "valoracionesCount": 58,
   "imagen": "/images/articulos/escalera-para-perrosrampa-para-perros-cocheescalera/imagen.jpg",
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior",
     "Subir al coche o sofá"
-  ],
-  "precioOriginal": "65.89€",
-  "descuentoPct": 5
+  ]
 }

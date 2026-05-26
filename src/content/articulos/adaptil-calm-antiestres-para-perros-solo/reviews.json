@@ -1,0 +1,154 @@
+{
+  "asin": "B01EJ9L50G",
+  "fetched_at": "2026-05-26T13:44:28Z",
+  "source": "amazon.es/product-reviews",
+  "count": 13,
+  "reviews": [
+    {
+      "stars": 5.0,
+      "title": "Cumple du función.",
+      "body": "Ayuda a rebajar el estrés de mi perra. No es de efecto inmediato, sino progresivo. En unos días tras la instalación del aparato, mi perra vio rebajada su ansiedad.",
+      "date": "Reseñado en España el 12 de octubre de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Funciona de verdad",
+      "body": "Va de maravilla con mi perro de 18 años",
+      "date": "Reseñado en España el 5 de abril de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 4.0,
+      "title": "Me a ayudado a gestionar la ansiedad de los perros",
+      "body": "Poca fe tenía en el , los animales se encuadran más relajados y la verdad que cada día van teniendo menos apego y lo más importante más independencia",
+      "date": "Reseñado en España el 22 de abril de 2024",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 1.0,
+      "title": "En mi caso no funciona",
+      "body": "En mi caso no funciona, no noto ninguna diferencia en mi perro",
+      "date": "Reseñado en España el 18 de febrero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "A",
+      "tema": "no funciona"
+    },
+    {
+      "stars": 5.0,
+      "title": "Bien",
+      "body": "A mi perro le va genial, pero cada uno es un mundo",
+      "date": "Reseñado en España el 9 de enero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 3.0,
+      "title": "Relatividad",
+      "body": "Mis dos cachorros de bodeguero andaluz se relajaron en casa los primeros días de uso. Sin embargo, con el paso de los días parece que se iban acostumbrando y el efecto iba desapareciendo.",
+      "date": "Reseñado en España el 9 de diciembre de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "B",
+      "tema": "primeros días"
+    },
+    {
+      "stars": 2.0,
+      "title": "No me ha funcionado",
+      "body": "Seguramente a alguno le vendrá bien, a mí el del perro no me funciona.",
+      "date": "Reseñado en España el 9 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "A",
+      "tema": "no funciona"
+    },
+    {
+      "stars": 5.0,
+      "title": "Eficiente con nuestra perra",
+      "body": "Funciona bien con mi perra que tiene muchos miedos, ya no se hace pis en casa ;)",
+      "date": "Reseñado en España el 13 de marzo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 3.0,
+      "title": "Eğitmen önerisi",
+      "body": "Eğitmenimiz önerdi. 2. şişeyi bitirdik. Tek başına bir çözüm değil ama genel ev hali ve sakinleştirici bitkisel destekler sayesinde köpeğim daha huzurlu evde. Umarım işe yarıyordur.",
+      "date": "Reseñado en Turquía el 27 de mayo de 2025",
+      "helpful": 0,
+      "verified": true,
+      "tono": "negativa",
+      "tipo": "B",
+      "tema": "primeros días"
+    },
+    {
+      "stars": 5.0,
+      "title": "Adaptil",
+      "body": "Worked for my dog , arrived quickly",
+      "date": "Reseñado en el Reino Unido el 8 de febrero de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Ottimo",
+      "body": "Ottimo prodotto,efficace, durante più di un mese… è un po’ caro .. ma funziona!",
+      "date": "Reseñado en Italia el 4 de junio de 2022",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 4.0,
+      "title": "As shown",
+      "body": "Only my dog can comment",
+      "date": "Reseñado en el Reino Unido el 12 de octubre de 2020",
+      "helpful": 0,
+      "verified": true,
+      "tono": "neutra",
+      "tipo": null,
+      "tema": ""
+    },
+    {
+      "stars": 5.0,
+      "title": "Calme mon chien",
+      "body": "Je connais le produit 👍",
+      "date": "Reseñado en Francia el 29 de mayo de 2021",
+      "helpful": 0,
+      "verified": true,
+      "tono": "positiva",
+      "tipo": null,
+      "tema": ""
+    }
+  ],
+  "classified_at": "2026-05-26T13:55:23Z",
+  "classified_with": "qwen2.5:3b-instruct",
+  "defect_rate": 0.0
+}

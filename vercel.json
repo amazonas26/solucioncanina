@@ -1,5 +1,27 @@
 {
   "framework": "astro",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "solucioncanina.es" }],
+      "destination": "https://www.solucioncanina.es/$1",
+      "permanent": true
+    },
+    { "source": "/producto/perrocondroprotector-perrossuplementos-para-las-articulaciones-de-perros-mayoresalivio-del-dolor-de-movilidadgotas-de-condroitina-para-perrosglucosamina-para-cadera-articulaciones", "destination": "/producto/condroprotector-gotas-perros-mayores-60ml", "permanent": true },
+    { "source": "/producto/condroprotector-antiartrosis-para-perros-snack-masticable-glucosamina-condroitina-msm-acido-hialuronico-colageno-cuidado-articular-y-movilidad-para-perros-pequenos-medianos-y-grandes", "destination": "/producto/aryany-condroprotector-snack-masticable-perros", "permanent": true },
+    { "source": "/producto/flex-drops-condroprotectores-naturales-para-perros-y-gatos-en-comodas-gotas-glucosamina-condroitina-membrana-de-huevo-acido-hialuronico-y-vitamina-c-frasco-de-60ml-jeringa-dosificadora", "destination": "/producto/kowi-flex-drops-condroprotector-gotas-60ml", "permanent": true },
+    { "source": "/producto/recompensas-calmantes-para-perros-sin-cereales-y-hipoalergenicas-recompensas-que-alivian-la-ansiedad-y-calman-a-tu-perro-aptas-para-perros-y-cachorros-de-mas-de-8-semanas-pavo-100g", "destination": "/producto/coachi-recompensas-calmantes-perros-pavo-100g", "permanent": true },
+    { "source": "/producto/condroprotector-perros-grandes-y-gigantes-120-comprimidos-glucosamina-condroitina-msm-acido-hialuronico-articulaciones-antiinflamatorio-natural", "destination": "/producto/maikai-condroprotector-perros-grandes-120-comprimidos", "permanent": true },
+    { "source": "/producto/cama-extra-grande-para-perro-impermeable-ortopedica-xxl-sofa-cama-para-perro-con-refuerzo-en-forma-de-u-funda-extraible-lavable-y-base-antideslizante-gris-119x81x19cm", "destination": "/producto/ksiia-cama-ortopedica-xxl-perro-119x81", "permanent": true },
+    { "source": "/producto/condroprotector-premium-para-perros-con-glucosamina-condroitina-msm-acido-hialuronico-y-piperina-formula-avanzada-para-salud-articular-movilidad-y-alivio-del-dolor-120-masticables", "destination": "/producto/furtoflex-condroprotector-premium-perros-120-masticables", "permanent": true },
+    { "source": "/producto/edipets-correa-perro-larga-adiestramiento-resistente-15m-3m-5m-10m-15m-de-naylon-fuerte-para-camping-paseo-para-perrosmascotas-grandemedianopequeno-15-metros-negro", "destination": "/producto/edipets-correa-larga-adiestramiento-perro-15m", "permanent": true },
+    { "source": "/producto/cama-perro-extra-grande-ortopedica-112x81x76-cm-colchon-perro-desenfundable-impermeable-lavable-irrompible-cama-can-con-espuma-de-caja-de-huevos-dog-bed-xl-gris", "destination": "/producto/wavve-cama-ortopedica-xl-perro-112x81", "permanent": true },
+    { "source": "/producto/cama-perro-ortopedica-grande-106x76-cm-sofa-cama-con-respaldo-alto-colchon-perro-viscoelastica-impermeable-funda-lavable-gris", "destination": "/producto/eheyciga-cama-ortopedica-viscoelastica-perro-106x76", "permanent": true },
+    { "source": "/producto/linea-de-entrenamiento-para-perros-15-m-de-largo-negro-ajustable-resistente-a-la-carga-correas-de-nailon-para-perros-medianos-y-pequenos-y-grandes-entrenamiento-y-senderismo", "destination": "/producto/linea-entrenamiento-perros-nailon-15m", "permanent": true },
+    { "source": "/producto/bacoeng-180cm-rampa-para-perros-coche-plegable-rampa-para-perros-portatil-para-perros-grandes-con-alfombra-antideslizante-disponible-para-camion-coche-suv-soporta-hasta-110-kg", "destination": "/producto/bacoeng-rampa-plegable-perros-180cm", "permanent": true },
+    { "source": "/producto/correa-perro-larga-reflectante-3m-5m-10m-15m-20m-cuerda-perro-grande-adiestramiento-con-acolchado-comodo-violeta", "destination": "/producto/comsle-correa-larga-reflectante-perro-violeta", "permanent": true },
+    { "source": "/producto/pacifeel-jarabe-complemento-alimenticio-para-perros-y-gatos-con-melisa-y-pasiflora-favorece-la-relajacion-y-controla-el-estres-y-la-ansiedad-de-forma-natural-con-buen-sabor-150-ml", "destination": "/producto/heel-pacifeel-jarabe-calmante-perros-gatos-150ml", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*).xml",

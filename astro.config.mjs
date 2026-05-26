@@ -95,11 +95,11 @@ export default defineConfig({
           item.changefreq = 'weekly';
           item.priority = 0.7;
         } else if (item.url.includes('/blog/')) {
-          item.changefreq = 'monthly';
-          item.priority = 0.6;
-        } else if (item.url.endsWith('/blog/') || item.url.endsWith('/blog')) {
           item.changefreq = 'weekly';
-          item.priority = 0.7;
+          item.priority = 0.8;
+        } else if (item.url.endsWith('/blog/') || item.url.endsWith('/blog')) {
+          item.changefreq = 'daily';
+          item.priority = 0.9;
         }
         // lastmod real des del filesystem (mtime de index.json / index.mdx).
         // Si no en tenim per aquesta URL el deixem buit: una data falsa

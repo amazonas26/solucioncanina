@@ -5,15 +5,13 @@
   "linkAmazon": "https://www.amazon.es/dp/B0F5N8CGKB/?tag=solucioncanin-21",
   "categoria": "Camas ortopédicas",
   "marca": "KSIIA",
-  "precio": "20.99€",
-  "valoracion": 4.4,
-  "valoracionesCount": 784,
+  "precio": "25.99€",
+  "valoracion": 4.3,
+  "valoracionesCount": 799,
   "imagen": "/images/articulos/ksiia-ortopedica-cama-para-perros-grande/imagen.jpg",
   "secciones": [
     "Descanso ortopédico",
     "Perros senior"
   ],
-  "precioOriginal": "25.99€",
-  "descuentoPct": 19,
-  "ventas": 100
+  "ventas": 50
 }
