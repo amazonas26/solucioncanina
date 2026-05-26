@@ -3,10 +3,10 @@
   "linkAmazon": "https://www.amazon.es/dp/B004W6PLPC/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Advance",
-  "precio": "73.99€",
+  "precio": "60.57€",
   "imagen": "/images/articulos/advance-veterinary-diets-renal-failure-pienso/imagen.jpg",
   "precioOriginal": "77.99€",
-  "descuentoPct": 5,
+  "descuentoPct": 22,
   "ventas": 50,
   "valoracion": 4.3,
   "descripcion": "Alimento completo y equilibrado para perros adultos. Bajo fósforo: Ayuda a disminuir la progresión del fallo renal. Niveles moderados de proteína y sodio: ayudan a mantener una correcta función renal.",
@@ -14,5 +14,19 @@
   "valoracionesCount": 857,
   "secciones": [
     "Problemas renales y urinarios"
-  ]
+  ],
+  "veredicto": "Advance Veterinary Diets Renal Failure 12 kg: pienso renal completo de la marca española Affinity con perfil ajustado a insuficiencia renal crónica.",
+  "analisis": "Advance Veterinary Diets es la línea veterinaria de Affinity (Barcelona), una de las marcas más prescritas en clínicas españolas. La fórmula Renal Failure está diseñada específicamente para perros con insuficiencia renal crónica: bajo en fósforo (clave en el control de la enfermedad renal), niveles moderados de proteína de alta calidad (no se debe restringir la proteína a la ligera, pero sí ajustar) y sodio controlado para no sobrecargar el sistema cardiovascular. El formato 12 kg es el más económico por kilo y cubre meses para perros de tamaño mediano.",
+  "experienciaReal": "Con más de 850 reseñas y 4,3 estrellas, los compradores —en muchos casos por prescripción veterinaria— destacan que la aceptación es buena (mejor que algunas dietas renales más restrictivas) y que los perros mantienen apetito. Las analíticas suelen mostrar estabilización de parámetros renales si se sigue la pauta consistentemente. Algunos avisan de que la transición desde otro pienso debe ser gradual durante 7-10 días para evitar rechazo. Producto serio que cumple su función.",
+  "pros": [
+    "Pienso renal con respaldo veterinario amplio.",
+    "Bajo fósforo y proteína moderada de alta calidad.",
+    "12 kg: opción económica para meses de tratamiento.",
+    "Marca española con tradición clínica."
+  ],
+  "contras": [
+    "Requiere transición gradual de 7-10 días desde el pienso anterior.",
+    "Es alimento veterinario: usar bajo supervisión profesional con analíticas periódicas."
+  ],
+  "paraQuien": "Para perros con insuficiencia renal crónica diagnosticada por veterinario que necesitan pienso renal a largo plazo. No encaja para perros sanos o sin diagnóstico renal: las restricciones de fósforo y proteína no son neutras y no deben usarse sin necesidad clínica."
 }

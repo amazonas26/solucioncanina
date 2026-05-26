@@ -14,5 +14,19 @@
     "Perros senior",
     "Subir al coche o sofá"
   ],
-  "ventas": 50
+  "ventas": 50,
+  "veredicto": "Rampa de 155 cm y 90 kg con carriles laterales guía y correas de transporte: enfocada a seguridad lateral.",
+  "analisis": "tectake añade unos carriles-guía laterales que actúan como balaustres bajos y ayudan a perros que tienden a desviarse a un lado mientras suben, sobre todo los que tienen vista o coordinación limitada. La rampa tiene 155 cm de largo y soporta 90 kg, valores estándar para su segmento. Se pliega por la mitad y viene con correas para llevarla a mano. La superficie antideslizante se complementa con los carriles para dar una sensación de túnel suave.",
+  "experienciaReal": "Los dueños con perros sénior o con problemas de vista valoran especialmente los carriles laterales. Comentan que el perro sube más recto y que la sensación de límite lateral le ayuda a no dudar. Algunos indican que los carriles añaden un poco de peso a la rampa, pero que la ganancia en seguridad lo compensa. La mayoría dice que se despliega rápido y que las correas hacen práctico transportarla.",
+  "pros": [
+    "Carriles laterales guía: el perro sube más recto.",
+    "Correas de transporte: práctico para llevarla hasta el coche.",
+    "Plegado por la mitad estable.",
+    "Superficie antideslizante generosa."
+  ],
+  "contras": [
+    "Un poco más pesada que modelos sin carriles laterales.",
+    "Los carriles reducen ligeramente la anchura útil; verificar el tamaño del perro."
+  ],
+  "paraQuien": "Especialmente útil para perros sénior, con vista limitada o que se desvían al subir. No encaja si tu perro es joven, atlético y sube recto: en ese caso no aprovecharás los carriles laterales."
 }

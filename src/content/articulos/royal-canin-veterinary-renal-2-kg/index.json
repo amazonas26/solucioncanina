@@ -8,8 +8,22 @@
   "precio": "20.99€",
   "imagen": "/images/articulos/royal-canin-veterinary-renal-2-kg/imagen.jpg",
   "valoracion": 4.5,
-  "valoracionesCount": 647,
+  "valoracionesCount": 646,
   "secciones": [
     "Problemas renales y urinarios"
-  ]
+  ],
+  "veredicto": "Royal Canin Veterinary Renal 2 kg: el formato 'todo terreno' del pienso renal de referencia, ideal para tallas medianas y pruebas iniciales.",
+  "analisis": "Formato 2 kg de la dieta renal Royal Canin estándar (no la versión small ni la special). Adecuado para perros de todas las tallas y razas: fórmula con bajo contenido de fósforo y proteínas moderadas de alta calidad. Es la opción intermedia entre el 1,5 kg de la versión small y el 14 kg del formato grande. Funciona bien como envase de inicio para confirmar aceptación o como formato regular para perros pequeños-medianos. Misma calidad clínica y palatabilidad que el resto de la línea.",
+  "experienciaReal": "Con 647 reseñas y 4,5 estrellas, los compradores destacan que el 2 kg es el envase práctico para iniciar dieta renal sin invertir en formato grande. La aceptación es la habitual de Royal Canin (alta). En perros grandes el 2 kg dura 10-15 días: si la prueba va bien, conviene pasar al 14 kg para optimizar coste por kilo. Para perros pequeños puede ser el formato regular sin necesidad de envase mayor. Calidad clínica consistente.",
+  "pros": [
+    "Versión estándar de la fórmula renal Royal Canin.",
+    "Adecuado para todas las tallas.",
+    "Ideal como envase de prueba o uso regular en razas pequeñas-medianas.",
+    "Misma calidad clínica que el formato grande."
+  ],
+  "contras": [
+    "Para perros grandes dura poco: pasar al 14 kg.",
+    "Coste por kilo superior al formato grande."
+  ],
+  "paraQuien": "Para perros pequeños-medianos con insuficiencia renal o como envase de inicio. No encaja para perros grandes con tratamiento confirmado: el formato 14 kg es mucho más rentable."
 }

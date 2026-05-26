@@ -180,13 +180,83 @@ def _refill_supported_categories() -> set[str]:
         return set()
 
 
+def _current_slugs() -> set[str]:
+    return {p.name for p in ARTICULOS_DIR.iterdir() if p.is_dir()}
+
+
+def _ollama_up() -> bool:
+    """Comprova si Ollama respon a localhost:11434."""
+    try:
+        r = requests.get("http://localhost:11434/api/tags", timeout=2)
+        return r.status_code == 200
+    except requests.RequestException:
+        return False
+
+
+def _run_editorial_pipeline_for(new_slugs: list[str]) -> None:
+    """Per cada slug nou, executa fetch_reviews → classify_reviews → generate_reviews_v2.
+
+    Si Ollama no està engegat, només es fa el fetch i s'avisa que cal generar
+    l'editorial més tard. La generació no és bloquejant per al refill.
+    """
+    if not new_slugs:
+        return
+    scripts_dir = Path(__file__).resolve().parent
+    only_arg = f"--only={','.join(new_slugs)}"
+
+    print("\n" + "=" * 60)
+    print(f"EDITORIAL PIPELINE ({len(new_slugs)} nou/s)")
+    for s in new_slugs:
+        print(f"  · {s}")
+
+    # 1) fetch_reviews — sempre, fins i tot si Ollama no està up
+    print("\n  ▶ fetch_reviews.py")
+    proc = subprocess.run(
+        [sys.executable, str(scripts_dir / "fetch_reviews.py"), only_arg, "--force"],
+        cwd=str(ROOT),
+    )
+    if proc.returncode != 0:
+        print(f"     ⚠ fetch_reviews ha acabat amb codi {proc.returncode}")
+
+    # 2 + 3) Classificació i generació editorial necessiten Ollama
+    if not _ollama_up():
+        print(
+            "\n  ⚠ Ollama no respon a http://localhost:11434 — salto classify+generate.\n"
+            "    Executa manualment quan Ollama estigui engegat:\n"
+            f"      python scripts/classify_reviews.py {only_arg}\n"
+            f"      python scripts/generate_reviews_v2.py {only_arg}"
+        )
+        return
+
+    print("\n  ▶ classify_reviews.py")
+    proc = subprocess.run(
+        [sys.executable, str(scripts_dir / "classify_reviews.py"), only_arg],
+        cwd=str(ROOT),
+    )
+    if proc.returncode != 0:
+        print(f"     ⚠ classify_reviews ha acabat amb codi {proc.returncode}")
+
+    print("\n  ▶ generate_reviews_v2.py")
+    proc = subprocess.run(
+        [sys.executable, str(scripts_dir / "generate_reviews_v2.py"), only_arg],
+        cwd=str(ROOT),
+    )
+    if proc.returncode != 0:
+        print(f"     ⚠ generate_reviews_v2 ha acabat amb codi {proc.returncode}")
+
+
 def maybe_refill_deleted(
     removed_by_cat: Counter[str],
     *,
     dry_run: bool,
     do_refill: bool,
 ) -> None:
-    """Per cada secció amb N eliminacions, crida find_new_products per buscar N candidats nous."""
+    """Per cada secció amb N eliminacions, crida find_new_products per buscar N candidats nous.
+
+    Si s'afegeixen productes nous, després executa el pipeline editorial
+    (fetch_reviews + classify_reviews + generate_reviews_v2) restringit als
+    slugs nous, perquè quedin amb pros/contras/analisi de seguida.
+    """
     if not do_refill or not removed_by_cat:
         return
 
@@ -215,6 +285,7 @@ def maybe_refill_deleted(
         print(f"  ERROR: no trobo {script}")
         return
 
+    before = _current_slugs()
     for cat, n in sorted(actionable, key=lambda x: (-x[1], x[0])):
         cmd = [
             sys.executable,
@@ -227,6 +298,10 @@ def maybe_refill_deleted(
         if proc.returncode != 0:
             print(f"     ⚠ find_new_products ha acabat amb codi {proc.returncode}")
     print()
+
+    after = _current_slugs()
+    new_slugs = sorted(after - before)
+    _run_editorial_pipeline_for(new_slugs)
 
 
 # ---------------------------------------------------------------------------

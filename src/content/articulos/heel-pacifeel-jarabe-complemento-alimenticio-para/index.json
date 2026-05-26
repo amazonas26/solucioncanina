@@ -5,7 +5,7 @@
   "linkAmazon": "https://www.amazon.es/dp/B07WHYFRRN/?tag=solucioncanin-21",
   "categoria": "Ansiedad",
   "marca": "Heel",
-  "precio": "17.55€",
+  "precio": "17.63€",
   "valoracion": 4,
   "valoracionesCount": 369,
   "imagen": "/images/articulos/heel-pacifeel-jarabe-complemento-alimenticio-para/imagen.jpg",
@@ -13,6 +13,20 @@
     "Ansiedad y estrés"
   ],
   "precioOriginal": "19.23€",
-  "descuentoPct": 9,
-  "ventas": 100
+  "descuentoPct": 8,
+  "ventas": 100,
+  "veredicto": "Pacifeel de Heel: jarabe natural sin efecto sedante para ansiedad puntual o crónica en perros y gatos, apto para uso prolongado.",
+  "analisis": "Heel es una marca con tradición en homeopatía veterinaria y Pacifeel es uno de sus productos más vendidos en clínicas. El jarabe combina extractos botánicos para inducir relajación sin sedación, lo que permite mantenerlo en uso prolongado sin afectar al comportamiento normal del perro. Apto para todas las edades y razas, gato incluido. La dosificación es por peso, indicada en el prospecto. Útil tanto para episodios puntuales (petardos, viajes) como para acompañar procesos de adaptación más largos.",
+  "experienciaReal": "Los compradores —muchos llegan por recomendación del veterinario— destacan que no perciben sedación. El perro sigue activo y atento pero menos reactivo a estímulos. Algunos lo usan solo los días de cohetes o viaje; otros mantienen el tratamiento durante mudanzas o adopciones recientes. El sabor es aceptable: la mayoría de perros lo toman mezclado con la comida sin problema. La eficacia es gradual y, en casos severos, conviene combinar con otras medidas (etólogo, feromonas).",
+  "pros": [
+    "Sin efecto sedante: el perro mantiene su comportamiento habitual.",
+    "Apto para uso prolongado.",
+    "Fórmula veterinaria con tradición clínica.",
+    "Compatible con feromonas y otros suplementos."
+  ],
+  "contras": [
+    "El sabor pide mezclar con comida en perros selectivos.",
+    "Eficacia gradual: dar al menos 7-14 días antes de evaluar."
+  ],
+  "paraQuien": "Para perros con ansiedad puntual (viajes, ruidos) o procesos de adaptación que necesitan apoyo natural sin sedación. No encaja como tratamiento exclusivo en ansiedad severa: combinar con valoración veterinaria."
 }

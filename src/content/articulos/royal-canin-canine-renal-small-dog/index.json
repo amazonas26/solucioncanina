@@ -3,7 +3,7 @@
   "linkAmazon": "https://www.amazon.es/dp/B08MFR9R6T/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "ROYAL",
-  "precio": "21.12€",
+  "precio": "21.11€",
   "imagen": "/images/articulos/royal-canin-canine-renal-small-dog/imagen.jpg",
   "ventas": 100,
   "valoracion": 4.5,
@@ -12,5 +12,19 @@
   "valoracionesCount": 661,
   "secciones": [
     "Problemas renales y urinarios"
-  ]
+  ],
+  "veredicto": "Royal Canin Renal Small Dog 1,5 kg: la fórmula renal específica para razas pequeñas, con tamaño de croqueta adaptado.",
+  "analisis": "Royal Canin lleva años desarrollando líneas específicas por tamaño de raza, no solo por patología. La versión Renal Small Dog ajusta no solo la composición (fósforo bajo, proteína moderada, sodio controlado) sino también el tamaño y forma de la croqueta para mascotas pequeñas. Esto importa: razas pequeñas comen croquetas grandes con dificultad o las dejan en el plato, y en una enfermedad renal donde mantener el apetito es crítico, el detalle del tamaño es relevante. Formato 1,5 kg adaptado a la velocidad de consumo de razas pequeñas.",
+  "experienciaReal": "Con 661 reseñas y 4,5 estrellas, los compradores con razas pequeñas (Yorkshire, Maltés, Caniche, Chihuahua) destacan la diferencia: la croqueta es del tamaño adecuado y el perro la come mejor que las versiones standard. La aceptación en perros mayores con apetito reducido es notable. El formato 1,5 kg es práctico en hogares con un solo perro pequeño. Algunos avisan de que el coste por kilo es alto, pero que el desperdicio (croquetas no comidas) es menor con la versión small.",
+  "pros": [
+    "Croqueta de tamaño adaptado a razas pequeñas.",
+    "Misma fórmula renal de referencia Royal Canin.",
+    "Aceptación superior en perros pequeños mayores.",
+    "Formato 1,5 kg adecuado a la velocidad de consumo."
+  ],
+  "contras": [
+    "Coste por kilo superior al formato estándar grande.",
+    "Solo tiene sentido para razas pequeñas: en grandes mirar versión standard."
+  ],
+  "paraQuien": "Para razas pequeñas con insuficiencia renal crónica donde el tamaño de croqueta es clave para la aceptación. No encaja para perros grandes: la croqueta queda demasiado pequeña y no resulta económico."
 }

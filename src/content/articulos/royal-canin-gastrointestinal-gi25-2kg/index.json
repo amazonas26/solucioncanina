@@ -2,7 +2,7 @@
   "nombre": "Veterinary Gastrointestinal GI25 2kg",
   "descripcion": "Pienso veterinario para perros con trastornos digestivos. Alta digestibilidad, bajo contenido en grasa y prebióticos para restaurar la flora intestinal.",
   "imagen": "/images/articulos/royal-canin-gastrointestinal-gi25-2kg/imagen.jpg",
-  "precio": "23.54€",
+  "precio": "22.85€",
   "linkAmazon": "https://www.amazon.es/dp/B004JI4S48/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Royal Canin",
@@ -12,5 +12,21 @@
   "secciones": [
     "Digestión sensible"
   ],
-  "ventas": 50
+  "ventas": 50,
+  "veredicto": "Royal Canin Gastrointestinal GI25 2 kg: dieta veterinaria de alta digestibilidad para perros con trastornos digestivos.",
+  "analisis": "No es un pienso renal sino gastrointestinal, pensado para perros con diarreas crónicas o agudas, sensibilidad digestiva, malabsorción o tras episodios de gastroenteritis. La fórmula GI25 combina alta digestibilidad (los ingredientes se absorben sin sobrecargar el sistema digestivo), bajo contenido en grasa (importante en pancreatitis y trastornos pancreáticos), prebióticos para restaurar flora intestinal y proteínas seleccionadas. El formato 2 kg es adecuado para tratamientos agudos o pruebas iniciales en perros pequeños-medianos.",
+  "experienciaReal": "Con 1.560 reseñas y 4,6 estrellas, los compradores destacan resoluciones de cuadros diarreicos en pocos días con exclusividad del pienso. Para problemas crónicos (intestinos sensibles, colitis idiopática) suele convertirse en dieta de mantenimiento prolongado bajo supervisión veterinaria. La palatabilidad es buena incluso en perros con apetito reducido por molestia digestiva. Algunos avisan de que tras la fase aguda conviene reevaluar con el veterinario si pasar a una dieta menos restrictiva.",
+  "pros": [
+    "Alta digestibilidad: ingredientes que se absorben fácilmente.",
+    "Bajo en grasa: indicado en pancreatitis.",
+    "Prebióticos para restaurar flora intestinal.",
+    "Buena palatabilidad en perros con molestia digestiva."
+  ],
+  "contras": [
+    "Es alimento veterinario: revisar con profesional tras la fase aguda.",
+    "El formato 2 kg dura poco en perros grandes: mirar formato superior."
+  ],
+  "paraQuien": "Para perros con trastornos digestivos agudos o crónicos diagnosticados (diarrea persistente, pancreatitis, intestino sensible). No encaja como dieta de mantenimiento permanente sin supervisión: en muchos casos se transita a dieta menos restrictiva tras la fase aguda.",
+  "precioOriginal": "23.49€",
+  "descuentoPct": 3
 }

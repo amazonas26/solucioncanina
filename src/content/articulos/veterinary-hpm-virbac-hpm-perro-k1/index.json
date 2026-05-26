@@ -5,11 +5,27 @@
   "linkAmazon": "https://www.amazon.es/dp/B06XKNKQPG/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Veterinary",
-  "precio": "90.84€",
+  "precio": "83.74€",
   "imagen": "/images/articulos/veterinary-hpm-virbac-hpm-perro-k1/imagen.jpg",
   "valoracion": 4.6,
   "valoracionesCount": 258,
   "secciones": [
     "Problemas renales y urinarios"
-  ]
+  ],
+  "veredicto": "Virbac HPM K1 Kidney Support 12 kg: dieta renal de la marca veterinaria francesa Virbac, con enfoque nutricional propio.",
+  "analisis": "Virbac es laboratorio veterinario francés con líneas propias de dietas y medicamentos. La línea HPM (Hyper Premium) parte de un enfoque distinto al de Royal Canin / Advance: ingredientes seleccionados con mayor contenido proteico moderado y perfil nutricional ajustado a fisiología canina ancestral. La versión K1 Kidney Support sigue los pilares de la dieta renal (fósforo bajo, proteína de calidad calibrada) pero con la filosofía Virbac de menor contenido en hidratos. El formato 12 kg es el más rentable para tratamientos largos.",
+  "experienciaReal": "Con 258 reseñas y 4,6 estrellas, los compradores destacan que Virbac es la marca que les recomienda su veterinario cuando otras dietas renales no han dado el resultado esperado. La aceptación es buena, comparable a Royal Canin. Algunos veterinarios prefieren Virbac HPM precisamente por su perfil con menos cereal. Los parámetros analíticos suelen estabilizarse en pocas semanas. Buena alternativa cuando se quiere salir del eje habitual Royal Canin / Hill's / Advance.",
+  "pros": [
+    "Marca veterinaria francesa Virbac con tradición clínica.",
+    "Enfoque HPM con menos hidratos y proteína de calidad calibrada.",
+    "Formato 12 kg para tratamientos largos.",
+    "Alternativa cuando otras dietas renales no funcionan."
+  ],
+  "contras": [
+    "Menos distribuido que Royal Canin en clínicas generalistas.",
+    "Precio en el rango premium del segmento."
+  ],
+  "paraQuien": "Para perros con insuficiencia renal crónica donde se busca alternativa premium a las marcas masivas. No encaja sin diagnóstico veterinario: las restricciones del pienso renal no son neutras.",
+  "precioOriginal": "90.00€",
+  "descuentoPct": 7
 }
