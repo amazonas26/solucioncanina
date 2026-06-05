@@ -98,8 +98,8 @@ const allBlogJsonLd = faqJsonLd
 ---
 
 <Layout
-  title={`${post.data.titulo} | Blog`}
-  description={post.data.descripcion}
+  title={post.data.tituloSeo ?? post.data.titulo}
+  description={post.data.descripcionSeo ?? post.data.descripcion}
   image={post.data.imagen}
   type="article"
   jsonLd={allBlogJsonLd}

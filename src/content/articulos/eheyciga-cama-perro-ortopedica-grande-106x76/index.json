@@ -7,14 +7,12 @@
   "marca": "EHEYCIGA",
   "precio": "38.99€",
   "valoracion": 4.6,
-  "valoracionesCount": 49,
+  "valoracionesCount": 78,
   "imagen": "/images/articulos/eheyciga-cama-perro-ortopedica-grande-106x76/imagen.jpg",
   "secciones": [
     "Descanso ortopédico",
     "Perros senior"
   ],
-  "precioOriginal": "39.99€",
-  "descuentoPct": 3,
   "veredicto": "EHEYCIGA cama ortopédica viscoelástica 106×76 cm: relleno premium centrado en distribución de presión articular.",
   "analisis": "Esta variante de EHEYCIGA se centra en una sola tecnología —espuma viscoelástica— y la lleva al detalle. La densidad y respuesta viscoelástica están calibradas para distribuir presión articular y apoyar columna en perros de todas las edades. El formato es plano sin bordes elevados, pensado para perros que duermen estirados. Los 106×76 cm cubren razas grandes habituales. Es la elección cuando la prioridad es soporte articular puro y se descarta el formato sofá.",
   "experienciaReal": "Las primeras reseñas (49 al momento del análisis) son muy positivas: los compradores destacan que la viscoelástica es genuina y se nota la calidad del relleno. Comentan que el grosor del colchón es suficiente para perros adultos y que la funda mantiene la textura tras lavados. Algún usuario apunta que el precio es mayor que en versiones con menos espuma, pero que el material justifica la diferencia. Buena opción cuando no quieres formato sofá pero sí espuma viscoelástica auténtica.",
@@ -28,5 +26,6 @@
     "Sin bordes elevados: perros que duermen con cabeza apoyada prefieren formato sofá.",
     "Precio algo superior al de modelos con espumas mixtas más baratas."
   ],
-  "paraQuien": "Para perros grandes que duermen estirados y necesitan apoyo articular real. No encaja para perros que buscan nido con bordes: ahí mira el formato sofá de la misma marca."
+  "paraQuien": "Para perros grandes que duermen estirados y necesitan apoyo articular real. No encaja para perros que buscan nido con bordes: ahí mira el formato sofá de la misma marca.",
+  "ventas": 100
 }

@@ -2,13 +2,13 @@
   "nombre": "Veterinary Gastrointestinal GI25 2kg",
   "descripcion": "Pienso veterinario para perros con trastornos digestivos. Alta digestibilidad, bajo contenido en grasa y prebióticos para restaurar la flora intestinal.",
   "imagen": "/images/articulos/royal-canin-gastrointestinal-gi25-2kg/imagen.jpg",
-  "precio": "22.85€",
+  "precio": "23.85€",
   "linkAmazon": "https://www.amazon.es/dp/B004JI4S48/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Royal Canin",
   "valoracion": 4.6,
   "slug": "royal-canin-veterinary-gastrointestinal-gi25-2kg",
-  "valoracionesCount": 1560,
+  "valoracionesCount": 1569,
   "secciones": [
     "Digestión sensible"
   ],
@@ -26,7 +26,5 @@
     "Es alimento veterinario: revisar con profesional tras la fase aguda.",
     "El formato 2 kg dura poco en perros grandes: mirar formato superior."
   ],
-  "paraQuien": "Para perros con trastornos digestivos agudos o crónicos diagnosticados (diarrea persistente, pancreatitis, intestino sensible). No encaja como dieta de mantenimiento permanente sin supervisión: en muchos casos se transita a dieta menos restrictiva tras la fase aguda.",
-  "precioOriginal": "23.49€",
-  "descuentoPct": 3
+  "paraQuien": "Para perros con trastornos digestivos agudos o crónicos diagnosticados (diarrea persistente, pancreatitis, intestino sensible). No encaja como dieta de mantenimiento permanente sin supervisión: en muchos casos se transita a dieta menos restrictiva tras la fase aguda."
 }

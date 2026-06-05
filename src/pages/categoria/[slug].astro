@@ -4,7 +4,7 @@ import SearchableGrid from '../../components/SearchableGrid';
 import { getCollection } from 'astro:content';
 import { slugify } from '../../utils/slugify';
 import { itemListSchema, breadcrumbSchema, collectionPageSchema } from '../../utils/seo';
-import { problemSections, productInPrimarySection, getCategoryGuide } from '../../utils/problemSections';
+import { problemSections, productInPrimarySection, getCategoryGuide, getCategorySeo } from '../../utils/problemSections';
 
 export async function getStaticPaths() {
   const articulos = await getCollection('articulos');
@@ -72,11 +72,13 @@ const categoryGuide = problemSection
 const hasGuide = Boolean(
   categoryGuide && (categoryGuide.problema || categoryGuide.cuandoConviene || categoryGuide.queMirar)
 );
+// Títol/descripció SEO propis (només per a categories reals; les problemSection mantenen els seus).
+const seo = getCategorySeo(category);
 ---
 
 <Layout
-  title={category}
-  description={categoryDescription}
+  title={seo?.title ?? category}
+  description={seo?.description ?? categoryDescription}
   categories={categories}
   jsonLd={[categoryPageJsonLd, categoryListJsonLd, categoryBreadcrumbJsonLd]}
 >

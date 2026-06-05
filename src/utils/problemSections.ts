@@ -385,3 +385,51 @@ const categoryGuides: Record<string, CategoryGuide> = {
 export function getCategoryGuide(category: string): CategoryGuide | null {
   return categoryGuides[category] ?? null;
 }
+
+// SEO específic per categoria: títol i meta-description orientats a la query real
+// ("<keyword> para perros", intenció comercial/comparativa) en lloc del nom curt.
+// El títol NO inclou la marca: SEO.astro hi afegeix " | Solución Canina".
+// L'H1 visible segueix sent el nom curt de la categoria (decoblat del <title>).
+type CategorySeo = { title: string; description: string };
+
+const categorySeo: Record<string, CategorySeo> = {
+  "Condroprotectores": {
+    title: "Condroprotectores para perros: comparativa y precios",
+    description:
+      "Comparativa de condroprotectores para perros: glucosamina, condroitina, MSM y mejillón de labio verde. Precios actualizados y análisis honesto para acertar.",
+  },
+  "Camas ortopédicas": {
+    title: "Camas ortopédicas para perros: comparativa y precios",
+    description:
+      "Camas ortopédicas para perros: viscoelástica, impermeable y desenfundable. Tamaños, grosor de espuma y precios actualizados para elegir la mejor.",
+  },
+  "Correas": {
+    title: "Correas para perros: largas, adiestramiento y paseo",
+    description:
+      "Correas para perros: largas de adiestramiento, de paseo y antitirones. Materiales, longitudes y precios comparados con análisis propio.",
+  },
+  "Alimentación específica": {
+    title: "Pienso y dietas veterinarias para perros",
+    description:
+      "Piensos y dietas veterinarias para perros: renal, urinario, gastrointestinal y articular. Comparativa de marcas y precios con criterio.",
+  },
+  "Bozales": {
+    title: "Bozales para perros: cesta, silicona y a medida",
+    description:
+      "Bozales para perros de cesta, silicona y a medida. Cómo elegir la talla para que pueda jadear, beber y aceptar premios. Comparativa y precios.",
+  },
+  "Ansiedad": {
+    title: "Calmantes y antiestrés para perros con ansiedad",
+    description:
+      "Calmantes y antiestrés para perros: feromonas, snacks y suplementos naturales. Qué funciona para ruidos, separación y viajes. Comparativa honesta.",
+  },
+  "Rampas": {
+    title: "Rampas para perros: coche, sofá y cama",
+    description:
+      "Rampas para perros para coche, sofá y cama. Plegables y antideslizantes, por peso y altura. Comparativa de modelos y precios con análisis propio.",
+  },
+};
+
+export function getCategorySeo(category: string): CategorySeo | null {
+  return categorySeo[category] ?? null;
+}

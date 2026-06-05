@@ -114,15 +114,30 @@ breadcrumbItems.push({ name: nombre, url: productUrl });
 const breadcrumbJsonLd = breadcrumbSchema(breadcrumbItems);
 
 const seoDescription =
+  articulo.data.descripcionSeo ||
   descripcion ||
   veredicto ||
   `Reseña detallada de ${nombre}${marca ? " de " + marca : ""} en Solución Canina.`;
+
+// Títol SEO: molts `nombre` són títols d'Amazon llarguíssims que Google talla. Si no hi ha
+// `tituloSeo` manual, generem un títol curt: noms curts amb sufix d'intenció, i els llargs
+// es retallen per paraula (es conserva el principi, ric en keyword). SEO.astro hi afegeix la marca.
+function shortenAtWord(text, max) {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  const base = lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut;
+  return base.replace(/[\s,;:.–-]+$/, "") + "…";
+}
+const pageTitle =
+  articulo.data.tituloSeo ??
+  (nombre.length > 62 ? shortenAtWord(nombre, 58) : `${nombre} · Análisis y precio`);
 
 const relatedBlogs = blogsForCategory(categoria);
 ---
 
 <Layout
-  title={`${nombre} · Análisis, precio y opiniones`}
+  title={pageTitle}
   description={seoDescription}
   image={imagen}
   type="product"

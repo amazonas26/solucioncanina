@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import internalLinkCheck from './scripts/astro-internal-link-check.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -112,6 +113,8 @@ export default defineConfig({
         return item;
       },
     }),
+    // Falla el build si hi ha enllaços interns trencats (evita la regressió dels 404).
+    internalLinkCheck(),
   ],
   vite: {
     plugins: [tailwindcss()],
