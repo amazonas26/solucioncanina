@@ -1,13 +1,13 @@
-// Reparador d'enllaços interns de producte al blog.
+// Reparador d'enllaços interns del blog (productes i articles).
 //
 // Complementa scripts/astro-internal-link-check.mjs: aquell DETECTA enllaços trencats i
 // atura el build; aquest els REPARA. Quan una migració d'slugs deixa enllaços `/producto/<slug>`
-// trencats al blog, mapeja cada slug trencat al producte real i (amb --apply) ho corregeix.
+// o `/blog/<slug>` trencats al cos dels articles, mapeja cada slug trencat al destí real.
 //
 // Estratègia de mapeig, per ordre de confiança:
 //   1) dir-exact  → el slug trencat coincideix amb el NOM DE CARPETA d'un producte; s'usa el seu
-//                   slug real (data.slug || slugify(nombre)). Confiança 1.0 (és el mateix producte).
-//   2) token      → màxima coincidència de tokens (Jaccard) amb un producte. Confiança < 1.
+//                   slug real (data.slug || slugify(nombre)). Confiança 1.0 (és el mateix ítem).
+//   2) token      → màxima coincidència de tokens (Jaccard) amb un ítem candidat. Confiança < 1.
 // Per defecte fa DRY-RUN. Amb --apply corregeix només les coincidències de confiança ≥ llindar
 // (0.5 per defecte), respectant límits de paraula per no fer matches parcials.
 //
@@ -41,68 +41,96 @@ function slugify(text) {
     .replace(/--+/g, '-');
 }
 
-// 1) Índex de productes
-const dirToSlug = new Map();
-const validSlugs = new Set();
-const productTokens = [];
 const tokenize = (s) => new Set(slugify(s).split('-').filter((t) => t.length > 2));
-for (const dir of fs.readdirSync(ART, { withFileTypes: true })) {
-  if (!dir.isDirectory()) continue;
-  const jp = path.join(ART, dir.name, 'index.json');
-  if (!fs.existsSync(jp)) continue;
-  let d;
-  try { d = JSON.parse(fs.readFileSync(jp, 'utf8')); } catch { continue; }
-  const slug = d.slug || slugify(d.nombre || dir.name);
-  dirToSlug.set(dir.name, slug);
-  validSlugs.add(slug);
-  productTokens.push({ slug, toks: tokenize(slug + '-' + (d.nombre || '')) });
+
+// Construeix un "espai" de candidats per a un tipus d'enllaç (/producto/ o /blog/):
+//   validSlugs: Set d'slugs vàlids · dirToSlug: Map nom-carpeta → slug real · tokens per fuzzy.
+function buildSpace({ base, prefix, slugOf, textOf }) {
+  const validSlugs = new Set();
+  const dirToSlug = new Map();
+  const tokens = [];
+  if (!fs.existsSync(base)) return { prefix, validSlugs, dirToSlug, tokens };
+  for (const dir of fs.readdirSync(base, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const data = slugOf(dir.name);
+    if (!data) continue;
+    validSlugs.add(data.slug);
+    dirToSlug.set(dir.name, data.slug);
+    tokens.push({ slug: data.slug, toks: tokenize(data.slug + '-' + (data.text || '')) });
+  }
+  return { prefix, validSlugs, dirToSlug, tokens };
 }
 
-function bestMatch(brokenSlug) {
+// Espai de productes: slug = data.slug || slugify(nombre)
+const productSpace = buildSpace({
+  base: ART, prefix: '/producto/',
+  slugOf(dir) {
+    const jp = path.join(ART, dir, 'index.json');
+    if (!fs.existsSync(jp)) return null;
+    let d; try { d = JSON.parse(fs.readFileSync(jp, 'utf8')); } catch { return null; }
+    return { slug: d.slug || slugify(d.nombre || dir), text: d.nombre || '' };
+  },
+});
+
+// Espai de blog: el slug ÉS el nom de la carpeta
+const blogSpace = buildSpace({
+  base: BLOG, prefix: '/blog/',
+  slugOf(dir) { return { slug: dir, text: dir.replace(/-/g, ' ') }; },
+});
+
+const SPACES = [productSpace, blogSpace];
+
+function bestMatch(space, brokenSlug) {
   const bt = tokenize(brokenSlug);
   let best = null, score = 0;
-  for (const p of productTokens) {
+  for (const c of space.tokens) {
     let inter = 0;
-    for (const t of bt) if (p.toks.has(t)) inter++;
-    const j = inter / (bt.size + p.toks.size - inter || 1);
-    if (j > score) { score = j; best = p; }
+    for (const t of bt) if (c.toks.has(t)) inter++;
+    const j = inter / (bt.size + c.toks.size - inter || 1);
+    if (j > score) { score = j; best = c; }
   }
   return { target: best?.slug ?? null, score };
 }
 
-// 2) Enllaços trencats al blog
-const broken = new Map(); // slug -> Set(posts)
-const postFiles = new Map(); // post -> filepath
-for (const dir of fs.readdirSync(BLOG, { withFileTypes: true })) {
-  if (!dir.isDirectory()) continue;
-  const fp = path.join(BLOG, dir.name, 'index.mdx');
-  if (!fs.existsSync(fp)) continue;
-  postFiles.set(dir.name, fp);
-  const txt = fs.readFileSync(fp, 'utf8');
-  for (const m of txt.match(/\/producto\/[a-z0-9-]+/g) || []) {
-    const slug = m.replace('/producto/', '');
-    if (validSlugs.has(slug)) continue;
-    if (!broken.has(slug)) broken.set(slug, new Set());
-    broken.get(slug).add(dir.name);
+// Recull enllaços trencats al cos dels articles, per a cada espai.
+const postFiles = new Map();
+const broken = new Map(); // `${prefix}${slug}` -> { space, slug, posts:Set }
+if (fs.existsSync(BLOG)) {
+  for (const dir of fs.readdirSync(BLOG, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const fp = path.join(BLOG, dir.name, 'index.mdx');
+    if (!fs.existsSync(fp)) continue;
+    postFiles.set(dir.name, fp);
+    const txt = fs.readFileSync(fp, 'utf8');
+    for (const space of SPACES) {
+      const re = new RegExp(space.prefix.replace('/', '\\/') + '[a-z0-9-]+', 'g');
+      for (const m of txt.match(re) || []) {
+        const slug = m.slice(space.prefix.length);
+        if (space.validSlugs.has(slug)) continue;
+        const key = space.prefix + slug;
+        if (!broken.has(key)) broken.set(key, { space, slug, posts: new Set() });
+        broken.get(key).posts.add(dir.name);
+      }
+    }
   }
 }
 
-// 3) Resol + (opcional) aplica
+// Resol + (opcional) aplica
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const resolved = [], unresolved = [];
-for (const [slug, posts] of [...broken].sort()) {
+for (const [, { space, slug, posts }] of [...broken].sort()) {
   let target, how, conf;
-  if (dirToSlug.has(slug)) { target = dirToSlug.get(slug); how = 'dir-exact'; conf = 1; }
-  else { const r = bestMatch(slug); target = r.target; how = `token ${r.score.toFixed(2)}`; conf = r.score; }
-  const row = { slug, target, how, conf, posts: [...posts] };
+  if (space.dirToSlug.has(slug)) { target = space.dirToSlug.get(slug); how = 'dir-exact'; conf = 1; }
+  else { const r = bestMatch(space, slug); target = r.target; how = `token ${r.score.toFixed(2)}`; conf = r.score; }
+  const row = { prefix: space.prefix, slug, target, how, conf, posts: [...posts] };
   (conf >= MIN ? resolved : unresolved).push(row);
 }
 
-console.log(`\nProductes: ${validSlugs.size} | enllaços trencats: ${broken.size} | llindar: ${MIN} | mode: ${APPLY ? 'APPLY' : 'dry-run'}\n`);
+console.log(`\nProductes: ${productSpace.validSlugs.size} | articles: ${blogSpace.validSlugs.size} | enllaços trencats: ${broken.size} | llindar: ${MIN} | mode: ${APPLY ? 'APPLY' : 'dry-run'}\n`);
 console.log(`== Resoluble (confiança ≥ ${MIN}) — ${resolved.length} ==`);
-for (const r of resolved) console.log(`  [${r.how}] /producto/${r.slug}\n        → /producto/${r.target}   (${r.posts.join(', ')})`);
+for (const r of resolved) console.log(`  [${r.how}] ${r.prefix}${r.slug}\n        → ${r.prefix}${r.target}   (${r.posts.join(', ')})`);
 console.log(`\n== A revisar manualment (confiança < ${MIN}) — ${unresolved.length} ==`);
-for (const r of unresolved) console.log(`  /producto/${r.slug}   (${r.posts.join(', ')})  — millor proposta: ${r.target ? '/producto/' + r.target : 'cap'} [${r.how}]`);
+for (const r of unresolved) console.log(`  ${r.prefix}${r.slug}   (${r.posts.join(', ')})  — millor proposta: ${r.target ? r.prefix + r.target : 'cap'} [${r.how}]`);
 
 if (APPLY && resolved.length) {
   let n = 0;
@@ -113,9 +141,9 @@ if (APPLY && resolved.length) {
     let txt = fs.readFileSync(fp, 'utf8');
     rows.sort((a, b) => b.slug.length - a.slug.length); // slugs llargs primer
     for (const r of rows) {
-      const re = new RegExp('/producto/' + esc(r.slug) + '(?![a-z0-9-])', 'g');
+      const re = new RegExp(esc(r.prefix + r.slug) + '(?![a-z0-9-])', 'g');
       const m = txt.match(re);
-      if (m) { txt = txt.replace(re, '/producto/' + r.target); n += m.length; }
+      if (m) { txt = txt.replace(re, r.prefix + r.target); n += m.length; }
     }
     fs.writeFileSync(fp, txt);
   }

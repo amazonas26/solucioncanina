@@ -4,6 +4,8 @@
 // pel blog — la principal fuita de conversió/SEO del lloc. Aquesta integració evita que
 // torni a passar: escaneja TOT el dist (pàgines i assets) i FALLA el build si troba
 // qualsevol enllaç intern (href/src començant per "/") que no resol a un fitxer real.
+// A més valida que els DESTINS interns dels redirects de vercel.json també existeixin
+// (un redirect cap a un 404 és un bug silenciós).
 //
 // S'executa dins `astro build` (hook astro:build:done), així que protegeix també el build
 // de Vercel. També es pot executar com a CLI: `node scripts/astro-internal-link-check.mjs [distDir]`.
@@ -19,6 +21,8 @@ const ALLOWLIST = new Set([
   '/producto/greenpet-aceite-salmon-1-litre',
   '/producto/pets-purest-aceite-salmon-500ml',
 ]);
+
+const inAllowlist = (link) => ALLOWLIST.has(link) || ALLOWLIST.has(link.replace(/\/$/, ''));
 
 function walk(dir, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -48,7 +52,7 @@ function resolves(distDir, pathname) {
   let p;
   try { p = decodeURIComponent(pathname); } catch { p = pathname; }
   const abs = path.join(distDir, p);
-  if (p === '/' ) return fs.existsSync(path.join(distDir, 'index.html'));
+  if (p === '/') return fs.existsSync(path.join(distDir, 'index.html'));
   if (p.endsWith('/')) return fs.existsSync(path.join(abs, 'index.html'));
   const last = p.split('/').pop() || '';
   if (last.includes('.')) return fs.existsSync(abs); // asset amb extensió (imatge, xml, txt…)
@@ -56,21 +60,22 @@ function resolves(distDir, pathname) {
   return fs.existsSync(path.join(abs, 'index.html')) || fs.existsSync(abs + '.html');
 }
 
+// Comprova els enllaços interns de totes les pàgines del dist.
 export function checkInternalLinks(distDir, { logger } = {}) {
-  const log = logger ?? { info: console.log, error: console.error, warn: console.warn };
+  const log = logger ?? console;
   if (!fs.existsSync(distDir)) {
-    log.warn(`[link-check] dist no trobat: ${distDir} (saltat)`);
+    (log.warn ?? log.info)(`[link-check] dist no trobat: ${distDir} (saltat)`);
     return { broken: [], checked: 0 };
   }
   const files = walk(distDir);
-  const brokenByLink = new Map(); // pathname -> Set(pàgines on apareix)
+  const brokenByLink = new Map();
   let linkOccurrences = 0;
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
     const page = '/' + path.relative(distDir, file).replace(/index\.html$/, '').replace(/\\/g, '/');
     for (const link of extractInternalLinks(html)) {
       linkOccurrences++;
-      if (ALLOWLIST.has(link.replace(/\/$/, '')) || ALLOWLIST.has(link)) continue;
+      if (inAllowlist(link)) continue;
       if (!resolves(distDir, link)) {
         if (!brokenByLink.has(link)) brokenByLink.set(link, new Set());
         brokenByLink.get(link).add(page);
@@ -90,16 +95,46 @@ export function checkInternalLinks(distDir, { logger } = {}) {
   return { broken, checked: linkOccurrences };
 }
 
-// Integració Astro
+// Valida que els destins INTERNS dels redirects de vercel.json existeixin al dist.
+// (Els destins externs https:// i el redirect catch-all no-www→www s'ignoren.)
+export function checkRedirectDestinations(distDir, { logger, vercelJsonPath = 'vercel.json' } = {}) {
+  const log = logger ?? console;
+  if (!fs.existsSync(vercelJsonPath)) return { broken: [], checked: 0 };
+  let redirects = [];
+  try { redirects = JSON.parse(fs.readFileSync(vercelJsonPath, 'utf8')).redirects ?? []; }
+  catch { (log.warn ?? log.info)('[link-check] vercel.json no s\'ha pogut llegir (saltat).'); return { broken: [], checked: 0 }; }
+
+  const broken = [];
+  let checked = 0;
+  for (const r of redirects) {
+    const dest = r?.destination;
+    if (typeof dest !== 'string' || !dest.startsWith('/')) continue; // ignora externs ($1, https…)
+    if (dest.includes('$')) continue; // patró dinàmic
+    checked++;
+    const clean = dest.split('?')[0].split('#')[0];
+    if (inAllowlist(clean)) continue;
+    if (!resolves(distDir, clean)) broken.push({ source: r.source, destination: dest });
+  }
+  log.info(`[link-check] ${checked} destins de redirect interns comprovats.`);
+  if (broken.length) {
+    log.error(`[link-check] ❌ ${broken.length} redirects apunten a un destí inexistent:`);
+    for (const b of broken) log.error(`  ${b.source}\n      → ${b.destination} (no existeix)`);
+  }
+  return { broken, checked };
+}
+
+// Integració Astro: executa les dues comprovacions i atura el build si n'hi ha cap de trencada.
 export default function internalLinkCheck() {
   return {
     name: 'internal-link-check',
     hooks: {
       'astro:build:done': ({ dir, logger }) => {
         const distDir = fileURLToPath(dir);
-        const { broken } = checkInternalLinks(distDir, { logger });
-        if (broken.length) {
-          throw new Error(`[link-check] Build aturat: ${broken.length} enllaços interns trencats (mira el detall a dalt).`);
+        const links = checkInternalLinks(distDir, { logger });
+        const redirects = checkRedirectDestinations(distDir, { logger });
+        const total = links.broken.length + redirects.broken.length;
+        if (total) {
+          throw new Error(`[link-check] Build aturat: ${links.broken.length} enllaços + ${redirects.broken.length} redirects trencats (detall a dalt).`);
         }
       },
     },
@@ -109,6 +144,7 @@ export default function internalLinkCheck() {
 // Execució com a CLI directa
 if (import.meta.url === `file://${process.argv[1]}`) {
   const distDir = path.resolve(process.argv[2] || 'dist');
-  const { broken } = checkInternalLinks(distDir);
-  process.exit(broken.length ? 1 : 0);
+  const links = checkInternalLinks(distDir);
+  const redirects = checkRedirectDestinations(distDir);
+  process.exit(links.broken.length + redirects.broken.length ? 1 : 0);
 }

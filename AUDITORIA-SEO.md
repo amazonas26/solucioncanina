@@ -163,3 +163,8 @@ Tota la demanda es concentra en **condroprotectores**:
   de producte verificats pel comprovador). Reutilitza imatge existent de correes (es pot
   substituir per una pròpia més endavant).
 - **2026-06-06 — F6 (autoritat):** lliurat `PLAN-BACKLINKS.md` amb pla i textos a punt.
+- **2026-06-06 — Revisió i millora dels scripts:** verificat que TOTS els scripts de dades
+  (`update_prices`, `fetch-amazon-images`, `assign-primary-section`, …) preserven els camps
+  nous `tituloSeo`/`descripcionSeo` (test de round-trip OK). Millorats els 2 scripts propis:
+  el comprovador ara valida també els **destins dels redirects** de vercel.json, i el reparador
+  cobreix també enllaços **/blog/**. Provats positiu+negatiu; build verd (239 pàg., 15 redirects).
