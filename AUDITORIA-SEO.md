@@ -96,10 +96,14 @@ Tota la demanda es concentra en **condroprotectores**:
       (bravia, jointsure, maikai, glucosamina-condroitina 180). ✅ 2026-06-05
 
 ### Continu (mou l'agulla a llarg termini)
-- [ ] **F5.** Contingut: replicar la jugada del blog de condroprotectores amb *camas ortopédicas*,
-      *pienso renal*, *correas largas* (apareixen a les queries). 1-2 articles bons/mes.
-- [ ] **F6.** Backlinks / autoritat: Google Business, directoris de tendes, fòrums de gossos,
-      ressenyes. És el factor que ens té a posició 45.
+- [x] **F5.** Contingut: nou article **"Mejores correas largas para perros: adiestramiento, paseo
+      y rastreo"** (`/blog/mejores-correas-largas-perros-adiestramiento/`), atacant el clúster
+      *correa larga* (demanda real al informe: "correas largas para perros grandes" pos 1, "correa
+      20 metros perro" amb clic). Taula de 7 productes reals + enllaços a `/categoria/correas/`. ✅ 2026-06-06
+      *(Continu: 1-2 articles bons/mes — propers candidats: bozales, biothane, canicross.)*
+- [~] **F6.** Backlinks / autoritat: **pla lliurat** a [PLAN-BACKLINKS.md](PLAN-BACKLINKS.md)
+      (perfils de marca, Pinterest, directoris, guest posts, linkable asset, + textos a punt).
+      Execució **off-site per l'usuari** — és l'única palanca per pujar de la posició 45.
 - [ ] **F7.** Constància i paciència: amb 3 setmanes de vida la tendència ja és bona.
 
 ---
@@ -153,3 +157,9 @@ Tota la demanda es concentra en **condroprotectores**:
 - **2026-06-05 — Verificació integral:** build 238 pàg. OK · 6.708 enllaços interns, 0 trencats ·
   sitemap 135 URLs (sense co-z) · 0 títols amb marca duplicada · 0 amb `| Blog` · imatges
   esborrades són orfes (cap referència trencada).
+- **2026-06-05 — Deploy verificat en viu:** desplegat per l'usuari; `curl` confirma títols nous
+  (home + categoria), enllaç de producte abans trencat → 200, i redirect co-z → 308.
+- **2026-06-06 — F5 (contingut):** nou article de correes llargues (build 239 pàg., 7 enllaços
+  de producte verificats pel comprovador). Reutilitza imatge existent de correes (es pot
+  substituir per una pròpia més endavant).
+- **2026-06-06 — F6 (autoritat):** lliurat `PLAN-BACKLINKS.md` amb pla i textos a punt.
