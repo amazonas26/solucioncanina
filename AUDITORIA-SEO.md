@@ -168,3 +168,9 @@ Tota la demanda es concentra en **condroprotectores**:
   nous `tituloSeo`/`descripcionSeo` (test de round-trip OK). Millorats els 2 scripts propis:
   el comprovador ara valida també els **destins dels redirects** de vercel.json, i el reparador
   cobreix també enllaços **/blog/**. Provats positiu+negatiu; build verd (239 pàg., 15 redirects).
+- **2026-06-06 — Orquestrador `scripts/update.sh`:** encadena els scripts existents per etapes
+  (`prices`/`new`/`images`/`descriptions`/`content`/`maintenance`/`build`/`all`) sense barrejar
+  el barat-freqüent amb el car-LLM ni el destructiu. Opcions `--plan` (només imprimeix), `--dry-run`,
+  `--yes`, `--refill` (= `update_prices --refill-deleted`). Confirmació abans del destructiu/car,
+  i **build final com a gate** (el comprovador detecta si una poda ha deixat enllaços trencats).
+  Provat amb `--plan` i guards de seguretat.
