@@ -5,9 +5,9 @@
   "linkAmazon": "https://www.amazon.es/dp/B0GGBJD59H/?tag=solucioncanin-21",
   "categoria": "Camas ortopédicas",
   "marca": "EHEYCIGA",
-  "precio": "38.99€",
+  "precio": "34.99€",
   "valoracion": 4.6,
-  "valoracionesCount": 78,
+  "valoracionesCount": 92,
   "imagen": "/images/articulos/eheyciga-cama-perro-ortopedica-grande-106x76/imagen.jpg",
   "secciones": [
     "Descanso ortopédico",
@@ -27,5 +27,7 @@
     "Precio algo superior al de modelos con espumas mixtas más baratas."
   ],
   "paraQuien": "Para perros grandes que duermen estirados y necesitan apoyo articular real. No encaja para perros que buscan nido con bordes: ahí mira el formato sofá de la misma marca.",
-  "ventas": 100
+  "ventas": 100,
+  "precioOriginal": "38.99€",
+  "descuentoPct": 10
 }

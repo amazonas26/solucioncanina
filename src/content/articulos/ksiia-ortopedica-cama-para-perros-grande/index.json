@@ -5,9 +5,9 @@
   "linkAmazon": "https://www.amazon.es/dp/B0F5N8CGKB/?tag=solucioncanin-21",
   "categoria": "Camas ortopédicas",
   "marca": "KSIIA",
-  "precio": "25.99€",
+  "precio": "24.69€",
   "valoracion": 4.3,
-  "valoracionesCount": 822,
+  "valoracionesCount": 832,
   "imagen": "/images/articulos/ksiia-ortopedica-cama-para-perros-grande/imagen.jpg",
   "secciones": [
     "Descanso ortopédico",
@@ -27,5 +27,7 @@
     "90×57 cm queda corta para perros grandes; mirar otras tallas KSIIA.",
     "La felpa atrae pelo visible."
   ],
-  "paraQuien": "Para perros medianos (10-25 kg) que necesitan soporte articular sin sobrecargar el espacio del hogar. No encaja para perros grandes: la talla queda corta para razas que estiran piernas."
+  "paraQuien": "Para perros medianos (10-25 kg) que necesitan soporte articular sin sobrecargar el espacio del hogar. No encaja para perros grandes: la talla queda corta para razas que estiran piernas.",
+  "precioOriginal": "25.99€",
+  "descuentoPct": 5
 }

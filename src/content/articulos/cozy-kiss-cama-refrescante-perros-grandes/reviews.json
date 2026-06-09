@@ -1,0 +1,66 @@
+{
+  "asin": "B0GDWMFX2Z",
+  "fetched_at": "2026-06-09T15:45:40Z",
+  "source": "amazon.es/product-reviews",
+  "count": 5,
+  "reviews": [
+    {
+      "stars": 5.0,
+      "title": "Excellent",
+      "body": "Excellent, mon chien adore et mon chat aussi\nVoir si je vais en reprendre un deuxième",
+      "date": "Reseñado en Francia el 26 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": null,
+      "tipo": null,
+      "tema": null
+    },
+    {
+      "stars": 5.0,
+      "title": "Sehr zu empfehlen",
+      "body": "Mein Rüde ist mittlerweile schon 10 deshalb habe ich ihm diese speziellen Matratze gekauft. Er lieb es darauf zu liegen und fühlt sich mega wohl.Die gleiche hab ich nochmals für ihm im Schlafzimmer",
+      "date": "Reseñado en Alemania el 20 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": null,
+      "tipo": null,
+      "tema": null
+    },
+    {
+      "stars": 5.0,
+      "title": "Mein Kater empfiehlt es weiter!",
+      "body": "Mein Kater liegt nur noch drauf! Er liebt es absolut.",
+      "date": "Reseñado en Alemania el 13 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": null,
+      "tipo": null,
+      "tema": null
+    },
+    {
+      "stars": 1.0,
+      "title": "Für mich leider unpassend",
+      "body": "Ich habe meine Hand darauf gehalten und es hat nicht gekühlt. Auch in der Füllung konnte ich keine Kühlung fühlen.",
+      "date": "Reseñado en Alemania el 18 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": null,
+      "tipo": null,
+      "tema": null
+    },
+    {
+      "stars": 5.0,
+      "title": "Great Waterproof Pet Crate Pad",
+      "body": "I have a puppy who has occasional accidents in her crate and needed a waterproof  crate pad.  This pad is truly waterproof.  I simply wipe down the pad with pet urine cleaner spray and the pad dries quickly.  The pad cover is not 100% stain proof, however, as a few small stains have remained.  The foam pad is also thick as described and supportive.  Highly recommend this pad.",
+      "date": "Reseñado en Estados Unidos el 3 de mayo de 2026",
+      "helpful": 0,
+      "verified": true,
+      "tono": null,
+      "tipo": null,
+      "tema": null
+    }
+  ],
+  "classified_at": "2026-06-09T15:47:42Z",
+  "classified_with": "qwen2.5:7b-instruct",
+  "defect_rate": 0.0
+}

@@ -5,7 +5,7 @@
   "linkAmazon": "https://www.amazon.es/dp/B0FY3RSNX2/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "EGV",
-  "precio": "24.95€",
+  "precio": "23.45€",
   "valoracion": 4.7,
   "valoracionesCount": 67,
   "imagen": "/images/articulos/egv-condroprotector-perros-antiinflamatorio-para-perros/imagen.jpg",
@@ -27,5 +27,7 @@
     "Precio superior a marcas blancas equivalentes.",
     "Menos reseñas que productos masivos: validación social menor."
   ],
-  "paraQuien": "Para perros sénior o de razas grandes con molestia articular que valoran respaldo veterinario. No encaja si la prioridad es precio mínimo: hay opciones más económicas con principios similares."
+  "paraQuien": "Para perros sénior o de razas grandes con molestia articular que valoran respaldo veterinario. No encaja si la prioridad es precio mínimo: hay opciones más económicas con principios similares.",
+  "precioOriginal": "24.95€",
+  "descuentoPct": 6
 }
