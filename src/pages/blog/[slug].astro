@@ -156,7 +156,7 @@ const allBlogJsonLd = faqJsonLd
 
     {/* Image */}
     {post.data.imagen && (
-      <figure class="mb-12 rounded-3xl overflow-hidden border border-neutral-200/60 shadow-lg shadow-neutral-100/50">
+      <figure class="mb-10 rounded-3xl overflow-hidden border border-neutral-200/60 shadow-lg shadow-neutral-100/50">
         <img
           src={post.data.imagen}
           alt={post.data.titulo}
@@ -171,7 +171,7 @@ const allBlogJsonLd = faqJsonLd
     )}
 
     {/* Content */}
-    <div class="prose prose-lg prose-neutral mx-auto prose-headings:font-serif prose-headings:font-black prose-a:text-primary-600 prose-img:rounded-xl prose-img:border prose-img:border-neutral-200">
+    <div class="prose prose-lg prose-neutral mx-auto prose-headings:font-serif prose-headings:font-black prose-a:text-primary-600 prose-img:rounded-xl prose-img:border prose-img:border-neutral-200 [&_table]:max-w-full [&_table]:overflow-x-auto">
       <Content components={{ AffiliateBox }} />
     </div>
 
