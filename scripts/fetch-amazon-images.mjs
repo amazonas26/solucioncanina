@@ -29,6 +29,16 @@ const HTML_HEADERS = {
   Referer: 'https://www.amazon.es/',
 };
 
+/**
+ * URL NETA per scrapejar, SENSE el tag d'afiliat. Visitar Amazon amb `?tag=` des
+ * d'un script compta com un clic d'afiliat fals (infla clics + risc de ban). Per
+ * baixar la imatge només cal el PDP net: https://www.amazon.es/dp/{ASIN}/
+ */
+function scrapeUrl(linkAmazon) {
+  const m = /\/(?:dp|gp\/product)\/([A-Z0-9]{10})/i.exec(linkAmazon || '');
+  return m ? `https://www.amazon.es/dp/${m[1].toUpperCase()}/` : linkAmazon;
+}
+
 function parseArgs(argv) {
   let dryRun = false;
   let delayMs = 1500;
@@ -272,7 +282,7 @@ async function main() {
     process.stdout.write(`→ ${slug} … `);
 
     try {
-      const html = await fetchHtml(link);
+      const html = await fetchHtml(scrapeUrl(link));
 
       const imageUrl = extractMainImageUrl(html);
       if (!imageUrl) {

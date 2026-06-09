@@ -60,6 +60,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from _common import ensure_affiliate_link as _ensure_affiliate_link  # noqa: E402
 from _common import slugify as _slugify  # noqa: E402
 from _common import strip_brand_prefix as _strip_brand_prefix  # noqa: E402
+from _common import amazon_scrape_url as _amazon_scrape_url  # noqa: E402
 
 ROOT = Path(__file__).parent.parent
 ARTICULOS_DIR = ROOT / "src" / "content" / "articulos"
@@ -771,12 +772,16 @@ def main():
         url = data.get("linkAmazon", "")
 
         print(f"[{slug}]")
-        print(f"  URL: {url}")
 
         if not url:
             print("  SKIP: sense linkAmazon")
             failed.append((name, "sense URL"))
             continue
+
+        # Scraping SEMPRE amb URL neta (sense ?tag=): visitar Amazon amb el tag
+        # des d'un script genera clics d'afiliat falsos (risc de ban + dades brutes).
+        scrape_url = _amazon_scrape_url(url)
+        print(f"  URL: {scrape_url}")
 
         # ---------------------------------------------------------------
         # Higienització del títol: si el `nombre` comença per la marca
@@ -800,7 +805,7 @@ def main():
             name_changed = True
 
         new_data = fetch_product_data(
-            url,
+            scrape_url,
             session,
             review_count_json=_coerce_review_count_json(data.get("valoracionesCount")),
         )

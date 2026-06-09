@@ -106,6 +106,21 @@ def amazon_affiliate_url(url_or_asin: str, tag: str = DEFAULT_AMAZON_TAG) -> str
     return f"https://www.amazon.es/dp/{asin}/?tag={tag}"
 
 
+def amazon_scrape_url(url_or_asin: str) -> str:
+    """URL NETA per fer scraping, SENSE el tag d'afiliat.
+
+    Important: visitar Amazon amb `?tag=...` des d'un script compta com un "clic"
+    d'afiliat fals (infla els clics i viola l'Operating Agreement d'Associates).
+    Per scrapejar preu/imatge/descripció s'ha d'usar SEMPRE aquesta URL neta.
+    Si no es pot extreure l'ASIN, retorna l'entrada original (millor scrapejar
+    alguna cosa que res), però sense afegir-hi cap tag.
+    """
+    asin = extract_asin(url_or_asin)
+    if not asin:
+        return url_or_asin or ""
+    return f"https://www.amazon.es/dp/{asin}/"
+
+
 def ensure_affiliate_link(data: dict, tag: str = DEFAULT_AMAZON_TAG) -> bool:
     """Afegeix o normalitza tag= al camp linkAmazon. Retorna True si ha canviat."""
     url = (data.get("linkAmazon") or "").strip()

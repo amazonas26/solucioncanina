@@ -1,0 +1,15 @@
+{
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "docs",
+  "attachmentFolderPath": "docs/adjuntos",
+  "userIgnoreFilters": [
+    "node_modules/",
+    "dist/",
+    ".vercel/",
+    ".astro/",
+    ".git/",
+    "scratch/",
+    "pnpm-lock.yaml"
+  ]
+}

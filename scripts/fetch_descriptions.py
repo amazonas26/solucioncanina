@@ -34,6 +34,8 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+from _common import amazon_scrape_url  # scraping sense tag d'afiliat (evita clics falsos)
+
 ROOT = Path(__file__).parent.parent
 ARTICULOS_DIR = ROOT / "src" / "content" / "articulos"
 
@@ -337,7 +339,7 @@ def main():
     for json_path in pending:
         data = load_json(json_path)
         slug = json_path.parent.name
-        url = data["linkAmazon"]
+        url = amazon_scrape_url(data["linkAmazon"])  # neta, sense ?tag=
 
         print(f"[{slug}]")
         print(f"  URL: {url}")
