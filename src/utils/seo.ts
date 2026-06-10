@@ -109,6 +109,9 @@ export interface ProductInput {
   rating?: number;
   ratingCount?: number;
   category?: string;
+  pros?: string[];
+  cons?: string[];
+  reviewBody?: string;
 }
 
 export function productSchema(input: ProductInput) {
@@ -144,6 +147,38 @@ export function productSchema(input: ProductInput) {
       reviewCount: input.ratingCount,
       bestRating: 5,
       worstRating: 1,
+    };
+  }
+
+  if (input.reviewBody || (input.pros && input.pros.length) || (input.cons && input.cons.length)) {
+    schema.review = {
+      '@type': 'Review',
+      reviewRating: input.rating ? {
+        '@type': 'Rating',
+        ratingValue: input.rating,
+        bestRating: 5,
+      } : undefined,
+      author: {
+        '@type': 'Organization',
+        name: SITE_NAME,
+      },
+      reviewBody: input.reviewBody,
+      positiveNotes: input.pros && input.pros.length > 0 ? {
+        '@type': 'ItemList',
+        itemListElement: input.pros.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: p
+        }))
+      } : undefined,
+      negativeNotes: input.cons && input.cons.length > 0 ? {
+        '@type': 'ItemList',
+        itemListElement: input.cons.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c
+        }))
+      } : undefined,
     };
   }
 

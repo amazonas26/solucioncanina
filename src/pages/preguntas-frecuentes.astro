@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { faqPageSchema } from "../utils/seo";
+
+const faqs = [
+  {
+    pregunta: "¿Quiénes estáis detrás de Solución Canina?",
+    respuesta: "Somos un pequeño equipo de amantes de los perros, educadores y eternos aprendices. Después de años conviviendo con peludos y probando cientos de collares, arneses y camas, decidimos crear el sitio web que a nosotros nos habría gustado encontrar: uno honesto, claro y donde no se recomienden productos de mala calidad."
+  },
+  {
+    pregunta: "¿Por qué vuestros enlaces me llevan a Amazon?",
+    respuesta: "Principalmente porque Amazon tiene el catálogo más grande, los envíos más rápidos y una política de devoluciones sin preguntas. Además, participamos en su programa de afiliados: si compras algo haciendo clic en nuestro enlace, Amazon nos da una pequeñísima comisión sin que a ti te cueste ni un céntimo más. Así mantenemos la web sin llenarla de anuncios intrusivos."
+  },
+  {
+    pregunta: "¿Cómo decidís qué productos recomendar?",
+    respuesta: "Nuestra regla de oro es sencilla: si no se lo pondríamos a nuestro propio perro, no lo publicamos en Solución Canina. Hacemos una criba enorme, leemos cientos de experiencias reales de usuarios y huimos de las marcas blancas genéricas de mala calidad que inundan internet."
+  },
+  {
+    pregunta: "¿Probáis físicamente absolutamente todo?",
+    respuesta: "Nos encantaría, pero seríamos mentirosos si te dijéramos que podemos comprar todas las camas ortopédicas de internet. Probamos muchos productos de primera mano, y para el resto, pasamos decenas de horas analizando especificaciones técnicas, cruzando reseñas y comparando materiales para que tú no tengas que hacerlo."
+  },
+  {
+    pregunta: "¿Cada cuánto actualizáis los rankings?",
+    respuesta: "De forma constante. Revisamos nuestras listas habitualmente para asegurarnos de que no te estamos recomendando algo que se haya quedado obsoleto, haya bajado su calidad o haya sido superado por un producto mejor al mismo precio."
+  },
+  {
+    pregunta: "¿Sois veterinarios o profesionales médicos?",
+    respuesta: "No, no somos veterinarios colegiados. Tenemos mucha experiencia tratando con perros, pero NUNCA debes tomar lo que leas aquí como un diagnóstico médico definitivo. Si tu perro está enfermo o necesita atención médica, acude siempre primero a tu veterinario."
+  },
+  {
+    pregunta: "Tengo un problema con un producto que he comprado. ¿Qué hago?",
+    respuesta: "Como nosotros no vendemos ni enviamos los productos de forma directa, tendrás que gestionar cualquier devolución con la tienda final. Si lo compraste en Amazon a través de nuestro enlace, entra en tu cuenta, ve a 'Mis Pedidos' y tramita la devolución. Es automático y gratuito."
+  }
+];
+
+const title = "Preguntas Frecuentes (FAQ) | Solución Canina";
+const description = "Resolvemos todas tus dudas sobre quiénes somos, cómo elegimos los productos y nuestra transparencia total.";
+const jsonLd = faqPageSchema(faqs);
+---
+
+<Layout title={title} description={description} jsonLd={jsonLd}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      
+      {/* Columna Izquierda: Título y Contacto */}
+      <div class="lg:col-span-5 lg:sticky lg:top-28">
+        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-neutral-100 text-neutral-800 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-primary-500"></span>
+          <span class="text-[10px] font-black uppercase tracking-widest">
+            Transparencia Absoluta
+          </span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-serif font-black text-neutral-900 tracking-tight mb-6 leading-tight">
+          Preguntas <br class="hidden lg:block" /> Frecuentes
+        </h1>
+        <p class="text-lg text-neutral-600 mb-10 leading-relaxed max-w-md">
+          Aquí te contamos cómo funciona nuestra web, cómo nos financiamos y cómo seleccionamos cada artículo. Sin tapujos ni secretos.
+        </p>
+
+        <div class="p-8 bg-neutral-900 rounded-3xl text-white">
+          <h3 class="text-xl font-bold mb-3">¿No encuentras lo que buscas?</h3>
+          <p class="text-neutral-400 text-sm mb-8 leading-relaxed">
+            Si sigues teniendo dudas sobre nuestro proceso o quieres saludarnos, estaremos encantados de leerte.
+          </p>
+          <a 
+            href="mailto:hola@solucioncanina.es" 
+            class="inline-flex items-center justify-center w-full gap-2 px-6 py-4 bg-white text-neutral-900 font-bold rounded-xl hover:bg-neutral-100 transition-colors"
+          >
+            Escríbenos un email
+          </a>
+        </div>
+      </div>
+
+      {/* Columna Derecha: Acordeón minimalista */}
+      <div class="lg:col-span-7">
+        <div class="border-t border-neutral-200">
+          {faqs.map((faq) => (
+            <details class="group border-b border-neutral-200 [&_summary::-webkit-details-marker]:hidden">
+              <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer list-none select-none">
+                <h3 class="text-lg md:text-xl font-bold text-neutral-900 leading-snug group-hover:text-primary-600 transition-colors pr-8">
+                  {faq.pregunta}
+                </h3>
+                <span class="shrink-0 transition-transform duration-300 group-open:rotate-180 flex items-center justify-center text-neutral-400 group-hover:text-primary-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </span>
+              </summary>
+              <div class="pb-8 pt-2 pr-12 animate-fade-in-down">
+                <p class="text-neutral-600 leading-relaxed text-[15px] md:text-base">
+                  {faq.respuesta}
+                </p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Pequeña animación para suavizar la apertura del texto */
+  .animate-fade-in-down {
+    animation: fadeInDown 0.3s ease-out forwards;
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
