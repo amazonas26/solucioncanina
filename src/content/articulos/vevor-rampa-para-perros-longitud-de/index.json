@@ -7,7 +7,7 @@
   "marca": "VEVOR",
   "precio": "59.90€",
   "valoracion": 4.4,
-  "valoracionesCount": 285,
+  "valoracionesCount": 286,
   "imagen": "/images/articulos/vevor-rampa-para-perros-longitud-de/imagen.jpg",
   "secciones": [
     "Movilidad y artrosis",
@@ -27,5 +27,7 @@
     "Longitud de 100 cm: queda corta como rampa de coche.",
     "Para perros muy grandes la pendiente puede quedar elevada en la altura máxima."
   ],
-  "paraQuien": "Acierta si el uso principal es dentro de casa —cama y sofá— y tienes un perro pequeño o mediano. No encaja como rampa única para coche si tienes un SUV alto: en ese caso necesitarás un modelo más largo."
+  "paraQuien": "Acierta si el uso principal es dentro de casa —cama y sofá— y tienes un perro pequeño o mediano. No encaja como rampa única para coche si tienes un SUV alto: en ese caso necesitarás un modelo más largo.",
+  "precioOriginal": "64.90€",
+  "descuentoPct": 8
 }
