@@ -1,29 +1,48 @@
 # Solución Canina
 
-> Guía editorial en español que selecciona y reseña los mejores productos para perros disponibles en Amazon España: alimentación, accesorios, salud, comportamiento, higiene y juguetes. Cada producto incluye veredicto editorial, pros, contras y análisis detallado.
+> Guía editorial independiente en español que selecciona y analiza productos para perros disponibles en Amazon España, con foco en **salud y movilidad del perro senior**: condroprotectores, camas ortopédicas, rampas, correas, bozales, alimentación veterinaria y antiestrés. Cada producto incluye veredicto editorial, pros, contras y análisis basado en reseñas reales.
 
-Sitio web estático en español (es-ES). Modelo: enlaces de afiliación a Amazon. No vendemos directamente. No sustituye el consejo veterinario.
-
-## Secciones principales
-
-- [Inicio](https://www.solucioncanina.es/): productos más vendidos, mejor valorados y con mayor descuento.
-- [Catálogo completo](https://www.solucioncanina.es/productos): todos los productos reseñados, con buscador y filtro por categoría.
-- [Blog y guías](https://www.solucioncanina.es/blog): artículos sobre comportamiento, salud, alimentación y guías de compra.
+Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta directa). El contenido no sustituye el consejo veterinario.
 
 ## Categorías de producto
 
-Las categorías se generan dinámicamente desde el catálogo. Ejemplos habituales:
+- [Condroprotectores para perros](https://www.solucioncanina.es/categoria/condroprotectores/): suplementos articulares con glucosamina, condroitina, MSM y mejillón de labio verde para artrosis y prevención.
+- [Camas ortopédicas para perros](https://www.solucioncanina.es/categoria/camas-ortopedicas/): camas viscoelásticas e impermeables para perros mayores, grandes o con artrosis/displasia.
+- [Rampas para perros](https://www.solucioncanina.es/categoria/rampas/): rampas plegables para coche, sofá y cama, por peso y altura.
+- [Correas para perros](https://www.solucioncanina.es/categoria/correas/): correas largas, de adiestramiento, de paseo y antitirones.
+- [Bozales para perros](https://www.solucioncanina.es/categoria/bozales/): bozales de cesta de silicona y nylon, por talla y forma del hocico.
+- [Alimentación específica](https://www.solucioncanina.es/categoria/alimentacion-especifica/): dietas veterinarias (renal, urinaria, gastrointestinal) y suplementos como aceite de salmón.
+- [Antiestrés y ansiedad](https://www.solucioncanina.es/categoria/ansiedad/): feromonas, snacks calmantes y suplementos para ruidos, separación y viajes.
 
-- Alimentación específica
-- Salud e higiene
-- Comportamiento y ansiedad
-- Accesorios y paseo
-- Juguetes
-- Movilidad (rampas, escalones)
+## Guías y artículos de referencia
+
+- [Condroprotectores para perros: cuándo empezar y cuáles funcionan](https://www.solucioncanina.es/blog/condroprotectores-perros-guia-completa/): glucosamina, condroitina, MSM y ácido hialurónico; dosis por peso; cuándo empezar.
+- [Mejor condroprotector para perros con artrosis](https://www.solucioncanina.es/blog/mejor-condroprotector-perros-artrosis/): comparativa y criterios de elección.
+- [Mejores camas ortopédicas para perros](https://www.solucioncanina.es/blog/mejores-camas-ortopedicas-perros/): grosor de espuma, impermeabilidad y tamaño.
+- [Camas ortopédicas para perros con artrosis o displasia](https://www.solucioncanina.es/blog/camas-ortopedicas-perros-artrosis-displasia/): qué buscar para aliviar codos y caderas.
+- [Bozales para perros: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/bozales-perros-guia-elegir-talla/): cesta vs tela, cómo medir el hocico, acostumbrarlo sin estrés.
+- [Mejores correas largas para perros (adiestramiento)](https://www.solucioncanina.es/blog/mejores-correas-largas-perros-adiestramiento/): longitudes, materiales y mosquetón.
+- [Rampas para perros: beneficios y cuál elegir](https://www.solucioncanina.es/blog/rampas-para-perros-beneficios/): cuándo usarlas y qué mirar.
+- [Pienso renal para perros: guía](https://www.solucioncanina.es/blog/pienso-renal-perros-guia/): dietas veterinarias para insuficiencia renal.
+- [Beneficios del aceite de salmón para perros](https://www.solucioncanina.es/blog/aceite-salmon-perros-beneficios/): Omega 3 para pelaje, piel y articulaciones.
+
+## Cuidados por raza
+
+- [Labrador retriever](https://www.solucioncanina.es/blog/labrador-retriever-como-cuidar-en-casa/)
+- [Golden retriever](https://www.solucioncanina.es/blog/golden-retriever-guia-cuidados-completa/)
+- [Pastor alemán (displasia y comportamiento)](https://www.solucioncanina.es/blog/pastor-aleman-cuidados-displasia-comportamiento/)
+- [Bulldog francés](https://www.solucioncanina.es/blog/bulldog-frances-cuidados-problemas-salud/)
+- [Border collie](https://www.solucioncanina.es/blog/border-collie-cuidados-problemas-comportamiento/)
+
+## Navegación
+
+- [Inicio](https://www.solucioncanina.es/): productos más vendidos, mejor valorados y con mayor descuento.
+- [Catálogo completo](https://www.solucioncanina.es/productos): todos los productos analizados, con buscador y filtros.
+- [Blog y guías](https://www.solucioncanina.es/blog): todos los artículos.
 
 ## Información del sitio
 
-- Idioma: español (España)
+- Idioma: español (España). Mercado: Amazon.es.
 - Contacto: hola@solucioncanina.es
 - Sitemap: https://www.solucioncanina.es/sitemap-index.xml
 

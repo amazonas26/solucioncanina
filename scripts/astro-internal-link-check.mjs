@@ -17,9 +17,7 @@ import { fileURLToPath } from 'node:url';
 // Enllaços interns coneguts i pendents (productes encara no creats al catàleg).
 // Documentar aquí qualsevol excepció temporal i eliminar-la quan es resolgui.
 const ALLOWLIST = new Set([
-  // Oli de salmó: hi ha article però encara no els productes. Pendent de crear les fitxes.
-  '/producto/greenpet-aceite-salmon-1-litre',
-  '/producto/pets-purest-aceite-salmon-500ml',
+  // (buida) Els productes d'oli de salmó ja existeixen al catàleg.
 ]);
 
 const inAllowlist = (link) => ALLOWLIST.has(link) || ALLOWLIST.has(link.replace(/\/$/, ''));
