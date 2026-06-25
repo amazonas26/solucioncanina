@@ -5,12 +5,14 @@
   "linkAmazon": "https://www.amazon.es/dp/B0FLGCHMMC/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "Gooddy",
-  "precio": "24.90€",
+  "precio": "17.35€",
   "valoracion": 4.6,
-  "valoracionesCount": 38,
+  "valoracionesCount": 39,
   "imagen": "/images/articulos/gooddy-condroprotector-articulaciones-100-snacks-300g/imagen.jpg",
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
-  ]
+  ],
+  "precioOriginal": "24.90€",
+  "descuentoPct": 30
 }

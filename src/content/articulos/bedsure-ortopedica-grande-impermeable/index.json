@@ -2,13 +2,13 @@
   "nombre": "Ortopédica Grande Forro Impermeable",
   "descripcion": "Cama ortopédica para perros grandes con forro interior impermeable. Espuma de alta densidad y cubierta exterior de tela suave antideslizante y lavable a máquina.",
   "imagen": "/images/articulos/bedsure-ortopedica-grande-impermeable/imagen.jpg",
-  "precio": "37.99€",
+  "precio": "34.29€",
   "linkAmazon": "https://www.amazon.es/dp/B085XRZY59/?tag=solucioncanin-21",
   "categoria": "Camas ortopédicas",
   "marca": "Bedsure",
   "valoracion": 4.6,
   "slug": "bedsure-ortopedica-grande-forro-impermeable",
-  "valoracionesCount": 13190,
+  "valoracionesCount": 13195,
   "secciones": [
     "Descanso ortopédico",
     "Perros senior"
@@ -26,5 +26,7 @@
     "Olor a espuma nueva el primer día: ventilar antes del primer uso.",
     "Verifica dimensiones: la versión grande ocupa espacio considerable."
   ],
-  "paraQuien": "Para hogares con perros grandes que duermen estirados y necesitan soporte articular sin renunciar a limpieza fácil. No encaja para perros que prefieren bordes elevados tipo nido: ahí mejor un modelo con respaldo."
+  "paraQuien": "Para hogares con perros grandes que duermen estirados y necesitan soporte articular sin renunciar a limpieza fácil. No encaja para perros que prefieren bordes elevados tipo nido: ahí mejor un modelo con respaldo.",
+  "precioOriginal": "37.99€",
+  "descuentoPct": 10
 }

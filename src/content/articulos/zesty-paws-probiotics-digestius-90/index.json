@@ -2,13 +2,13 @@
   "nombre": "Probióticos Digestivos 90 uds",
   "descripcion": "Masticables probióticos con 6 cepas de bacterias beneficiosas, prebióticos y enzimas digestivas para una flora intestinal equilibrada y digestión óptima.",
   "imagen": "/images/articulos/zesty-paws-probiotics-digestius-90/imagen.jpg",
-  "precio": "34.90€",
+  "precio": "27.92€",
   "linkAmazon": "https://www.amazon.es/dp/B0CKHXWTFQ/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "Zesty Paws",
   "valoracion": 4.2,
   "slug": "zesty-paws-probioticos-digestivos-90-uds",
-  "valoracionesCount": 1148,
+  "valoracionesCount": 1162,
   "secciones": [
     "Movilidad y artrosis",
     "Digestión sensible",
@@ -27,5 +27,7 @@
     "En problemas digestivos crónicos serios, combinar con veterinario.",
     "En sensibilidades alimentarias, el probiótico no resuelve solo: revisar dieta."
   ],
-  "paraQuien": "Para perros con problemas digestivos episódicos o tras antibióticos, como soporte de flora. No encaja como tratamiento único en patologías digestivas crónicas: ahí el diagnóstico veterinario es prioritario."
+  "paraQuien": "Para perros con problemas digestivos episódicos o tras antibióticos, como soporte de flora. No encaja como tratamiento único en patologías digestivas crónicas: ahí el diagnóstico veterinario es prioritario.",
+  "precioOriginal": "31.45€",
+  "descuentoPct": 11
 }

@@ -5,11 +5,11 @@
   "linkAmazon": "https://www.amazon.es/dp/B0CSPVGBLB/?tag=solucioncanin-21",
   "categoria": "Ansiedad",
   "marca": "KOWI",
-  "precio": "18.50€",
+  "precio": "16.80€",
   "valoracion": 4,
   "imagen": "/images/articulos/kowi-relax-drops-relajante-para-perros/imagen.jpg",
   "ventas": 100,
-  "valoracionesCount": 208,
+  "valoracionesCount": 212,
   "secciones": [
     "Ansiedad y estrés"
   ],
@@ -26,5 +26,7 @@
     "El sabor en agua puede notarse: mezclar con comida en perros selectivos.",
     "Como cualquier fitoterapia, la respuesta varía entre individuos."
   ],
-  "paraQuien": "Para perros con ansiedad de moderada a episódica que prefieren un suplemento líquido fácil de dosificar. No encaja como tratamiento único en problemas severos: combinar con etología y, si procede, con feromonas en difusor."
+  "paraQuien": "Para perros con ansiedad de moderada a episódica que prefieren un suplemento líquido fácil de dosificar. No encaja como tratamiento único en problemas severos: combinar con etología y, si procede, con feromonas en difusor.",
+  "precioOriginal": "18.50€",
+  "descuentoPct": 9
 }

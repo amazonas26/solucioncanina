@@ -5,13 +5,15 @@
   "linkAmazon": "https://www.amazon.es/dp/B0F245GNFP/?tag=solucioncanin-21",
   "categoria": "Camas ortopédicas",
   "marca": "Pawk",
-  "precio": "49.99€",
+  "precio": "43.69€",
   "valoracion": 4.6,
-  "valoracionesCount": 771,
+  "valoracionesCount": 804,
   "imagen": "/images/articulos/pawk-cama-perro-grande-sofa-perro/imagen.jpg",
   "secciones": [
     "Descanso ortopédico",
     "Perros senior"
   ],
-  "ventas": 50
+  "ventas": 50,
+  "precioOriginal": "45.99€",
+  "descuentoPct": 5
 }

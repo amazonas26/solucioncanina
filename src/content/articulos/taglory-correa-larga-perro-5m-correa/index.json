@@ -5,10 +5,10 @@
   "linkAmazon": "https://www.amazon.es/dp/B08GR2FXGJ/?tag=solucioncanin-21",
   "categoria": "Correas",
   "marca": "Taglory",
-  "precio": "14.99€",
+  "precio": "13.49€",
   "imagen": "/images/articulos/taglory-correa-larga-perro-5m-correa/imagen.jpg",
   "valoracion": 4.4,
-  "valoracionesCount": 9815,
+  "valoracionesCount": 9820,
   "secciones": [
     "Paseos seguros y control"
   ],
@@ -25,5 +25,7 @@
     "Para razas muy grandes con tirones bruscos conviene ancho superior.",
     "El plegado en modo corto pide un par de pruebas para hacerlo rápido."
   ],
-  "paraQuien": "Para entrenamiento de recall con perro mediano y dueños que valoran flexibilidad de uso. No encaja como correa de paseo urbano fijo: el formato largo no es práctico en ciudad densa."
+  "paraQuien": "Para entrenamiento de recall con perro mediano y dueños que valoran flexibilidad de uso. No encaja como correa de paseo urbano fijo: el formato largo no es práctico en ciudad densa.",
+  "precioOriginal": "14.99€",
+  "descuentoPct": 10
 }

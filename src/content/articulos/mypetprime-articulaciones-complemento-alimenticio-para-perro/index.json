@@ -5,11 +5,11 @@
   "linkAmazon": "https://www.amazon.es/dp/B0C4BDQFDW/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "MyPetPrime",
-  "precio": "24.99€",
+  "precio": "22.49€",
   "imagen": "/images/articulos/mypetprime-articulaciones-complemento-alimenticio-para-perro/imagen.jpg",
   "ventas": 50,
   "valoracion": 4.3,
-  "valoracionesCount": 1772,
+  "valoracionesCount": 1784,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -27,5 +27,7 @@
     "Sabor discreto: mezclar con comida en perros selectivos.",
     "No destaca especialmente sobre alternativas: opción equilibrada."
   ],
-  "paraQuien": "Para perros adultos con desgaste articular que buscan fórmula con MSM y mejillón labio verde en formato comprimido. No encaja para perros que rechazan comprimidos: ahí formato gotas o masticable es mejor."
+  "paraQuien": "Para perros adultos con desgaste articular que buscan fórmula con MSM y mejillón labio verde en formato comprimido. No encaja para perros que rechazan comprimidos: ahí formato gotas o masticable es mejor.",
+  "precioOriginal": "24.99€",
+  "descuentoPct": 10
 }
