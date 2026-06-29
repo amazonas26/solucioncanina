@@ -17,19 +17,24 @@ interface Props {
 type Etapa = 'prevencion' | 'senior' | 'artrosis';
 
 interface Dose {
-  rango: string;
   gluco: string;
   condro: string;
   msm: string;
 }
 
-// Dosis orientativas por peso (mg/día). Fuente: rangos habituales de fabricantes,
-// los mismos que recogemos en la guía de condroprotectores.
-function getDose(peso: number): Dose {
-  if (peso <= 10) return { rango: '5-10 kg', gluco: '250-500', condro: '100-200', msm: '100-200' };
-  if (peso <= 25) return { rango: '10-25 kg', gluco: '500-1.000', condro: '200-400', msm: '200-400' };
-  if (peso <= 40) return { rango: '25-40 kg', gluco: '1.000-1.500', condro: '400-600', msm: '400-600' };
-  return { rango: '> 40 kg', gluco: '1.500-2.000', condro: '600-800', msm: '600-800' };
+// Dosis calculadas por peso vivo, según rangos de referencia veterinarios:
+//  · Glucosamina: 20-40 mg/kg/día
+//  · Condroitina: 15-30 mg/kg/día (reducir a la mitad tras 6 semanas)
+//  · MSM:         50-100 mg/kg/día (rango terapéutico estudiado)
+// Fuentes: PetPlace (Cosequin), Pawlicy Advisor, VitaDog. Detalle citado en la página.
+const fmt = (n: number) => Math.round(n).toLocaleString('es-ES');
+function getDose(peso: number, carga: boolean): Dose {
+  const k = carga ? 2 : 1; // dosis de carga = doble durante 4-6 semanas
+  return {
+    gluco: `${fmt(peso * 20 * k)}–${fmt(peso * 40 * k)}`,
+    condro: `${fmt(peso * 15 * k)}–${fmt(peso * 30 * k)}`,
+    msm: `${fmt(peso * 50)}–${fmt(peso * 100)}`,
+  };
 }
 
 const ETAPAS: { id: Etapa; label: string; nota: string }[] = [
@@ -53,8 +58,9 @@ const ETAPAS: { id: Etapa; label: string; nota: string }[] = [
 export default function CondroprotectorCalculator({ productos }: Props) {
   const [peso, setPeso] = useState<number>(20);
   const [etapa, setEtapa] = useState<Etapa>('senior');
+  const [carga, setCarga] = useState<boolean>(false);
 
-  const dose = useMemo(() => getDose(peso), [peso]);
+  const dose = useMemo(() => getDose(peso, carga), [peso, carga]);
   const etapaInfo = ETAPAS.find((e) => e.id === etapa)!;
 
   // Recomendamos los 4 mejor valorados (los productos ya vienen ordenados).
@@ -123,6 +129,19 @@ export default function CondroprotectorCalculator({ productos }: Props) {
             </div>
           </div>
 
+          <label className="flex items-start gap-3 rounded-lg border border-neutral-200 p-3 cursor-pointer hover:border-neutral-300">
+            <input
+              type="checkbox"
+              checked={carga}
+              onChange={(e) => setCarga(e.target.checked)}
+              className="mt-0.5 accent-primary-600"
+            />
+            <span className="text-xs leading-relaxed text-neutral-600">
+              <strong className="text-neutral-800">Dosis de carga</strong> (primeras 4-6 semanas):
+              dobla glucosamina y condroitina para alcanzar niveles antes; luego pasa a mantenimiento.
+            </span>
+          </label>
+
           <p className="flex gap-2 text-xs leading-relaxed text-neutral-500 bg-neutral-50 rounded-lg p-3">
             <Info size={14} className="shrink-0 mt-0.5 text-neutral-400" />
             <span>{etapaInfo.nota}</span>
@@ -132,7 +151,7 @@ export default function CondroprotectorCalculator({ productos }: Props) {
         {/* Resultado */}
         <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-5">
           <p className="text-xs font-bold uppercase tracking-wide text-neutral-400 mb-3">
-            Dosis orientativa diaria · {dose.rango}
+            Dosis orientativa diaria · {peso} kg{carga ? ' · con carga' : ''}
           </p>
           <ul className="space-y-3">
             <li className="flex items-center justify-between border-b border-neutral-200 pb-2">

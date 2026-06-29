@@ -29,7 +29,12 @@ const faqs = [
   {
     pregunta: '¿Cuánta glucosamina necesita mi perro al día?',
     respuesta:
-      'Depende del peso. Como referencia: 5-10 kg, 250-500 mg/día; 10-25 kg, 500-1.000 mg; 25-40 kg, 1.000-1.500 mg; más de 40 kg, 1.500-2.000 mg. La condroitina y el MSM se mueven en rangos algo menores. Compara siempre estas cantidades con la etiqueta del producto: muchos suplementos baratos aportan tan poca dosis por comprimido que tendrías que dar varios al día.',
+      'Se calcula por peso vivo. Los rangos de referencia veterinarios son: glucosamina 20-40 mg/kg al día, condroitina 15-30 mg/kg y MSM 50-100 mg/kg. Por ejemplo, un perro de 20 kg necesitaría unos 400-800 mg de glucosamina, 300-600 mg de condroitina y 1.000-2.000 mg de MSM al día. Compara siempre con la etiqueta: muchos suplementos baratos aportan tan poca dosis por comprimido que tendrías que dar varios al día.',
+  },
+  {
+    pregunta: '¿Qué es la dosis de carga y cuándo se usa?',
+    respuesta:
+      'Durante las primeras 4-6 semanas se suele doblar la dosis de glucosamina y condroitina (dosis de carga) para alcanzar antes niveles útiles en la articulación; después se pasa a la dosis de mantenimiento. Con la condroitina, muchas pautas la reducen a la mitad pasadas 6 semanas. El MSM se mantiene estable. Marca la casilla "dosis de carga" en la calculadora para ver las cantidades del arranque.',
   },
   {
     pregunta: '¿La dosis es la misma para prevención que para artrosis?',
@@ -83,35 +88,45 @@ const faqJsonLd = faqPageSchema(faqs);
   <section class="mt-12 prose prose-neutral max-w-2xl">
     <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula la dosis</h2>
     <p class="text-neutral-700 leading-relaxed">
-      No existe una dosis única: depende del <strong>peso</strong> del perro y de los miligramos reales
-      de principio activo que aporte cada producto. Estos son los rangos diarios que recomienda la mayoría
-      de fabricantes y que usamos como referencia:
+      No existe una dosis única: se calcula por <strong>peso vivo</strong>. La calculadora aplica los
+      rangos de referencia que se manejan en la literatura veterinaria:
     </p>
 
     <table class="w-full text-sm my-6 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
-          <th class="py-2 pr-4">Peso del perro</th>
-          <th class="py-2 pr-4">Glucosamina (mg/día)</th>
-          <th class="py-2 pr-4">Condroitina</th>
-          <th class="py-2">MSM</th>
+          <th class="py-2 pr-4">Principio activo</th>
+          <th class="py-2 pr-4">Dosis de referencia</th>
+          <th class="py-2">Nota</th>
         </tr>
       </thead>
       <tbody class="text-neutral-700">
-        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">5-10 kg</td><td>250-500</td><td>100-200</td><td>100-200</td></tr>
-        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">10-25 kg</td><td>500-1.000</td><td>200-400</td><td>200-400</td></tr>
-        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">25-40 kg</td><td>1.000-1.500</td><td>400-600</td><td>400-600</td></tr>
-        <tr><td class="py-2 pr-4">&gt; 40 kg</td><td>1.500-2.000</td><td>600-800</td><td>600-800</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">Glucosamina</td><td>20-40 mg/kg/día</td><td class="text-neutral-500">Base del cartílago</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">Condroitina</td><td>15-30 mg/kg/día</td><td class="text-neutral-500">Reducir a la mitad tras 6 semanas</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">MSM</td><td>50-100 mg/kg/día</td><td class="text-neutral-500">Antiinflamatorio; muy seguro</td></tr>
       </tbody>
     </table>
 
     <p class="text-neutral-700 leading-relaxed">
-      El truco está en <strong>comparar el coste por dosis activa</strong>, no por envase. Si un producto
-      solo aporta 100-200 mg de glucosamina por comprimido y tu perro pesa 30 kg, necesitarás dar 5-7
+      Ejemplos: un perro de <strong>10 kg</strong> necesitaría unos 200-400 mg de glucosamina, 150-300 mg
+      de condroitina y 500-1.000 mg de MSM al día; uno de <strong>30 kg</strong>, unos 600-1.200 mg, 450-900 mg
+      y 1.500-3.000 mg respectivamente. Durante las primeras 4-6 semanas se puede usar <strong>dosis de carga</strong>
+      (el doble de glucosamina y condroitina) para alcanzar niveles antes.
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed">
+      El truco está en <strong>comparar el coste por dosis activa</strong>, no por envase: si un producto
+      solo aporta 100-200 mg de glucosamina por comprimido y tu perro pesa 30 kg, necesitarás dar varios
       comprimidos al día, así que ese bote "barato" sale caro. Lo explicamos a fondo en nuestra
       <a href="/blog/condroprotectores-perros-guia-completa/" class="text-primary-600 font-semibold hover:underline">guía completa de condroprotectores para perros</a>,
       y si ya tienes claro qué buscar, compara precios en la
       <a href="/categoria/condroprotectores/" class="text-primary-600 font-semibold hover:underline">sección de condroprotectores analizados</a>.
+    </p>
+
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Fuentes de los rangos:</strong> guías veterinarias de dosificación de glucosamina y condroitina
+      (Cosequin / PetPlace, Pawlicy Advisor) y revisiones sobre MSM en perros (50-100 mg/kg en estudios de
+      osteoartritis). Son rangos de referencia orientativos: el veterinario ajusta según el caso.
     </p>
 
     <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
