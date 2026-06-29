@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CondroprotectorCalculator from '../components/CondroprotectorCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+// Productos condroprotectores reales para las recomendaciones (excluimos multivitamínicos/probióticos).
+const EXCLUIR = ['zesty-paws-multivitaminas-5-en-1-90-uds', 'zesty-paws-probioticos-digestivos-90-uds'];
+const productos = articulos
+  .filter((a) => a.data.categoria === 'Condroprotectores')
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.tituloSeo || a.data.nombre,
+    marca: a.data.marca || '',
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    imagen: a.data.imagen,
+  }))
+  .filter((p) => !EXCLUIR.includes(p.slug))
+  .sort((x, y) => y.valoracion - x.valoracion);
+
+const faqs = [
+  {
+    pregunta: '¿Cuánta glucosamina necesita mi perro al día?',
+    respuesta:
+      'Depende del peso. Como referencia: 5-10 kg, 250-500 mg/día; 10-25 kg, 500-1.000 mg; 25-40 kg, 1.000-1.500 mg; más de 40 kg, 1.500-2.000 mg. La condroitina y el MSM se mueven en rangos algo menores. Compara siempre estas cantidades con la etiqueta del producto: muchos suplementos baratos aportan tan poca dosis por comprimido que tendrías que dar varios al día.',
+  },
+  {
+    pregunta: '¿La dosis es la misma para prevención que para artrosis?',
+    respuesta:
+      'El rango de referencia por peso es el mismo, pero en un perro con artrosis diagnosticada conviene apuntar a la parte alta del rango y mantenerlo de forma continua, siempre como complemento del tratamiento veterinario, no como sustituto. En prevención basta con estar dentro del rango.',
+  },
+  {
+    pregunta: '¿Cuánto tardan en hacer efecto los condroprotectores?',
+    respuesta:
+      'Entre 4 y 6 semanas para apreciar mejoras. El error más común es abandonarlos antes porque "no se nota nada". Si se interrumpen, los beneficios desaparecen en pocos días, por lo que deben darse de forma continua.',
+  },
+  {
+    pregunta: '¿Por qué comparar la dosis y no solo el precio?',
+    respuesta:
+      'Porque el coste real es el coste por dosis activa, no por envase. Un bote barato que solo aporta 100-200 mg de glucosamina por comprimido obliga a dar varios comprimidos al día en un perro grande, así que acaba saliendo más caro que uno con dosis alta. La calculadora te da la cantidad objetivo para que puedas comparar de verdad.',
+  },
+];
+
+const pageUrl = '/calculadora-dosis-condroprotector-perros';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Calculadora de dosis de condroprotector', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de dosis de condroprotector para perros (por peso)"
+  description="Calcula la dosis diaria de glucosamina, condroitina y MSM que necesita tu perro según su peso. Gratis y orientativa, con los condroprotectores mejor valorados que cubren esa dosis."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900">Calculadora de condroprotector</span>
+    </nav>
+    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+      Calculadora de dosis de condroprotector para perros
+    </h1>
+    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+      Introduce el peso de tu perro y te decimos la <strong>dosis diaria orientativa</strong> de
+      glucosamina, condroitina y MSM, para que sepas exactamente qué buscar en la etiqueta y no pagues
+      de más por suplementos con dosis bajas.
+    </p>
+  </div>
+
+  <CondroprotectorCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula la dosis</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      No existe una dosis única: depende del <strong>peso</strong> del perro y de los miligramos reales
+      de principio activo que aporte cada producto. Estos son los rangos diarios que recomienda la mayoría
+      de fabricantes y que usamos como referencia:
+    </p>
+
+    <table class="w-full text-sm my-6 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Peso del perro</th>
+          <th class="py-2 pr-4">Glucosamina (mg/día)</th>
+          <th class="py-2 pr-4">Condroitina</th>
+          <th class="py-2">MSM</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">5-10 kg</td><td>250-500</td><td>100-200</td><td>100-200</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">10-25 kg</td><td>500-1.000</td><td>200-400</td><td>200-400</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4">25-40 kg</td><td>1.000-1.500</td><td>400-600</td><td>400-600</td></tr>
+        <tr><td class="py-2 pr-4">&gt; 40 kg</td><td>1.500-2.000</td><td>600-800</td><td>600-800</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed">
+      El truco está en <strong>comparar el coste por dosis activa</strong>, no por envase. Si un producto
+      solo aporta 100-200 mg de glucosamina por comprimido y tu perro pesa 30 kg, necesitarás dar 5-7
+      comprimidos al día, así que ese bote "barato" sale caro. Lo explicamos a fondo en nuestra
+      <a href="/blog/condroprotectores-perros-guia-completa/" class="text-primary-600 font-semibold hover:underline">guía completa de condroprotectores para perros</a>,
+      y si ya tienes claro qué buscar, compara precios en la
+      <a href="/categoria/condroprotectores/" class="text-primary-600 font-semibold hover:underline">sección de condroprotectores analizados</a>.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Esta calculadora es orientativa y no sustituye el consejo de un veterinario. Ante cojera, dolor o
+      una patología diagnosticada, consulta siempre con tu veterinario.
+    </p>
+  </section>
+</Layout>
