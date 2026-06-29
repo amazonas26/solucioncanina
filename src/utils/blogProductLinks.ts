@@ -5,6 +5,7 @@
 export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'mejor-condroprotector-perros-artrosis': 'Condroprotectores',
   'condroprotectores-perros-guia-completa': 'Condroprotectores',
+  'glucosamina-para-perros-para-que-sirve-dosis': 'Condroprotectores',
   'mejores-camas-ortopedicas-perros': 'Camas ortopédicas',
   'rampas-para-perros-beneficios': 'Rampas',
   'pienso-renal-perros-guia': 'Alimentación específica',
@@ -20,6 +21,7 @@ export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
 export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: string }[]> = {
   'Condroprotectores': [
     { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
+    { slug: 'glucosamina-para-perros-para-que-sirve-dosis', titulo: 'Glucosamina para perros: para qué sirve y dosis' },
     { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'El mejor condroprotector para perros con artrosis' },
   ],
   'Camas ortopédicas': [
