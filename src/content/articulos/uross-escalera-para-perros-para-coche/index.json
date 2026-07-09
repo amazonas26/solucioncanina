@@ -5,13 +5,15 @@
   "linkAmazon": "https://www.amazon.es/dp/B0DPG1X1R1/?tag=solucioncanin-21",
   "categoria": "Rampas",
   "marca": "Uross",
-  "precio": "81.69€",
+  "precio": "66.59€",
   "valoracion": 4.7,
-  "valoracionesCount": 92,
+  "valoracionesCount": 93,
   "imagen": "/images/articulos/uross-escalera-para-perros-para-coche/imagen.jpg",
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior",
     "Subir al coche o sofá"
-  ]
+  ],
+  "precioOriginal": "77.88€",
+  "descuentoPct": 14
 }
