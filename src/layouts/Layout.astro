@@ -7,6 +7,12 @@ import { getCollection } from 'astro:content';
 import { organizationSchema, websiteSchema } from '../utils/seo';
 import { problemSections } from '../utils/problemSections';
 
+// "Actualizado <mes> <año>" dinámico: se recalcula en cada build/deploy, así nunca
+// queda desfasado. (En un sitio estático toma el mes del momento de compilar.)
+const MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const _hoy = new Date();
+const actualizadoLabel = `${MESES_ES[_hoy.getMonth()]} ${_hoy.getFullYear()}`;
+
 interface Props {
   title: string;
   description?: string;
@@ -109,7 +115,7 @@ const categories = categoriesProp.length > 0
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           Selección verificada de productos para perros
         </span>
-        <span class="hidden sm:block text-white/70">Actualizado mayo 2026</span>
+        <span class="hidden sm:block text-white/70">Actualizado {actualizadoLabel}</span>
       </div>
     </div>
 

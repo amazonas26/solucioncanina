@@ -16,6 +16,7 @@ export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'perro-tira-de-la-correa-soluciones': 'Correas',
   'bozales-perros-guia-elegir-talla': 'Bozales',
   'camas-ortopedicas-perros-artrosis-displasia': 'Camas ortopédicas',
+  'displasia-cadera-perros-sintomas-cuidados': 'Camas ortopédicas',
 };
 
 export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: string }[]> = {
@@ -27,6 +28,7 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
   'Camas ortopédicas': [
     { slug: 'mejores-camas-ortopedicas-perros', titulo: 'Mejores camas ortopédicas para perros' },
     { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
+    { slug: 'displasia-cadera-perros-sintomas-cuidados', titulo: 'Displasia de cadera en perros: síntomas y cuidados' },
   ],
   'Bozales': [
     { slug: 'bozales-perros-guia-elegir-talla', titulo: 'Bozales para perros: guía para elegir talla y tipo' },
