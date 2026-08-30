@@ -3,13 +3,13 @@
   "linkAmazon": "https://www.amazon.es/dp/B0GHSC53GV/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "YuMOVE",
-  "precio": "14.99€",
+  "precio": "14.23€",
   "imagen": "/images/articulos/yumove-condroprotector-perros-30-masticables-articulaciones/imagen.jpg",
   "ventas": 50,
-  "valoracion": 4.4,
+  "valoracion": 3.8,
   "descripcion": "Revitalice sus años dorados: YuMOVE Articulaciones para perros mayores es el condroprotector perros masticable diseñado para articulaciones perro de más de 8 años. Nuestra fórmula de triple acción proporciona un apoyo activo para que su mejor amigo recupere el deseo de pasear y jugar en el parque. Movilidad sin límites diarios: pensado específicamente para el cuidado de las articulaciones perro, este suplemento contribuye a reforzar la estructura articular en actividades cotidianas como subir al sofá o al coche. La combinación de glucosamina condroitina perros y ácido hialurónico favorece la lubricación y amortiguación de cada movimiento.",
   "slug": "yumove-condroprotector-perros-30-masticables-articulaciones-perro-senior-8-anos-con-mejillon-labio-verde-complejo-activease-de-150mg-cada-masticable-aceite-de-pescado-movilidad-del-canino",
-  "valoracionesCount": 3159,
+  "valoracionesCount": 49,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -27,5 +27,7 @@
     "30 unidades pueden quedarse cortas para evaluar; mirar versión 60.",
     "Contar calorías en perros con sobrepeso: los masticables aportan."
   ],
-  "paraQuien": "Para probar YuMOVE en perros sénior antes de comprar formato grande. No encaja si ya conoces el producto y va bien: la versión 60 es más rentable por unidad."
+  "paraQuien": "Para probar YuMOVE en perros sénior antes de comprar formato grande. No encaja si ya conoces el producto y va bien: la versión 60 es más rentable por unidad.",
+  "precioOriginal": "14.99€",
+  "descuentoPct": 5
 }

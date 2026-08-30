@@ -5,11 +5,11 @@
   "linkAmazon": "https://www.amazon.es/dp/B0041LZ5HW/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Advance",
-  "precio": "28.99€",
+  "precio": "27.99€",
   "imagen": "/images/articulos/advance-veterinary-diets-urinary-pienso-para/imagen.jpg",
   "ventas": 100,
   "valoracion": 4.4,
-  "valoracionesCount": 1130,
+  "valoracionesCount": 1124,
   "secciones": [
     "Problemas renales y urinarios"
   ],
@@ -26,5 +26,7 @@
     "Es alimento terapéutico, no de mantenimiento prolongado sin supervisión.",
     "Exige seguimiento con analítica de orina para confirmar disolución."
   ],
-  "paraQuien": "Para perros con cálculos de estruvita diagnosticados que necesitan disolución dietética. No encaja para perros con cálculos de otro tipo (oxalato, urato): el manejo dietético es diferente y exige otro pienso específico."
+  "paraQuien": "Para perros con cálculos de estruvita diagnosticados que necesitan disolución dietética. No encaja para perros con cálculos de otro tipo (oxalato, urato): el manejo dietético es diferente y exige otro pienso específico.",
+  "precioOriginal": "28.97€",
+  "descuentoPct": 3
 }
