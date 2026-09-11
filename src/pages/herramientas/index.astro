@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HerramientaCard from '../../components/HerramientaCard.astro';
+import { getCollection } from 'astro:content';
+import { breadcrumbSchema, collectionPageSchema } from '../../utils/seo';
+import { HERRAMIENTAS, HERRAMIENTAS_PATH } from '../../utils/herramientas';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
+);
+
+const title = 'Herramientas para elegir mejor el producto de tu perro';
+const description =
+  'Calculadoras de dosis de condroprotector, talla de bozal, talla de cama ortopédica y medida de rampa. Orientativas, con el método a la vista.';
+const pageUrl = HERRAMIENTAS_PATH;
+
+const jsonLd = [
+  collectionPageSchema({
+    name: 'Herramientas',
+    description,
+    url: pageUrl,
+    items: HERRAMIENTAS.map((h) => ({ name: h.nombre, url: h.href })),
+  }),
+  breadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Herramientas', url: pageUrl },
+  ]),
+];
+---
+
+<Layout title={title} description={description} jsonLd={jsonLd} categories={categories}>
+  <nav aria-label="Breadcrumb" class="flex mb-6 text-xs font-medium text-neutral-400 gap-2 items-center">
+    <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+    <span class="text-neutral-900">Herramientas</span>
+  </nav>
+
+  <header class="max-w-2xl mb-12">
+    <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-2">Herramientas</p>
+    <h1 class="text-4xl md:text-5xl font-serif font-black text-neutral-900 tracking-tight mb-4 leading-tight">
+      Calcula antes de comprar
+    </h1>
+    <p class="text-lg text-neutral-600 leading-relaxed">
+      Cuatro calculadoras para talla, dosis y medida. Son orientativas: no sustituyen al veterinario.
+      Las fórmulas y las fuentes están en
+      <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">cómo analizamos</a>.
+    </p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+    {HERRAMIENTAS.map((h) => (
+      <HerramientaCard herramienta={h} />
+    ))}
+  </div>
+
+  <p class="mt-12 text-sm text-neutral-500 max-w-2xl leading-relaxed">
+    Método y fuentes de estas herramientas:
+    <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">política de fuentes</a>.
+    Si un dato no está en la etiqueta o en la literatura, no lo inventamos.
+  </p>
+</Layout>

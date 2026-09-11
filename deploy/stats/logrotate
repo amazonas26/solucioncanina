@@ -1,0 +1,15 @@
+# Logs solo de este vhost (el access.log global mezcla las otras apps).
+# Copiar a /etc/logrotate.d/solucioncanina
+/var/log/solucioncanina/*.log {
+    daily
+    rotate 32
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        [ -s /run/nginx.pid ] && kill -USR1 "$(cat /run/nginx.pid)"
+    endscript
+}

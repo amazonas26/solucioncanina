@@ -204,14 +204,41 @@ export function productSchema(input: ProductInput) {
   return schema;
 }
 
+export interface ListItem {
+  name: string;
+  url: string;
+  image?: string;
+}
+
 export interface CollectionPageInput {
   name: string;
   description?: string;
   url: string;
   numberOfItems?: number;
+  items?: ListItem[];
 }
 
 export function collectionPageSchema(input: CollectionPageInput) {
+  const items = input.items;
+  const mainEntity = items && items.length > 0
+    ? {
+        '@type': 'ItemList',
+        name: input.name,
+        numberOfItems: items.length,
+        itemListElement: items.map((it, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: absUrl(it.url),
+          name: it.name,
+        })),
+      }
+    : input.numberOfItems !== undefined
+      ? {
+          '@type': 'ItemList',
+          numberOfItems: input.numberOfItems,
+        }
+      : undefined;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -220,19 +247,8 @@ export function collectionPageSchema(input: CollectionPageInput) {
     url: absUrl(input.url),
     inLanguage: 'es-ES',
     isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
-    ...(input.numberOfItems !== undefined && {
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: input.numberOfItems,
-      },
-    }),
+    ...(mainEntity && { mainEntity }),
   };
-}
-
-export interface ListItem {
-  name: string;
-  url: string;
-  image?: string;
 }
 
 export interface FaqItem {

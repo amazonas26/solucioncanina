@@ -1,0 +1,48 @@
+---
+import { otrasHerramientas } from '../utils/herramientas';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const otras = otrasHerramientas(currentPath);
+---
+
+<section class="mt-16 pt-10 border-t border-neutral-200 not-prose" aria-labelledby="otras-herramientas-heading">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+    <div>
+      <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-1">
+        Más calculadoras
+      </p>
+      <h2 id="otras-herramientas-heading" class="text-2xl md:text-3xl font-serif font-black text-neutral-900 tracking-tight">
+        Otras herramientas
+      </h2>
+    </div>
+    <a
+      href="/herramientas/"
+      class="text-sm font-bold text-primary-700 hover:underline"
+    >
+      Todas las herramientas →
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {otras.map((h) => (
+      <a
+        href={h.href}
+        class="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 hover:border-primary-300 hover:shadow-sm transition-all"
+      >
+        <h3 class="text-base font-bold text-neutral-900 leading-snug group-hover:text-primary-700 transition-colors">
+          {h.nombre}
+        </h3>
+        <p class="mt-2 text-sm text-neutral-500 leading-relaxed flex-grow">
+          {h.paraQue}
+        </p>
+        <span class="mt-4 text-xs font-bold uppercase tracking-wide text-primary-600">
+          Abrir →
+        </span>
+      </a>
+    ))}
+  </div>
+</section>

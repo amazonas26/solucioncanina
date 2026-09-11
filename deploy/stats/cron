@@ -1,0 +1,6 @@
+# /etc/cron.d/solucioncanina-goaccess
+# Después de cron.daily (logrotate ~6:25). Root: los logs son 0640 www-data:adm.
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+30 7 * * * root /usr/local/sbin/solucioncanina-goaccess >>/var/log/solucioncanina/goaccess.cron.log 2>&1
