@@ -573,7 +573,7 @@ export default function SearchableGrid({
                 {visibleSections.map((section) => (
                   <a
                     key={section.slug}
-                    href={`/categoria/${section.slug}`}
+                    href={`/categoria/${section.slug}/`}
                     className={cn(
                       "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
                       initialSectionSlug === section.slug
@@ -594,7 +594,7 @@ export default function SearchableGrid({
             </p>
             <div className="flex flex-wrap gap-2">
               <a
-                href="/productos"
+                href="/productos/"
                 className={cn(
                   "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
                   !selectedCategory && !initialSectionSlug
@@ -607,7 +607,7 @@ export default function SearchableGrid({
               {categories.map((cat) => (
                 <a
                   key={cat}
-                  href={`/categoria/${slugify(cat)}`}
+                  href={`/categoria/${slugify(cat)}/`}
                   className={cn(
                     "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
                     cat === selectedCategory && !initialSectionSlug

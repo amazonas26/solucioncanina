@@ -60,7 +60,7 @@ const categoryCards = categories
   .filter((category) => !CATEGORIES_COVERED_BY_PROBLEM_SECTIONS.has(category))
   .map((category) => ({
     name: category,
-    href: `/categoria/${slugify(category)}`,
+    href: `/categoria/${slugify(category)}/`,
     count: articulos.filter((a) => a.data.categoria === category).length,
     description:
       categoryDetails[category]?.description ??
@@ -72,7 +72,7 @@ const categoryCards = categories
 const problemCards = problemSections
   .map((section) => ({
     name: section.name,
-    href: `/categoria/${section.slug}`,
+    href: `/categoria/${section.slug}/`,
     count: countProductsInSection(articulos, section),
     description: section.description,
     icon: section.icon,
@@ -121,7 +121,7 @@ const STAR_POINTS = (() => {
     itemListSchema(
       topVendidos.map((a) => ({
         name: a.data.nombre,
-        url: `/producto/${a.data.slug || slugify(a.data.nombre)}`,
+        url: `/producto/${a.data.slug || slugify(a.data.nombre)}/`,
         image: a.data.imagen,
       })),
       "Productos más vendidos"
@@ -199,7 +199,7 @@ const STAR_POINTS = (() => {
 
       <div class="flex flex-wrap gap-3">
         <a
-          href="/productos"
+          href="/productos/"
           class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors"
           id="hero-cta"
         >
@@ -241,7 +241,7 @@ const STAR_POINTS = (() => {
             Guías y Consejos Caninos
           </h2>
         </div>
-        <a href="/blog" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+        <a href="/blog/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
           Ir al blog completo
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>
@@ -250,7 +250,7 @@ const STAR_POINTS = (() => {
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {latestPosts.map((post) => (
-        <a href={`/blog/${post.slug}`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+        <a href={`/blog/${post.slug}/`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
           <div class="aspect-[16/9] overflow-hidden relative">
             {post.data.imagen ? (
               <img
@@ -310,7 +310,7 @@ const STAR_POINTS = (() => {
             y explica antes de nada qué pasa y qué mirar. Los productos vienen después.
           </p>
         </div>
-        <a href="/productos" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+        <a href="/productos/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
           Ver catálogo completo
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>
@@ -363,7 +363,7 @@ const STAR_POINTS = (() => {
             ranking de ventas: es lo que pasa nuestros criterios y, encima, la gente repite la compra.
           </p>
         </div>
-        <a href="/productos?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
+        <a href="/productos/?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
           Ver todos los más populares
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>

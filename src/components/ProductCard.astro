@@ -26,7 +26,7 @@ const fmtCount = (n?: number) => {
 
 // Use a placeholder if no image is provided
 const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
-const detailUrl = `/producto/${slug}`;
+const detailUrl = `/producto/${slug}/`;
 const outboundUrl = outboundProductUrl(slug);
 const MIN_VISIBLE_RATING = 3.7;
 const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RATING;

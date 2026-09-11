@@ -21,7 +21,7 @@ const categories = Array.from(
 const catalogJsonLd = itemListSchema(
   articulos.map((a) => ({
     name: a.data.nombre,
-    url: `/producto/${a.data.slug || slugify(a.data.nombre)}`,
+    url: `/producto/${a.data.slug || slugify(a.data.nombre)}/`,
     image: a.data.imagen,
   })),
   "Catálogo completo de productos para perros"
@@ -29,7 +29,7 @@ const catalogJsonLd = itemListSchema(
 const catalogPageJsonLd = collectionPageSchema({
   name: "Catálogo de productos para perros",
   description: "Catálogo completo de productos para perros: alimentación, accesorios, salud y juguetes.",
-  url: "/productos",
+  url: "/productos/",
   numberOfItems: articulos.length,
 });
 ---

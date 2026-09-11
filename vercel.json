@@ -3,63 +3,152 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "solucioncanina.es" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "solucioncanina.es"
+        }
+      ],
       "destination": "https://www.solucioncanina.es/$1",
       "permanent": true
     },
-    { "source": "/producto/perrocondroprotector-perrossuplementos-para-las-articulaciones-de-perros-mayoresalivio-del-dolor-de-movilidadgotas-de-condroitina-para-perrosglucosamina-para-cadera-articulaciones", "destination": "/producto/condroprotector-gotas-perros-mayores-60ml", "permanent": true },
-    { "source": "/producto/condroprotector-antiartrosis-para-perros-snack-masticable-glucosamina-condroitina-msm-acido-hialuronico-colageno-cuidado-articular-y-movilidad-para-perros-pequenos-medianos-y-grandes", "destination": "/producto/aryany-condroprotector-snack-masticable-perros", "permanent": true },
-    { "source": "/producto/flex-drops-condroprotectores-naturales-para-perros-y-gatos-en-comodas-gotas-glucosamina-condroitina-membrana-de-huevo-acido-hialuronico-y-vitamina-c-frasco-de-60ml-jeringa-dosificadora", "destination": "/producto/kowi-flex-drops-condroprotector-gotas-60ml", "permanent": true },
-    { "source": "/producto/recompensas-calmantes-para-perros-sin-cereales-y-hipoalergenicas-recompensas-que-alivian-la-ansiedad-y-calman-a-tu-perro-aptas-para-perros-y-cachorros-de-mas-de-8-semanas-pavo-100g", "destination": "/producto/coachi-recompensas-calmantes-perros-pavo-100g", "permanent": true },
-    { "source": "/producto/cama-extra-grande-para-perro-impermeable-ortopedica-xxl-sofa-cama-para-perro-con-refuerzo-en-forma-de-u-funda-extraible-lavable-y-base-antideslizante-gris-119x81x19cm", "destination": "/producto/cama-perro-grande-sofa-perro-ortopedica-desmontable-y-lavable-colchon-perro-con-forro-impermeable-y-espuma-viscoelastica-107x81x19cm-gris", "permanent": true },
-    { "source": "/producto/ksiia-cama-ortopedica-xxl-perro-119x81", "destination": "/producto/cama-perro-grande-sofa-perro-ortopedica-desmontable-y-lavable-colchon-perro-con-forro-impermeable-y-espuma-viscoelastica-107x81x19cm-gris", "permanent": true },
-    { "source": "/producto/edipets-correa-perro-larga-adiestramiento-resistente-15m-3m-5m-10m-15m-de-naylon-fuerte-para-camping-paseo-para-perrosmascotas-grandemedianopequeno-15-metros-negro", "destination": "/producto/correa-perro-correas-para-perros-para-cachorro-pequenos-medianos-y-grandes-12-m-15-m-22-m-correa-perro-adiestramiento-150-cm-negro", "permanent": true },
-    { "source": "/producto/cama-perro-extra-grande-ortopedica-112x81x76-cm-colchon-perro-desenfundable-impermeable-lavable-irrompible-cama-can-con-espuma-de-caja-de-huevos-dog-bed-xl-gris", "destination": "/producto/wavve-cama-ortopedica-xl-perro-112x81", "permanent": true },
-    { "source": "/producto/cama-perro-ortopedica-grande-106x76-cm-sofa-cama-con-respaldo-alto-colchon-perro-viscoelastica-impermeable-funda-lavable-gris", "destination": "/producto/eheyciga-cama-ortopedica-viscoelastica-perro-106x76", "permanent": true },
-    { "source": "/producto/linea-de-entrenamiento-para-perros-15-m-de-largo-negro-ajustable-resistente-a-la-carga-correas-de-nailon-para-perros-medianos-y-pequenos-y-grandes-entrenamiento-y-senderismo", "destination": "/producto/linea-entrenamiento-perros-nailon-15m", "permanent": true },
-    { "source": "/producto/bacoeng-180cm-rampa-para-perros-coche-plegable-rampa-para-perros-portatil-para-perros-grandes-con-alfombra-antideslizante-disponible-para-camion-coche-suv-soporta-hasta-110-kg", "destination": "/producto/bacoeng-rampa-plegable-perros-180cm", "permanent": true },
-    { "source": "/producto/correa-perro-larga-reflectante-3m-5m-10m-15m-20m-cuerda-perro-grande-adiestramiento-con-acolchado-comodo-violeta", "destination": "/producto/comsle-correa-larga-reflectante-perro-violeta", "permanent": true },
-    { "source": "/producto/pacifeel-jarabe-complemento-alimenticio-para-perros-y-gatos-con-melisa-y-pasiflora-favorece-la-relajacion-y-controla-el-estres-y-la-ansiedad-de-forma-natural-con-buen-sabor-150-ml", "destination": "/producto/heel-pacifeel-jarabe-calmante-perros-gatos-150ml", "permanent": true },
-    { "source": "/producto/co-z-rampa-para-perros-para-coche-160-cm-rampa-plegable-para-mascotas-de-hasta-90-kg-superficie-antideslizante-para-coche-suv-camioneta-cama-sofa", "destination": "/categoria/subir-al-coche-o-sofa", "permanent": true },
-    { "source": "/categoria/condroprotectores/calculadora-dosis", "destination": "/calculadora-dosis-condroprotector-perros", "permanent": true }
+    {
+      "source": "/producto/perrocondroprotector-perrossuplementos-para-las-articulaciones-de-perros-mayoresalivio-del-dolor-de-movilidadgotas-de-condroitina-para-perrosglucosamina-para-cadera-articulaciones",
+      "destination": "/producto/condroprotector-gotas-perros-mayores-60ml/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/condroprotector-antiartrosis-para-perros-snack-masticable-glucosamina-condroitina-msm-acido-hialuronico-colageno-cuidado-articular-y-movilidad-para-perros-pequenos-medianos-y-grandes",
+      "destination": "/producto/aryany-condroprotector-snack-masticable-perros/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/flex-drops-condroprotectores-naturales-para-perros-y-gatos-en-comodas-gotas-glucosamina-condroitina-membrana-de-huevo-acido-hialuronico-y-vitamina-c-frasco-de-60ml-jeringa-dosificadora",
+      "destination": "/producto/kowi-flex-drops-condroprotector-gotas-60ml/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/recompensas-calmantes-para-perros-sin-cereales-y-hipoalergenicas-recompensas-que-alivian-la-ansiedad-y-calman-a-tu-perro-aptas-para-perros-y-cachorros-de-mas-de-8-semanas-pavo-100g",
+      "destination": "/producto/coachi-recompensas-calmantes-perros-pavo-100g/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/cama-extra-grande-para-perro-impermeable-ortopedica-xxl-sofa-cama-para-perro-con-refuerzo-en-forma-de-u-funda-extraible-lavable-y-base-antideslizante-gris-119x81x19cm",
+      "destination": "/producto/cama-perro-grande-sofa-perro-ortopedica-desmontable-y-lavable-colchon-perro-con-forro-impermeable-y-espuma-viscoelastica-107x81x19cm-gris/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/ksiia-cama-ortopedica-xxl-perro-119x81",
+      "destination": "/producto/cama-perro-grande-sofa-perro-ortopedica-desmontable-y-lavable-colchon-perro-con-forro-impermeable-y-espuma-viscoelastica-107x81x19cm-gris/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/edipets-correa-perro-larga-adiestramiento-resistente-15m-3m-5m-10m-15m-de-naylon-fuerte-para-camping-paseo-para-perrosmascotas-grandemedianopequeno-15-metros-negro",
+      "destination": "/producto/correa-perro-correas-para-perros-para-cachorro-pequenos-medianos-y-grandes-12-m-15-m-22-m-correa-perro-adiestramiento-150-cm-negro/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/cama-perro-extra-grande-ortopedica-112x81x76-cm-colchon-perro-desenfundable-impermeable-lavable-irrompible-cama-can-con-espuma-de-caja-de-huevos-dog-bed-xl-gris",
+      "destination": "/producto/wavve-cama-ortopedica-xl-perro-112x81/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/cama-perro-ortopedica-grande-106x76-cm-sofa-cama-con-respaldo-alto-colchon-perro-viscoelastica-impermeable-funda-lavable-gris",
+      "destination": "/producto/eheyciga-cama-ortopedica-viscoelastica-perro-106x76/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/linea-de-entrenamiento-para-perros-15-m-de-largo-negro-ajustable-resistente-a-la-carga-correas-de-nailon-para-perros-medianos-y-pequenos-y-grandes-entrenamiento-y-senderismo",
+      "destination": "/producto/linea-entrenamiento-perros-nailon-15m/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/bacoeng-180cm-rampa-para-perros-coche-plegable-rampa-para-perros-portatil-para-perros-grandes-con-alfombra-antideslizante-disponible-para-camion-coche-suv-soporta-hasta-110-kg",
+      "destination": "/producto/bacoeng-rampa-plegable-perros-180cm/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/correa-perro-larga-reflectante-3m-5m-10m-15m-20m-cuerda-perro-grande-adiestramiento-con-acolchado-comodo-violeta",
+      "destination": "/producto/comsle-correa-larga-reflectante-perro-violeta/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/pacifeel-jarabe-complemento-alimenticio-para-perros-y-gatos-con-melisa-y-pasiflora-favorece-la-relajacion-y-controla-el-estres-y-la-ansiedad-de-forma-natural-con-buen-sabor-150-ml",
+      "destination": "/producto/heel-pacifeel-jarabe-calmante-perros-gatos-150ml/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/co-z-rampa-para-perros-para-coche-160-cm-rampa-plegable-para-mascotas-de-hasta-90-kg-superficie-antideslizante-para-coche-suv-camioneta-cama-sofa",
+      "destination": "/categoria/subir-al-coche-o-sofa/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/condroprotectores/calculadora-dosis",
+      "destination": "/calculadora-dosis-condroprotector-perros/",
+      "permanent": true
+    }
   ],
   "headers": [
     {
       "source": "/(.*).xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     },
     {
       "source": "/_astro/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/images/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
       ]
     },
     {
       "source": "/fonts/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/logo.png",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
       ]
     }
   ]

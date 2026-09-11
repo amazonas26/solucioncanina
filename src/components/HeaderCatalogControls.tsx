@@ -115,10 +115,10 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
   useEffect(() => {
     setMounted(true);
     const path = window.location.pathname;
-    if (path === '/productos' || path === '/') {
+    if (path === '/productos/' || path === '/productos' || path === '/') {
       setActive('Todos');
     } else if (path.startsWith('/categoria/')) {
-      const slug = path.split('/').pop();
+      const slug = path.replace(/\/+$/, '').split('/').pop();
       const found = displayCats.find((c) => slugify(c) === slug);
       if (found) setActive(found);
     }
@@ -177,7 +177,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
   // Si estem a la home, fer scroll suau al catàleg quan l'usuari executa la cerca
   const scrollToCatalog = () => {
     if (typeof window === 'undefined') return;
-    if (window.location.pathname !== '/productos') return;
+    if (window.location.pathname !== '/productos/' && window.location.pathname !== '/productos') return;
     const el = document.getElementById('articulos');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -202,20 +202,20 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
 
   // Navegar a un producte concret
   const goToProduct = (slug: string) => {
-    window.location.href = `/producto/${slug}`;
+    window.location.href = `/producto/${slug}/`;
   };
 
   const goToAllResults = () => {
     const q = query.trim();
     if (!q) return;
-    if (window.location.pathname === '/productos') {
+    if (window.location.pathname === '/productos/' || window.location.pathname === '/productos') {
       // Ja som a la pàgina de productes: emet l'event i fa scroll. No recarrega.
       emit('sc:search', { query: q });
       setDropdownOpen(false);
       // petit timeout perquè el grid faci el re-render abans de l'scroll
       setTimeout(scrollToCatalog, 60);
     } else {
-      window.location.href = `/productos?search=${encodeURIComponent(q)}#articulos`;
+      window.location.href = `/productos/?search=${encodeURIComponent(q)}#articulos`;
     }
   };
 
@@ -314,7 +314,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
                     return (
                       <li key={s.slug} role="option" aria-selected={isHL}>
                         <a
-                          href={`/producto/${s.slug}`}
+                          href={`/producto/${s.slug}/`}
                           onMouseEnter={() => setHighlight(idx)}
                           className={[
                             'flex items-center gap-3 px-3 py-2.5 transition-colors',
@@ -411,7 +411,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
                   <div className="space-y-0.5">
                     {displayCats.map((cat) => {
                       const isActive = cat === active;
-                      const href = cat === 'Todos' ? '/productos' : `/categoria/${slugify(cat)}`;
+                      const href = cat === 'Todos' ? '/productos/' : `/categoria/${slugify(cat)}/`;
                       return (
                         <a
                           key={cat}

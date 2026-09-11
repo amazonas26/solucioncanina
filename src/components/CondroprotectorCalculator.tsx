@@ -184,7 +184,7 @@ export default function CondroprotectorCalculator({ productos }: Props) {
             {recomendados.map((p) => (
               <a
                 key={p.slug}
-                href={`/producto/${p.slug}`}
+                href={`/producto/${p.slug}/`}
                 className="group flex items-center justify-between gap-3 rounded-xl border border-neutral-200 bg-white p-3 hover:border-primary-300 hover:shadow-sm transition-all"
               >
                 <span className="min-w-0">

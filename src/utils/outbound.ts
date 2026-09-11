@@ -1,3 +1,5 @@
+import { recomiendaPath } from './paths';
+
 export function outboundProductUrl(slug: string) {
-  return `/recomienda/${slug}`;
+  return recomiendaPath(slug);
 }

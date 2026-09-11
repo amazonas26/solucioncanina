@@ -1,5 +1,6 @@
 ---
 import { SITE_NAME, SITE_URL, SITE_LOGO, absUrl } from '../utils/seo';
+import { withTrailingSlash } from '../utils/paths';
 
 interface Props {
   title: string;
@@ -22,7 +23,8 @@ const {
 } = Astro.props as Props;
 
 const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-const canonicalUrl = canonical ?? new URL(Astro.url.pathname, SITE_URL).toString();
+const canonicalUrl =
+  canonical ?? new URL(withTrailingSlash(Astro.url.pathname), SITE_URL).toString();
 const ogImage = image ? absUrl(image) : SITE_LOGO;
 const ogType = type === 'article' ? 'article' : type === 'product' ? 'product' : 'website';
 

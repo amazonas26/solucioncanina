@@ -84,7 +84,7 @@ const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
 
 const productSlug = articulo.data.slug || slugify(nombre);
-const productUrl = `/producto/${productSlug}`;
+const productUrl = `/producto/${productSlug}/`;
 const outboundUrl = outboundProductUrl(productSlug);
 const categoriaSlug = categoria ? slugify(categoria) : null;
 
@@ -111,7 +111,7 @@ const productJsonLd = productSchema({
 
 const breadcrumbItems = [{ name: "Inicio", url: "/" }];
 if (categoria && categoriaSlug) {
-  breadcrumbItems.push({ name: categoria, url: `/categoria/${categoriaSlug}` });
+  breadcrumbItems.push({ name: categoria, url: `/categoria/${categoriaSlug}/` });
 }
 breadcrumbItems.push({ name: nombre, url: productUrl });
 const breadcrumbJsonLd = breadcrumbSchema(breadcrumbItems);
@@ -159,7 +159,7 @@ const relatedBlogs = blogsForCategory(categoria);
         categoria && (
           <>
             <a
-              href={`/categoria/${slugify(categoria)}`}
+              href={`/categoria/${slugify(categoria)}/`}
               class="hover:text-primary-600 transition-colors"
             >
               {categoria}
@@ -551,7 +551,7 @@ const relatedBlogs = blogsForCategory(categoria);
             {relatedBlogs.map((b) => (
               <li>
                 <a
-                  href={`/blog/${b.slug}`}
+                  href={`/blog/${b.slug}/`}
                   class="group flex items-center gap-3 p-4 rounded-2xl border border-neutral-100 hover:border-primary-200 hover:bg-primary-50/30 transition-colors"
                 >
                   <span class="text-primary-600 shrink-0">
@@ -581,7 +581,7 @@ const relatedBlogs = blogsForCategory(categoria);
               </h2>
             </div>
             <a
-              href="/productos"
+              href="/productos/"
               class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-neutral-400 hover:text-primary-600 transition-colors whitespace-nowrap"
             >
               Ver catálogo completo
@@ -610,7 +610,7 @@ const relatedBlogs = blogsForCategory(categoria);
                 <div
                   class="group flex flex-col h-full bg-white border border-neutral-100 rounded-[32px] p-5 hover:shadow-2xl hover:shadow-neutral-200/50 transition-all duration-500 hover:-translate-y-1"
                 >
-                  <a href={`/producto/${r.slug}`} class="block mb-6">
+                  <a href={`/producto/${r.slug}/`} class="block mb-6">
                     <div class="aspect-square flex items-center justify-center bg-neutral-50 rounded-2xl overflow-hidden relative group-hover:bg-white transition-colors">
                       {r.imagen ? (
                         <img
@@ -633,7 +633,7 @@ const relatedBlogs = blogsForCategory(categoria);
                           {r.marca}
                         </span>
                       )}
-                      <a href={`/producto/${r.slug}`} class="group/title">
+                      <a href={`/producto/${r.slug}/`} class="group/title">
                         <h3 class="text-sm font-bold text-neutral-900 leading-tight line-clamp-2 group-hover/title:text-primary-600 transition-colors">
                           {r.nombre}
                         </h3>
@@ -648,7 +648,7 @@ const relatedBlogs = blogsForCategory(categoria);
                       </div>
 
                       <a
-                        href={`/producto/${r.slug}`}
+                        href={`/producto/${r.slug}/`}
                         class="flex items-center justify-center gap-2 w-full py-3 border border-primary-200 text-primary-700 bg-primary-50/50 hover:bg-primary-100 hover:border-primary-300 text-[11px] font-black rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
                       >
                         Ver análisis

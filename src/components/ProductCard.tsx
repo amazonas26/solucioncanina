@@ -42,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   valoracionesCount,
 }) => {
   const imageUrl = imagen || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800&h=600';
-  const detailUrl = `/producto/${slug}`;
+  const detailUrl = `/producto/${slug}/`;
 
   return (
     <motion.div

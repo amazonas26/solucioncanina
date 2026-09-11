@@ -1,3 +1,5 @@
+import { withTrailingSlash } from './paths';
+
 export const SITE_URL = 'https://www.solucioncanina.es';
 export const SITE_NAME = 'Solución Canina';
 export const SITE_LOGO = `${SITE_URL}/logo.png`;
@@ -5,7 +7,7 @@ export const ORG_EMAIL = 'hola@solucioncanina.es';
 
 export function absUrl(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
-  const clean = path.startsWith('/') ? path : `/${path}`;
+  const clean = withTrailingSlash(path.startsWith('/') ? path : `/${path}`);
   return `${SITE_URL}${clean}`;
 }
 
@@ -36,7 +38,7 @@ export function websiteSchema() {
     inLanguage: 'es-ES',
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/productos?search={search_term_string}`,
+      target: `${SITE_URL}/productos/?search={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };

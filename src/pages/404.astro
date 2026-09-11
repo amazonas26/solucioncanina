@@ -1,16 +1,139 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { withTrailingSlash } from '../utils/paths';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
+).sort((a, b) => a.localeCompare(b, 'es'));
+
+// Orden por impresiones GSC conocidas (CTR audit); actualízalo cuando haya datos nuevos.
+const topPostSlugs = [
+  'mi-perro-se-rasca-mucho-sin-pulgas-causas',
+  'glucosamina-para-perros-para-que-sirve-dosis',
+  'bozales-perros-guia-elegir-talla',
+  'como-evitar-que-mi-perro-suelte-pelo',
+  'displasia-cadera-perros-sintomas-cuidados',
+] as const;
+
+const blog = await getCollection('blog');
+const bySlug = new Map(blog.map((p) => [p.slug, p]));
+const topPosts = topPostSlugs
+  .map((slug) => bySlug.get(slug))
+  .filter(Boolean)
+  .map((p) => ({
+    slug: p!.slug,
+    titulo: p!.data.tituloSeo ?? p!.data.titulo,
+    href: withTrailingSlash(`/blog/${p!.slug}`),
+  }));
 ---
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <title>Redireccionando...</title>
-  <meta http-equiv="refresh" content="0;url=/productos" />
-  <script is:inline>
-    window.location.href = "/productos";
-  </script>
-</head>
-<body>
-  <p>Redireccionando al catálogo de productos... Si no eres redirigido, <a href="/productos">haz clic aquí</a>.</p>
-</body>
-</html>
+
+<Layout
+  title="Página no encontrada (404)"
+  description="Esta página no existe o se ha movido. Busca en el catálogo o entra en las categorías y guías más visitadas de Solución Canina."
+  noindex={true}
+  categories={categories}
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-neutral-400 mb-4">
+      Error 404
+    </p>
+    <h1 class="text-4xl md:text-5xl font-serif font-black text-neutral-900 tracking-tight leading-tight mb-4">
+      Esta página no está aquí
+    </h1>
+    <p class="text-lg text-neutral-600 leading-relaxed mb-10 max-w-xl">
+      El enlace puede estar desactualizado o la URL escrita mal. No hay redirección automática:
+      elige abajo a dónde quieres ir.
+    </p>
+
+    <form
+      action="/productos/"
+      method="get"
+      class="mb-14"
+      role="search"
+      aria-label="Buscar en el catálogo"
+    >
+      <label for="q404" class="block text-sm font-bold text-neutral-800 mb-2">
+        Buscar un producto
+      </label>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input
+          id="q404"
+          type="search"
+          name="search"
+          placeholder="Ej. condroprotector, cama ortopédica, bozal…"
+          class="flex-1 rounded-xl border border-neutral-300 px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+        />
+        <button
+          type="submit"
+          class="shrink-0 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 transition-colors"
+        >
+          Buscar
+        </button>
+      </div>
+      <p class="mt-2 text-xs text-neutral-500">
+        También puedes usar el buscador de la cabecera en cualquier página.
+      </p>
+    </form>
+
+    <section class="mb-14" aria-labelledby="cats-404">
+      <h2 id="cats-404" class="text-xl font-serif font-black text-neutral-900 mb-4">
+        Categorías principales
+      </h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {categories.map((cat) => (
+          <li>
+            <a
+              href={withTrailingSlash(`/categoria/${slugify(cat)}`)}
+              class="flex items-center justify-between gap-3 rounded-xl border border-neutral-200 px-4 py-3 text-sm font-semibold text-neutral-800 hover:border-primary-300 hover:bg-primary-50/50 hover:text-primary-800 transition-colors"
+            >
+              <span>{cat}</span>
+              <span class="text-neutral-400" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-4">
+        <a href="/productos/" class="text-sm font-bold text-primary-600 hover:underline">
+          Ver todo el catálogo →
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="posts-404">
+      <h2 id="posts-404" class="text-xl font-serif font-black text-neutral-900 mb-4">
+        Guías más visitadas
+      </h2>
+      <ol class="space-y-3">
+        {topPosts.map((post, i) => (
+          <li>
+            <a
+              href={post.href}
+              class="group flex gap-3 items-baseline rounded-xl border border-neutral-200 px-4 py-3 hover:border-primary-300 hover:bg-primary-50/40 transition-colors"
+            >
+              <span class="text-xs font-black text-neutral-400 tabular-nums w-5 shrink-0">
+                {i + 1}.
+              </span>
+              <span class="text-sm font-semibold text-neutral-800 group-hover:text-primary-800 leading-snug">
+                {post.titulo}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-4">
+        <a href="/blog/" class="text-sm font-bold text-primary-600 hover:underline">
+          Ir al blog →
+        </a>
+      </p>
+    </section>
+
+    <p class="mt-14 text-sm text-neutral-500">
+      <a href="/" class="font-semibold text-neutral-700 hover:text-primary-600 hover:underline">
+        ← Volver al inicio
+      </a>
+    </p>
+  </div>
+</Layout>
