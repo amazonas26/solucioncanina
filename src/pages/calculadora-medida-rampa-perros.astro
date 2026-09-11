@@ -1,0 +1,139 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RampaCalculator from '../components/RampaCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+const productos = articulos
+  .filter((a) => a.data.categoria === 'Rampas')
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.tituloSeo || a.data.nombre,
+    marca: a.data.marca || '',
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    imagen: a.data.imagen,
+  }))
+  .sort((x, y) => y.valoracion - x.valoracion);
+
+const faqs = [
+  {
+    pregunta: '¿Por qué importa el ángulo y no solo “que llegue”?',
+    respuesta:
+      'Una rampa demasiado corta para la altura obliga a una pendiente fuerte: el perro resbala, se niega a usarla o fuerza hombros y columna. La longitud mínima se calcula como altura ÷ seno del ángulo seguro (25°, 21° o 18° según el perfil). Mejor una rampa algo más larga que una vertical que acaba en el trastero.',
+  },
+  {
+    pregunta: '¿Cómo mido la altura del maletero o sofá?',
+    respuesta:
+      'Mide en vertical desde el suelo hasta el borde superior donde el perro pondrá las patas (umbral del maletero, asiento del sofá o colchón). Usa un metro; no estimes a ojo. En la calculadora tienes presets orientativos (sofá 45 cm, cama 55, maletero 65, SUV 75) que puedes ajustar.',
+  },
+  {
+    pregunta: '¿Rampa o escalera?',
+    respuesta:
+      'Si la longitud mínima supera unos 200 cm, una rampa segura no cabe bien en casa y supera lo habitual del catálogo (~180 cm). En ese caso conviene una escalera de 4–5 peldaños estable. Para alturas bajas o medias, una rampa con buena superficie antideslizante suele ser más cómoda para perros senior.',
+  },
+  {
+    pregunta: 'Mi perro tiene artrosis: ¿qué ángulo uso?',
+    respuesta:
+      'El perfil por defecto (senior / artrosis) usa 21°: más suave que el de adulto sano (25°) y más realista que 18° en maleteros altos, donde la rampa se alargaría demasiado. Si además es de espalda larga (teckel, corgi…), prueba el perfil a 18° y, si pide más de 200 cm, pasa a escalera.',
+  },
+  {
+    pregunta: '¿Qué capacidad de carga necesito realmente?',
+    respuesta:
+      'Como mínimo el peso del perro con un margen del 25 % (redondeado). Así no trabajas la rampa al límite cuando el perro sube con impulso o lleva arnés. En perros de 60 kg o más, apunta al menos a 80 kg de capacidad anunciada.',
+  },
+];
+
+const pageUrl = '/calculadora-medida-rampa-perros';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Calculadora de medida de rampa', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de medida de rampa para perros (por altura y peso)"
+  description="Calcula la longitud mínima de rampa según la altura del sofá, cama o maletero y el peso de tu perro. Pendiente segura y capacidad de carga orientativa."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900">Calculadora de medida de rampa</span>
+    </nav>
+    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+      Calculadora de medida de rampa para perros
+    </h1>
+    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+      Indica la <strong>altura</strong> del obstáculo, el <strong>peso</strong> del perro y su perfil
+      (adulto, senior o espalda larga). Te damos la <strong>longitud mínima</strong> con pendiente segura
+      y la capacidad de carga. Si la rampa pediría más de 200 cm, te recomendamos escalera de peldaños.
+    </p>
+  </div>
+
+  <RampaCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula la longitud</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      La longitud a lo largo de la pendiente es <strong>L = altura ÷ sen(ángulo)</strong>, redondeada al
+      alza a múltiplos de 5 cm. Los ángulos que usamos:
+    </p>
+
+    <table class="w-full text-sm my-6 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Perfil</th>
+          <th class="py-2 pr-4">Ángulo</th>
+          <th class="py-2">Factor aproximado (× altura)</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">Adulto sano</td><td>25°</td><td class="text-neutral-500">≈ 2,37 × H</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">Senior / artrosis (por defecto)</td><td>21°</td><td class="text-neutral-500">≈ 2,79 × H</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">Espalda larga</td><td>18°</td><td class="text-neutral-500">≈ 3,24 × H</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Ejemplo: maletero de <strong>65 cm</strong> con perfil senior (21°) → unos <strong>185 cm</strong> de
+      rampa. Con espalda larga (18°) se iría por encima de 200 cm: ahí la calculadora prioriza
+      <strong>escalera de peldaños</strong>. La capacidad de carga es el peso del perro × 1,25
+      (redondeado).
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Más contexto sobre cuándo merecen la pena y cómo enseñarlas en nuestra
+      <a href="/blog/rampas-para-perros-beneficios/" class="text-primary-600 font-semibold hover:underline">guía de rampas para perros</a>.
+      Compara modelos en la
+      <a href="/categoria/rampas/" class="text-primary-600 font-semibold hover:underline">sección de rampas analizadas</a>.
+    </p>
+
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Nota:</strong> los ángulos son orientativos para uso doméstico. Fabricantes y espacios reales
+      varían; prioriza antideslizante, estabilidad y que el perro acepte la rampa con refuerzo positivo.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Esta calculadora es orientativa y no sustituye el consejo veterinario. Ante cojera, artrosis o
+      cirugía reciente, pregunta a tu veterinario antes de forzar subidas o bajadas.
+    </p>
+  </section>
+</Layout>

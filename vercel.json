@@ -86,6 +86,21 @@
       "source": "/categoria/condroprotectores/calculadora-dosis",
       "destination": "/calculadora-dosis-condroprotector-perros/",
       "permanent": true
+    },
+    {
+      "source": "/categoria/bozales/calculadora-talla",
+      "destination": "/calculadora-talla-bozal-perros/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/rampas/calculadora-medida",
+      "destination": "/calculadora-medida-rampa-perros/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/camas-ortopedicas/calculadora-talla",
+      "destination": "/calculadora-talla-cama-ortopedica-perros/",
+      "permanent": true
     }
   ],
   "headers": [

@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BozalCalculator from '../components/BozalCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+// Excluimos el bozal de lazo/nylon: no permite jadear ni beber en uso prolongado.
+const EXCLUIR = ['trixie-bozal-lazo-nylon-entrenamiento-xl-xxl'];
+const productos = articulos
+  .filter((a) => a.data.categoria === 'Bozales')
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.tituloSeo || a.data.nombre,
+    marca: a.data.marca || '',
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    imagen: a.data.imagen,
+  }))
+  .filter((p) => !EXCLUIR.includes(p.slug))
+  .sort((x, y) => y.valoracion - x.valoracion);
+
+const faqs = [
+  {
+    pregunta: '¿Cómo mido el hocico correctamente?',
+    respuesta:
+      'Mide dos cosas: la longitud (punta de la nariz hasta 1-2 cm por debajo del ojo interior) y el perímetro o circunferencia en el punto más ancho del hocico, justo debajo de los ojos. Anota ambos en centímetros. Si estás entre dos tallas del fabricante, elige la superior: un bozal justo impide jadear.',
+  },
+  {
+    pregunta: '¿Qué es mejor, cesta o silicona?',
+    respuesta:
+      'Para uso frecuente (veterinario, paseos con perros reactivos, transporte), mejor cesta o silicona abierta: dejan jadear y beber. La silicona flexible es más ligera para paseos; la cesta rígida da más contención ante mordidas fuertes. En braquicéfalos priorizamos cesta con volumen frontal. El lazo de nylon solo vale para adiestramiento puntual, nunca horas.',
+  },
+  {
+    pregunta: '¿Un bozal impide jadear o beber?',
+    respuesta:
+      'Uno de tela cerrada o de lazo, sí, y no debe usarse más de unos minutos. Un bozal de cesta o silicona abierta bien medido permite jadear, beber y recibir premios pequeños. Si con el bozal puesto la lengua no sale con facilidad o el hocico queda comprimido, la talla es pequeña o el modelo no es el adecuado.',
+  },
+  {
+    pregunta: 'Mi perro es braquicéfalo: ¿qué cambia?',
+    respuesta:
+      'El hocico corto necesita más espacio frontal para termorregularse. La calculadora prioriza cesta (rígida o silicona tipo canasta) y mantiene la talla del perímetro aunque la longitud sea menor que la referencia. Evita modelos cerrados: en estas razas jadear es crítico.',
+  },
+  {
+    pregunta: '¿Cuánto tiempo puede llevar el bozal?',
+    respuesta:
+      'Con cesta o silicona abierta, el tiempo del paseo o de la visita al veterinario, siempre que pueda jadear y beber. No debe dormir con bozal ni llevarlo en casa de forma habitual salvo indicación profesional. Si babea en exceso, se rasca sin parar o lo rechaza con ansiedad, revisa talla y tipo.',
+  },
+];
+
+const pageUrl = '/calculadora-talla-bozal-perros';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Calculadora de talla de bozal', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de talla de bozal para perros (cesta o silicona)"
+  description="Mide perímetro y longitud del hocico y obtén la talla de bozal orientativa. Incluye aviso para jadear y beber. Comparativa de bozales de cesta y silicona."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900">Calculadora de talla de bozal</span>
+    </nav>
+    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+      Calculadora de talla de bozal para perros
+    </h1>
+    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+      Introduce el <strong>perímetro</strong> y la <strong>longitud del hocico</strong> y te proponemos una
+      talla orientativa (número + S/M/L/XL) y el tipo (cesta o silicona), con el aviso claro de que el
+      bozal debe permitir <strong>jadear y beber</strong>.
+    </p>
+  </div>
+
+  <BozalCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula la talla</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      El criterio principal es el <strong>perímetro del hocico</strong>. La longitud sirve para comprobar
+      que la cesta tenga profundidad suficiente. En el límite entre dos tallas, <strong>subimos</strong>:
+      nunca recomendamos bajar de talla, porque un bozal pequeño impide jadear.
+    </p>
+
+    <table class="w-full text-sm my-6 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Talla</th>
+          <th class="py-2 pr-4">Perímetro (cm)</th>
+          <th class="py-2">Longitud de referencia (cm)</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">1 (XS)</td><td>10–16</td><td class="text-neutral-500">~4</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">2 (S)</td><td>16–21</td><td class="text-neutral-500">~5</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">3 (M)</td><td>21–26</td><td class="text-neutral-500">~6,5</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">4 (L)</td><td>26–31</td><td class="text-neutral-500">~7,5</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">5 (XL)</td><td>31–37</td><td class="text-neutral-500">~9</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">6 (XXL)</td><td>37–50</td><td class="text-neutral-500">~11</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed">
+      <strong>Tipo:</strong> braquicéfalo → cesta con volumen; hocico normal y perímetro ≤ 31 cm → silicona
+      abierta; perímetro &gt; 31 cm → cesta. Si la longitud no encaja con la referencia y el hocico no es
+      braquicéfalo, te pedimos que <strong>vuelvas a medir</strong>, no que pruebes una talla inferior.
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed">
+      El detalle de cómo medir y habituar al perro está en nuestra
+      <a href="/blog/bozales-perros-guia-elegir-talla/" class="text-primary-600 font-semibold hover:underline">guía de bozales: talla y tipo</a>.
+      Cuando tengas la talla, compara modelos en la
+      <a href="/categoria/bozales/" class="text-primary-600 font-semibold hover:underline">sección de bozales analizados</a>.
+    </p>
+
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Nota:</strong> cada fabricante numera distinto (un «L» de Trixie no equivale a un «4» de
+      Baskerville). Usa esta tabla como orientación y confirma con la ficha del producto.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Esta calculadora es orientativa y no sustituye el consejo de un educador canino o veterinario.
+      Un bozal mal elegido o mal habituado puede generar rechazo y estrés: prioriza cesta o silicona
+      abierta que permitan jadear y beber, y habituación gradual con refuerzo positivo.
+    </p>
+  </section>
+</Layout>
