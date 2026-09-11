@@ -1,3 +1,5 @@
 # Scripts de catálogo (update_prices.py, fetch_reviews.py, find_new_products.py, …)
 requests>=2.32,<3
 beautifulsoup4>=4.12,<5
+# Informe semanal GSC (scripts/gsc_weekly_report.py)
+google-auth>=2.35,<3

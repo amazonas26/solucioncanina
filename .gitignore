@@ -15,3 +15,8 @@ _backup_local/
 # Python bytecode cache
 __pycache__/
 *.pyc
+
+# Search Console: clave de servicio e informes locales
+scratch/gsc/
+scratch/informe-gsc.md
+scratch/informe-gsc-*.md

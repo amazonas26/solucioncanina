@@ -4,6 +4,8 @@ export const SITE_URL = 'https://www.solucioncanina.es';
 export const SITE_NAME = 'Solución Canina';
 export const SITE_LOGO = `${SITE_URL}/logo.png`;
 export const ORG_EMAIL = 'hola@solucioncanina.es';
+/** Teal del logo (`primary-500`) — chrome del navegador y manifest. */
+export const THEME_COLOR = '#3C9E91';
 
 export function absUrl(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;

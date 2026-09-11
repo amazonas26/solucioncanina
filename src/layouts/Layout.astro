@@ -4,7 +4,7 @@ import HeaderCatalogControls from '../components/HeaderCatalogControls';
 import SEO from '../components/SEO.astro';
 import { slugify } from '../utils/slugify';
 import { getCollection } from 'astro:content';
-import { organizationSchema, websiteSchema } from '../utils/seo';
+import { organizationSchema, SITE_NAME, THEME_COLOR, websiteSchema } from '../utils/seo';
 import { problemSections } from '../utils/problemSections';
 
 // "Actualizado <mes> <año>" dinámico: se recalcula en cada build/deploy, así nunca
@@ -89,6 +89,11 @@ const categories = categoriesProp.length > 0
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content={THEME_COLOR} />
+    <meta name="msapplication-TileColor" content={THEME_COLOR} />
+    <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
     <meta name="generator" content={Astro.generator} />
     <SEO
       title={title}
@@ -279,11 +284,15 @@ const categories = categoriesProp.length > 0
             <h4 class="text-xs font-bold uppercase tracking-wider text-white/50 mb-4">Legal</h4>
             <ul class="space-y-2 text-white/60 text-sm">
               <li><a href="/aviso-legal/" class="hover:text-white transition-colors">Aviso legal</a></li>
+              <li><a href="/aviso-legal/#afiliacion-amazon" class="hover:text-white transition-colors">Afiliación Amazon</a></li>
+              <li><a href="/aviso-legal/#descargo-veterinario" class="hover:text-white transition-colors">Descargo veterinario</a></li>
               <li><a href="/politica-privacidad/" class="hover:text-white transition-colors">Política de privacidad</a></li>
               <li><a href="/politica-cookies/" class="hover:text-white transition-colors">Política de cookies</a></li>
             </ul>
             <p class="mt-4 text-xs text-white/40 leading-relaxed">
-              Esta web no sustituye el consejo veterinario. Consulta con tu veterinario antes de cambiar la alimentación o suplementos.
+              <a href="/aviso-legal/#descargo-veterinario" class="hover:text-white/70 transition-colors">
+                Esta web no sustituye el consejo veterinario. Consulta con tu veterinario antes de cambiar la alimentación o suplementos.
+              </a>
             </p>
           </div>
         </div>
@@ -299,7 +308,10 @@ const categories = categoriesProp.length > 0
           <div class="flex flex-col gap-1">
             <p>&copy; {new Date().getFullYear()} Solución Canina. Todos los derechos reservados.</p>
             <p class="max-w-xl italic">
-              Algunos enlaces pueden generar una comisión sin coste adicional para ti. Consulta el aviso legal para más información.
+              Algunos enlaces pueden generar una comisión sin coste adicional para ti.
+              <a href="/aviso-legal/#afiliacion-amazon" class="underline hover:text-white/70 transition-colors">
+                Declaración de afiliación de Amazon
+              </a>.
             </p>
           </div>
           <p class="shrink-0">Hecho para ayudarte a elegir mejor.</p>

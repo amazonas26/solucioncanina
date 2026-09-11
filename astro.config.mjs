@@ -76,7 +76,6 @@ export default defineConfig({
       filter: (page) =>
 
         !page.includes('/asistente') &&
-        !page.includes('/aviso-legal') &&
         !page.includes('/politica-privacidad') &&
         !page.includes('/politica-cookies') &&
         !page.includes('/recomienda/') &&

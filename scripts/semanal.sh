@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Actualización semanal de precios (local): pull → deps → update_prices →
+# Actualización semanal (local): pull → deps → informe GSC → update_prices →
 # resumen → confirmación → commit + push + deploy.
 #
 # Uso:  scripts/semanal.sh
+#       SKIP_GSC=1 scripts/semanal.sh    # sin Search Console (p. ej. aún no hay clave)
 #
 # Si se eliminan más de 5 productos, exige escribir CONFIRMAR (no basta y/s).
 # El log de update_prices queda en scratch/ (*.log ya está en .gitignore).
+# El informe GSC queda en scratch/informe-gsc.md (histórico: scratch/gsc/).
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -16,20 +18,39 @@ LOG="scratch/update_prices-$(date +%Y%m%d-%H%M%S).log"
 echo "== semanal.sh =="
 echo
 
-echo "▶ 1/6 — git pull"
+echo "▶ 1/7 — git pull"
 git pull
 
 echo
-echo "▶ 2/6 — pip install -r requirements.txt"
+echo "▶ 2/7 — pip install -r requirements.txt"
 pip install -r requirements.txt --quiet
 
 echo
-echo "▶ 3/6 — python scripts/update_prices.py"
+echo "▶ 3/7 — informe Search Console"
+if [ "${SKIP_GSC:-0}" = "1" ]; then
+  echo "   SKIP_GSC=1 — saltando (python scripts/gsc_weekly_report.py --setup)"
+else
+  set +e
+  python scripts/gsc_weekly_report.py
+  gsc_rc=$?
+  set -e
+  if [ "$gsc_rc" -eq 2 ]; then
+    echo
+    echo "⚠️  Sin credenciales GSC — sigo con precios."
+    echo "    Guía: python scripts/gsc_weekly_report.py --setup"
+  elif [ "$gsc_rc" -ne 0 ]; then
+    echo "Informe GSC falló (código $gsc_rc). Para saltarlo: SKIP_GSC=1 $0" >&2
+    exit "$gsc_rc"
+  fi
+fi
+
+echo
+echo "▶ 4/7 — python scripts/update_prices.py"
 echo "   log → $LOG"
 python scripts/update_prices.py 2>&1 | tee "$LOG"
 
 echo
-echo "▶ 4/6 — Resumen"
+echo "▶ 5/7 — Resumen"
 echo "────────────────────────────────────────"
 
 n_updated=$(grep -c '-> ACTUALITZAT' "$LOG" || true)
@@ -64,7 +85,7 @@ if ! git status --porcelain -- src/content/articulos public/images/articulos | g
   exit 0
 fi
 
-echo "▶ 5/6 — Confirmación antes de commit + push + deploy"
+echo "▶ 6/7 — Confirmación antes de commit + push + deploy"
 if [ "$n_removed" -gt 5 ]; then
   echo "⚠️  Se eliminaron $n_removed productos (umbral: 5)."
   echo "    Sin confirmación explícita se aborta (los cambios locales se mantienen)."
@@ -85,7 +106,7 @@ else
 fi
 
 echo
-echo "▶ 6/6 — commit + push + deploy"
+echo "▶ 7/7 — commit + push + deploy"
 git add -A -- src/content/articulos public/images/articulos
 git commit -m "$(cat <<'EOF'
 chore: actualización semanal de precios

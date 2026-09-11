@@ -7,7 +7,7 @@ import { slugify } from "../../utils/slugify";
 import { outboundProductUrl } from "../../utils/outbound";
 import { productSchema, breadcrumbSchema } from "../../utils/seo";
 import { blogsForCategory } from "../../utils/blogProductLinks";
-import { TIPO_ANALISIS_DEFAULT } from "../../utils/tipoAnalisis";
+import { TIPO_ANALISIS_DEFAULT, tipoAnalisisHref } from "../../utils/tipoAnalisis";
 
 export async function getStaticPaths() {
   const articulos = await getCollection("articulos");
@@ -88,6 +88,7 @@ const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
 
 const displayName = nombreCorto || nombre;
+const isPendiente = (tipoAnalisis ?? TIPO_ANALISIS_DEFAULT) === "Pendiente";
 const productSlug = articulo.data.slug || slugify(nombre);
 const productUrl = `/producto/${productSlug}/`;
 const outboundUrl = outboundProductUrl(productSlug);
@@ -275,6 +276,30 @@ const relatedBlogs = blogsForCategory(categoria);
           {displayName}
         </h1>
 
+        {
+          isPendiente && (
+            <div
+              class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4"
+              role="status"
+            >
+              <p class="text-[10px] font-black uppercase tracking-widest text-amber-800 mb-1">
+                Análisis pendiente
+              </p>
+              <p class="text-sm text-amber-950/80 leading-relaxed">
+                Aún no hemos analizado esta ficha a fondo. Los datos que ves
+                (medidas, materiales, capacidad) salen de la ficha del
+                fabricante, no de un veredicto nuestro.{" "}
+                <a
+                  href={tipoAnalisisHref("Pendiente")}
+                  class="font-bold text-amber-900 underline decoration-amber-400 underline-offset-2 hover:text-amber-950"
+                >
+                  Qué significa Pendiente
+                </a>
+              </p>
+            </div>
+          )
+        }
+
         <div class="mb-6">
           <p class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">
             Nombre en Amazon
@@ -322,15 +347,18 @@ const relatedBlogs = blogsForCategory(categoria);
           )
         }
 
-        {/* Por qué lo hemos analizado */}
-        <div class="mb-6 border-l-2 border-primary-200 pl-4">
-          <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
-            Por qué lo hemos analizado
-          </p>
-          <p class="text-neutral-700 text-base leading-relaxed">
-            {analisis ? analisis.split("\n\n")[0] : descripcion}
-          </p>
-        </div>
+        {
+          analisis && (
+            <div class="mb-6 border-l-2 border-primary-200 pl-4">
+              <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
+                Por qué lo hemos analizado
+              </p>
+              <p class="text-neutral-700 text-base leading-relaxed">
+                {analisis.split("\n\n")[0]}
+              </p>
+            </div>
+          )
+        }
 
         {/* Para qué tipo de perro está pensado */}
         {paraQuien && (

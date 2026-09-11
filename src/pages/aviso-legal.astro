@@ -1,20 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+import { breadcrumbSchema, webPageSchema } from "../utils/seo";
 
 const articulos = await getCollection("articulos");
 const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-const lastUpdate = "Mayo de 2026";
+const lastUpdate = "Septiembre de 2026";
+const pageUrl = "/aviso-legal/";
+const title = "Aviso legal";
+const description =
+  "Aviso legal de Solución Canina: datos del titular según la LSSI, afiliación de Amazon y descargo veterinario.";
+const titularPendiente = "[PENDIENTE: rellenar]";
+
+const jsonLd = [
+  webPageSchema({ name: title, description, url: pageUrl }),
+  breadcrumbSchema([
+    { name: "Inicio", url: "/" },
+    { name: "Aviso legal", url: pageUrl },
+  ]),
+];
 ---
 
 <Layout
-  title="Aviso legal"
-  description="Aviso legal de Solución Canina: información del titular, condiciones de uso, propiedad intelectual y enlaces de afiliación de Amazon."
+  title={title}
+  description={description}
   categories={categories}
-  noindex={true}
+  jsonLd={jsonLd}
 >
   <main class="flex-grow w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-16">
     <header class="mb-10 pb-8 border-b border-neutral-200">
@@ -32,7 +46,7 @@ const lastUpdate = "Mayo de 2026";
     </header>
 
     <article class="space-y-8 text-neutral-700 leading-relaxed text-[15px]">
-      <section>
+      <section id="titular" class="scroll-mt-28">
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
           1. Datos del titular
         </h2>
@@ -40,23 +54,42 @@ const lastUpdate = "Mayo de 2026";
           En cumplimiento del deber de información recogido en el artículo 10 de
           la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la
           Información y del Comercio Electrónico (LSSI-CE), a continuación se
-          reflejan los siguientes datos:
+          identifican los datos del prestador del servicio:
         </p>
-        <ul
-          class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500"
+        <dl
+          class="mt-4 divide-y divide-neutral-100 border border-neutral-200 rounded-2xl overflow-hidden"
         >
-          <li>
-            Correo electrónico de contacto: <a
-              href="mailto:hola@solucioncanina.es"
-              class="text-primary-600 hover:underline"
-              >hola@solucioncanina.es</a>
-          </li>
-          <li>
-            Dominio web: <a
-              href="https://www.solucioncanina.es"
-              class="text-primary-600 hover:underline">www.solucioncanina.es</a>
-          </li>
-        </ul>
+          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
+            <dt class="text-sm font-bold text-neutral-900">
+              Nombre o denominación social
+            </dt>
+            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+          </div>
+          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
+            <dt class="text-sm font-bold text-neutral-900">NIF</dt>
+            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+          </div>
+          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
+            <dt class="text-sm font-bold text-neutral-900">Domicilio</dt>
+            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+          </div>
+          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
+            <dt class="text-sm font-bold text-neutral-900">
+              Correo electrónico de contacto
+            </dt>
+            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+          </div>
+          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
+            <dt class="text-sm font-bold text-neutral-900">Dominio web</dt>
+            <dd class="text-sm">
+              <a
+                href="https://www.solucioncanina.es"
+                class="text-primary-600 hover:underline"
+                >www.solucioncanina.es</a
+              >
+            </dd>
+          </div>
+        </dl>
       </section>
 
       <section>
@@ -100,7 +133,10 @@ const lastUpdate = "Mayo de 2026";
         </ul>
       </section>
 
-      <section>
+      <section
+        id="afiliacion-amazon"
+        class="scroll-mt-28 rounded-2xl border border-neutral-200 bg-white p-5 target:border-primary-400 target:ring-2 target:ring-primary-100"
+      >
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
           4. Programa de afiliados de Amazon
         </h2>
@@ -155,18 +191,32 @@ const lastUpdate = "Mayo de 2026";
           la información en la página de destino antes de realizar cualquier
           compra.
         </p>
-        <p class="mt-3">
+      </section>
+
+      <section
+        id="descargo-veterinario"
+        class="scroll-mt-28 rounded-2xl border border-neutral-200 bg-white p-5 target:border-primary-400 target:ring-2 target:ring-primary-100"
+      >
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          7. Descargo veterinario
+        </h2>
+        <p>
           Los contenidos del Sitio tienen carácter meramente informativo y no
           constituyen asesoramiento veterinario, médico, nutricional ni de
-          adiestramiento. Para cualquier duda sobre la salud, alimentación o
+          adiestramiento. Solución Canina no es un centro veterinario ni
+          sustituye la consulta clínica.
+        </p>
+        <p class="mt-3">
+          Para cualquier duda sobre la salud, alimentación, suplementos o
           comportamiento de su perro, consulte siempre con un veterinario u otro
-          profesional cualificado.
+          profesional cualificado antes de cambiar la dieta, la medicación o el
+          manejo.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
-          7. Enlaces externos
+          8. Enlaces externos
         </h2>
         <p>
           El Sitio puede contener enlaces a webs de terceros, especialmente a
@@ -177,7 +227,7 @@ const lastUpdate = "Mayo de 2026";
 
       <section>
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
-          8. Modificaciones
+          9. Modificaciones
         </h2>
         <p>
           El titular se reserva el derecho a modificar este Aviso Legal en
@@ -189,7 +239,7 @@ const lastUpdate = "Mayo de 2026";
 
       <section>
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
-          9. Legislación y jurisdicción aplicables
+          10. Legislación y jurisdicción aplicables
         </h2>
         <p>
           La relación entre el titular y el usuario se rige por la legislación
