@@ -14,6 +14,7 @@ type Article = {
   slug: string;
   data: {
     nombre: string;
+    nombreCorto?: string;
     descripcion?: string;
     imagen?: string;
     precio?: string;
@@ -116,7 +117,10 @@ export default function ShoppingAssistant({ articulos }: Props) {
     let scoredArticles = articulos.map(art => {
       let score = 0;
       const cat = art.data.categoria?.toLowerCase() || '';
-      const name = art.data.nombre.toLowerCase();
+      const name = [art.data.nombreCorto, art.data.nombre]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
       const desc = art.data.descripcion?.toLowerCase() || '';
 
       // AGE LOGIC
@@ -357,7 +361,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
                   <div className={index === 0 ? "ring-4 ring-amber-400 rounded-2xl shadow-xl scale-105 transition-transform" : "h-full"}>
                     <ProductCard 
                       slug={art.slug}
-                      nombre={art.data.nombre}
+                      nombre={art.data.nombreCorto || art.data.nombre}
                       imagen={art.data.imagen}
                       precio={art.data.precio}
                       precioOriginal={art.data.precioOriginal}

@@ -1,11 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import TipoAnalisisBadge from "../../components/TipoAnalisisBadge.astro";
 import { getCollection } from "astro:content";
 import { CheckCircle2, XCircle, ArrowRight, ShieldCheck } from "lucide-react";
 import { slugify } from "../../utils/slugify";
 import { outboundProductUrl } from "../../utils/outbound";
 import { productSchema, breadcrumbSchema } from "../../utils/seo";
 import { blogsForCategory } from "../../utils/blogProductLinks";
+import { TIPO_ANALISIS_DEFAULT } from "../../utils/tipoAnalisis";
 
 export async function getStaticPaths() {
   const articulos = await getCollection("articulos");
@@ -26,7 +28,7 @@ export async function getStaticPaths() {
       .slice(0, 8)
       .map((a) => ({
         slug: a.data.slug || slugify(a.data.nombre),
-        nombre: a.data.nombre,
+        nombre: a.data.nombreCorto || a.data.nombre,
         imagen: a.data.imagen,
         precio: a.data.precio,
         marca: a.data.marca,
@@ -42,6 +44,7 @@ export async function getStaticPaths() {
 const { articulo, categories, related } = Astro.props;
 const {
   nombre,
+  nombreCorto,
   descripcion,
   imagen,
   precio,
@@ -56,6 +59,7 @@ const {
   pros,
   contras,
   paraQuien,
+  tipoAnalisis,
   valoracion,
   valoracionesCount,
   ventas,
@@ -83,13 +87,14 @@ const hasRating = typeof valoracion === "number" && valoracion >= 3.7;
 const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
 
+const displayName = nombreCorto || nombre;
 const productSlug = articulo.data.slug || slugify(nombre);
 const productUrl = `/producto/${productSlug}/`;
 const outboundUrl = outboundProductUrl(productSlug);
 const categoriaSlug = categoria ? slugify(categoria) : null;
 
 const productJsonLd = productSchema({
-  name: nombre,
+  name: displayName,
   description: descripcion,
   image: imagen,
   brand: marca,
@@ -113,28 +118,16 @@ const breadcrumbItems = [{ name: "Inicio", url: "/" }];
 if (categoria && categoriaSlug) {
   breadcrumbItems.push({ name: categoria, url: `/categoria/${categoriaSlug}/` });
 }
-breadcrumbItems.push({ name: nombre, url: productUrl });
+breadcrumbItems.push({ name: displayName, url: productUrl });
 const breadcrumbJsonLd = breadcrumbSchema(breadcrumbItems);
 
 const seoDescription =
   articulo.data.descripcionSeo ||
   descripcion ||
   veredicto ||
-  `Reseña detallada de ${nombre}${marca ? " de " + marca : ""} en Solución Canina.`;
+  `Reseña detallada de ${displayName}${marca ? " de " + marca : ""} en Solución Canina.`;
 
-// Títol SEO: molts `nombre` són títols d'Amazon llarguíssims que Google talla. Si no hi ha
-// `tituloSeo` manual, generem un títol curt: noms curts amb sufix d'intenció, i els llargs
-// es retallen per paraula (es conserva el principi, ric en keyword). SEO.astro hi afegeix la marca.
-function shortenAtWord(text, max) {
-  if (text.length <= max) return text;
-  const cut = text.slice(0, max);
-  const lastSpace = cut.lastIndexOf(" ");
-  const base = lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut;
-  return base.replace(/[\s,;:.–-]+$/, "") + "…";
-}
-const pageTitle =
-  articulo.data.tituloSeo ??
-  (nombre.length > 62 ? shortenAtWord(nombre, 58) : `${nombre} · Análisis y precio`);
+const pageTitle = `${displayName} · análisis y precio`;
 
 const relatedBlogs = blogsForCategory(categoria);
 ---
@@ -171,7 +164,7 @@ const relatedBlogs = blogsForCategory(categoria);
       <span
         class="text-neutral-900 truncate max-w-[150px] sm:max-w-none hidden sm:inline-block font-bold"
         aria-current="page"
-        >{nombre}</span
+        >{displayName}</span
       >
     </nav>
 
@@ -200,8 +193,8 @@ const relatedBlogs = blogsForCategory(categoria);
             imagen ? (
               <img
                 src={imagen}
-                alt={`Comprar ${nombre} al mejor precio`}
-                title={`${nombre} ${marca ? `- ${marca}` : ""}`}
+                alt={`Comprar ${displayName} al mejor precio`}
+                title={`${displayName}${marca ? ` - ${marca}` : ""}`}
                 width="600"
                 height="600"
                 loading="eager"
@@ -272,22 +265,22 @@ const relatedBlogs = blogsForCategory(categoria);
               </span>
             )
           }
+          <TipoAnalisisBadge tipo={tipoAnalisis ?? TIPO_ANALISIS_DEFAULT} />
         </div>
 
         <h1
           class="text-2xl sm:text-3xl lg:text-4xl font-sans font-black text-neutral-900 mb-2 leading-tight tracking-tight break-words [hyphens:auto]"
           lang="es"
         >
-          {nombre}
+          {displayName}
         </h1>
 
-        {
-          marca && (
-            <p class="text-neutral-400 text-sm font-bold uppercase tracking-widest mb-6">
-              Por <span class="text-neutral-600">{marca}</span>
-            </p>
-          )
-        }
+        <div class="mb-6">
+          <p class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">
+            Nombre en Amazon
+          </p>
+          <p class="text-sm text-neutral-500 leading-snug">{nombre}</p>
+        </div>
 
         {/* Valoración + Social Proof */}
         {
@@ -673,11 +666,11 @@ const relatedBlogs = blogsForCategory(categoria);
       <div class="flex items-center gap-4 min-w-0">
         {imagen && (
           <div class="hidden sm:flex items-center justify-center w-12 h-12 bg-white rounded-lg border border-neutral-100 overflow-hidden shrink-0">
-            <img src={imagen} alt={nombre} class="max-w-full max-h-full object-contain mix-blend-multiply" loading="lazy" />
+            <img src={imagen} alt={displayName} class="max-w-full max-h-full object-contain mix-blend-multiply" loading="lazy" />
           </div>
         )}
         <div class="flex flex-col min-w-0">
-          <span class="hidden sm:block text-sm font-bold text-neutral-900 truncate pr-4">{nombre}</span>
+          <span class="hidden sm:block text-sm font-bold text-neutral-900 truncate pr-4">{displayName}</span>
           <div class="flex items-baseline gap-2 mt-0.5">
             <span class="text-lg sm:text-xl font-black text-neutral-900 leading-none">{precio || "Consultar"}</span>
             {precioOriginal && <span class="hidden sm:inline-block text-[11px] font-bold text-neutral-400 line-through decoration-red-500/30">{precioOriginal}</span>}

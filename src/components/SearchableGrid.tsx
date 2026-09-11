@@ -45,6 +45,7 @@ function parsePrice(p?: string): number | null {
 interface Articulo {
   data: {
     nombre: string;
+    nombreCorto?: string;
     slug?: string;
     linkAmazon: string;
     imagen?: string;
@@ -253,10 +254,12 @@ export default function SearchableGrid({
     const max = appliedFilters.priceMax !== '' ? parseFloat(appliedFilters.priceMax) : null;
 
     const list = articulos.filter((art) => {
+      const q = search.toLowerCase();
       const matchesSearch =
-        art.data.nombre.toLowerCase().includes(search.toLowerCase()) ||
-        art.data.descripcion?.toLowerCase().includes(search.toLowerCase()) ||
-        art.data.marca?.toLowerCase().includes(search.toLowerCase());
+        art.data.nombre.toLowerCase().includes(q) ||
+        (art.data.nombreCorto?.toLowerCase().includes(q) ?? false) ||
+        art.data.descripcion?.toLowerCase().includes(q) ||
+        art.data.marca?.toLowerCase().includes(q);
 
       const catFilter = selectedCategory?.trim() || null;
       const matchesCatalogFilter = activeSection
@@ -677,7 +680,7 @@ export default function SearchableGrid({
                 <ProductCard
                   key={art.id}
                   slug={art.data.slug || slugify(art.data.nombre)}
-                  nombre={art.data.nombre}
+                  nombre={art.data.nombreCorto || art.data.nombre}
                   linkAmazon={art.data.linkAmazon}
                   imagen={art.data.imagen}
                   descripcion={art.data.descripcion}

@@ -16,7 +16,7 @@ const productos = articulos
   .filter((a) => a.data.categoria === 'Bozales')
   .map((a) => ({
     slug: a.data.slug || slugify(a.data.nombre),
-    titulo: a.data.tituloSeo || a.data.nombre,
+    titulo: a.data.nombreCorto || a.data.tituloSeo || a.data.nombre,
     marca: a.data.marca || '',
     precio: a.data.precio || '',
     valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
@@ -138,6 +138,8 @@ const faqJsonLd = faqPageSchema(faqs);
     ))}
 
     <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Método y fuentes:
+      <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">cómo analizamos</a>.
       Esta calculadora es orientativa y no sustituye el consejo de un educador canino o veterinario.
       Un bozal mal elegido o mal habituado puede generar rechazo y estrés: prioriza cesta o silicona
       abierta que permitan jadear y beber, y habituación gradual con refuerzo positivo.

@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { breadcrumbSchema, webPageSchema } from '../utils/seo';
+import { COMO_ANALIZAMOS_PATH } from '../utils/tipoAnalisis';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
+);
+
+const lastUpdate = 'Septiembre de 2026';
+const pageUrl = COMO_ANALIZAMOS_PATH;
+const title = 'Cómo analizamos los productos para perros';
+const description =
+  'Política editorial de Solución Canina: criterios de inclusión, tipos de ficha (probado en casa, analizado o pendiente), independencia, fuentes y correcciones.';
+
+const tiposFicha = [
+  {
+    id: 'probado-en-casa',
+    etiqueta: 'Probado en casa',
+    resumen: 'Uso de primera mano con nuestros perros.',
+    detalle:
+      'Hemos usado el producto en casa el tiempo suficiente para anotar talla, montaje, durabilidad o aceptación real. Esa nota de campo es distinta de las reseñas de Amazon: si aparece, lo decimos. Hoy es la excepción, no la norma del catálogo.',
+  },
+  {
+    id: 'analizado',
+    etiqueta: 'Analizado',
+    resumen: 'Ficha técnica, materiales y reseñas de terceros.',
+    detalle:
+      'No afirmamos haberlo usado en casa. Cruzamos especificaciones del fabricante, materiales, tallas, capacidad de carga y lo que dicen los dueños de forma sostenida. El bloque «Qué dicen los dueños» son reseñas agregadas, no nuestra prueba. Es el sello por defecto de este catálogo.',
+  },
+  {
+    id: 'pendiente',
+    etiqueta: 'Pendiente',
+    resumen: 'En el catálogo, pero el análisis aún no está cerrado.',
+    detalle:
+      'Falta un dato que no inventamos (dosis en mg, carga máxima, medidas) o el texto editorial todavía no está escrito. El producto puede verse en listados; la ficha no se presenta como análisis completo hasta que ese hueco se cierra.',
+  },
+];
+
+const criterios = [
+  {
+    titulo: 'Problema concreto',
+    texto:
+      'Tiene que resolver un caso de uso identificable: artrosis, subir al coche, ansiedad por ruidos, dieta renal prescrita. Si solo «queda bien en el marketplace», no entra.',
+  },
+  {
+    titulo: 'Materiales o composición con base',
+    texto:
+      'Priorizamos lo que se puede comprobar en etiqueta o ficha técnica: densidad de espuma, perímetro de hocico, mg de principio activo, ángulo de rampa. El marketing de marca blanca no cuenta como evidencia.',
+  },
+  {
+    titulo: 'Valoraciones sostenidas',
+    texto:
+      'Miramos volumen y estabilidad en el tiempo, no un pico de estrellas. Un producto nuevo con veinte reseñas no desplaza a uno contrastado salvo que el hueco técnico sea claro.',
+  },
+  {
+    titulo: 'Relación calidad-precio del caso real',
+    texto:
+      'El coste que importa es el del uso: dosis activa, talla que realmente cabe, recambios. A veces recomendamos la opción más barata aunque la comisión sea menor.',
+  },
+];
+
+const jsonLd = [
+  webPageSchema({ name: title, description, url: pageUrl }),
+  breadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Cómo analizamos', url: pageUrl },
+  ]),
+];
+---
+
+<Layout title={title} description={description} jsonLd={jsonLd} categories={categories}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      <aside class="lg:col-span-4 lg:sticky lg:top-28">
+        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1.5 bg-neutral-100 text-neutral-800 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-primary-500"></span>
+          <span class="text-[10px] font-black uppercase tracking-widest">Política editorial</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-serif font-black text-neutral-900 tracking-tight mb-6 leading-tight">
+          Cómo analizamos
+        </h1>
+        <p class="text-lg text-neutral-600 mb-6 leading-relaxed">
+          Esta página es la fuente de verdad de nuestro método: qué entra en el catálogo, cómo se etiqueta cada ficha y qué no inventamos. No somos veterinarios colegiados.
+        </p>
+        <p class="text-sm text-neutral-400 mb-10">Última actualización: {lastUpdate}</p>
+
+        <nav aria-label="Secciones" class="hidden lg:block space-y-1 text-sm">
+          <a href="#criterios-de-inclusion" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Criterios de inclusión</a>
+          <a href="#tipos-de-ficha" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Tipos de ficha</a>
+          <a href="#independencia-editorial" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Independencia editorial</a>
+          <a href="#cadencia-de-actualizacion" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Cadencia de actualización</a>
+          <a href="#fuentes" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Política de fuentes</a>
+          <a href="#correcciones" class="block py-1.5 text-neutral-600 hover:text-primary-700 font-medium">Correcciones</a>
+        </nav>
+      </aside>
+
+      <article class="lg:col-span-8 space-y-16 text-neutral-700 leading-relaxed text-[15px] md:text-base">
+        <section id="criterios-de-inclusion" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-4">Criterios de inclusión</h2>
+          <p class="mb-6">
+            La regla previa a las cuatro siguientes: si no se lo pondríamos a un perro con el que convivimos, no se publica. El catálogo es una criba, no un espejo de Amazon.
+          </p>
+          <ol class="space-y-5">
+            {criterios.map((c, i) => (
+              <li class="flex gap-4">
+                <span class="shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-navy-700 text-white text-xs font-black">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="font-bold text-neutral-900 mb-1">{c.titulo}</h3>
+                  <p class="text-neutral-600">{c.texto}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="tipos-de-ficha" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Tipos de ficha</h2>
+          <p class="mb-8 text-neutral-600">
+            Cada análisis lleva un sello que enlaza aquí. Los tres valores no son un ranking de calidad: dicen <em>cómo</em> se ha elaborado el texto, no si el producto es mejor.
+          </p>
+          <div class="space-y-4">
+            {tiposFicha.map((tipo) => (
+              <article
+                id={tipo.id}
+                class="scroll-mt-28 rounded-2xl border border-neutral-200 bg-white p-6 target:border-primary-400 target:ring-2 target:ring-primary-100"
+              >
+                <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
+                  Sello en la ficha
+                </p>
+                <h3 class="text-xl font-serif font-black text-neutral-900 mb-2">{tipo.etiqueta}</h3>
+                <p class="font-semibold text-neutral-800 mb-3">{tipo.resumen}</p>
+                <p class="text-neutral-600">{tipo.detalle}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="independencia-editorial" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-4">Independencia editorial</h2>
+          <p class="mb-4">
+            Participamos en el programa de afiliados de Amazon: si compras a través de nuestros enlaces, recibimos una comisión sin sobrecoste para ti. Eso financia el catálogo. No ordena las fichas ni decide qué entra.
+          </p>
+          <ul class="space-y-2 list-disc list-inside marker:text-primary-500">
+            <li>El orden de un ranking lo marcan utilidad, calidad y precio del caso de uso, no el porcentaje de comisión.</li>
+            <li>No hay pago de marcas por aparecer. Si un día recibimos un ejemplar para prueba, se declarará en esa ficha y el sello pasará a «Probado en casa» solo si el uso es real.</li>
+            <li>El precio que ves en la ficha es orientativo. El importe y el stock finales están en Amazon en el momento del clic.</li>
+          </ul>
+        </section>
+
+        <section id="cadencia-de-actualizacion" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-4">Cadencia de actualización</h2>
+          <ul class="space-y-3">
+            <li>
+              <strong class="text-neutral-900">Precios y stock.</strong> Amazon los cambia a diario. Revisamos cifras en cada ciclo de actualización del catálogo; no prometemos paridad en tiempo real.
+            </li>
+            <li>
+              <strong class="text-neutral-900">Texto de la ficha.</strong> Se reescribe cuando cambia el producto, baja la calidad, aparece una alternativa claramente mejor o llega una corrección verificada.
+            </li>
+            <li>
+              <strong class="text-neutral-900">Retirada.</strong> Si deja de cumplir los criterios de inclusión, sale del catálogo. No mantenemos fichas por inercia ni por comisión.
+            </li>
+          </ul>
+        </section>
+
+        <section id="fuentes" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-4">Política de fuentes</h2>
+          <p class="mb-4">Citamos lo comprobable. Si un dato no está en etiqueta, ficha técnica o literatura, no lo rellenamos.</p>
+          <div class="grid sm:grid-cols-2 gap-4 mb-6">
+            <div class="rounded-2xl border border-neutral-200 p-5">
+              <h3 class="text-sm font-black uppercase tracking-wider text-neutral-900 mb-3">Qué usamos</h3>
+              <ul class="space-y-2 text-sm text-neutral-600">
+                <li>Etiquetas y fichas técnicas del fabricante.</li>
+                <li>Medidas, tallas y capacidad de carga anunciadas.</li>
+                <li>Reseñas de dueños, siempre como experiencia de terceros.</li>
+                <li>Rangos de literatura veterinaria en las calculadoras, con la fuente al pie.</li>
+              </ul>
+            </div>
+            <div class="rounded-2xl border border-neutral-200 p-5">
+              <h3 class="text-sm font-black uppercase tracking-wider text-neutral-900 mb-3">Qué no hacemos</h3>
+              <ul class="space-y-2 text-sm text-neutral-600">
+                <li>Inventar mg por dosis, kg de carga o centímetros.</li>
+                <li>Presentar reseñas de Amazon como prueba en casa.</li>
+                <li>Diagnosticar ni sustituir al veterinario en dietas o suplementos.</li>
+                <li>Ajustar un análisis para que un enlace convierta más.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-sm text-neutral-600">
+            Las cuatro calculadoras (dosis de condroprotector, talla de bozal, talla de cama y medida de rampa) aplican esta misma regla: la fórmula y las fuentes están en la propia herramienta; esta página explica el marco.
+          </p>
+        </section>
+
+        <section id="correcciones" class="scroll-mt-28">
+          <h2 class="text-2xl font-serif font-black text-neutral-900 mb-4">Correcciones</h2>
+          <p class="mb-4">
+            Si un precio está desfasado, un análisis se ha quedado corto o falta un dato que sí figura en la etiqueta, escríbenos. Verificamos, corregimos la ficha y no rellenamos huecos con suposiciones.
+          </p>
+          <a
+            href="mailto:hola@solucioncanina.es"
+            class="inline-flex items-center gap-2 px-5 py-3 bg-navy-700 text-white text-sm font-bold rounded-xl hover:bg-navy-600 transition-colors"
+          >
+            hola@solucioncanina.es
+          </a>
+          <p class="mt-8 text-sm text-neutral-500">
+            Relacionado:
+            <a href="/preguntas-frecuentes/" class="text-primary-600 font-semibold hover:underline">preguntas frecuentes</a>
+            ·
+            <a href="/aviso-legal/" class="text-primary-600 font-semibold hover:underline">aviso legal</a>
+          </p>
+        </section>
+      </article>
+    </div>
+  </div>
+</Layout>

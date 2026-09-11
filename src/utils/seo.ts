@@ -49,6 +49,23 @@ export interface BreadcrumbItem {
   url: string;
 }
 
+export function webPageSchema(input: {
+  name: string;
+  description?: string;
+  url: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: input.name,
+    description: input.description,
+    url: absUrl(input.url),
+    inLanguage: 'es-ES',
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+  };
+}
+
 export function breadcrumbSchema(items: BreadcrumbItem[]) {
   return {
     '@context': 'https://schema.org',

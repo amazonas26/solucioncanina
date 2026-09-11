@@ -2,7 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import { faqPageSchema } from "../utils/seo";
 
-const faqs = [
+const faqs: Array<{
+  pregunta: string;
+  respuesta: string;
+  enlace?: { href: string; texto: string };
+}> = [
   {
     pregunta: "¿Quiénes estáis detrás de Solución Canina?",
     respuesta: "Somos un pequeño equipo de amantes de los perros, educadores y eternos aprendices. Después de años conviviendo con peludos y probando cientos de collares, arneses y camas, decidimos crear el sitio web que a nosotros nos habría gustado encontrar: uno honesto, claro y donde no se recomienden productos de mala calidad."
@@ -13,19 +17,23 @@ const faqs = [
   },
   {
     pregunta: "¿Cómo decidís qué productos recomendar?",
-    respuesta: "Nuestra regla de oro es sencilla: si no se lo pondríamos a nuestro propio perro, no lo publicamos en Solución Canina. Hacemos una criba enorme, leemos cientos de experiencias reales de usuarios y huimos de las marcas blancas genéricas de mala calidad que inundan internet."
+    respuesta: "Nuestra regla de oro es sencilla: si no se lo pondríamos a nuestro propio perro, no lo publicamos en Solución Canina. Hacemos una criba enorme, leemos cientos de experiencias reales de usuarios y huimos de las marcas blancas genéricas de mala calidad que inundan internet. El detalle —criterios, tipos de ficha y fuentes— está en Cómo analizamos.",
+    enlace: { href: "/como-analizamos/#criterios-de-inclusion", texto: "Ver criterios de inclusión" },
   },
   {
     pregunta: "¿La comisión de afiliado influye en qué producto queda primero?",
-    respuesta: "No. El orden de un ranking lo marca la calidad, la relación calidad-precio y la utilidad real para el perro, no cuánto paga Amazon por cada venta. De hecho, a veces recomendamos opciones más baratas aunque la comisión sea menor, porque es lo que nosotros compraríamos."
+    respuesta: "No. El orden de un ranking lo marca la calidad, la relación calidad-precio y la utilidad real para el perro, no cuánto paga Amazon por cada venta. De hecho, a veces recomendamos opciones más baratas aunque la comisión sea menor, porque es lo que nosotros compraríamos. Lo dejamos por escrito en la política de independencia editorial.",
+    enlace: { href: "/como-analizamos/#independencia-editorial", texto: "Cómo funciona la independencia editorial" },
   },
   {
     pregunta: "¿Probáis físicamente absolutamente todo?",
-    respuesta: "Nos encantaría, pero seríamos mentirosos si te dijéramos que podemos comprar todas las camas ortopédicas de internet. Probamos muchos productos de primera mano, y para el resto, pasamos decenas de horas analizando especificaciones técnicas, cruzando reseñas y comparando materiales para que tú no tengas que hacerlo."
+    respuesta: "Nos encantaría, pero seríamos mentirosos si te dijéramos que podemos comprar todas las camas ortopédicas de internet. Cada ficha lleva un sello: Probado en casa, Analizado o Pendiente. Lo analizado se basa en especificaciones y reseñas de dueños, no en una prueba nuestra. El catálogo hoy está en Analizado por defecto.",
+    enlace: { href: "/como-analizamos/#tipos-de-ficha", texto: "Qué significa cada sello" },
   },
   {
     pregunta: "¿Cada cuánto actualizáis los rankings?",
-    respuesta: "De forma constante. Revisamos nuestras listas habitualmente para asegurarnos de que no te estamos recomendando algo que se haya quedado obsoleto, haya bajado su calidad o haya sido superado por un producto mejor al mismo precio."
+    respuesta: "Cuando el catálogo lo pide: si un producto se queda obsoleto, baja su calidad o aparece uno mejor al mismo precio. Los precios de Amazon cambian a diario, así que la cifra de la ficha es orientativa. La cadencia completa está en Cómo analizamos.",
+    enlace: { href: "/como-analizamos/#cadencia-de-actualizacion", texto: "Cadencia de actualización" },
   },
   {
     pregunta: "¿Los precios que mostráis coinciden con Amazon?",
@@ -49,7 +57,8 @@ const faqs = [
   },
   {
     pregunta: "He visto un error o quiero sugerir un producto. ¿Cómo os lo digo?",
-    respuesta: "Escríbenos a hola@solucioncanina.es. Si un precio está desactualizado, un análisis se ha quedado corto o crees que falta un producto que deberíamos mirar, lo revisamos con gusto. No podemos responder a todos al momento, pero leemos cada mensaje."
+    respuesta: "Escríbenos a hola@solucioncanina.es. Si un precio está desactualizado, un análisis se ha quedado corto o crees que falta un producto que deberíamos mirar, lo revisamos con gusto. No podemos responder a todos al momento, pero leemos cada mensaje.",
+    enlace: { href: "/como-analizamos/#correcciones", texto: "Política de correcciones" },
   }
 ];
 
@@ -110,6 +119,16 @@ const jsonLd = faqPageSchema(faqs);
                 <p class="text-neutral-600 leading-relaxed text-[15px] md:text-base">
                   {faq.respuesta}
                 </p>
+                {faq.enlace && (
+                  <p class="mt-4">
+                    <a
+                      href={faq.enlace.href}
+                      class="text-sm font-bold text-primary-600 hover:underline"
+                    >
+                      {faq.enlace.texto} →
+                    </a>
+                  </p>
+                )}
               </div>
             </details>
           ))}

@@ -5,6 +5,7 @@ import { Search, X, ChevronRight, ArrowRight } from 'lucide-react';
 type SearchItem = {
   slug: string;
   nombre: string;
+  nombreAmazon?: string;
   marca: string;
   categoria: string;
   imagen: string;
@@ -80,13 +81,14 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
     const scored: { item: SearchItem; score: number }[] = [];
     for (const item of searchIndex) {
       const nombre = norm(item.nombre);
+      const nombreAmazon = norm(item.nombreAmazon || '');
       const marca = norm(item.marca);
       const categoria = norm(item.categoria);
 
       let score = 0;
-      if (nombre.startsWith(nq)) score = 100;
+      if (nombre.startsWith(nq) || (nombreAmazon && nombreAmazon.startsWith(nq))) score = 100;
       else if (marca.startsWith(nq)) score = 90;
-      else if (nombre.includes(nq)) score = 70;
+      else if (nombre.includes(nq) || (nombreAmazon && nombreAmazon.includes(nq))) score = 70;
       else if (marca.includes(nq)) score = 60;
       else if (categoria.includes(nq)) score = 40;
 
@@ -108,7 +110,11 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
         .replace(/[\u0300-\u036f]/g, '');
     const nq = norm(q);
     return searchIndex.filter(
-      (i) => norm(i.nombre).includes(nq) || norm(i.marca).includes(nq) || norm(i.categoria).includes(nq),
+      (i) =>
+        norm(i.nombre).includes(nq) ||
+        norm(i.nombreAmazon || '').includes(nq) ||
+        norm(i.marca).includes(nq) ||
+        norm(i.categoria).includes(nq),
     ).length;
   }, [query, searchIndex]);
 

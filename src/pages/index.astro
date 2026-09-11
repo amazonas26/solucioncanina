@@ -120,7 +120,7 @@ const STAR_POINTS = (() => {
   jsonLd={[
     itemListSchema(
       topVendidos.map((a) => ({
-        name: a.data.nombre,
+        name: a.data.nombreCorto || a.data.nombre,
         url: `/producto/${a.data.slug || slugify(a.data.nombre)}/`,
         image: a.data.imagen,
       })),
@@ -396,7 +396,7 @@ const STAR_POINTS = (() => {
               </div>
               <ProductCard
                 slug={art.data.slug || slugify(art.data.nombre)}
-                nombre={art.data.nombre}
+                nombre={art.data.nombreCorto || art.data.nombre}
                 linkAmazon={art.data.linkAmazon}
                 imagen={art.data.imagen}
                 descripcion={art.data.descripcion}
@@ -488,6 +488,12 @@ const STAR_POINTS = (() => {
               </li>
             ))}
           </ul>
+          <a
+            href="/como-analizamos/#criterios-de-inclusion"
+            class="inline-block mt-4 text-xs font-bold text-primary-200 hover:text-white transition-colors"
+          >
+            Cómo analizamos →
+          </a>
         </div>
         <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-6">
           <h3

@@ -274,7 +274,7 @@ export default function BozalCalculator({ productos }: Props) {
               >
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-semibold text-neutral-800 group-hover:text-primary-600 transition-colors">
-                    {p.marca ? `${p.marca} ` : ''}bozal
+                    {p.titulo}
                   </span>
                   <span className="flex items-center gap-2 text-xs text-neutral-500">
                     {p.valoracion > 0 && (

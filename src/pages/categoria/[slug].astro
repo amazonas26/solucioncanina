@@ -44,7 +44,7 @@ const categorySlug = problemSection?.slug ?? slugify(category);
 const categoryUrl = `/categoria/${categorySlug}/`;
 const categoryListJsonLd = itemListSchema(
   filteredArticulos.map((a) => ({
-    name: a.data.nombre,
+    name: a.data.nombreCorto || a.data.nombre,
     url: `/producto/${a.data.slug || slugify(a.data.nombre)}/`,
     image: a.data.imagen,
   })),

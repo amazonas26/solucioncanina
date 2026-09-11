@@ -38,7 +38,7 @@ export async function getStaticPaths() {
             const s = a.data.slug || slugify(a.data.nombre);
             return {
               slug: s,
-              nombre: a.data.nombre,
+              nombre: a.data.nombreCorto || a.data.nombre,
               imagen: a.data.imagen,
               precio: a.data.precio,
               marca: a.data.marca,

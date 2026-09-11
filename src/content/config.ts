@@ -5,10 +5,12 @@ const articulosCollection = defineCollection({
   loader: glob({ pattern: '**/index.json', base: './src/content/articulos' }),
   schema: z.object({
     nombre: z.string(),
+    // Nom humà per a H1 i <title>: marca + tipus + tret distintiu + talla/mesura.
+    // `nombre` es queda com el títol literal d'Amazon (sovint 100–180 car.).
+    nombreCorto: z.string().min(1).max(60),
     slug: z.string().optional(),
     // Títol/descripció per al <title> i <meta description> de Google. Si no s'omplen,
-    // es genera un títol curt automàtic (molts `nombre` són títols d'Amazon llarguíssims
-    // que Google talla). Permet posar un títol-SEO curt i amb keyword als productes top.
+    // el títol de fitxa és `{nombreCorto} · análisis y precio`.
     tituloSeo: z.string().optional(),
     descripcionSeo: z.string().optional(),
     descripcion: z.string().optional(),
@@ -26,6 +28,10 @@ const articulosCollection = defineCollection({
     marca: z.string().optional(),
     veredicto: z.string().optional(),
     analisis: z.string().optional(),
+    // Cómo se ha elaborado la ficha. Ver /como-analizamos/.
+    tipoAnalisis: z
+      .enum(['Probado en casa', 'Analizado', 'Pendiente'])
+      .default('Analizado'),
     experienciaReal: z.string().optional(),
     pros: z.array(z.string()).optional(),
     contras: z.array(z.string()).optional(),

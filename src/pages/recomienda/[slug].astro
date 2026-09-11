@@ -9,7 +9,7 @@ export async function getStaticPaths() {
     params: { slug: articulo.data.slug || slugify(articulo.data.nombre) },
     props: {
       target: articulo.data.linkAmazon,
-      nombre: articulo.data.nombre,
+      nombre: articulo.data.nombreCorto || articulo.data.nombre,
       slug: articulo.data.slug || slugify(articulo.data.nombre),
       categoria: articulo.data.categoria || "",
       precio: articulo.data.precio || "",
