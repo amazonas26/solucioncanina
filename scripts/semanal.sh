@@ -8,14 +8,33 @@
 # Si se eliminan más de 5 productos, exige escribir CONFIRMAR (no basta y/s).
 # El log de update_prices queda en scratch/ (*.log ya está en .gitignore).
 # El informe GSC queda en scratch/informe-gsc.md (histórico: scratch/gsc/).
+# Requiere el venv del repo (`.venv/`). Si no está, aborta con las instrucciones.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
+
+if [[ -f .venv/bin/activate ]]; then
+  # shellcheck disable=SC1091
+  source .venv/bin/activate
+else
+  echo "⚠️  No hay entorno virtual en .venv/" >&2
+  echo "    Los scripts Python no deben usar el Python del sistema." >&2
+  echo >&2
+  echo "    Créalo una vez:" >&2
+  echo >&2
+  echo "      python3 -m venv .venv" >&2
+  echo "      source .venv/bin/activate" >&2
+  echo "      pip install -r requirements.txt" >&2
+  echo >&2
+  echo "    Después vuelve a lanzar: $0" >&2
+  exit 1
+fi
 
 mkdir -p scratch
 LOG="scratch/update_prices-$(date +%Y%m%d-%H%M%S).log"
 
 echo "== semanal.sh =="
+echo "   venv: $(command -v python) ($(python -V 2>&1))"
 echo
 
 echo "▶ 1/7 — git pull"
@@ -23,7 +42,7 @@ git pull
 
 echo
 echo "▶ 2/7 — pip install -r requirements.txt"
-pip install -r requirements.txt --quiet
+python -m pip install -r requirements.txt --quiet
 
 echo
 echo "▶ 3/7 — informe Search Console"
@@ -68,11 +87,13 @@ if [ "$n_removed" -gt 0 ]; then
   echo
 fi
 
+CATALOG_PATHS=(src/content/articulos public/images/articulos vercel.json deploy/nginx/redirects.conf)
+
 echo "  Diff del catálogo:"
-if git status --porcelain -- src/content/articulos public/images/articulos | grep -q .; then
-  git status --short -- src/content/articulos public/images/articulos
+if git status --porcelain -- "${CATALOG_PATHS[@]}" | grep -q .; then
+  git status --short -- "${CATALOG_PATHS[@]}"
   echo
-  git diff --stat -- src/content/articulos public/images/articulos || true
+  git diff --stat -- "${CATALOG_PATHS[@]}" || true
 else
   echo "   (sin cambios en disco)"
 fi
@@ -80,7 +101,7 @@ echo "────────────────────────�
 echo "  Log completo: $LOG"
 echo
 
-if ! git status --porcelain -- src/content/articulos public/images/articulos | grep -q .; then
+if ! git status --porcelain -- "${CATALOG_PATHS[@]}" | grep -q .; then
   echo "✓ Sin cambios en el catálogo. Nada que committear ni desplegar."
   exit 0
 fi
@@ -107,7 +128,7 @@ fi
 
 echo
 echo "▶ 7/7 — commit + push + deploy"
-git add -A -- src/content/articulos public/images/articulos
+git add -A -- src/content/articulos public/images/articulos vercel.json deploy/nginx/redirects.conf
 git commit -m "$(cat <<'EOF'
 chore: actualización semanal de precios
 

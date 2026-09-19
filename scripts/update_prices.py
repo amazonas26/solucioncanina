@@ -27,8 +27,14 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
       coincideix amb patrons d'esgotament. **No** es fa servir `#buybox` (conté
       JSON amb la paraula "unavailable" i generava falsos positius a tot el catàleg).
       Si hi ha **preu vàlid**, no s'elimina mai per «no disponible».
-    Al final: **nombre total eliminat** i **desglossament per categoria**
-    (secció). En CAPTCHA o error de xarxa **no** s'elimina res.
+    En eliminar una fitxa s'afegeix un **301** cap a `/categoria/<slug>/` a
+    `deploy/nginx/redirects.conf` (dos blocs: amb i sense barra final) i a
+    `vercel.json`. Idempotent: si el source ja existeix, no es duplica. Si la
+    categoria queda buida (o el producte no en té), el destí és `/productos/`.
+    Al final: **nombre total eliminat**, **desglossament per categoria**
+    (secció) i **redirects creats**. En CAPTCHA o error de xarxa **no**
+    s'elimina res. El snippet de nginx **no** viatja amb `./deploy/deploy.sh`:
+    cal copiar-lo al VPS a mà (l'avís final mostra el comandament).
   - En guardar qualsevol `index.json`, s'assegura `linkAmazon` amb
     `?tag=solucioncanin-21` (vegeu `_common.ensure_affiliate_link`).
   - Opcional **`--refill-deleted`**: després d'eliminar (sense `--dry-run`), per
@@ -65,6 +71,11 @@ from _common import amazon_scrape_url as _amazon_scrape_url  # noqa: E402
 ROOT = Path(__file__).parent.parent
 ARTICULOS_DIR = ROOT / "src" / "content" / "articulos"
 IMAGES_DIR = ROOT / "public" / "images" / "articulos"
+NGINX_REDIRECTS_PATH = ROOT / "deploy" / "nginx" / "redirects.conf"
+VERCEL_JSON_PATH = ROOT / "vercel.json"
+# Comandament que ja s'usa per pujar el snippet (el rsync de deploy.sh no el toca).
+NGINX_VPS_SYNC_CMD = "rsync -avz deploy/nginx/redirects.conf jan@ion:/tmp/"
+PRODUCTOS_FALLBACK_DEST = "/productos/"
 
 # Mateixa política que `find_new_products.py`: no mostrar ni persistir notes baixes.
 MIN_CATALOG_RATING = 3.7
@@ -165,6 +176,210 @@ def remove_product_from_disk(slug: str) -> None:
         shutil.rmtree(art)
     if img.is_dir():
         shutil.rmtree(img)
+
+
+# ---------------------------------------------------------------------------
+# Redirects 301 en eliminar una fitxa (nginx + vercel.json)
+# ---------------------------------------------------------------------------
+
+_NGINX_LOCATION_RE = re.compile(r"location\s*=\s*(\S+)\s*\{")
+
+
+def _norm_path(path: str) -> str:
+    """`/producto/foo/` i `/producto/foo` es consideren el mateix source."""
+    p = (path or "").strip()
+    if len(p) > 1:
+        p = p.rstrip("/")
+    return p or "/"
+
+
+def product_redirect_slugs(data: dict, folder: str) -> list[str]:
+    """Slugs a redirigir: URL pública (`slug` JSON) i, si és diferent, la carpeta."""
+    folder = (folder or "").strip().strip("/")
+    public = (data.get("slug") or "").strip().strip("/")
+    if not public:
+        public = _slugify(data.get("nombre") or "") or folder
+    out: list[str] = []
+    seen: set[str] = set()
+    for s in (public, folder):
+        if s and s not in seen:
+            seen.add(s)
+            out.append(s)
+    return out
+
+
+def _nginx_sources(text: str) -> set[str]:
+    return {_norm_path(m.group(1)) for m in _NGINX_LOCATION_RE.finditer(text)}
+
+
+def _vercel_sources(data: dict) -> set[str]:
+    out: set[str] = set()
+    for r in data.get("redirects") or []:
+        src = r.get("source") if isinstance(r, dict) else None
+        if isinstance(src, str):
+            out.add(_norm_path(src))
+    return out
+
+
+def _remaining_categorias(*, excluding_folders: set[str] | None = None) -> set[str]:
+    skip = excluding_folders or set()
+    cats: set[str] = set()
+    for p in ARTICULOS_DIR.glob("*/index.json"):
+        if p.parent.name in skip:
+            continue
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        c = (d.get("categoria") or "").strip()
+        if c:
+            cats.add(c)
+    return cats
+
+
+def _live_product_slugs() -> set[str]:
+    live: set[str] = set()
+    for p in ARTICULOS_DIR.glob("*/index.json"):
+        live.add(p.parent.name)
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        s = (d.get("slug") or "").strip().strip("/")
+        if s:
+            live.add(s)
+    return live
+
+
+def _dest_for_categoria(categoria: str, remaining: set[str]) -> str:
+    cat = (categoria or "").strip()
+    if not cat or cat == "Sense categoria":
+        return PRODUCTOS_FALLBACK_DEST
+    if cat not in remaining:
+        return PRODUCTOS_FALLBACK_DEST
+    slug = _slugify(cat)
+    if not slug:
+        return PRODUCTOS_FALLBACK_DEST
+    return f"/categoria/{slug}/"
+
+
+def _nginx_pair(source_no_slash: str, dest: str) -> str:
+    if not dest.endswith("/"):
+        dest += "/"
+    return (
+        f"location = {source_no_slash} {{\n"
+        f"    return 301 {dest};\n"
+        f"}}\n"
+        f"location = {source_no_slash}/ {{\n"
+        f"    return 301 {dest};\n"
+        f"}}\n"
+    )
+
+
+def apply_deleted_product_redirects(
+    candidates: list[tuple[str, str]],
+    *,
+    dry_run: bool,
+    excluding_folders: set[str] | None = None,
+) -> tuple[list[tuple[str, str]], bool]:
+    """Afegeix 301 producte→categoria a nginx i vercel.json, sense duplicar.
+
+    `candidates` és una llista `(slug_url, categoria)`. Retorna
+    `(nous [(source, dest)], s'ha modificat nginx)`.
+    En dry-run, `excluding_folders` simula les fitxes que s'esborrarien
+    per calcular el destí (categoria vs `/productos/`).
+    """
+    created: list[tuple[str, str]] = []
+    nginx_modified = False
+    if not candidates:
+        return created, nginx_modified
+
+    remaining = _remaining_categorias(
+        excluding_folders=excluding_folders if dry_run else None
+    )
+    live = _live_product_slugs()
+
+    ordered: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for slug, cat in candidates:
+        slug = (slug or "").strip().strip("/")
+        if not slug or slug in seen:
+            continue
+        seen.add(slug)
+        ordered.append((slug, cat))
+
+    nginx_text = ""
+    nginx_srcs: set[str] = set()
+    if NGINX_REDIRECTS_PATH.is_file():
+        nginx_text = NGINX_REDIRECTS_PATH.read_text(encoding="utf-8")
+        nginx_srcs = _nginx_sources(nginx_text)
+    else:
+        print(f"  ⚠ no trobo {NGINX_REDIRECTS_PATH}")
+
+    vercel_data: dict | None = None
+    vercel_srcs: set[str] = set()
+    if VERCEL_JSON_PATH.is_file():
+        try:
+            vercel_data = json.loads(VERCEL_JSON_PATH.read_text(encoding="utf-8"))
+            vercel_srcs = _vercel_sources(vercel_data)
+        except json.JSONDecodeError as e:
+            print(f"  ⚠ vercel.json invàlid: {e}")
+            vercel_data = None
+    else:
+        print(f"  ⚠ no trobo {VERCEL_JSON_PATH}")
+
+    nginx_blocks: list[str] = []
+    vercel_new: list[dict] = []
+
+    for slug, cat in ordered:
+        # En dry-run la fitxa encara és al disc; el check només té sentit
+        # després d'un esborrat real (p. ex. el refill ha recreat el mateix slug).
+        if not dry_run and slug in live:
+            print(f"  ⚠ skip redirect /producto/{slug}: encara existeix al catàleg")
+            continue
+        dest = _dest_for_categoria(cat, remaining)
+        if not dest.endswith("/"):
+            dest += "/"
+        source = f"/producto/{slug}"
+        source_n = _norm_path(source)
+        added_any = False
+
+        if source_n not in nginx_srcs:
+            nginx_blocks.append(_nginx_pair(source, dest))
+            nginx_srcs.add(source_n)
+            added_any = True
+        if vercel_data is not None and source_n not in vercel_srcs:
+            vercel_new.append(
+                {
+                    "source": source,
+                    "destination": dest,
+                    "permanent": True,
+                }
+            )
+            vercel_srcs.add(source_n)
+            added_any = True
+        if added_any:
+            created.append((source, dest))
+
+    if dry_run:
+        return created, False
+
+    if nginx_blocks:
+        new_text = nginx_text.rstrip() + "\n\n" + "\n".join(nginx_blocks)
+        if not new_text.endswith("\n"):
+            new_text += "\n"
+        NGINX_REDIRECTS_PATH.write_text(new_text, encoding="utf-8")
+        nginx_modified = True
+
+    if vercel_data is not None and vercel_new:
+        redirects = vercel_data.setdefault("redirects", [])
+        redirects.extend(vercel_new)
+        VERCEL_JSON_PATH.write_text(
+            json.dumps(vercel_data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+    return created, nginx_modified
 
 
 def _find_new_products_script() -> Path:
@@ -764,6 +979,8 @@ def main():
     removed_by_cat: Counter[str] = Counter()
     removed_by_reason: Counter[str] = Counter()
     n_removed = 0
+    redirect_candidates: list[tuple[str, str]] = []
+    removed_folders: set[str] = set()
 
     for json_path in products:
         data = load_json(json_path)
@@ -812,12 +1029,16 @@ def main():
         delete_reason = new_data.pop("_delete_reason", None)
 
         if delete_reason:
-            cat = (data.get("categoria") or "").strip() or "Sense categoria"
+            cat_raw = (data.get("categoria") or "").strip()
+            cat = cat_raw or "Sense categoria"
             label = {
                 "no_disponible": "no disponible a Amazon",
                 "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
                 "pocs_reviews": f"menys de {MIN_CATALOG_REVIEWS} valoracions",
             }.get(delete_reason, delete_reason)
+            for url_slug in product_redirect_slugs(data, slug):
+                redirect_candidates.append((url_slug, cat_raw))
+            removed_folders.add(slug)
             if dry_run:
                 print(f"  -> [DRY RUN] s'eliminaria ({label}) — secció: «{cat}»")
             else:
@@ -924,6 +1145,14 @@ def main():
         do_refill=args["refill_deleted"],
     )
 
+    # Després del refill: si la categoria encara té productes, el 301 hi apunta;
+    # si ha quedat buida, /productos/ (evita destí 404 al link-checker).
+    created_redirects, nginx_redirects_changed = apply_deleted_product_redirects(
+        redirect_candidates,
+        dry_run=dry_run,
+        excluding_folders=removed_folders,
+    )
+
     # -----------------------------------------------------------------------
     # Resums Top 6 (després del refill per reflectir nous ítems)
     # -----------------------------------------------------------------------
@@ -962,6 +1191,13 @@ def main():
 
     print("=" * 60)
     print(f"RESUM: {len(updated)} actualitzats, {len(failed)} fallits")
+    if created_redirects:
+        verb = "s'haurien creat" if dry_run else "creats"
+        print(f"Redirects 301 {verb} ({len(created_redirects)}):")
+        for src, dest in created_redirects:
+            print(f"  · {src} → {dest}")
+    elif n_removed:
+        print("Redirects 301: cap de nou (ja existien o sense destí).")
 
     if top_discount:
         print("\nTOP 6 més rebaixats:")
@@ -994,6 +1230,22 @@ def main():
         print("\n[DRY RUN] Cap canvi al disc: ni JSON actualitzats ni carpetes eliminades.")
         if args["refill_deleted"]:
             print("         (--refill-deleted: les crides a find_new_products només s'han llistat més amunt.)")
+        if created_redirects:
+            print("         (redirects 301: només llistats; no s'ha tocat nginx ni vercel.json.)")
+
+    if nginx_redirects_changed:
+        print("\n" + "!" * 60)
+        print("⚠  El snippet de nginx NO es desplega amb ./deploy/deploy.sh")
+        print("   ni amb semanal.sh (aquest només fa commit + rsync de dist/).")
+        print("   Còpia'l al VPS a mà:")
+        print()
+        print(f"   {NGINX_VPS_SYNC_CMD}")
+        print()
+        print("   Al VPS, instal·la el snippet i recarrega nginx:")
+        print("   sudo install -m 644 /tmp/redirects.conf \\")
+        print("     /etc/nginx/snippets/solucioncanina-redirects.conf \\")
+        print("     && sudo nginx -t && sudo systemctl reload nginx")
+        print("!" * 60)
 
 
 if __name__ == "__main__":

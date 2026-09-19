@@ -12,7 +12,8 @@ dist/
 # Backups locales (no commitear)
 _backup_local/
 
-# Python bytecode cache
+# Python (venv local y bytecode)
+.venv/
 __pycache__/
 *.pyc
 

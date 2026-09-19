@@ -4,6 +4,8 @@
 Uso:
     python scripts/gsc_weekly_report.py
     python scripts/gsc_weekly_report.py --setup
+    python scripts/gsc_weekly_report.py --site https://www.solucioncanina.es/
+    GSC_SITE=https://www.solucioncanina.es/ python scripts/gsc_weekly_report.py
     SKIP_GSC=1 scripts/semanal.sh          # saltar este paso
 
 Credenciales (cuenta de servicio), en este orden:
@@ -11,6 +13,11 @@ Credenciales (cuenta de servicio), en este orden:
     2. $GSC_CREDENTIALS
     3. $GOOGLE_APPLICATION_CREDENTIALS
     4. scratch/gsc/service-account.json
+
+Propiedad GSC, en este orden:
+    1. --site
+    2. $GSC_SITE
+    3. sc-domain:solucioncanina.es     (propiedad de dominio)
 
 El informe markdown va a scratch/informe-gsc.md (y una copia fechada).
 El histórico JSON, a scratch/gsc/YYYY-MM-DD.json.
@@ -27,7 +34,7 @@ import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote, urlparse
+from urllib.parse import quote, unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRATCH = ROOT / "scratch"
@@ -35,6 +42,7 @@ HIST_DIR = SCRATCH / "gsc"
 DEFAULT_CREDS = HIST_DIR / "service-account.json"
 SITEMAP_URL = "https://www.solucioncanina.es/sitemap-index.xml"
 SITE_HOST = "www.solucioncanina.es"
+DEFAULT_SITE = "sc-domain:solucioncanina.es"
 GSC_API = "https://www.googleapis.com/webmasters/v3"
 SCOPE = "https://www.googleapis.com/auth/webmasters.readonly"
 
@@ -148,8 +156,9 @@ ESTE PASO ES EL QUE SUELE FALTAR. Sin él la API responde 403.
     https://search.google.com/search-console
 
 16. Arriba a la izquierda, elige la propiedad de solucioncanina.
-    Si tienes las dos, usa la de dominio (sc-domain:solucioncanina.es).
-    Si solo tienes prefijo de URL, usa https://www.solucioncanina.es/
+    El script usa por defecto sc-domain:solucioncanina.es. Tiene que
+    coincidir con Usuarios y permisos. Si solo tienes el prefijo de URL:
+    --site https://www.solucioncanina.es/
 
 17. Menú izquierdo: Configuración (el engranaje)
     → Usuarios y permisos
@@ -177,6 +186,8 @@ ESTE PASO ES EL QUE SUELE FALTAR. Sin él la API responde 403.
 Errores frecuentes
   403 permission  → el client_email no está en Usuarios y permisos
                     de ESA propiedad (dominio ≠ prefijo www).
+                    El script lista las que sí ve (sites.list).
+                    Cambia con --site o $GSC_SITE.
   404 siteUrl     → propiedad mal puesta; el script lista las que ve.
   No module google → pip install -r requirements.txt
 """.strip()
@@ -414,7 +425,21 @@ def make_session(cred_file: Path):
     return AuthorizedSession(creds), info.get("client_email", "")
 
 
-def gsc_request(session, method: str, path: str, body: dict | None = None, retries: int = 5) -> dict:
+def normalize_site_url(raw: str) -> str:
+    """siteUrl de GSC: `sc-domain:host` o URL con barra final."""
+    s = (raw or "").strip()
+    if not s:
+        return DEFAULT_SITE
+    if s.startswith("sc-domain:"):
+        return s
+    if "://" not in s:
+        s = "https://" + s.lstrip("/")
+    if not s.endswith("/"):
+        s += "/"
+    return s
+
+
+def _gsc_http(session, method: str, path: str, body: dict | None = None, retries: int = 5):
     url = f"{GSC_API}{path}"
     last = None
     for attempt in range(retries):
@@ -428,11 +453,81 @@ def gsc_request(session, method: str, path: str, body: dict | None = None, retri
             continue
         break
     assert last is not None
+    return last
+
+
+def _site_from_gsc_path(path: str) -> str | None:
+    if not path.startswith("/sites/"):
+        return None
+    rest = path[len("/sites/") :]
+    if not rest:
+        return None
+    return unquote(rest.split("/", 1)[0]) or None
+
+
+def format_accessible_sites(session) -> str:
+    """Texto con las propiedades de GET /sites (sites.list). No pasa por gsc_request."""
+    resp = _gsc_http(session, "GET", "/sites")
+    if resp.status_code >= 400:
+        snippet = (resp.text or "")[:300]
+        return f"  (sites.list HTTP {resp.status_code}: {snippet})"
+    try:
+        data = resp.json() if resp.content else {}
+    except ValueError:
+        return "  (sites.list: respuesta no JSON)"
+    entries = data.get("siteEntry") or []
+    if not entries:
+        return (
+            "  (ninguna — añade el client_email en Usuarios y permisos "
+            f"de {DEFAULT_SITE})"
+        )
+    lines: list[str] = []
+    for e in entries:
+        url = e.get("siteUrl") or "?"
+        perm = e.get("permissionLevel") or ""
+        suffix = f"  [{perm}]" if perm else ""
+        lines.append(f"  · {url}{suffix}")
+    return "\n".join(lines)
+
+
+def exit_403(session, path: str, site: str | None = None) -> None:
+    which = site or _site_from_gsc_path(path) or path
+    raise SystemExit(
+        f"403: la cuenta de servicio no tiene permiso en {which}.\n"
+        "Añade el client_email en Search Console → Configuración → "
+        "Usuarios y permisos (permiso Restringido).\n"
+        "El prefijo https://www.… no es la propiedad de dominio sc-domain:…\n"
+        "\n"
+        "Propiedades a las que esta cuenta SÍ tiene acceso (sites.list):\n"
+        f"{format_accessible_sites(session)}\n"
+        "\n"
+        "Otra propiedad:  --site https://www.solucioncanina.es/\n"
+        "                 --site sc-domain:solucioncanina.es\n"
+        "                 o $GSC_SITE\n"
+        "Guía: python scripts/gsc_weekly_report.py --setup"
+    )
+
+
+def gsc_request(session, method: str, path: str, body: dict | None = None, retries: int = 5) -> dict:
+    last = _gsc_http(session, method, path, body=body, retries=retries)
     if last.status_code == 403:
+        if path.rstrip("/") == "/sites":
+            raise SystemExit(
+                "403 al listar propiedades (GET /sites).\n"
+                "La cuenta de servicio no puede usar sites.list. "
+                "¿Search Console API habilitada y JSON de servicio?\n"
+                "Guía: python scripts/gsc_weekly_report.py --setup"
+            )
+        exit_403(session, path)
+    if last.status_code == 404 and path.rstrip("/") != "/sites":
+        which = _site_from_gsc_path(path) or path
         raise SystemExit(
-            "403: la cuenta de servicio no tiene permiso en esta propiedad.\n"
-            "Añade el client_email en Search Console → Configuración → "
-            "Usuarios y permisos (permiso Restringido).\n"
+            f"404: GSC no conoce la propiedad {which}.\n"
+            "\n"
+            "Propiedades a las que esta cuenta SÍ tiene acceso (sites.list):\n"
+            f"{format_accessible_sites(session)}\n"
+            "\n"
+            f"Prueba --site {DEFAULT_SITE}  o  $GSC_SITE\n"
             "Guía: python scripts/gsc_weekly_report.py --setup"
         )
     if last.status_code >= 400:
@@ -448,26 +543,45 @@ def list_sites(session) -> list[dict]:
     return data.get("siteEntry") or []
 
 
+def _site_in_list(wanted: str, listed: str) -> bool:
+    if listed == wanted:
+        return True
+    if listed.startswith("sc-domain:") or wanted.startswith("sc-domain:"):
+        return False
+    return normalize_site_url(listed) == normalize_site_url(wanted)
+
+
 def resolve_site(session, preferred: str | None) -> str:
+    """Usa --site / $GSC_SITE / sc-domain. Si no está en sites.list y hay una sola, la usa."""
+    site = normalize_site_url(preferred or DEFAULT_SITE)
     entries = list_sites(session)
     urls = [e.get("siteUrl", "") for e in entries if e.get("siteUrl")]
-    if not urls:
-        raise SystemExit(
-            "La cuenta de servicio no ve ninguna propiedad de Search Console.\n"
-            "Completa el paso D de la guía: python scripts/gsc_weekly_report.py --setup"
+    for u in urls:
+        if _site_in_list(site, u):
+            return u
+    if len(urls) == 1:
+        only = urls[0]
+        print(
+            f"Aviso: {site} no aparece en sites.list. "
+            f"Uso la única propiedad accesible: {only}",
+            file=sys.stderr,
         )
-    if preferred:
-        if preferred in urls:
-            return preferred
-        print(f"Aviso: {preferred} no está en las propiedades visibles. Uso auto-detección.", file=sys.stderr)
-        print("  Propiedades: " + ", ".join(urls), file=sys.stderr)
-    for u in urls:
-        if u == "sc-domain:solucioncanina.es":
-            return u
-    for u in urls:
-        if "solucioncanina.es" in u:
-            return u
-    return urls[0]
+        return only
+    if urls:
+        print(
+            f"Aviso: {site} no aparece en sites.list. Sigo con esa propiedad;",
+            file=sys.stderr,
+        )
+        print("  si falla con 403, usa una de las que sí ve la cuenta:", file=sys.stderr)
+        for u in urls:
+            print(f"    · {u}", file=sys.stderr)
+    else:
+        print(
+            "Aviso: sites.list vacío. Añade el client_email a "
+            f"{site} en Usuarios y permisos.",
+            file=sys.stderr,
+        )
+    return site
 
 
 def search_analytics(session, site: str, body: dict) -> dict:
@@ -1307,7 +1421,14 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--setup", action="store_true", help="Imprime la guía de Google Cloud y sale")
     p.add_argument("--credentials", help="Ruta al JSON de la cuenta de servicio")
-    p.add_argument("--site", help="Propiedad GSC (sc-domain:… o URL con barra final)")
+    p.add_argument(
+        "--site",
+        metavar="SITE_URL",
+        help=(
+            f"Propiedad GSC (defecto: {DEFAULT_SITE} o $GSC_SITE). "
+            "Ej. https://www.solucioncanina.es/ si tienes el prefijo de URL."
+        ),
+    )
     p.add_argument("--lag", type=int, default=GSC_LAG_DAYS, help="Días de retraso GSC (defecto: 3)")
     p.add_argument("--end-date", help="Forzar el último día de la ventana (YYYY-MM-DD)")
     p.add_argument("--from-snapshot", help="Regenerar el markdown desde un JSON de scratch/gsc/")
@@ -1330,7 +1451,7 @@ def main() -> int:
         cs, ce, ps, pe, d30s, d30e = last_complete_window(today, 3)
         meta = {
             "generated_at": "self-test",
-            "site": "sc-domain:solucioncanina.es",
+            "site": DEFAULT_SITE,
             "client_email": "gsc-semanal@test.iam.gserviceaccount.com",
             "lag_days": 3,
             "current_start": cs.isoformat(),
