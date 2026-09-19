@@ -4,16 +4,20 @@
 
 export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'como-mejorar-movilidad-perro-mayor': 'Condroprotectores',
+  'pastillas-perros-artrosis-comprimidos-gotas-snacks': 'Condroprotectores',
+  'pienso-con-condroprotectores-o-suplemento': 'Condroprotectores',
   'mejor-condroprotector-perros-artrosis': 'Condroprotectores',
   'condroprotectores-perros-guia-completa': 'Condroprotectores',
   'glucosamina-para-perros-para-que-sirve-dosis': 'Condroprotectores',
   'mejores-camas-ortopedicas-perros': 'Camas ortopédicas',
   'rampas-para-perros-beneficios': 'Rampas',
   'pienso-renal-perros-guia': 'Alimentación específica',
+  'pienso-bajo-sodio-perros-renal': 'Alimentación específica',
   'aceite-salmon-perros-beneficios': 'Alimentación específica',
   'ansiedad-ruidos-perros-calmar-estres': 'Ansiedad',
   'ansiedad-separacion-perros-guia': 'Ansiedad',
   'miedo-petardos-perros-soluciones': 'Ansiedad',
+  'relajantes-naturales-perros-gotas-feromonas-chaleco': 'Ansiedad',
   'perro-tira-de-la-correa-soluciones': 'Correas',
   'arnes-o-collar-perros-guia': 'Correas',
   'mejores-correas-largas-perros-adiestramiento': 'Correas',
@@ -28,6 +32,8 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'glucosamina-para-perros-para-que-sirve-dosis', titulo: 'Glucosamina para perros: para qué sirve y dosis' },
     { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'El mejor condroprotector para perros con artrosis' },
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
+    { slug: 'pastillas-perros-artrosis-comprimidos-gotas-snacks', titulo: 'Pastillas para perros con artrosis: comprimidos, gotas o snacks' },
+    { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
   ],
   'Camas ortopédicas': [
     { slug: 'mejores-camas-ortopedicas-perros', titulo: 'Mejores camas ortopédicas para perros' },
@@ -44,18 +50,22 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
   ],
   'Movilidad y artrosis': [
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
+    { slug: 'pastillas-perros-artrosis-comprimidos-gotas-snacks', titulo: 'Pastillas para perros con artrosis: comprimidos, gotas o snacks' },
+    { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
     { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
     { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
   ],
   'Alimentación específica': [
     { slug: 'pienso-renal-perros-guia', titulo: 'Pienso renal para perros: guía' },
+    { slug: 'pienso-bajo-sodio-perros-renal', titulo: 'Pienso bajo en sodio (y fósforo) para problema renal' },
     { slug: 'aceite-salmon-perros-beneficios', titulo: 'Beneficios del aceite de salmón para perros' },
   ],
   'Ansiedad': [
     { slug: 'ansiedad-ruidos-perros-calmar-estres', titulo: 'Calmar la ansiedad por ruidos en perros' },
     { slug: 'ansiedad-separacion-perros-guia', titulo: 'Ansiedad por separación: guía para perros' },
     { slug: 'miedo-petardos-perros-soluciones', titulo: 'Miedo a los petardos: soluciones' },
+    { slug: 'relajantes-naturales-perros-gotas-feromonas-chaleco', titulo: 'Relajantes naturales: gotas, feromonas y chaleco' },
   ],
   'Correas': [
     { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },
