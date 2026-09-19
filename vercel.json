@@ -83,6 +83,156 @@
       "permanent": true
     },
     {
+      "source": "/producto/pets-purest-aceite-salmon-escoces-500ml",
+      "destination": "/producto/pets-purest-aceite-salmon-500ml/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/adaptil-calm-antiestres-para-perros-solo-en-casa-miedos-ruidos-fuertes-adopcion-difusor-recambio-48ml",
+      "destination": "/producto/calm-antiestres-para-perros-solo-en-casa-miedos-ruidos-fuertes-adopcion-recambio-48ml/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/beaphar-no-stress-kit-difusor-natural",
+      "destination": "/producto/no-stress-recambio-antiestres-natural-perro-30ml-recarga-antiestres-natural-perros-reduce-estres-y-ansiedad-ladridos-miedos-cambios-ruidos-marcaje-con-orina-conflictos/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/condroprotector-premium-para-perros-con-glucosamina-condroitina-msm-acido-hialuronico-y-piperina-formula-avanzada-para-salud-articular-movilidad-y-alivio-del-dolor-120-masticables",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/bravia-condroprotector-perros-snacks-135-uds-glucosamina-condroitina-msm-y-colageno-suplemento-para-articulaciones-perro-antiinflamatorio-natural",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/maikai-condroprotector-perros-grandes-120-comprimidos",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/animigo-condroprotector-glucosamina-curcuma-120-caps",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/condroprotector-perros-grandes-y-gigantes-120-comprimidos-glucosamina-condroitina-msm-acido-hialuronico-articulaciones-antiinflamatorio-natural",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/complemento-nutricional-liquido-articular-para-perros-con-curcuma-harpagofito-sauce-y-aceite-de-salmon-protege-las-articulaciones-y-mejora-la-movilidad-120-ml",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/barkyn-condroprotector-liquido-100ml",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/animo-complexe-articulaciones-senior-120-comp",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/kiss-cama-refrescante-perros-grandes-l-q-max04-cojin-ortopedico-transpirable-espuma-gel-colchon-lavable-jaula-funda-desmontable-antideslizante-91x69x75cm-gris-plata",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/cama-ortopedica-extragrande-para-perros-xl-impermeable-con-refuerzo-en-forma-de-u-funda-extraible-lavable-y-parte-inferior-antideslizante-gris-104-x-68-x-17-cm",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/ksiia-cama-para-perros-grandes-ortopedica-colchon-perro-lavable-colchoneta-perro-impermeable-dog-bed-con-funda-extraible-gris-104x68x8cm",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/kit-difusor-de-feromonas-calmantes-para-perros-1-difusor-4-recargas-de-48ml-reduce-ansiedad-estres-y-miedo-efecto-calmante-para-tormentas-viajes-y-entornos-nuevos-azul-m",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/perros-150-uds-100-natural-antiestres-y-ansiedad-relajante-natural-para-ruidos-viajes-estres-y-separacion-formula-veterinaria-con-manzanilla-l-triptofano-l-teanina-y-magnesio",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/jjw-kit-difusor-de-feromonas-calmantes-para-perros-1-difusor-4-recargas-de-48ml-reduce-ansiedad-estres-y-miedo-efecto-calmante-para-tormentas-viajes-y-entornos-nuevos-azul-m",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/adaptil-transport-antiestres-para-perros-viajes-transporte-temblores-lloros-jadeos-inquietud-tension-spray-60-ml",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/adaptil-calm-collar-ml-antiestres",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/edipets-correa-larga-adiestramiento-perro-15m",
+      "destination": "/categoria/correas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/rampa-para-perros-180-x-508-cm-plegable-para-perros-medianos-y-grandes-de-hasta-113-kg-con-superficie-de-tela-oxford-antideslizante-portatil-para-exteriores-suv-y-camiones-negro",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/petsafe-rampa-telescopica-aluminio",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/acxin-rampa-plegable-plastico-156x40cm-fins-90kg",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/rampa-para-perros-plegable-154-cm-rampa-para-perros-para-coche-y-cama-alta-con-10-escalones-antideslizantes-ligera-y-resistente-carga-68-kg-para-sofa-negro",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/lanco-rampa-plegable-3-piezas-182x41cm",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/petsafe-rampa-plegable-4-posiciones",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/fainfun-bozal-silicona-bandes-reflectants-talla-m",
+      "destination": "/categoria/bozales/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/bozal-silicona-canasta-suave-talla-5",
+      "destination": "/categoria/bozales/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/greenpet-aceite-salmon-1-litre",
+      "destination": "/categoria/alimentacion-especifica/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/lenda-vet-nature-renal-oxalate-10kg-pienso-veterinario-para-perros-adultos-y-jovenes-de-todas-las-razas-con-problemas-renales-pienso-natural-con-condroprotectores",
+      "destination": "/categoria/problemas-renales-y-urinarios/",
+      "permanent": true
+    },
+    {
       "source": "/categoria/condroprotectores/calculadora-dosis",
       "destination": "/calculadora-dosis-condroprotector-perros/",
       "permanent": true
