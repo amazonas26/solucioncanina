@@ -88,7 +88,7 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
     <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
       <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
-        <h2 className="text-lg font-black tracking-tight">Calculadora de talla de cama ortopédica</h2>
+        <h2 className="text-lg font-black tracking-tight">Calculadora de talla de cama</h2>
       </div>
 
       <div className="p-6 grid gap-6 md:grid-cols-2">
@@ -123,7 +123,7 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
               </span>
             </div>
             <p className="mt-1 text-[11px] text-neutral-500">
-              Morro hasta la base de la cola (sin incluir la cola).
+              Cómo medir: punta del hocico hasta la base de la cola (sin el rabo).
             </p>
           </div>
 
@@ -217,7 +217,7 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
           </div>
 
           <p className="text-[11px] leading-relaxed text-neutral-400">
-            Mejor pasarse de tamaño que quedarse corto. Si dudas entre dos tallas comerciales, elige la
+            Mejor pasarse de talla que quedarse corto. Si dudas entre dos tallas comerciales, elige la
             mayor.
           </p>
         </div>

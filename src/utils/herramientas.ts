@@ -35,14 +35,14 @@ export const HERRAMIENTAS: Herramienta[] = [
   },
   {
     id: 'cama',
-    nombre: 'Calculadora de talla de cama ortopédica',
-    breadcrumb: 'Talla de cama ortopédica',
+    nombre: 'Calculadora de talla de cama',
+    breadcrumb: 'Talla de cama',
     href: '/calculadora-talla-cama-ortopedica-perros/',
     paraQue:
-      'Calcular el largo, el ancho y el grosor de espuma mínimos para que el perro quepa estirado y no toque suelo.',
-    inputs: 'Longitud (morro a base de la cola), peso y postura habitual de sueño.',
+      'Traducir cómo medir a tu perro para la cama (hocico a cola) a talla: largo +30 cm, ancho según postura y grosor de espuma.',
+    inputs: 'Longitud de hocico a base de la cola, peso y postura habitual de sueño.',
     paraQuien:
-      'Dueños de perros grandes, sénior o con artrosis que van a comprar cama y suelen quedarse cortos de talla.',
+      'Quien va a comprar cama y no quiere quedarse corto de talla: medir al perro, no adivinar una S/M/L.',
   },
   {
     id: 'rampa',

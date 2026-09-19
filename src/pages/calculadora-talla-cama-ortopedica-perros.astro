@@ -26,29 +26,29 @@ const productos = articulos
 
 const faqs = [
   {
-    pregunta: '¿Cómo mido la longitud del perro para la cama?',
+    pregunta: '¿Cómo medir a mi perro para la cama?',
     respuesta:
-      'Con el perro de pie o tumbado estirado, mide desde la punta del hocico hasta la base de la cola (donde empieza el rabo, sin incluirlo). Anota el resultado en centímetros. La calculadora suma siempre 30 cm de margen al largo, independientemente de cómo duerma.',
+      'Con el perro de pie o tumbado estirado, mide desde la punta del hocico hasta la base de la cola (donde empieza el rabo, sin incluirlo). Anota esa longitud en centímetros: es la cifra que pide la calculadora. El peso sirve para el grosor de espuma, no para la talla de largo. Si estás entre dos tallas comerciales, elige la superior.',
   },
   {
-    pregunta: '¿Por qué añadir 30 cm de margen?',
+    pregunta: '¿Cómo se pasa esa medida a talla de cama?',
     respuesta:
-      'Para que pueda estirarse del todo sin que codos o cadera cuelguen. Muchos dueños compran la talla justa y el perro duerme encogido o a medias fuera de la cama. El margen fijo de +30 cm en largo es el mismo criterio que usamos en nuestras guías; la postura solo ajusta el ancho.',
+      'La talla de largo es siempre la longitud del perro + 30 cm, redondeada al alza a múltiplos de 5. La postura (estirado, de lado u ovillado) solo cambia el ancho. Un «L» de un fabricante no equivale al «L» de otro: confirma largo × ancho en la ficha, no te fíes solo de la letra.',
+  },
+  {
+    pregunta: '¿Por qué añadir 30 cm de margen a la talla?',
+    respuesta:
+      'Para que pueda estirarse del todo sin que codos o cadera cuelguen. Muchos dueños compran la talla justa y el perro duerme encogido o a medias fuera. El margen fijo de +30 cm en largo es el mismo criterio que usamos en nuestras guías; la postura solo ajusta el ancho.',
   },
   {
     pregunta: '¿Qué grosor de espuma necesita un perro grande?',
     respuesta:
-      'Hasta 15 kg: mínimo 8 cm. Entre 15 y 30 kg: mínimo 10 cm. Más de 30 kg: mínimo 12 cm, ideal 15–19 cm. Por debajo de eso, el perro «toca suelo» y pierde el beneficio ortopédico. Prioriza viscoelástica (memory foam) frente a relleno de bolitas o espuma blanda barata.',
+      'Hasta 15 kg: mínimo 8 cm. Entre 15 y 30 kg: mínimo 10 cm. Más de 30 kg: mínimo 12 cm, ideal 15–19 cm. Por debajo de eso, el perro «toca suelo». Prioriza viscoelástica (memory foam) frente a relleno de bolitas o espuma blanda barata.',
   },
   {
-    pregunta: '¿Memory foam o espuma normal?',
+    pregunta: '¿Si duerme ovillado puedo bajar de talla?',
     respuesta:
-      'Memory foam (viscoelástica) de densidad adecuada reparte el peso y reduce puntos de presión en codos, caderas y columna. La espuma convencional o las bolitas se hunden y dejan que las articulaciones toquen el suelo. Busca funda extraíble y lavable; en senior, impermeable ayuda con escapes leves.',
-  },
-  {
-    pregunta: '¿Cuándo hay que cambiar la cama ortopédica?',
-    respuesta:
-      'Cuando la espuma no recupera forma (queda el hueco del perro horas después), cuando prefiere el suelo frío a su cama, o cuando se levanta más rígido tras dormir. En perros con artrosis o displasia conviene una cama ortopédica adecuada desde joven, no solo cuando ya hay cojera evidente.',
+      'No. Aunque se enrolle de día, puede estirarse de noche. La calculadora mantiene el largo +30 cm en las tres posturas; ovillado solo mueve el ancho a un punto intermedio. Bajar de talla es el error que deja la cadera fuera del colchón.',
   },
 ];
 
@@ -56,14 +56,14 @@ const pageUrl = '/calculadora-talla-cama-ortopedica-perros/';
 const breadcrumbJsonLd = breadcrumbSchema([
   { name: 'Inicio', url: '/' },
   { name: 'Herramientas', url: HERRAMIENTAS_PATH },
-  { name: 'Talla de cama ortopédica', url: pageUrl },
+  { name: 'Talla de cama', url: pageUrl },
 ]);
 const faqJsonLd = faqPageSchema(faqs);
 ---
 
 <Layout
-  title="Calculadora de talla de cama ortopédica para perros"
-  description="Calcula el tamaño mínimo de cama ortopédica y el grosor de espuma según la longitud, el peso y la postura de sueño de tu perro."
+  title="Calculadora de talla de cama para perros (cómo medir a tu perro)"
+  description="Mide a tu perro de hocico a cola y obtén la talla de cama: largo mínimo (+30 cm), ancho según postura y grosor de espuma. Cómo medir a tu perro para la cama, paso a paso."
   categories={categories}
   jsonLd={[breadcrumbJsonLd, faqJsonLd]}
 >
@@ -73,29 +73,70 @@ const faqJsonLd = faqPageSchema(faqs);
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Herramientas</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      <span class="text-neutral-900">Talla de cama ortopédica</span>
+      <span class="text-neutral-900">Talla de cama</span>
     </nav>
     <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
-      Calculadora de talla de cama ortopédica para perros
+      Calculadora de talla de cama para perros
     </h1>
     <p class="text-neutral-600 max-w-2xl leading-relaxed">
-      Introduce la <strong>longitud</strong> (morro a base de la cola), el <strong>peso</strong> y la
-      <strong>postura</strong> habitual. Te damos las medidas mínimas de cama y el grosor de espuma
-      recomendado. El largo suma siempre +30 cm; la postura solo cambia el ancho.
+      <strong>Cómo medir a tu perro para la cama:</strong> de la <strong>punta del hocico a la base de la cola</strong>,
+      más el <strong>peso</strong> y la <strong>postura</strong> habitual. Te damos la <strong>talla</strong> mínima
+      (largo +30 cm; el ancho cambia con cómo duerma) y el grosor de espuma. Así no compras a ojo la talla de abajo.
     </p>
   </div>
 
   <CamaOrtopedicaCalculator client:load productos={productos} />
 
   <section class="mt-12 prose prose-neutral max-w-2xl">
-    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula el tamaño</h2>
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo medir a tu perro para la cama</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      Cómo medir a tu perro para la cama no es adivinar una S/M/L en la ficha: es una <strong>medida en centímetros</strong>
+      y un margen fijo. Cuatro pasos:
+    </p>
+    <ol class="text-neutral-700 leading-relaxed space-y-2 my-4 pl-5 list-decimal">
+      <li>
+        Con el perro de pie o tumbado estirado, <strong>mide</strong> desde la punta del hocico hasta la base de la cola,
+        sin incluir el rabo. Anota los centímetros: esa es la longitud.
+      </li>
+      <li>
+        El peso no cambia la talla de largo: sirve para el grosor de espuma. Usa la última cifra del veterinario si no
+        tienes báscula.
+      </li>
+      <li>
+        Observa cómo duerme (estirado, de lado u ovillado). La postura solo ajusta el <strong>ancho</strong>; el largo
+        siempre lleva +30 cm por si se estira de noche.
+      </li>
+      <li>
+        Introduce longitud, peso y postura. La calculadora convierte esa medida en <strong>talla de cama</strong>,
+        redondeada al alza a múltiplos de 5.
+      </li>
+    </ol>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Cómo se calcula la talla</h2>
     <p class="text-neutral-700 leading-relaxed">
       El <strong>largo mínimo</strong> es siempre la longitud del perro <strong>+ 30 cm</strong>, redondeado
       al alza a múltiplos de 5. La postura no reduce ese margen: aunque duerma ovillado, puede estirarse
-      por la noche.
+      por la noche. Si dudas entre dos tallas comerciales, quédate con la grande.
     </p>
 
     <table class="w-full text-sm my-6 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Talla habitual</th>
+          <th class="py-2 pr-4">Largo mínimo de cama</th>
+          <th class="py-2">Cómo medir (longitud del perro)</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">S</td><td>60–70 cm</td><td class="text-neutral-500">30–40 cm (hocico–cola)</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">M</td><td>75–90 cm</td><td class="text-neutral-500">45–60 cm</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>95–110 cm</td><td class="text-neutral-500">65–80 cm</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">XL</td><td>115–130 cm</td><td class="text-neutral-500">85–100 cm</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Ancho según postura</p>
+    <table class="w-full text-sm my-4 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Postura</th>
@@ -125,13 +166,18 @@ const faqJsonLd = faqPageSchema(faqs);
       </tbody>
     </table>
 
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Nota:</strong> cada fabricante numera distinto (un «L» de 90 cm no equivale a un «L» de 110 cm).
+      Usa la tabla de talla como orientación y confirma largo × ancho reales en la ficha del producto.
+    </p>
+
     <p class="text-neutral-700 leading-relaxed">
-      Más detalle en
+      El criterio de talla y espuma está desarrollado en
       <a href="/blog/mejores-camas-ortopedicas-perros/" class="text-primary-600 font-semibold hover:underline">camas ortopédicas: guía completa</a>
       y en
       <a href="/blog/camas-ortopedicas-perros-artrosis-displasia/" class="text-primary-600 font-semibold hover:underline">camas para artrosis y displasia</a>.
-      Compara fichas en la
-      <a href="/categoria/camas-ortopedicas/" class="text-primary-600 font-semibold hover:underline">sección de camas ortopédicas</a>.
+      Cuando tengas la talla, compara fichas en la
+      <a href="/categoria/camas-ortopedicas/" class="text-primary-600 font-semibold hover:underline">sección de camas analizadas</a>.
     </p>
 
     <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
