@@ -56,6 +56,10 @@ const blogCollection = defineCollection({
     autor: z.string().default('Equipo Solución Canina'),
     fechaPublicacion: z.coerce.date().optional(),
     fechaActualizacion: z.coerce.date().optional(),
+    // Slugs de `/producto/<slug>/`. Si n'hi ha, substitueixen el mapeig
+    // blog → categoria de producte. `productosExcluidos` s'aplica sempre.
+    productosRecomendados: z.array(z.string().min(1)).optional(),
+    productosExcluidos: z.array(z.string().min(1)).optional(),
     faqs: z.array(z.object({
       pregunta: z.string(),
       respuesta: z.string(),

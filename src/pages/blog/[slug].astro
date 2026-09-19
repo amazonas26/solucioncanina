@@ -3,9 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import AffiliateBox from '../../components/AffiliateBox.astro';
 import { getCollection } from 'astro:content';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../utils/seo';
-import { categoryForBlog } from '../../utils/blogProductLinks';
-import { slugify } from '../../utils/slugify';
-import { outboundProductUrl } from '../../utils/outbound';
+import { relatedProductsForBlog } from '../../utils/blogProductLinks';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -27,26 +25,7 @@ export async function getStaticPaths() {
         categoria: p.data.categoria,
       }));
 
-    // Productes recomanats segons el mapeig topical del blog → categoria producte
-    const productCat = categoryForBlog(post.slug);
-    const relatedProducts = productCat
-      ? articulos
-          .filter((a) => a.data.categoria === productCat)
-          .sort((a, b) => (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0))
-          .slice(0, 4)
-          .map((a) => {
-            const s = a.data.slug || slugify(a.data.nombre);
-            return {
-              slug: s,
-              nombre: a.data.nombreCorto || a.data.nombre,
-              imagen: a.data.imagen,
-              precio: a.data.precio,
-              marca: a.data.marca,
-              valoracion: a.data.valoracion,
-              outboundUrl: outboundProductUrl(s),
-            };
-          })
-      : [];
+    const relatedProducts = relatedProductsForBlog(post, articulos);
 
     return {
       params: { slug: post.slug },

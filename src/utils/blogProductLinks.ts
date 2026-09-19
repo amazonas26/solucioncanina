@@ -1,6 +1,9 @@
-// Mapeig topicalmnent un blog post i una categoria de producte.
-// S'usa per generar enllaços interns blog → producte i producte → blog,
-// que ajuden el PageRank intern i la conversió.
+// Mapeig topical entre un blog post i una categoria de producte.
+// S'usa per generar enllaços interns blog → producte i producte → blog.
+// El bloc de productes d'un post pot sobreescriure aquest mapeig amb
+// `productosRecomendados` / `productosExcluidos` al frontmatter.
+
+import { slugify } from './slugify';
 
 export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'como-mejorar-movilidad-perro-mayor': 'Condroprotectores',
@@ -81,4 +84,94 @@ export function blogsForCategory(categoria?: string | null): { slug: string; tit
 
 export function categoryForBlog(slug: string): string | null {
   return BLOG_TO_PRODUCT_CATEGORY[slug] ?? null;
+}
+
+export const RELATED_PRODUCTS_LIMIT = 4;
+
+export type BlogProductSource = {
+  data: {
+    slug?: string;
+    nombre: string;
+    nombreCorto?: string;
+    imagen?: string;
+    precio?: string;
+    marca?: string;
+    valoracion?: number;
+    categoria?: string;
+  };
+};
+
+export type RelatedBlogProduct = {
+  slug: string;
+  nombre: string;
+  imagen?: string;
+  precio?: string;
+  marca?: string;
+  valoracion?: number;
+};
+
+export type BlogPostForProducts = {
+  slug: string;
+  data: {
+    productosRecomendados?: string[];
+    productosExcluidos?: string[];
+  };
+};
+
+export function articuloProductSlug(articulo: BlogProductSource): string {
+  return articulo.data.slug || slugify(articulo.data.nombre);
+}
+
+function toRelatedProduct(articulo: BlogProductSource): RelatedBlogProduct {
+  return {
+    slug: articuloProductSlug(articulo),
+    nombre: articulo.data.nombreCorto || articulo.data.nombre,
+    imagen: articulo.data.imagen,
+    precio: articulo.data.precio,
+    marca: articulo.data.marca,
+    valoracion: articulo.data.valoracion,
+  };
+}
+
+/**
+ * Productes del bloc «Nuestra selección» d'un post.
+ * `productosRecomendados` té prioritat sobre el mapeig per categoria;
+ * `productosExcluidos` s'aplica en els dos camins.
+ */
+export function relatedProductsForBlog(
+  post: BlogPostForProducts,
+  articulos: BlogProductSource[],
+  limit = RELATED_PRODUCTS_LIMIT,
+): RelatedBlogProduct[] {
+  const excluded = new Set(post.data.productosExcluidos ?? []);
+  const recommended = (post.data.productosRecomendados ?? []).filter(Boolean);
+  const bySlug = new Map<string, BlogProductSource>();
+  for (const articulo of articulos) {
+    bySlug.set(articuloProductSlug(articulo), articulo);
+  }
+
+  if (recommended.length > 0) {
+    return recommended
+      .filter((slug) => !excluded.has(slug))
+      .map((slug) => bySlug.get(slug))
+      .filter((articulo): articulo is BlogProductSource => Boolean(articulo))
+      .slice(0, limit)
+      .map(toRelatedProduct);
+  }
+
+  const productCat = categoryForBlog(post.slug);
+  if (!productCat) return [];
+
+  return articulos
+    .filter((articulo) => {
+      const slug = articuloProductSlug(articulo);
+      return articulo.data.categoria === productCat && !excluded.has(slug);
+    })
+    .sort((a, b) => {
+      const rating = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);
+      if (rating !== 0) return rating;
+      return articuloProductSlug(a).localeCompare(articuloProductSlug(b));
+    })
+    .slice(0, limit)
+    .map(toRelatedProduct);
 }
