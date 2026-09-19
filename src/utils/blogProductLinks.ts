@@ -3,6 +3,7 @@
 // que ajuden el PageRank intern i la conversió.
 
 export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
+  'como-mejorar-movilidad-perro-mayor': 'Condroprotectores',
   'mejor-condroprotector-perros-artrosis': 'Condroprotectores',
   'condroprotectores-perros-guia-completa': 'Condroprotectores',
   'glucosamina-para-perros-para-que-sirve-dosis': 'Condroprotectores',
@@ -26,16 +27,25 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
     { slug: 'glucosamina-para-perros-para-que-sirve-dosis', titulo: 'Glucosamina para perros: para qué sirve y dosis' },
     { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'El mejor condroprotector para perros con artrosis' },
+    { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
   ],
   'Camas ortopédicas': [
     { slug: 'mejores-camas-ortopedicas-perros', titulo: 'Mejores camas ortopédicas para perros' },
     { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
     { slug: 'displasia-cadera-perros-sintomas-cuidados', titulo: 'Displasia de cadera en perros: síntomas y cuidados' },
+    { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
   ],
   'Bozales': [
     { slug: 'bozales-perros-guia-elegir-talla', titulo: 'Bozales para perros: guía para elegir talla y tipo' },
   ],
   'Rampas': [
+    { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
+    { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
+  ],
+  'Movilidad y artrosis': [
+    { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
+    { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
+    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
   ],
   'Alimentación específica': [
