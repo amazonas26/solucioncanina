@@ -2,7 +2,7 @@
 
 Fecha: 19 de septiembre de 2026.
 
-Criterio: no usar foto genérica si no encaja el tema. Donde hay una imagen de cluster ya en `public/images/blog/`, se ha reutilizado (mismo patrón que el artículo de movilidad). Donde no encaja ninguna, el frontmatter va **sin** `imagen` (og:image cae al logo; mejor eso que duplicar la foto de otro post).
+Criterio: no usar foto genérica si no encaja el tema. Donde hay una imagen de cluster ya en `public/images/blog/`, se ha reutilizado (mismo patrón que el artículo de movilidad). Donde no encaja ninguna, el frontmatter va **sin** `imagen`. Un og:image con el logo es peor que uno repetido: si hay foto de cluster, se reutiliza.
 
 ## 1. Pastillas para perros con artrosis (`pastillas-perros-artrosis-comprimidos-gotas-snacks`)
 
@@ -16,7 +16,7 @@ Criterio: no usar foto genérica si no encaja el tema. Donde hay una imagen de c
 
 ## 4. Pienso bajo en sodio (`pienso-bajo-sodio-perros-renal`)
 
-- **Publicada ahora:** ninguna. No se reutiliza `pienso-renal-perros-guia.jpg` (bulldog con sudadera): duplicaba el og:image de la guía renal hermana y no muestra saco ni etiqueta. Mientras no haya foto propia, el post va **sin** `imagen` (og:image cae al logo).
+- **Publicada ahora:** `/images/blog/pienso-renal-perros-guia.jpg` (bulldog con sudadera; ya es la visual de la guía renal hermana). Encaje débil: no muestra saco ni etiqueta. Se reutiliza a propósito: un og:image con el logo es peor que uno repetido.
 - **Qué haría falta:** foto propia — sacos renales reales del catálogo (o un primer plano de etiqueta con fósforo/sodio) más un cuenco con húmedo renal. No otro perro disfrazado, ni reciclar la visual de la guía renal.
 
 ## 5. Pienso con condroprotectores (`pienso-con-condroprotectores-o-suplemento`)
