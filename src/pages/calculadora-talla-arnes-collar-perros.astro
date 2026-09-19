@@ -1,0 +1,189 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArnesCollarCalculator from '../components/ArnesCollarCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+import { HERRAMIENTAS_PATH } from '../utils/herramientas';
+import OtrasHerramientas from '../components/OtrasHerramientas.astro';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+const productos = articulos
+  .filter((a) => a.data.categoria === 'Correas')
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.nombreCorto || a.data.tituloSeo || a.data.nombre,
+    marca: a.data.marca || '',
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    imagen: a.data.imagen,
+  }))
+  .sort((x, y) => y.valoracion - x.valoracion);
+
+const faqs = [
+  {
+    pregunta: '¿Cómo mido el cuello y el pecho para la talla de arnés o collar?',
+    respuesta:
+      'Con el perro de pie, pasa el metro por la base del cuello (donde iría el collar) y, para el arnés, justo detrás de las patas delanteras en el punto más ancho del pecho. El metro debe quedar horizontal, sin hundir el pelo. Anota centímetros. Si estás entre dos tallas del fabricante, elige la superior: un collar justo presiona la tráquea y un arnés pequeño roza las axilas.',
+  },
+  {
+    pregunta: '¿Qué cifra manda, el perímetro o el peso?',
+    respuesta:
+      'Para el collar, el perímetro del cuello. Para el arnés, el perímetro del pecho. El peso solo sirve para comprobar que la talla no está disparatada (un perro de 8 kg no lleva un XL). Si peso y pecho discrepan dos tallas, vuelve a medir el pecho: es la medida fiable, no los kilos de la báscula.',
+  },
+  {
+    pregunta: '¿Arnés o collar? ¿La calculadora elige por mí?',
+    respuesta:
+      'No. Te da las dos tallas. Si el perro tira, es braquicéfalo o usas correa larga, prioriza arnés en forma de Y (no el noruego que cruza el pecho). El collar sigue siendo el sitio de la chapa. Lo desarrollamos en la guía arnés o collar.',
+  },
+  {
+    pregunta: '¿Dos dedos de holgura es suficiente?',
+    respuesta:
+      'Sí, como regla de ajuste: deben caber dos dedos entre la cinta y la piel, sin que el arnés pueda salir por la cabeza ni el collar ahogar al tirar. Si después de un rato hay marcas de pelo o rozaduras en axilas, sube de talla o cambia de diseño (Y frente a banda horizontal).',
+  },
+  {
+    pregunta: 'Un «M» de Julius-K9, ¿es el mismo «M» de otras marcas?',
+    respuesta:
+      'No. Cada fabricante numera distinto. En nuestro catálogo, el Julius-K9 IDC Powerharness talla 0 cubre perros medianos (~14–25 kg) si el pecho encaja en su guía; no lo uses como «M» universal. Confirma siempre el rango de pecho o cuello en centímetros de la ficha.',
+  },
+];
+
+const pageUrl = '/calculadora-talla-arnes-collar-perros/';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Herramientas', url: HERRAMIENTAS_PATH },
+  { name: 'Talla de arnés o collar', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de talla de arnés o collar para perros (cuello y pecho)"
+  description="Mide perímetro del cuello y del pecho y obtén la talla de collar y de arnés. El peso solo comprueba. Cómo medir a tu perro para no comprar a ojo."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Herramientas</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900">Talla de arnés o collar</span>
+    </nav>
+    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+      Calculadora de talla de arnés o collar para perros
+    </h1>
+    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+      Introduce el <strong>perímetro del cuello</strong>, el <strong>perímetro del pecho</strong> y el
+      <strong>peso</strong>. Te damos la <strong>talla de collar</strong> y la <strong>talla de arnés</strong>
+      (letra + rango en cm). El pecho manda en el arnés; el cuello, en el collar. El peso solo avisa si
+      no encaja.
+    </p>
+  </div>
+
+  <ArnesCollarCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo medir a tu perro para arnés o collar</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      Cómo medir a tu perro para la talla de arnés o collar no es adivinar una S/M/L en la ficha: son
+      <strong>dos perímetros en centímetros</strong>. Cuatro pasos:
+    </p>
+    <ol class="text-neutral-700 leading-relaxed space-y-2 my-4 pl-5 list-decimal">
+      <li>
+        Con el perro de pie, pasa el metro por la <strong>base del cuello</strong> (donde se abrocharía el
+        collar). Anota los centímetros: esa es la cifra del collar.
+      </li>
+      <li>
+        El <strong>pecho</strong> se mide justo detrás de las patas delanteras, en el punto más ancho,
+        metro horizontal. Esa es la cifra del arnés.
+      </li>
+      <li>
+        El peso no cambia la talla de cuello ni de pecho: sirve para detectar un error de medida (un
+        galgo de 25 kg no lleva un XS).
+      </li>
+      <li>
+        Introduce las tres cifras. En el límite entre dos tallas, <strong>subimos</strong>: nunca
+        recomendamos bajar «por si acaso».
+      </li>
+    </ol>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Cómo se calcula la talla</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      El collar sale del <strong>perímetro del cuello</strong>. El arnés, del <strong>perímetro del pecho</strong>.
+      El peso se cruza después: si discrepa dos tallas con el pecho, te pedimos que vuelvas a medir.
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Collar (cuello)</p>
+    <table class="w-full text-sm my-4 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Talla</th>
+          <th class="py-2">Perímetro del cuello</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">XS</td><td>18–26 cm</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">S</td><td>26–35 cm</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">M</td><td>35–45 cm</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>45–56 cm</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">XL</td><td>56–80 cm</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Arnés (pecho)</p>
+    <table class="w-full text-sm my-4 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Talla</th>
+          <th class="py-2 pr-4">Perímetro del pecho</th>
+          <th class="py-2">Peso orientativo</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">XS</td><td>30–43 cm</td><td class="text-neutral-500">2–7 kg</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">S</td><td>43–53 cm</td><td class="text-neutral-500">6–14 kg</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">M</td><td>53–68 cm</td><td class="text-neutral-500">12–25 kg</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>68–85 cm</td><td class="text-neutral-500">22–40 kg</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">XL</td><td>85–120 cm</td><td class="text-neutral-500">35 kg o más</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Nota:</strong> un «M» de un fabricante no equivale al «M» de otro, ni a la talla 0 de
+      Julius-K9. Usa la tabla como orientación y confirma el rango de pecho o cuello en la ficha.
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Cuándo elegir arnés frente a collar (si tira, braquicéfalo, correa larga) está en
+      <a href="/blog/arnes-o-collar-perros-guia/" class="text-primary-600 font-semibold hover:underline">arnés o collar: guía</a>
+      y en
+      <a href="/blog/perro-tira-de-la-correa-soluciones/" class="text-primary-600 font-semibold hover:underline">si tu perro tira de la correa</a>.
+      Cuando tengas la talla, compara fichas en la
+      <a href="/categoria/correas/" class="text-primary-600 font-semibold hover:underline">sección de correas y arneses analizados</a>.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Método y fuentes:
+      <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">cómo analizamos</a>.
+      Esta calculadora es orientativa y no sustituye el consejo de un educador canino o veterinario.
+      Un arnés o collar mal medido puede rozar, escaparse o presionar el cuello: confirma centímetros
+      en la ficha del producto y ajusta con dos dedos de holgura.
+    </p>
+  </section>
+
+  <OtrasHerramientas currentPath={pageUrl} />
+</Layout>

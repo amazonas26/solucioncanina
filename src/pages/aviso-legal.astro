@@ -13,7 +13,9 @@ const pageUrl = "/aviso-legal/";
 const title = "Aviso legal";
 const description =
   "Aviso legal de Solución Canina: datos del titular según la LSSI, afiliación de Amazon y descargo veterinario.";
-const titularPendiente = "[PENDIENTE: rellenar]";
+const titularNombre = "Jan Rosell";
+const titularEmail = "hola@solucioncanina.es";
+// TODO: NIF y domicilio del titular (LSSI art. 10) — omitidos de la página hasta tenerlos.
 
 const jsonLd = [
   webPageSchema({ name: title, description, url: pageUrl }),
@@ -63,21 +65,18 @@ const jsonLd = [
             <dt class="text-sm font-bold text-neutral-900">
               Nombre o denominación social
             </dt>
-            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
-          </div>
-          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
-            <dt class="text-sm font-bold text-neutral-900">NIF</dt>
-            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
-          </div>
-          <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
-            <dt class="text-sm font-bold text-neutral-900">Domicilio</dt>
-            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+            <dd class="text-sm">{titularNombre}</dd>
           </div>
           <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
             <dt class="text-sm font-bold text-neutral-900">
               Correo electrónico de contacto
             </dt>
-            <dd class="text-sm font-mono text-amber-900">{titularPendiente}</dd>
+            <dd class="text-sm">
+              <a
+                href={`mailto:${titularEmail}`}
+                class="text-primary-600 hover:underline">{titularEmail}</a
+              >
+            </dd>
           </div>
           <div class="grid sm:grid-cols-[13rem_1fr] gap-1 sm:gap-4 px-4 py-3">
             <dt class="text-sm font-bold text-neutral-900">Dominio web</dt>

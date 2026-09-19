@@ -55,6 +55,28 @@ export const HERRAMIENTAS: Herramienta[] = [
     paraQuien:
       'Quien quiere que el perro suba al coche o al sofá sin forzar hombros y columna, sobre todo con artrosis.',
   },
+  {
+    id: 'arnes',
+    nombre: 'Calculadora de talla de arnés o collar',
+    breadcrumb: 'Talla de arnés o collar',
+    href: '/calculadora-talla-arnes-collar-perros/',
+    paraQue:
+      'Traducir perímetro de cuello y pecho a talla de collar y de arnés; el peso solo comprueba que no hayas medido mal.',
+    inputs: 'Perímetro del cuello, perímetro del pecho y peso.',
+    paraQuien:
+      'Quien va a comprar arnés o collar y no quiere una talla que roce el cuello o se escape por el pecho.',
+  },
+  {
+    id: 'renal',
+    nombre: 'Calculadora de ración de pienso renal',
+    breadcrumb: 'Ración de pienso renal',
+    href: '/calculadora-racion-pienso-renal-perros/',
+    paraQue:
+      'Orientar los gramos diarios de pienso renal seco según peso y actividad. La pauta la marca el veterinario.',
+    inputs: 'Peso del perro y nivel de actividad.',
+    paraQuien:
+      'Dueños con dieta renal ya prescrita que quieren una cifra de partida para la cantidad, no un diagnóstico.',
+  },
 ];
 
 export function herramientaByHref(href: string): Herramienta | undefined {

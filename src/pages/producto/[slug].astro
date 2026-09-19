@@ -90,6 +90,9 @@ const ventasTxt = fmtVentas(ventas);
 const displayName = nombreCorto || nombre;
 const isPendiente = (tipoAnalisis ?? TIPO_ANALISIS_DEFAULT) === "Pendiente";
 const productSlug = articulo.data.slug || slugify(nombre);
+const esPiensoRenal =
+  categoria === "Alimentación específica" &&
+  /renal|kidney/i.test(`${productSlug} ${nombre} ${nombreCorto ?? ""}`);
 const productUrl = `/producto/${productSlug}/`;
 const outboundUrl = outboundProductUrl(productSlug);
 const categoriaSlug = categoria ? slugify(categoria) : null;
@@ -535,6 +538,68 @@ const relatedBlogs = blogsForCategory(categoria);
               <p class="text-sm text-neutral-600 mt-1 max-w-xl">
                 Mide de hocico a cola, suma 30 cm y compara con las medidas de esta ficha. La
                 calculadora te da la talla (largo y ancho) y el grosor de espuma.
+              </p>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">
+              Abrir calculadora
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+        </section>
+      )
+    }
+
+    {
+      categoria === "Correas" && (
+        <section class="mt-12" id="medir-talla-arnes">
+          <a
+            href="/calculadora-talla-arnes-collar-perros/"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-white p-6 md:p-8 hover:border-primary-300 hover:shadow-md transition-all"
+          >
+            <div class="shrink-0 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+            </div>
+            <div class="flex-grow">
+              <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-1">
+                Herramienta gratis
+              </p>
+              <h2 class="text-xl md:text-2xl font-serif font-black text-neutral-900 leading-snug">
+                Cómo medir a tu perro para arnés o collar
+              </h2>
+              <p class="text-sm text-neutral-600 mt-1 max-w-xl">
+                Perímetro de cuello y de pecho, más el peso para comprobar. Compara la talla con las
+                medidas de esta ficha antes de pedir.
+              </p>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">
+              Abrir calculadora
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+        </section>
+      )
+    }
+
+    {
+      esPiensoRenal && (
+        <section class="mt-12" id="racion-pienso-renal">
+          <a
+            href="/calculadora-racion-pienso-renal-perros/"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-white p-6 md:p-8 hover:border-primary-300 hover:shadow-md transition-all"
+          >
+            <div class="shrink-0 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+            </div>
+            <div class="flex-grow">
+              <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-1">
+                Herramienta gratis
+              </p>
+              <h2 class="text-xl md:text-2xl font-serif font-black text-neutral-900 leading-snug">
+                Ración orientativa de este pienso renal
+              </h2>
+              <p class="text-sm text-neutral-600 mt-1 max-w-xl">
+                Gramos diarios según peso y actividad. La pauta la marca el veterinario: la
+                calculadora solo orienta la cantidad, nunca si este pienso es el adecuado.
               </p>
             </div>
             <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">

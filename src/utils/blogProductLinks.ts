@@ -14,6 +14,8 @@ export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'ansiedad-separacion-perros-guia': 'Ansiedad',
   'miedo-petardos-perros-soluciones': 'Ansiedad',
   'perro-tira-de-la-correa-soluciones': 'Correas',
+  'arnes-o-collar-perros-guia': 'Correas',
+  'mejores-correas-largas-perros-adiestramiento': 'Correas',
   'bozales-perros-guia-elegir-talla': 'Bozales',
   'camas-ortopedicas-perros-artrosis-displasia': 'Camas ortopédicas',
   'displasia-cadera-perros-sintomas-cuidados': 'Camas ortopédicas',
@@ -46,7 +48,9 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'miedo-petardos-perros-soluciones', titulo: 'Miedo a los petardos: soluciones' },
   ],
   'Correas': [
+    { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },
     { slug: 'perro-tira-de-la-correa-soluciones', titulo: 'Si tu perro tira de la correa: soluciones' },
+    { slug: 'mejores-correas-largas-perros-adiestramiento', titulo: 'Mejores correas largas para perros' },
   ],
 };
 

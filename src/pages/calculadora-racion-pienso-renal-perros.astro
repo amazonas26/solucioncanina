@@ -1,0 +1,184 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PiensoRenalCalculator from '../components/PiensoRenalCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+import { HERRAMIENTAS_PATH } from '../utils/herramientas';
+import OtrasHerramientas from '../components/OtrasHerramientas.astro';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+const EXCLUIR = [
+  'veterinary-diets-urinary-pienso-para-perros-con-problemas-en-el-tracto-urinario-3kg',
+  'royal-canin-veterinary-gastrointestinal-gi25-2kg',
+  'pets-purest-aceite-salmon-500ml',
+];
+const productos = articulos
+  .filter((a) => a.data.categoria === 'Alimentación específica')
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.nombreCorto || a.data.tituloSeo || a.data.nombre,
+    marca: a.data.marca || '',
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    imagen: a.data.imagen,
+  }))
+  .filter((p) => !EXCLUIR.includes(p.slug))
+  .sort((x, y) => y.valoracion - x.valoracion);
+
+const faqs = [
+  {
+    pregunta: '¿Esta calculadora dice si el pienso renal es el adecuado?',
+    respuesta:
+      'No. Nunca. La pauta —si hace falta dieta renal, qué saco, qué estadio— la marca el veterinario. La calculadora solo orienta sobre la cantidad de pienso seco ya prescrito. Usarla para decidir si un perro sano «debería» comer renal es un uso incorrecto.',
+  },
+  {
+    pregunta: '¿Cómo se calcula la ración?',
+    respuesta:
+      'Primero la energía de reposo (RER): 70 × peso^0,75, en kcal/día. Luego se multiplica por el nivel de actividad (1,2 poco activo, 1,4 moderado, 1,6 activo). Los gramos salen dividiendo esas kcal entre la densidad típica de un pienso renal seco (~390 kcal/100 g; el rango 370–410 cubre las marcas habituales). El húmedo no sirve con esta cifra.',
+  },
+  {
+    pregunta: '¿Uso el peso actual o el peso ideal?',
+    respuesta:
+      'El que te haya dicho el veterinario. En sobrepeso suele usarse el peso ideal para no sobrecargar fósforo; en perros muy delgados por la propia enfermedad, a veces se parte del actual y se revisa. Si no te lo han precisado, pregunta antes de bajar ración por tu cuenta.',
+  },
+  {
+    pregunta: '¿Por qué no coincide con la tabla del saco?',
+    respuesta:
+      'Cada fórmula tiene su propia kcal/100 g y su propia tabla. La calculadora usa un valor típico de pienso renal seco, no la etiqueta de un saco concreto. Si el veterinario o el saco indican otra cantidad, prevalece esa pauta. Úsala para no partir de cero, no para contradecir la clínica.',
+  },
+  {
+    pregunta: '¿Cuántas tomas al día?',
+    respuesta:
+      'La herramienta reparte en dos tomas (tres si pesa menos de 10 kg). Con náuseas o poco apetito, muchas clínicas prefieren más tomas pequeñas —no más gramos en total—. Mezclar un poco de húmedo renal o calentar el seco puede ayudar a que acepte la ración; no aumenta la cantidad calculada.',
+  },
+];
+
+const pageUrl = '/calculadora-racion-pienso-renal-perros/';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Herramientas', url: HERRAMIENTAS_PATH },
+  { name: 'Ración de pienso renal', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de ración de pienso renal para perros (por peso)"
+  description="Orienta los gramos diarios de pienso renal seco según peso y actividad. La pauta la marca el veterinario: la calculadora no dice si el pienso es adecuado."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Herramientas</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <span class="text-neutral-900">Ración de pienso renal</span>
+    </nav>
+    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+      Calculadora de ración de pienso renal para perros
+    </h1>
+    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+      Introduce el <strong>peso</strong> y el <strong>nivel de actividad</strong> y te orientamos los
+      <strong>gramos diarios</strong> de pienso renal <strong>seco</strong>. La pauta clínica la marca
+      el veterinario: esta herramienta habla de <strong>cantidad</strong>, nunca de si el pienso es
+      el adecuado.
+    </p>
+  </div>
+
+  <PiensoRenalCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <div class="not-prose rounded-xl border border-amber-300 bg-amber-50 p-5 my-2 text-amber-950">
+      <p class="text-sm font-black uppercase tracking-wide text-amber-800 mb-2">Aviso obligatorio</p>
+      <p class="text-sm leading-relaxed">
+        La pauta la marca el veterinario. La calculadora solo orienta sobre cantidad. Nunca indica si
+        el pienso renal es adecuado, ni el estadio, ni el cambio de marca. Un pienso renal no es
+        neutro: no se usa en perros sanos «por si acaso».
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3 mt-10">Cómo se calcula la ración</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      La cantidad no se inventa: sale de la energía que el perro necesita y de las calorías del saco.
+      Tres pasos:
+    </p>
+    <ol class="text-neutral-700 leading-relaxed space-y-2 my-4 pl-5 list-decimal">
+      <li>
+        <strong>RER</strong> (energía de reposo) = 70 × peso<sup>0,75</sup> kcal/día. Es la fórmula NRC
+        2006 que usan las tablas de alimentación veterinaria.
+      </li>
+      <li>
+        <strong>DER</strong> = RER × factor de actividad: 1,2 (poco activo), 1,4 (moderado, por defecto)
+        o 1,6 (activo).
+      </li>
+      <li>
+        <strong>Gramos</strong> = DER ÷ (kcal por gramo del pienso). Usamos 390 kcal/100 g como valor
+        típico de pienso renal seco, y un rango 370–410 que cubre Royal Canin, Advance y fórmulas
+        similares.
+      </li>
+    </ol>
+
+    <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Ejemplos (actividad moderada, seco)</p>
+    <table class="w-full text-sm my-4 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Peso</th>
+          <th class="py-2 pr-4">RER</th>
+          <th class="py-2">Ración orientativa</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">5 kg</td><td>~234 kcal</td><td>~85 g/día</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">10 kg</td><td>~394 kcal</td><td>~140 g/día</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">20 kg</td><td>~662 kcal</td><td>~240 g/día</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">30 kg</td><td>~897 kcal</td><td>~320 g/día</td></tr>
+      </tbody>
+    </table>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Si el saco o el veterinario indican otra cifra, <strong>prevalece esa pauta</strong>. El húmedo
+      renal (paté, mousse) tiene ~100 kcal/100 g: no conviertas esos gramos como si fueran seco.
+    </p>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Qué debe tener un pienso renal (fósforo, proteína, Omega-3) y cómo gestionar el apetito está en
+      la
+      <a href="/blog/pienso-renal-perros-guia/" class="text-primary-600 font-semibold hover:underline">guía de pienso renal</a>
+      y, si rechaza el comedero, en
+      <a href="/blog/mi-perro-no-quiere-comer-causas/" class="text-primary-600 font-semibold hover:underline">por qué mi perro no quiere comer</a>.
+      Cuando la clínica ya ha elegido fórmula, compara formatos en la
+      <a href="/categoria/alimentacion-especifica/" class="text-primary-600 font-semibold hover:underline">sección de alimentación específica</a>.
+    </p>
+
+    <p class="text-xs text-neutral-500 leading-relaxed mt-2">
+      <strong>Fuentes:</strong> NRC 2006 (RER = 70 × kg<sup>0,75</sup>); factores de mantenimiento
+      habituales en dietética canina (≈1,2–1,6 × RER); densidad energética típica de dietas renales
+      secas de prescripción (~370–410 kcal/100 g). Son rangos de referencia: el veterinario ajusta
+      según estadio, peso ideal y analítica.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Método y fuentes:
+      <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">cómo analizamos</a>.
+      Esta calculadora es orientativa y no sustituye el consejo veterinario. La pauta la marca el
+      veterinario; aquí solo se orienta la cantidad de pienso seco, nunca si esa dieta es la adecuada.
+    </p>
+  </section>
+
+  <OtrasHerramientas currentPath={pageUrl} />
+</Layout>

@@ -3,3 +3,8 @@ requests>=2.32,<3
 beautifulsoup4>=4.12,<5
 # Informe semanal GSC (scripts/gsc_weekly_report.py)
 google-auth>=2.35,<3
+# Pines de Pinterest (scripts/generar_pines.py)
+Pillow>=11,<13
+PyYAML>=6,<7
+fonttools>=4.50,<5
+brotli>=1.1,<2

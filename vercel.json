@@ -251,6 +251,16 @@
       "source": "/categoria/camas-ortopedicas/calculadora-talla",
       "destination": "/calculadora-talla-cama-ortopedica-perros/",
       "permanent": true
+    },
+    {
+      "source": "/categoria/correas/calculadora-talla",
+      "destination": "/calculadora-talla-arnes-collar-perros/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/alimentacion-especifica/calculadora-racion",
+      "destination": "/calculadora-racion-pienso-renal-perros/",
+      "permanent": true
     }
   ],
   "headers": [

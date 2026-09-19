@@ -7,6 +7,18 @@ export const ORG_EMAIL = 'hola@solucioncanina.es';
 /** Teal del logo (`primary-500`) — chrome del navegador y manifest. */
 export const THEME_COLOR = '#3C9E91';
 
+export type SocialProfileName = 'Pinterest' | 'Instagram' | 'Facebook';
+
+/**
+ * Perfiles sociales públicos (footer + `Organization.sameAs`).
+ * Para activar Facebook, descomenta la entrada del array.
+ */
+export const SOCIAL_PROFILES: { name: SocialProfileName; href: string }[] = [
+  { name: 'Pinterest', href: 'https://www.pinterest.com/solucioncanina' },
+  { name: 'Instagram', href: 'https://www.instagram.com/solucioncanina_es' },
+  // { name: 'Facebook', href: 'https://www.facebook.com/solucioncanina' },
+];
+
 export function absUrl(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
   const clean = withTrailingSlash(path.startsWith('/') ? path : `/${path}`);
@@ -28,6 +40,7 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: SITE_LOGO,
     email: ORG_EMAIL,
+    sameAs: SOCIAL_PROFILES.map((profile) => profile.href),
   };
 }
 

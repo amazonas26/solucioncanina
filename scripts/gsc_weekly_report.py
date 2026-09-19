@@ -71,6 +71,8 @@ CALCULADORAS = [
     ("bozal", "Talla de bozal", "/calculadora-talla-bozal-perros/"),
     ("cama", "Talla de cama ortopédica", "/calculadora-talla-cama-ortopedica-perros/"),
     ("rampa", "Medida de rampa", "/calculadora-medida-rampa-perros/"),
+    ("arnes", "Talla de arnés o collar", "/calculadora-talla-arnes-collar-perros/"),
+    ("renal", "Ración de pienso renal", "/calculadora-racion-pienso-renal-perros/"),
 ]
 HERRAMIENTAS_HUB = "/herramientas/"
 LEGACY_CALCULADORAS = {
@@ -78,6 +80,8 @@ LEGACY_CALCULADORAS = {
     "/categoria/bozales/calculadora-talla/": "/calculadora-talla-bozal-perros/",
     "/categoria/rampas/calculadora-medida/": "/calculadora-medida-rampa-perros/",
     "/categoria/camas-ortopedicas/calculadora-talla/": "/calculadora-talla-cama-ortopedica-perros/",
+    "/categoria/correas/calculadora-talla/": "/calculadora-talla-arnes-collar-perros/",
+    "/categoria/alimentacion-especifica/calculadora-racion/": "/calculadora-racion-pienso-renal-perros/",
 }
 ORPHAN_IGNORE_PREFIXES = ("/aviso-legal",)
 _MESES = (
@@ -1022,7 +1026,7 @@ def recommend_actions(report: dict) -> list[dict]:
             {
                 "bucket": "fallback",
                 "score": 1,
-                "title": "Pedir indexación de las 4 calculadoras y sus categorías",
+                "title": "Pedir indexación de las calculadoras y sus categorías",
                 "why": "Aún no hay suficiente tráfico GSC para priorizar por oportunidad.",
                 "how": "Inspección de URL en GSC sobre cada calculadora y `/herramientas/`.",
             },
@@ -1206,7 +1210,7 @@ def render_markdown(report: dict) -> str:
 
     a("## Calculadoras")
     a("")
-    a("Las 4, misma ventana semanal, más el acumulado a 30 días. Orden: la que más impresiones tiene en 30 días.")
+    a("Las calculadoras, misma ventana semanal, más el acumulado a 30 días. Orden: la que más impresiones tiene en 30 días.")
     a("")
     calc_rows = sorted(report["calculators"]["rows"], key=lambda r: -r["days_30"]["impressions"])
     table = []
@@ -1393,6 +1397,8 @@ def synthetic_payload() -> tuple[dict, list[str]]:
         "https://www.solucioncanina.es/calculadora-talla-bozal-perros/",
         "https://www.solucioncanina.es/calculadora-talla-cama-ortopedica-perros/",
         "https://www.solucioncanina.es/calculadora-medida-rampa-perros/",
+        "https://www.solucioncanina.es/calculadora-talla-arnes-collar-perros/",
+        "https://www.solucioncanina.es/calculadora-racion-pienso-renal-perros/",
         "https://www.solucioncanina.es/herramientas/",
         "https://www.solucioncanina.es/producto/ejemplo/",
         "https://www.solucioncanina.es/producto/sin-trafico/",

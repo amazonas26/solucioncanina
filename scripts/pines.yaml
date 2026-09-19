@@ -1,0 +1,37 @@
+# Pines verticales de Pinterest (1000×1500).
+# plantilla: calculadora | guia | categoria
+
+- url: /calculadora-dosis-condroprotector-perros/
+  titulo: Dosis de condroprotector por peso
+  gancho: >-
+    Glucosamina, condroitina y MSM según los kilos de tu perro.
+    Compara la etiqueta, no el precio del bote.
+  plantilla: calculadora
+
+- url: /calculadora-talla-bozal-perros/
+  titulo: "¿Qué talla de bozal necesita?"
+  gancho: >-
+    Mide perímetro y longitud del hocico: talla y tipo (cesta o silicona)
+    para que pueda jadear y beber.
+  plantilla: calculadora
+
+- url: /blog/bozales-perros-guia-elegir-talla/
+  titulo: Cómo elegir bozal y talla
+  gancho: >-
+    Cuándo usarlo, cesta o silicona, y cómo medir el hocico
+    para no impedir el jadeo.
+  plantilla: guia
+
+- url: /blog/condroprotectores-perros-guia-completa/
+  titulo: "Condroprotectores: cuáles funcionan"
+  gancho: >-
+    Glucosamina, condroitina y MSM: cuándo empezar
+    y por qué no hay que esperar a que cojee.
+  plantilla: guia
+
+- url: /blog/glucosamina-para-perros-para-que-sirve-dosis/
+  titulo: "Glucosamina: para qué y cuánta"
+  gancho: >-
+    20–40 mg/kg al día, dosis de carga 4–6 semanas
+    y por qué va mejor con condroitina.
+  plantilla: guia

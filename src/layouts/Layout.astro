@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import HeaderCatalogControls from '../components/HeaderCatalogControls';
 import SEO from '../components/SEO.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import { slugify } from '../utils/slugify';
 import { getCollection } from 'astro:content';
 import { organizationSchema, SITE_NAME, THEME_COLOR, websiteSchema } from '../utils/seo';
@@ -64,6 +65,8 @@ const categories = categoriesProp.length > 0
 <!doctype html>
 <html lang="es" class="scroll-smooth">
   <head>
+    <meta charset="UTF-8" />
+    <Fragment set:html={`<meta name="p:domain_verify" content="fceefba5cd3fc4201c57eef84a3c38ff"/>`} />
     <!-- Google tag (gtag.js) — deferred to idle to free main thread for LCP/INP -->
     <script is:inline>
       (function () {
@@ -86,7 +89,6 @@ const categories = categoriesProp.length > 0
         }
       })();
     </script>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -251,6 +253,9 @@ const categories = categoriesProp.length > 0
             <p class="text-white/70 text-sm leading-relaxed max-w-xs">
               Seleccionamos y organizamos productos para ayudarte a encontrar las mejores opciones para tu perro.
             </p>
+            <div class="mt-5">
+              <SocialLinks />
+            </div>
           </div>
 
           <!-- Categories -->

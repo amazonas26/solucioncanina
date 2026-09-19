@@ -145,6 +145,16 @@ setLastmod(
   path.join(ROOT, 'src/components/RampaCalculator.tsx'),
   herramientasFile,
 );
+setLastmod(
+  '/calculadora-talla-arnes-collar-perros/',
+  path.join(ROOT, 'src/components/ArnesCollarCalculator.tsx'),
+  herramientasFile,
+);
+setLastmod(
+  '/calculadora-racion-pienso-renal-perros/',
+  path.join(ROOT, 'src/components/PiensoRenalCalculator.tsx'),
+  herramientasFile,
+);
 setLastmod('/rss.xml', path.join(pagesDir, 'rss.xml.ts'));
 bumpLastmod('/rss.xml', latestBlogIso);
 
