@@ -35,7 +35,7 @@
 
 ## 🧭 Següents passos
 
-- [ ] Desplegar l'últim commit a Vercel.
+- [ ] Desplegar l'últim commit al VPS (IONOS / nginx) amb `./deploy/deploy.sh`.
 - [ ] Search Console: reindexar home + `/categoria/condroprotectores/` + productes top.
 - [ ] Executar el pla de backlinks ([[PLAN-BACKLINKS]]).
 - [ ] D'aquí uns dies, tornar a exportar GSC + Amazon i comparar a [[Informe-2026-06-09]].

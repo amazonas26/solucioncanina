@@ -7,8 +7,8 @@
 // A més valida que els DESTINS interns dels redirects de vercel.json també existeixin
 // (un redirect cap a un 404 és un bug silenciós).
 //
-// S'executa dins `astro build` (hook astro:build:done), així que protegeix també el build
-// de Vercel. També es pot executar com a CLI: `node scripts/astro-internal-link-check.mjs [distDir]`.
+// S'executa dins `astro build` (hook astro:build:done), així que protegeix el
+// desplegament estàtic al VPS. També es pot executar com a CLI: `node scripts/astro-internal-link-check.mjs [distDir]`.
 
 import fs from 'node:fs';
 import path from 'node:path';

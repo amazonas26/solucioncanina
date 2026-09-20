@@ -140,5 +140,5 @@ echo
 if [ "$PLAN" = 1 ]; then
   echo "✓ (plan) No s'ha executat res. Treu --plan per fer-ho de debò."
 else
-  echo "✓ Fet. Si hi ha canvis:  git add -A && git commit && git push  → desplegar a Vercel."
+  echo "✓ Fet. Si hi ha canvis:  git add -A && git commit  → ./deploy/deploy.sh"
 fi

@@ -7,7 +7,7 @@ const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-const lastUpdate = "Mayo de 2026";
+const lastUpdate = "Septiembre de 2026";
 ---
 
 <Layout
@@ -71,11 +71,20 @@ const lastUpdate = "Mayo de 2026";
           class="mt-3 space-y-1.5 list-disc list-inside marker:text-primary-500"
         >
           <li>
-            <strong>Datos de navegación</strong>: información técnica recogida
-            automáticamente por las herramientas de analítica (dirección IP
-            anonimizada, tipo de navegador, páginas visitadas, tiempo de
-            permanencia, dispositivo). Finalidad: medir el tráfico y mejorar la
-            experiencia.
+            <strong>Datos de navegación (Google Analytics)</strong>: información
+            técnica recogida automáticamente por las cookies analíticas
+            (dirección IP anonimizada, tipo de navegador, páginas visitadas,
+            tiempo de permanencia, dispositivo). Finalidad: medir el tráfico y
+            mejorar la experiencia. Google Analytics permanece activo en el
+            Sitio.
+          </li>
+          <li>
+            <strong>Registros de acceso del servidor</strong>: el servidor
+            nginx registra cada petición (dirección IP anonimizada, fecha y
+            hora, recurso solicitado, código de respuesta HTTP y agente de
+            usuario). Finalidad: elaborar estadísticas agregadas de tráfico con
+            GoAccess, ejecutado en el mismo servidor. No se utilizan para
+            identificar a personas concretas ni se ceden a terceros.
           </li>
           <li>
             <strong>Datos de contacto voluntarios</strong>: si el usuario nos
@@ -99,11 +108,13 @@ const lastUpdate = "Mayo de 2026";
         >
           <li>
             <strong>Consentimiento del usuario</strong> (art. 6.1.a RGPD): para las
-            cookies analíticas y de medición, otorgado mediante el banner de cookies.
+            cookies analíticas de Google Analytics, otorgado mediante el banner de
+            cookies.
           </li>
           <li>
             <strong>Interés legítimo</strong> (art. 6.1.f RGPD): para gestionar las
-            consultas recibidas por correo electrónico.
+            consultas recibidas por correo electrónico y para los registros de
+            acceso del servidor, usados únicamente en estadísticas agregadas.
           </li>
         </ul>
       </section>
@@ -113,8 +124,9 @@ const lastUpdate = "Mayo de 2026";
           4. Conservación de los datos
         </h2>
         <p>
-          Los datos de navegación se conservan durante el periodo establecido en
-          la configuración de Google Analytics (por defecto, hasta 14 meses).
+          Los datos de navegación de Google Analytics se conservan durante el
+          periodo establecido en su configuración (por defecto, hasta 14 meses).
+          Los registros de acceso del servidor se conservan <strong>30 días</strong>.
           Los datos de contacto se conservan únicamente durante el tiempo
           necesario para gestionar y responder la consulta y, posteriormente,
           durante los plazos legalmente exigibles para atender posibles
@@ -136,11 +148,16 @@ const lastUpdate = "Mayo de 2026";
         >
           <li>
             <strong>Google LLC</strong> (Google Analytics) — para la medición de tráfico
-            web. Puede implicar transferencia internacional de datos amparada por
-            las Cláusulas Contractuales Tipo aprobadas por la Comisión Europea.
+            web. Google Analytics sigue activo. Puede implicar transferencia
+            internacional de datos amparada por las Cláusulas Contractuales Tipo
+            aprobadas por la Comisión Europea.
           </li>
           <li>
-            <strong>Vercel Inc.</strong> — proveedor de hosting del sitio web.
+            <strong>IONOS SE</strong> — proveedor de hosting. El Sitio se aloja en un
+            servidor virtual privado (VPS) contratado a IONOS, con servidores en
+            Alemania (Espacio Económico Europeo), y se sirve con nginx. El
+            tratamiento se realiza dentro del EEE y no implica transferencia
+            internacional de datos.
           </li>
           <li>
             <strong>Amazon EU S.à r.l.</strong> — al pulsar un enlace de afiliado,

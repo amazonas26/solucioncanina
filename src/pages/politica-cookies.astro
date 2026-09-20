@@ -7,7 +7,7 @@ const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-const lastUpdate = "Mayo de 2026";
+const lastUpdate = "Septiembre de 2026";
 ---
 
 <Layout
@@ -54,6 +54,10 @@ const lastUpdate = "Mayo de 2026";
             Requieren el consentimiento del usuario.
           </li>
         </ul>
+        <p class="mt-4">
+          <strong>Google Analytics permanece activo</strong> y es el único servicio de
+          medición que instala cookies de terceros en el navegador, previo consentimiento.
+        </p>
         <p class="mt-4">
           <strong>No utilizamos</strong> cookies publicitarias propias ni de terceros para
           mostrar anuncios personalizados dentro del Sitio.
@@ -107,7 +111,27 @@ const lastUpdate = "Mayo de 2026";
 
       <section>
         <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
-          4. Gestión y desactivación de cookies
+          4. Registros de acceso del servidor (no son cookies)
+        </h2>
+        <p>
+          El Sitio se aloja en un VPS de <strong>IONOS</strong> (servidores en Alemania)
+          y se sirve con <strong>nginx</strong>. El servidor genera registros de acceso
+          (dirección IP anonimizada, fecha, recurso solicitado y datos técnicos de la
+          petición). Estos registros <strong>no se almacenan en el navegador</strong> y
+          no son cookies: no requieren consentimiento.
+        </p>
+        <p class="mt-3">
+          Se conservan <strong>30 días</strong> y se usan únicamente para estadísticas
+          agregadas de tráfico con <strong>GoAccess</strong>, ejecutado en el mismo
+          servidor. El detalle del tratamiento está en la
+          <a href="/politica-privacidad/" class="text-primary-600 hover:underline font-semibold">
+            Política de privacidad</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">
+          5. Gestión y desactivación de cookies
         </h2>
         <p>
           El usuario puede aceptar, rechazar o eliminar las cookies en cualquier momento
@@ -150,7 +174,7 @@ const lastUpdate = "Mayo de 2026";
       </section>
 
       <section>
-        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">5. Cambios</h2>
+        <h2 class="text-xl font-serif font-bold text-neutral-900 mb-3">6. Cambios</h2>
         <p>
           Esta Política de Cookies puede modificarse cuando lo exija la legislación
           aplicable o cuando varíen las cookies utilizadas por el Sitio. Se recomienda

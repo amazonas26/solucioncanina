@@ -10,7 +10,7 @@ Referencia viva:
 | Página Astro | `src/pages/calculadora-dosis-condroprotector-perros.astro` |
 | Helpers JSON-LD | `src/utils/seo.ts` (`breadcrumbSchema`, `faqPageSchema`) |
 | Banner en categoría | `src/pages/categoria/[slug].astro` (bloque `categorySlug === 'condroprotectores'`) |
-| Redirect legacy | `vercel.json` → `/categoria/condroprotectores/calculadora-dosis` |
+| Redirect legacy | `deploy/nginx/redirects.conf` → `/categoria/condroprotectores/calculadora-dosis` |
 
 URL canónica de ejemplo: `/calculadora-dosis-condroprotector-perros/` (Astro + trailing slash del sitio).
 
@@ -260,13 +260,14 @@ Al crear calculadoras nuevas: enlazar desde **guía pilar** del tema + 1–2 pos
 
 ### 6.3 Redirect opcional
 
-En `vercel.json`, redirect permanente desde una URL “bajo categoría” hacia la página top-level:
+En `deploy/nginx/redirects.conf`, redirect permanente desde una URL “bajo categoría” hacia la página top-level:
 
-```json
-{
-  "source": "/categoria/condroprotectores/calculadora-dosis",
-  "destination": "/calculadora-dosis-condroprotector-perros/",
-  "permanent": true
+```nginx
+location = /categoria/condroprotectores/calculadora-dosis {
+    return 301 /calculadora-dosis-condroprotector-perros/;
+}
+location = /categoria/condroprotectores/calculadora-dosis/ {
+    return 301 /calculadora-dosis-condroprotector-perros/;
 }
 ```
 
@@ -295,7 +296,7 @@ Copiar este orden:
    - `Layout` + breadcrumb HTML + H1 + `<Calculator client:load … />` + prose + FAQs + disclaimer.
 4. **Inbound categoría:** banner en `categoria/[slug].astro` cuando `categorySlug` coincida.
 5. **Inbound blog:** enlaces en guía pilar + posts relacionados.
-6. **Opcional:** redirect en `vercel.json` si quieres una URL bajo `/categoria/…`.
+6. **Opcional:** redirect en `deploy/nginx/redirects.conf` si quieres una URL bajo `/categoria/…`.
 7. **Verificar:** build Astro, que los JSON-LD salen en el HTML, que los `/producto/…` resuelven, y que el filtro de categoría no arrastra productos ajenos.
 
 ### 7.1 Piezas reutilizables vs específicas

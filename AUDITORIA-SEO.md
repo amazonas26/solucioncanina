@@ -33,10 +33,10 @@ juny**. Va pel bon camí; cal volum i temps.
 
 ## ✅ El que ja està BÉ (no tocar)
 
-- [x] Canonicalització **www** — `astro.config.mjs` (`site`) + 301 no-www→www a `vercel.json`.
+- [x] Canonicalització **www** — `astro.config.mjs` (`site`) + 301 no-www→www a nginx (`deploy/nginx/solucioncanina.conf`).
 - [x] **Sitemap** amb `lastmod` real i prioritats — `astro.config.mjs`.
 - [x] **Rich snippets** funcionen — Google ja mostra Product snippets (182 impr.) i Review snippets.
-- [x] **URLs netes** amb 301 des de les antigues llargues — `vercel.json`.
+- [x] **URLs netes** amb 301 des de les antigues llargues — nginx (`deploy/nginx/redirects.conf`).
 - [x] robots.txt, cache headers i sitemap declarat correctes.
 
 ---
@@ -153,7 +153,7 @@ Tota la demanda es concentra en **condroprotectores**:
   (dry-run / `--apply`) que mapeja slugs trencats → producte real (carpeta-exacta + tokens).
 - **2026-06-05 — Redirect del producte esborrat (informe):** `co-z-rampa…` rankejava a la
   posició 9 amb 1 clic però s'havia eliminat → 301 a `/categoria/subir-al-coche-o-sofa` a
-  `vercel.json` per no perdre aquest tràfic.
+  nginx (`deploy/nginx/redirects.conf`; abans `vercel.json`) per no perdre aquest tràfic.
 - **2026-06-05 — Verificació integral:** build 238 pàg. OK · 6.708 enllaços interns, 0 trencats ·
   sitemap 135 URLs (sense co-z) · 0 títols amb marca duplicada · 0 amb `| Blog` · imatges
   esborrades són orfes (cap referència trencada).
@@ -166,7 +166,7 @@ Tota la demanda es concentra en **condroprotectores**:
 - **2026-06-06 — Revisió i millora dels scripts:** verificat que TOTS els scripts de dades
   (`update_prices`, `fetch-amazon-images`, `assign-primary-section`, …) preserven els camps
   nous `tituloSeo`/`descripcionSeo` (test de round-trip OK). Millorats els 2 scripts propis:
-  el comprovador ara valida també els **destins dels redirects** de vercel.json, i el reparador
+  el comprovador ara valida també els **destins dels redirects** de `vercel.json` (espejo; els 301 vius són nginx), i el reparador
   cobreix també enllaços **/blog/**. Provats positiu+negatiu; build verd (239 pàg., 15 redirects).
 - **2026-06-06 — Orquestrador `scripts/update.sh`:** encadena els scripts existents per etapes
   (`prices`/`new`/`images`/`descriptions`/`content`/`maintenance`/`build`/`all`) sense barrejar

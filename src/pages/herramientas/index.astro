@@ -42,15 +42,16 @@ const jsonLd = [
       Calcula antes de comprar
     </h1>
     <p class="text-lg text-neutral-600 leading-relaxed">
-      Seis calculadoras para talla, dosis, medida y ración. Son orientativas: no sustituyen al veterinario.
-      Las fórmulas y las fuentes están en
+      Cada herramienta responde una pregunta concreta. Introduce dos o tres datos y obtén talla,
+      dosis, medida o ración orientativa. No sustituyen al veterinario. Las fórmulas y las fuentes
+      están en
       <a href="/como-analizamos/#fuentes" class="text-primary-600 font-semibold hover:underline">cómo analizamos</a>.
     </p>
   </header>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {HERRAMIENTAS.map((h) => (
-      <HerramientaCard herramienta={h} />
+      <HerramientaCard herramienta={h} heading="h2" />
     ))}
   </div>
 

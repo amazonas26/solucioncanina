@@ -297,7 +297,7 @@ YuMOVE 9+ 120 comprimidos vs senior 30 masticables: formatos y posicionamiento d
 
 ### Recomendación de arquitectura (sin tocar slugs en esta sesión)
 
-Donde el fabricante es el mismo y solo cambian talla, color o metros de saco, una URL canónica + selector. Las URLs hermanas, cuando se haga, deberían 301 a esa canónica — hay 44 redirects `/producto/` ya en `vercel.json` precisamente por cambios de slug anteriores. Cada cambio de slug vuelve a poner el reloj de indexación a cero.
+Donde el fabricante es el mismo y solo cambian talla, color o metros de saco, una URL canónica + selector. Las URLs hermanas, cuando se haga, deberían 301 a esa canónica — hay 44 redirects `/producto/` ya en nginx (`deploy/nginx/redirects.conf`) precisamente por cambios de slug anteriores. Cada cambio de slug vuelve a poner el reloj de indexación a cero.
 
 ---
 
@@ -378,7 +378,7 @@ Google no sabe cuál es la URL canónica de “camas ortopédicas”, “bozal t
 
 ### 3. Presupuesto de rastreo gastado en URLs que no deberían competir (≈ 15 %)
 
-220 descubiertas vs 134 en sitemap. 80 puentes `/recomienda/` (enlazados desde cada CTA de ficha). 44 redirects de producto en `vercel.json` más los de nginx. 9 URLs con impresiones que ya no existen. Calculadoras sin `lastmod`. Google gasta crawl en fantasmas y no vuelve a las 50 fichas nuevas.
+220 descubiertas vs 134 en sitemap. 80 puentes `/recomienda/` (enlazados desde cada CTA de ficha). 44 redirects de producto en nginx (`deploy/nginx/redirects.conf`). 9 URLs con impresiones que ya no existen. Calculadoras sin `lastmod`. Google gasta crawl en fantasmas y no vuelve a las 50 fichas nuevas.
 
 **A favor**
 

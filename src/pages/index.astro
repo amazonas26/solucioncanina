@@ -8,6 +8,7 @@ import { slugify } from "../utils/slugify";
 import { itemListSchema } from "../utils/seo";
 import { problemSections, countProductsInSection } from "../utils/problemSections";
 import { HERRAMIENTAS } from "../utils/herramientas";
+import HerramientaCard from "../components/HerramientaCard.astro";
 
 const articulos = await getCollection("articulos");
 
@@ -231,7 +232,7 @@ const STAR_POINTS = (() => {
 
 
   {/* Herramientas */}
-  <section class="mb-14 md:mb-20" id="herramientas">
+  <section class="mb-14 md:mb-20 scroll-mt-28" id="herramientas">
     <div class="border-b border-neutral-200 pb-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
@@ -242,8 +243,8 @@ const STAR_POINTS = (() => {
             Calcula talla, dosis y medida
           </h2>
           <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
-            Seis calculadoras orientativas, con el método a la vista. Sirven para no comprar a ciegas;
-            no sustituyen al veterinario.
+            Empieza por la pregunta. Cada calculadora pide dos o tres datos y te da una cifra
+            orientativa. El método está a la vista; no sustituyen al veterinario.
           </p>
         </div>
         <a href="/herramientas/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
@@ -255,20 +256,7 @@ const STAR_POINTS = (() => {
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {HERRAMIENTAS.map((h) => (
-        <a
-          href={h.href}
-          class="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 hover:border-primary-300 hover:shadow-md hover:-translate-y-0.5 transition-all"
-        >
-          <h3 class="text-base font-bold text-neutral-900 leading-snug group-hover:text-primary-700 transition-colors">
-            {h.nombre}
-          </h3>
-          <p class="mt-2 text-sm text-neutral-500 leading-relaxed flex-grow">
-            {h.paraQue}
-          </p>
-          <span class="mt-4 text-xs font-bold uppercase tracking-wide text-primary-600">
-            Abrir →
-          </span>
-        </a>
+        <HerramientaCard herramienta={h} heading="h3" />
       ))}
     </div>
   </section>

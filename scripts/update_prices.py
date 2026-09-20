@@ -32,9 +32,13 @@ Per cada producte (`src/content/articulos/<slug>/index.json`):
     `vercel.json`. Idempotent: si el source ja existeix, no es duplica. Si la
     categoria queda buida (o el producte no en té), el destí és `/productos/`.
     Al final: **nombre total eliminat**, **desglossament per categoria**
-    (secció) i **redirects creats**. En CAPTCHA o error de xarxa **no**
-    s'elimina res. El snippet de nginx **no** viatja amb `./deploy/deploy.sh`:
-    cal copiar-lo al VPS a mà (l'avís final mostra el comandament).
+    (secció), **redirects creats** i, si algun post MDX del blog enllaça una
+    fitxa eliminada (`/producto/<slug>/` o `productosRecomendados`), **avís
+    amb la llista de fitxers** per corregir-los abans del deploy (el
+    comprovador d'enllaços del build fallaria). En CAPTCHA o error de xarxa
+    **no** s'elimina res. El snippet de nginx **no** viatja amb
+    `./deploy/deploy.sh`: cal copiar-lo al VPS a mà (l'avís final mostra el
+    comandament).
   - En guardar qualsevol `index.json`, s'assegura `linkAmazon` amb
     `?tag=solucioncanin-21` (vegeu `_common.ensure_affiliate_link`).
   - Opcional **`--refill-deleted`**: després d'eliminar (sense `--dry-run`), per
@@ -70,6 +74,7 @@ from _common import amazon_scrape_url as _amazon_scrape_url  # noqa: E402
 
 ROOT = Path(__file__).parent.parent
 ARTICULOS_DIR = ROOT / "src" / "content" / "articulos"
+BLOG_DIR = ROOT / "src" / "content" / "blog"
 IMAGES_DIR = ROOT / "public" / "images" / "articulos"
 NGINX_REDIRECTS_PATH = ROOT / "deploy" / "nginx" / "redirects.conf"
 VERCEL_JSON_PATH = ROOT / "vercel.json"
@@ -176,6 +181,137 @@ def remove_product_from_disk(slug: str) -> None:
         shutil.rmtree(art)
     if img.is_dir():
         shutil.rmtree(img)
+
+
+# ---------------------------------------------------------------------------
+# Posts MDX que enllacen fitxes eliminades (avís pre-deploy)
+# ---------------------------------------------------------------------------
+
+# href="/producto/slug/", markdown ](/producto/slug/), AffiliateBox link=…
+_PRODUCTO_HREF_RE = re.compile(r"/producto/([A-Za-z0-9][A-Za-z0-9-]*)")
+_FRONTMATTER_RE = re.compile(r"^---\r?\n(.*?)\r?\n---", re.DOTALL)
+_YAML_LIST_ITEM_RE = re.compile(r"^[ \t]+-[ \t]+(.+?)\s*$")
+
+
+def _frontmatter_block(text: str) -> str:
+    m = _FRONTMATTER_RE.match(text)
+    return m.group(1) if m else ""
+
+
+def _yaml_list_items_for_key(frontmatter: str, key: str) -> list[str]:
+    """Ítems d'una clau YAML en bloc (`- slug`) o inline (`[a, b]`)."""
+    m = re.search(
+        rf"^{re.escape(key)}:[ \t]*(?:\[([^\]]*)\][ \t]*$|[ \t]*$)",
+        frontmatter,
+        re.MULTILINE,
+    )
+    if not m:
+        return []
+    if m.group(1) is not None:
+        items: list[str] = []
+        for part in m.group(1).split(","):
+            s = part.strip().strip("'\"").strip()
+            if s:
+                items.append(s)
+        return items
+    items = []
+    after = frontmatter[m.end() :]
+    if after.startswith("\r\n"):
+        after = after[2:]
+    elif after.startswith("\n"):
+        after = after[1:]
+    for line in after.splitlines():
+        if not line.strip():
+            break
+        lm = _YAML_LIST_ITEM_RE.match(line)
+        if not lm:
+            break
+        raw = lm.group(1).strip()
+        if raw.startswith("{") or ":" in raw:
+            break
+        items.append(raw.strip("'\""))
+    return items
+
+
+def extract_mdx_product_refs(text: str) -> set[str]:
+    """Slugs citats al cos (`/producto/<slug>/`) i a `productosRecomendados`."""
+    refs: set[str] = set()
+    for m in _PRODUCTO_HREF_RE.finditer(text):
+        refs.add(m.group(1).rstrip("/").lower())
+    fm = _frontmatter_block(text)
+    if fm:
+        for item in _yaml_list_items_for_key(fm, "productosRecomendados"):
+            slug = item.strip().strip("/").lower()
+            if slug:
+                refs.add(slug)
+    return refs
+
+
+def find_mdx_posts_linking(target_slugs: set[str]) -> dict[str, list[str]]:
+    """Retorna `{slug: [rutes relatives]}` per als posts MDX que citen aquests slugs."""
+    wanted = {s.strip("/").lower() for s in target_slugs if s}
+    if not wanted or not BLOG_DIR.is_dir():
+        return {}
+    hits: dict[str, set[str]] = {s: set() for s in wanted}
+    for path in sorted(BLOG_DIR.rglob("*.mdx")):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        rel = path.relative_to(ROOT).as_posix()
+        for slug in extract_mdx_product_refs(text) & wanted:
+            hits[slug].add(rel)
+    return {s: sorted(files) for s, files in hits.items() if files}
+
+
+def report_mdx_links_to_removed(
+    removed_aliases: dict[str, set[str]],
+    *,
+    dry_run: bool,
+) -> None:
+    """Imprimeix els posts MDX que enllacen fitxes eliminades (o que s'eliminarien)."""
+    if not removed_aliases:
+        return
+    all_aliases: set[str] = set()
+    for aliases in removed_aliases.values():
+        all_aliases.update(a.strip("/").lower() for a in aliases if a)
+    by_slug = find_mdx_posts_linking(all_aliases)
+
+    grouped: list[tuple[str, list[str], list[str]]] = []
+    all_files: set[str] = set()
+    for folder, aliases in sorted(removed_aliases.items()):
+        files: set[str] = set()
+        alias_list = sorted({a.strip("/").lower() for a in aliases if a})
+        for a in alias_list:
+            files.update(by_slug.get(a, []))
+        if files:
+            grouped.append((folder, alias_list, sorted(files)))
+            all_files.update(files)
+    if not grouped:
+        return
+
+    print("\n" + "!" * 60)
+    if dry_run:
+        print("⚠  POSTS MDX QUE ENLLACEN FITXES QUE S'ELIMINARIEN")
+        print("   Actualitzeu-los abans de desplegar si confirmeu l'eliminació.")
+    else:
+        print("⚠  POSTS MDX QUE ENLLACEN FITXES ELIMINADES")
+        print("   Corregiu-los abans del deploy (el comprovador d'enllaços del build fallarà).")
+    print()
+    for i, (folder, alias_list, files) in enumerate(grouped):
+        if i:
+            print()
+        print(f"  Fitxa: {folder}")
+        extra = [a for a in alias_list if a != folder]
+        if extra:
+            print("    URL: " + ", ".join(f"/producto/{a}/" for a in extra))
+        for f in files:
+            print(f"    · {f}")
+    print()
+    print(f"  Fitxers a revisar ({len(all_files)}):")
+    for f in sorted(all_files):
+        print(f"    {f}")
+    print("!" * 60)
 
 
 # ---------------------------------------------------------------------------
@@ -981,6 +1117,7 @@ def main():
     n_removed = 0
     redirect_candidates: list[tuple[str, str]] = []
     removed_folders: set[str] = set()
+    removed_aliases: dict[str, set[str]] = {}
 
     for json_path in products:
         data = load_json(json_path)
@@ -1036,9 +1173,11 @@ def main():
                 "valoracio_baixa": f"valoració < {MIN_CATALOG_RATING}",
                 "pocs_reviews": f"menys de {MIN_CATALOG_REVIEWS} valoracions",
             }.get(delete_reason, delete_reason)
-            for url_slug in product_redirect_slugs(data, slug):
+            alias_list = product_redirect_slugs(data, slug)
+            for url_slug in alias_list:
                 redirect_candidates.append((url_slug, cat_raw))
             removed_folders.add(slug)
+            removed_aliases[slug] = set(alias_list)
             if dry_run:
                 print(f"  -> [DRY RUN] s'eliminaria ({label}) — secció: «{cat}»")
             else:
@@ -1225,6 +1364,8 @@ def main():
         print("\nFallits:")
         for name, reason in failed:
             print(f"  {name}: {reason}")
+
+    report_mdx_links_to_removed(removed_aliases, dry_run=dry_run)
 
     if dry_run:
         print("\n[DRY RUN] Cap canvi al disc: ni JSON actualitzats ni carpetes eliminades.")

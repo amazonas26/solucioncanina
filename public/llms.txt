@@ -44,6 +44,7 @@ Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta di
 
 - Idioma: español (España). Mercado: Amazon.es.
 - Contacto: hola@solucioncanina.es
+- Alojamiento: VPS IONOS (servidores en Alemania), servido con nginx.
 - Sitemap: https://www.solucioncanina.es/sitemap-index.xml
 
 ## Legal
