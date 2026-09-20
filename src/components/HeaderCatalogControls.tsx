@@ -10,7 +10,7 @@ type SearchItem = {
   categoria: string;
   imagen: string;
   precio: string;
-  descuentoPct: number | null;
+  descuentoPct?: number;
 };
 
 type Props = {

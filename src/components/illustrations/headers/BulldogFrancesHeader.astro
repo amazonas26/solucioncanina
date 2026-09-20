@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  decorative?: boolean;
+}
+
+const { title, decorative = false } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1600 900"
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  class="block"
+>
+  {!decorative && (
+    <>
+      <title>{title}</title>
+      <desc>Bulldog Francés echado junto a una rampa baja, silueta plana en los colores de Solución Canina.</desc>
+    </>
+  )}
+  <defs>
+    <pattern id="ill-bulldog-dots" width="36" height="36" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3.2" fill="#3C9E91" fill-opacity="0.14" />
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#e8f6f3" />
+  <rect width="1600" height="900" fill="url(#ill-bulldog-dots)" />
+  <circle cx="1280" cy="180" r="240" fill="#d5f0ec" />
+  <circle cx="1280" cy="180" r="130" fill="#ade1db" fill-opacity="0.45" />
+  <ellipse cx="820" cy="822" rx="500" ry="24" fill="#1B3A5C" fill-opacity="0.07" />
+
+  <path d="M80 760 L80 520 L420 760Z" fill="#1B3A5C" fill-opacity="0.14" />
+  <path d="M80 520 L420 760" stroke="#1B3A5C" stroke-width="16" stroke-linecap="round" />
+  <rect x="64" y="500" width="32" height="268" rx="8" fill="#1B3A5C" fill-opacity="0.28" />
+
+  <g fill="#3C9E91">
+    <ellipse cx="780" cy="640" rx="250" ry="110" />
+    <rect x="640" y="710" width="86" height="42" rx="21" />
+    <rect x="820" y="714" width="80" height="38" rx="19" />
+    <circle cx="1080" cy="560" r="175" />
+    <ellipse cx="1248" cy="590" rx="58" ry="36" />
+    <ellipse cx="940" cy="430" rx="78" ry="52" transform="rotate(-16 940 430)" />
+    <ellipse cx="1200" cy="438" rx="74" ry="50" transform="rotate(20 1200 438)" />
+  </g>
+  <ellipse cx="1294" cy="590" rx="20" ry="14" fill="#1B3A5C" />
+  <path d="M1020 540 Q1070 590 1124 548" stroke="#1B3A5C" stroke-width="12" stroke-linecap="round" />
+</svg>

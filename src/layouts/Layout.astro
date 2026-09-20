@@ -53,7 +53,9 @@ const searchIndex = _articulos.map((a) => ({
   categoria: a.data.categoria ?? '',
   imagen: a.data.imagen ?? '',
   precio: a.data.precio ?? '',
-  descuentoPct: a.data.descuentoPct ?? null,
+  // Omitir null: en /herramientas/ el island serializa `[0,null]` y crawlers
+  // lo resuelven como ruta relativa → `/herramientas/null`.
+  ...(typeof a.data.descuentoPct === 'number' ? { descuentoPct: a.data.descuentoPct } : {}),
 }));
 
 // Si la pàgina no ens passa `categories`, les derivem del catàleg sol.
@@ -90,6 +92,7 @@ const categories = categoriesProp.length > 0
       })();
     </script>
     <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />

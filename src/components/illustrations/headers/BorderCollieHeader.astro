@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  decorative?: boolean;
+}
+
+const { title, decorative = false } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1600 900"
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  class="block"
+>
+  {!decorative && (
+    <>
+      <title>{title}</title>
+      <desc>Border Collie agachado frente a una casa, silueta plana en los colores de Solución Canina.</desc>
+    </>
+  )}
+  <rect width="1600" height="900" fill="#eef3f8" />
+  <path
+    d="M-80 820 Q280 240 800 520 T1720 280"
+    stroke="#1B3A5C"
+    stroke-width="90"
+    fill="none"
+    opacity="0.08"
+    stroke-linecap="round"
+  />
+  <circle cx="1280" cy="160" r="200" fill="#d4deeb" fill-opacity="0.65" />
+  <ellipse cx="800" cy="818" rx="460" ry="22" fill="#1B3A5C" fill-opacity="0.07" />
+
+  <g fill="#1B3A5C">
+    <rect x="160" y="430" width="210" height="250" rx="8" />
+    <path d="M130 438 L265 250 L400 438Z" />
+    <rect x="228" y="530" width="74" height="150" rx="6" fill="#244b7c" />
+    <rect x="180" y="470" width="46" height="46" rx="4" fill="#eef3f8" fill-opacity="0.4" />
+    <rect x="304" y="470" width="46" height="46" rx="4" fill="#eef3f8" fill-opacity="0.4" />
+  </g>
+
+  <g fill="#3C9E91">
+    <ellipse cx="820" cy="560" rx="210" ry="100" transform="rotate(-8 820 560)" />
+    <rect x="680" y="610" width="46" height="142" rx="23" transform="rotate(10 703 681)" />
+    <rect x="770" y="632" width="44" height="120" rx="22" />
+    <rect x="880" y="618" width="48" height="134" rx="24" transform="rotate(-6 904 685)" />
+    <rect x="970" y="640" width="42" height="112" rx="21" />
+    <circle cx="1080" cy="470" r="96" />
+    <ellipse cx="1260" cy="498" rx="150" ry="38" />
+    <ellipse cx="1048" cy="368" rx="22" ry="68" transform="rotate(-6 1048 368)" />
+    <ellipse cx="560" cy="540" rx="130" ry="32" transform="rotate(-18 560 540)" />
+  </g>
+  <ellipse cx="1400" cy="496" rx="16" ry="12" fill="#1B3A5C" />
+  <path d="M1060 456 Q1104 480 1150 458" stroke="#1B3A5C" stroke-width="8" stroke-linecap="round" />
+</svg>

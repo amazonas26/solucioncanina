@@ -1,6 +1,10 @@
 ---
 import LabradorHeader from './headers/LabradorHeader.astro';
 import BozalesHeader from './headers/BozalesHeader.astro';
+import GoldenHeader from './headers/GoldenHeader.astro';
+import PastorAlemanHeader from './headers/PastorAlemanHeader.astro';
+import BulldogFrancesHeader from './headers/BulldogFrancesHeader.astro';
+import BorderCollieHeader from './headers/BorderCollieHeader.astro';
 import { hasBlogHeader, type BlogHeaderSlug } from './registry';
 
 interface Props {
@@ -15,6 +19,10 @@ const { slug, title, decorative = false, class: className = '' } = Astro.props;
 const map: Record<BlogHeaderSlug, typeof LabradorHeader> = {
   'labrador-retriever-como-cuidar-en-casa': LabradorHeader,
   'bozales-perros-guia-elegir-talla': BozalesHeader,
+  'golden-retriever-guia-cuidados-completa': GoldenHeader,
+  'pastor-aleman-cuidados-displasia-comportamiento': PastorAlemanHeader,
+  'bulldog-frances-cuidados-problemas-salud': BulldogFrancesHeader,
+  'border-collie-cuidados-problemas-comportamiento': BorderCollieHeader,
 };
 
 const Cmp = hasBlogHeader(slug) ? map[slug] : null;

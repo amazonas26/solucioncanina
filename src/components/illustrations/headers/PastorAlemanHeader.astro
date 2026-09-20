@@ -1,0 +1,51 @@
+---
+interface Props {
+  title: string;
+  decorative?: boolean;
+}
+
+const { title, decorative = false } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1600 900"
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  class="block"
+>
+  {!decorative && (
+    <>
+      <title>{title}</title>
+      <desc>Pastor Alemán andando de perfil, con la cadera marcada, silueta plana en los colores de Solución Canina.</desc>
+    </>
+  )}
+  <rect width="1600" height="900" fill="#eef9f7" />
+  <rect y="120" width="1600" height="72" fill="#d5f0ec" fill-opacity="0.7" />
+  <rect y="280" width="1600" height="56" fill="#ade1db" fill-opacity="0.35" />
+  <rect y="520" width="1600" height="80" fill="#d5f0ec" fill-opacity="0.55" />
+  <rect y="720" width="1600" height="48" fill="#ade1db" fill-opacity="0.28" />
+  <ellipse cx="800" cy="820" rx="480" ry="24" fill="#1B3A5C" fill-opacity="0.07" />
+
+  <g fill="#3C9E91">
+    <ellipse cx="780" cy="500" rx="220" ry="125" transform="rotate(-14 780 500)" />
+    <rect x="600" y="575" width="50" height="188" rx="25" transform="rotate(8 625 669)" />
+    <rect x="690" y="610" width="48" height="162" rx="24" />
+    <rect x="850" y="590" width="52" height="180" rx="26" transform="rotate(-12 876 680)" />
+    <rect x="950" y="622" width="46" height="150" rx="23" />
+    <circle cx="1080" cy="350" r="112" />
+    <ellipse cx="1228" cy="378" rx="112" ry="46" />
+    <ellipse cx="1044" cy="210" rx="26" ry="74" transform="rotate(-8 1044 210)" />
+    <ellipse cx="1140" cy="214" rx="24" ry="70" transform="rotate(12 1140 214)" />
+    <ellipse cx="530" cy="460" rx="120" ry="32" transform="rotate(32 530 460)" />
+  </g>
+  <ellipse cx="1324" cy="374" rx="16" ry="12" fill="#1B3A5C" />
+  <path d="M1048 334 Q1092 364 1140 334" stroke="#1B3A5C" stroke-width="9" stroke-linecap="round" />
+  <circle cx="700" cy="530" r="40" fill="#1B3A5C" fill-opacity="0.16" />
+  <circle cx="700" cy="530" r="20" fill="none" stroke="#1B3A5C" stroke-width="6" />
+  <circle cx="700" cy="530" r="6" fill="#1B3A5C" />
+</svg>

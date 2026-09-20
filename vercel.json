@@ -286,6 +286,16 @@
       "source": "/producto/sle-feromonas-para-perrosdifusor-calmante-para",
       "destination": "/categoria/ansiedad/",
       "permanent": true
+    },
+    {
+      "source": "/producto/ortopedica-cama-para-perros-grande-y-medianos-90x57cm-colchon-perro-de-doble-cara-col",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/herramientas/null",
+      "destination": "/herramientas/",
+      "permanent": true
     }
   ],
   "headers": [
@@ -339,6 +349,28 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/security.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
         }
       ]
     },

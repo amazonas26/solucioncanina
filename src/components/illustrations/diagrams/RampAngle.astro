@@ -1,0 +1,65 @@
+<figure>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 900 520"
+    width="100%"
+    height="auto"
+    role="img"
+    aria-labelledby="ill-ramp-title ill-ramp-desc"
+    class="block bg-[#fafafa]"
+  >
+    <title id="ill-ramp-title">Pendiente segura de una rampa</title>
+    <desc id="ill-ramp-desc">
+      Longitud mínima L = H / sen θ. Tres ángulos: 25° adulto, 21° sénior y 18° espalda larga.
+    </desc>
+    <rect width="900" height="520" fill="#fafafa" />
+
+    <text x="450" y="48" text-anchor="middle" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700">L = H / sen θ</text>
+    <text x="450" y="74" text-anchor="middle" fill="#525252" font-family="Inter, system-ui, sans-serif" font-size="14">Misma altura, distinta pendiente: la rampa se alarga al suavizar el ángulo</text>
+
+    <!-- Adulto 25° : H=150, L=H/sin(25)≈355 → scaled L=178 -->
+    <g transform="translate(40 110)">
+      <path d="M20 250 H198 V100 Z" fill="#3C9E91" fill-opacity="0.18" />
+      <path d="M20 250 L198 100" stroke="#3C9E91" stroke-width="8" stroke-linecap="round" />
+      <path d="M198 100 V250" stroke="#1B3A5C" stroke-width="2" />
+      <path d="M20 250 H198" stroke="#FF9900" stroke-width="2.4" stroke-linecap="round" />
+      <text x="109" y="272" text-anchor="middle" fill="#FF9900" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">L</text>
+      <text x="210" y="180" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">H</text>
+      <circle cx="109" cy="300" r="13" fill="#1B3A5C" />
+      <text x="109" y="305" text-anchor="middle" fill="#fff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">1</text>
+      <text x="109" y="328" text-anchor="middle" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">25°</text>
+      <text x="109" y="348" text-anchor="middle" fill="#525252" font-family="Inter, system-ui, sans-serif" font-size="13">Adulto sano</text>
+    </g>
+
+    <!-- Senior 21° : L=H/sin(21)≈419 → scaled L=210 -->
+    <g transform="translate(300 110)">
+      <path d="M20 250 H230 V100 Z" fill="#3C9E91" fill-opacity="0.18" />
+      <path d="M20 250 L230 100" stroke="#3C9E91" stroke-width="8" stroke-linecap="round" />
+      <path d="M230 100 V250" stroke="#1B3A5C" stroke-width="2" />
+      <path d="M20 250 H230" stroke="#FF9900" stroke-width="2.4" stroke-linecap="round" />
+      <text x="125" y="272" text-anchor="middle" fill="#FF9900" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">L</text>
+      <text x="242" y="180" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">H</text>
+      <circle cx="125" cy="300" r="13" fill="#1B3A5C" />
+      <text x="125" y="305" text-anchor="middle" fill="#fff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">2</text>
+      <text x="125" y="328" text-anchor="middle" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">21°</text>
+      <text x="125" y="348" text-anchor="middle" fill="#525252" font-family="Inter, system-ui, sans-serif" font-size="13">Sénior / artrosis</text>
+    </g>
+
+    <!-- Espalda 18° : L=H/sin(18)≈486 → scaled L=243 -->
+    <g transform="translate(575 110)">
+      <path d="M20 250 H263 V100 Z" fill="#3C9E91" fill-opacity="0.18" />
+      <path d="M20 250 L263 100" stroke="#3C9E91" stroke-width="8" stroke-linecap="round" />
+      <path d="M263 100 V250" stroke="#1B3A5C" stroke-width="2" />
+      <path d="M20 250 H263" stroke="#FF9900" stroke-width="2.4" stroke-linecap="round" />
+      <text x="141" y="272" text-anchor="middle" fill="#FF9900" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">L</text>
+      <text x="275" y="180" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">H</text>
+      <circle cx="141" cy="300" r="13" fill="#1B3A5C" />
+      <text x="141" y="305" text-anchor="middle" fill="#fff" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="700">3</text>
+      <text x="141" y="328" text-anchor="middle" fill="#1B3A5C" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700">18°</text>
+      <text x="141" y="348" text-anchor="middle" fill="#525252" font-family="Inter, system-ui, sans-serif" font-size="13">Espalda larga</text>
+    </g>
+  </svg>
+  <figcaption class="border-t border-neutral-200 bg-white px-5 py-3 text-center text-sm italic text-neutral-500">
+    Longitud mínima: L = H / sen θ. 25° adulto, 21° sénior y 18° espalda larga (teckel, corgi). Si L supera 200 cm, mejor una escalera.
+  </figcaption>
+</figure>

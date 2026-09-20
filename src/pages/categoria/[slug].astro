@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
   const categoryPaths = categories.map((category) => ({
     params: { slug: slugify(category) },
-    props: { category, categories, sectionSlug: null },
+    props: { category, categories },
   }));
 
   const problemPaths = problemSections.map((section) => ({

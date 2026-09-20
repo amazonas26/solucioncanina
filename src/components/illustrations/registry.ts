@@ -1,6 +1,10 @@
 export const BLOG_HEADER_SLUGS = [
   'labrador-retriever-como-cuidar-en-casa',
   'bozales-perros-guia-elegir-talla',
+  'golden-retriever-guia-cuidados-completa',
+  'pastor-aleman-cuidados-displasia-comportamiento',
+  'bulldog-frances-cuidados-problemas-salud',
+  'border-collie-cuidados-problemas-comportamiento',
 ] as const;
 
 export type BlogHeaderSlug = (typeof BLOG_HEADER_SLUGS)[number];
