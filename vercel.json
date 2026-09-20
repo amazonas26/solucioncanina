@@ -261,6 +261,31 @@
       "source": "/categoria/alimentacion-especifica/calculadora-racion",
       "destination": "/calculadora-racion-pienso-renal-perros/",
       "permanent": true
+    },
+    {
+      "source": "/producto/ferplast-memor-one-l-memory-foam",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/condroprotector-articulaciones-100-snacks-300g-glucosamina-hci-condroitina-msm-colageno-y-vitaminas-c-y-e-suplemento-para-perros-antiinflamatorio-caderas-artrosis-huesos",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/gooddy-condroprotector-articulaciones-100-snacks-300g",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/feromonas-para-perrosdifusor-calmante-para-perros-difusor-gato-perros-aranazos-soluciona-cambios-marcaje-orina-reduce-los-ladridos-2-difusores-4-recargas",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/sle-feromonas-para-perrosdifusor-calmante-para",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
     }
   ],
   "headers": [

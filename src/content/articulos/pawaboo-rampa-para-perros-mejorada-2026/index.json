@@ -7,13 +7,15 @@
   "linkAmazon": "https://www.amazon.es/dp/B0GVDV9CPZ/?tag=solucioncanin-21",
   "categoria": "Rampas",
   "marca": "Pawaboo",
-  "precio": "69.99€",
+  "precio": "57.93€",
   "valoracion": 4.3,
-  "valoracionesCount": 909,
+  "valoracionesCount": 1758,
   "imagen": "/images/articulos/pawaboo-rampa-para-perros-mejorada-2026/imagen.jpg",
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior",
     "Subir al coche o sofá"
-  ]
+  ],
+  "precioOriginal": "60.98€",
+  "descuentoPct": 5
 }

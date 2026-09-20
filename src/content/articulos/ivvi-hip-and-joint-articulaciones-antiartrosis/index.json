@@ -7,11 +7,11 @@
   "linkAmazon": "https://www.amazon.es/dp/B093Z7M4W4/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "ivvi",
-  "precio": "29.90€",
+  "precio": "24.35€",
   "imagen": "/images/articulos/ivvi-hip-and-joint-articulaciones-antiartrosis/imagen.jpg",
   "ventas": 200,
   "valoracion": 4.5,
-  "valoracionesCount": 1531,
+  "valoracionesCount": 1537,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -29,5 +29,7 @@
     "Sabor menos palatable que snacks: mezclar con comida.",
     "Precio acorde con la concentración: no es la opción más económica."
   ],
-  "paraQuien": "Para perros con artrosis ya diagnosticada por veterinario que necesitan dosis serias de condroprotectores. No encaja como prevención en perros jóvenes asintomáticos: para eso hay fórmulas ligeras y económicas."
+  "paraQuien": "Para perros con artrosis ya diagnosticada por veterinario que necesitan dosis serias de condroprotectores. No encaja como prevención en perros jóvenes asintomáticos: para eso hay fórmulas ligeras y económicas.",
+  "precioOriginal": "29.90€",
+  "descuentoPct": 19
 }

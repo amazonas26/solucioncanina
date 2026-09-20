@@ -7,9 +7,9 @@
   "linkAmazon": "https://www.amazon.es/dp/B00PCMVQRM/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Royal",
-  "precio": "92.92€",
+  "precio": "92.44€",
   "valoracion": 4.6,
-  "valoracionesCount": 126,
+  "valoracionesCount": 125,
   "imagen": "/images/articulos/royal-canin-c-11232-diet-renal/imagen.jpg",
   "secciones": [
     "Problemas renales y urinarios"
@@ -27,5 +27,7 @@
     "Precio superior a marcas blancas equivalentes.",
     "Es alimento veterinario: requiere supervisión con analíticas."
   ],
-  "paraQuien": "Para perros con insuficiencia renal crónica que necesitan referencia clínica con máxima palatabilidad. No encaja sin diagnóstico veterinario: la restricción de fósforo no es neutra y no debe usarse sin necesidad."
+  "paraQuien": "Para perros con insuficiencia renal crónica que necesitan referencia clínica con máxima palatabilidad. No encaja sin diagnóstico veterinario: la restricción de fósforo no es neutra y no debe usarse sin necesidad.",
+  "precioOriginal": "95.22€",
+  "descuentoPct": 3
 }

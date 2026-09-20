@@ -11,7 +11,7 @@
   "ventas": 50,
   "valoracion": 4.1,
   "slug": "trixie-bozal-lazo-nylon-entrenamiento-xl-xxl",
-  "valoracionesCount": 2765,
+  "valoracionesCount": 2785,
   "secciones": [
     "Paseos seguros y control"
   ],
@@ -28,5 +28,7 @@
     "No es un bozal de paseo: restringe el jadeo y no debe usarse de manera prolongada.",
     "Sin cesta abierta: el perro no puede beber con él puesto."
   ],
-  "paraQuien": "Para visitas veterinarias, sesiones de peluquería o manejo puntual de razas grandes. No encaja como bozal de paseo: en ese caso necesitas un bozal cesta tipo Baskerville, Trixie Flex o similar."
+  "paraQuien": "Para visitas veterinarias, sesiones de peluquería o manejo puntual de razas grandes. No encaja como bozal de paseo: en ese caso necesitas un bozal cesta tipo Baskerville, Trixie Flex o similar.",
+  "precioOriginal": "12.01€",
+  "descuentoPct": 20
 }
