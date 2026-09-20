@@ -837,78 +837,114 @@ def extract_rating(soup: BeautifulSoup) -> float | None:
 
 
 def _parse_amazon_review_count_token(raw: str) -> int | None:
-    """Converteix '1234', '1.234', '12.345' (separadors de milers ES) a int."""
-    raw = raw.strip()
+    """Converteix '1234', '1.234', '12.345' (ES) o '1,234' (EN) a int."""
+    raw = (raw or "").strip()
     if not raw or not re.fullmatch(r"[\d.,]+", raw):
         return None
-    # Un sol separador ',' o '.' com a decimal improbable en recompte de ressenyes;
-    # a Amazon.es els milers van amb punt: 1.234
-    if raw.count(".") >= 1 and raw.replace(".", "").isdigit():
-        parts = raw.split(".")
-        if parts and parts[0] and all(p.isdigit() for p in parts):
-            if len(parts) == 1:
-                return int(parts[0])
-            if all(len(p) == 3 for p in parts[1:]) and 1 <= len(parts[0]) <= 3:
-                return int("".join(parts))
+
+    def _thousands(sep: str) -> int | None:
+        if raw.count(sep) < 1 or not raw.replace(sep, "").isdigit():
+            return None
+        parts = raw.split(sep)
+        if (
+            parts
+            and parts[0]
+            and all(p.isdigit() for p in parts)
+            and all(len(p) == 3 for p in parts[1:])
+            and 1 <= len(parts[0]) <= 3
+        ):
+            return int("".join(parts))
+        return None
+
+    for sep in (".", ","):
+        n = _thousands(sep)
+        if n is not None:
+            return n
     if raw.isdigit():
         return int(raw)
-    if "," in raw and raw.replace(",", "").isdigit():
-        return int(raw.replace(",", ""))
+    return None
+
+
+_REVIEW_COUNT_KW = (
+    r"(?:valoraciones?|calificaciones?|reseñas?|reviews?|opiniones?|ratings?)"
+)
+
+
+def _review_count_from_text(txt: str | None) -> int | None:
+    """Extreu un recompte > 0 d'un fragment (widget, aria-label o histograma)."""
+    if not txt:
+        return None
+    m = re.search(r"\(\s*([\d.,]+)\s*\)", txt)
+    if m:
+        n = _parse_amazon_review_count_token(m.group(1))
+        if n and n > 0:
+            return n
+    m = re.search(
+        rf"(\d{{1,3}}(?:[.,]\d{{3}})*)\s+(?:global(?:es?)?\s+)?{_REVIEW_COUNT_KW}\b",
+        txt,
+        flags=re.IGNORECASE,
+    )
+    if m:
+        n = _parse_amazon_review_count_token(m.group(1))
+        if n and n > 0:
+            return n
+    m = re.search(
+        rf"\b{_REVIEW_COUNT_KW}\b\s*[:(]?\s*(\d{{1,3}}(?:[.,]\d{{3}})*)",
+        txt,
+        flags=re.IGNORECASE,
+    )
+    if m:
+        n = _parse_amazon_review_count_token(m.group(1))
+        if n and n > 0:
+            return n
     return None
 
 
 def extract_rating_count(soup: BeautifulSoup) -> int | None:
-    """Nº total de valoracions al PDP (Amazon canvia markup sovint).
+    """Nº de valoracions del widget d'AQUEST PDP.
 
-    Ordre: enllaços a customerReviews amb «(1.234)»; després blocs de text coneguts
-    (#acrCustomerReviewText, data-hook, etc.). Abans només es capturava si sortia
-    la paraula «valoraciones»; moltes fitxes només mostren «(2)» sense aquesta paraula.
+    Amazon, si agrupa variants (Halti talla S/L, Pets Purest), posa el recompte
+    de la família a `#acrCustomerReviewText` i al histograma. Si les desagrupa
+    (Taglory 5 m vs 10 m), hi posa el de la variant actual. Sempre llegim aquest
+    widget: no el primer `a[href*="#customerReviews"]` de la pàgina (els anuncis
+    i productes relacionats també el tenen) ni tot `#reviewsMedley` (hi ha
+    ressenyes individuals amb xifres).
     """
-    for a in soup.select(
-        'a[href*="customerReviews"], a[href*="CustomerReviews"], a[href*="#customerReviews"]'
-    ):
-        t = a.get_text(" ", strip=True)
-        m = re.search(r"\(\s*([\d.]+)\s*\)", t)
-        if m:
-            n = _parse_amazon_review_count_token(m.group(1))
-            if n and n > 0:
+    widget = soup.select_one("#averageCustomerReviews")
+    el = None
+    if widget:
+        el = widget.select_one("#acrCustomerReviewText")
+    if el is None:
+        el = soup.select_one("#acrCustomerReviewText")
+    if el is not None:
+        for raw in (el.get("aria-label"), el.get_text(" ", strip=True)):
+            n = _review_count_from_text(raw)
+            if n:
                 return n
 
-    candidates: list[str] = []
-    el = soup.select_one("#acrCustomerReviewText")
-    if el:
-        candidates.append(el.get_text(" ", strip=True))
+    link = soup.select_one("#acrCustomerReviewLink")
+    if link is not None:
+        n = _review_count_from_text(link.get_text(" ", strip=True))
+        if n:
+            return n
+
+    hist = soup.select_one('[data-hook="total-review-count"]')
+    if hist is not None:
+        n = _review_count_from_text(hist.get_text(" ", strip=True))
+        if n:
+            return n
+
     for sel in (
-        '[data-hook="total-review-count"]',
         "#averageCustomerReviews_feature_div",
-        "#reviewsMedley",
+        ".cr-widget-TitleRatingsHistogram",
+        "#averageCustomerReviews",
     ):
-        for e in soup.select(sel):
-            candidates.append(e.get_text(" ", strip=True))
-
-    kw = r"(?:valoraciones?|calificaciones?|reseñas?|reviews?|opiniones?|ratings?)"
-    for txt in candidates:
-        if not txt:
+        node = soup.select_one(sel)
+        if node is None:
             continue
-        m = re.search(
-            rf"(\d{{1,3}}(?:[.,]\d{{3}})*)\s*{kw}\b",
-            txt,
-            flags=re.IGNORECASE,
-        )
-        if m:
-            n = int(m.group(1).replace(".", "").replace(",", ""))
-            if n > 0:
-                return n
-        m2 = re.search(rf"\b{kw}\b\s*[:(]?\s*(\d{{1,3}}(?:[.,]\d{{3}})*)", txt, flags=re.IGNORECASE)
-        if m2:
-            n = int(m2.group(1).replace(".", "").replace(",", ""))
-            if n > 0:
-                return n
-        m3 = re.search(r"\(\s*([\d.]+)\s*\)", txt)
-        if m3:
-            n = _parse_amazon_review_count_token(m3.group(1))
-            if n and n > 0:
-                return n
+        n = _review_count_from_text(node.get_text(" ", strip=True))
+        if n:
+            return n
     return None
 
 

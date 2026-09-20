@@ -1,0 +1,66 @@
+---
+interface Props {
+  title: string;
+  decorative?: boolean;
+}
+
+const { title, decorative = false } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1600 900"
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  role={decorative ? undefined : 'img'}
+  aria-hidden={decorative ? 'true' : undefined}
+  class="block"
+>
+  {!decorative && (
+    <>
+      <title>{title}</title>
+      <desc>Labrador sentado junto a un comedero, silueta plana en los colores de Solución Canina.</desc>
+    </>
+  )}
+  <defs>
+    <pattern id="ill-labrador-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.7" fill="#3C9E91" fill-opacity="0.16" />
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#eef9f7" />
+  <rect width="1600" height="900" fill="url(#ill-labrador-dots)" />
+  <circle cx="1240" cy="240" r="320" fill="#d5f0ec" />
+  <circle cx="1240" cy="240" r="188" fill="#ade1db" fill-opacity="0.5" />
+  <path
+    d="M120 180 L260 350 L500 110"
+    stroke="#1B3A5C"
+    stroke-width="40"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.1"
+  />
+  <ellipse cx="820" cy="812" rx="420" ry="22" fill="#1B3A5C" fill-opacity="0.07" />
+
+  <g transform="translate(0 -70)">
+    <g fill="#3C9E91">
+      <path d="M430 470 C340 500 300 430 355 380 C410 330 500 380 545 455 C530 490 480 500 430 470Z" />
+      <ellipse cx="700" cy="560" rx="210" ry="175" />
+      <rect x="690" y="640" width="82" height="150" rx="41" />
+      <rect x="800" y="655" width="74" height="135" rx="37" />
+      <circle cx="980" cy="390" r="148" />
+      <ellipse cx="1145" cy="425" rx="115" ry="68" />
+      <ellipse cx="880" cy="430" rx="62" ry="115" />
+    </g>
+    <ellipse cx="1248" cy="420" rx="20" ry="16" fill="#1B3A5C" />
+    <path d="M940 372 Q990 404 1040 372" stroke="#1B3A5C" stroke-width="10" stroke-linecap="round" />
+    <path d="M1100 438 Q1155 472 1215 442" stroke="#1B3A5C" stroke-width="9" stroke-linecap="round" />
+    <path d="M1188 700 L1410 700 L1370 798 Q1299 838 1228 798Z" fill="#1B3A5C" />
+    <ellipse cx="1299" cy="700" rx="111" ry="24" fill="#1B3A5C" />
+    <ellipse cx="1299" cy="700" rx="100" ry="16" fill="#244b7c" />
+    <circle cx="1274" cy="698" r="7" fill="#3C9E91" />
+    <circle cx="1308" cy="693" r="6" fill="#7bccc3" />
+    <circle cx="1334" cy="700" r="5.5" fill="#3C9E91" />
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+---
+import LabradorHeader from './headers/LabradorHeader.astro';
+import BozalesHeader from './headers/BozalesHeader.astro';
+import { hasBlogHeader, type BlogHeaderSlug } from './registry';
+
+interface Props {
+  slug: string;
+  title: string;
+  decorative?: boolean;
+  class?: string;
+}
+
+const { slug, title, decorative = false, class: className = '' } = Astro.props;
+
+const map: Record<BlogHeaderSlug, typeof LabradorHeader> = {
+  'labrador-retriever-como-cuidar-en-casa': LabradorHeader,
+  'bozales-perros-guia-elegir-talla': BozalesHeader,
+};
+
+const Cmp = hasBlogHeader(slug) ? map[slug] : null;
+---
+
+{Cmp && (
+  <div class:list={['blog-header-illustration h-full w-full', className]}>
+    <Cmp title={title} decorative={decorative} />
+  </div>
+)}

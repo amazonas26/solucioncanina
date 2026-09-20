@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import BlogHeaderIllustration from '../../components/illustrations/BlogHeaderIllustration.astro';
+import { hasBlogHeader } from '../../components/illustrations/registry';
 import { getCollection } from 'astro:content';
 import { collectionPageSchema, itemListSchema } from '../../utils/seo';
 
@@ -76,7 +78,11 @@ const blogListJsonLd = itemListSchema(
             {categoryPosts.map(post => (
               <a href={`/blog/${post.slug}/`} class="group flex flex-col bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-xl hover:shadow-neutral-200/40 transition-all duration-300 hover:-translate-y-1">
                 <div class="aspect-[16/10] w-full bg-neutral-50 overflow-hidden relative">
-                  {post.data.imagen ? (
+                  {hasBlogHeader(post.slug) ? (
+                    <div class="h-full w-full transition-transform duration-700 group-hover:scale-105">
+                      <BlogHeaderIllustration slug={post.slug} title={post.data.titulo} decorative />
+                    </div>
+                  ) : post.data.imagen ? (
                     <img src={post.data.imagen} alt={post.data.titulo} width="640" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   ) : (
                     <div class="w-full h-full flex items-center justify-center text-neutral-300 bg-neutral-50">
