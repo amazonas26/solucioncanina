@@ -5,7 +5,7 @@
 set -euo pipefail
 
 LOGDIR=/var/log/solucioncanina
-OUT=/var/www/stats/solucioncanina.html
+OUT=/var/www/stats/index.html
 TMP=""
 
 cleanup() {
@@ -26,14 +26,13 @@ if ((${#logs[@]} == 0)); then
 fi
 
 mkdir -p "$(dirname "$OUT")"
-TMP=$(mktemp "${OUT}.XXXXXX")
+TMP=$(mktemp --suffix=.html "${OUT}.XXXXXX")
 
 # zcat -f deja pasar los .log sin comprimir y descomprime los .gz.
 # nice/ionice: este VPS tiene ~300 MB libres; no pelear con gunicorn/Node.
 nice -n 10 ionice -c3 zcat -f "${logs[@]}" \
   | goaccess - \
       --log-format=COMBINED \
-      --keep-last=30 \
       -q \
       --anonymize-ip \
       --ignore-panel=GEO_LOCATION \
