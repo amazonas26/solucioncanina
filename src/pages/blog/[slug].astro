@@ -165,6 +165,22 @@ const allBlogJsonLd = faqJsonLd
       <Content components={{ AffiliateBox, DiagramMeasureMuzzle, DiagramMeasureBed, DiagramRampAngle }} />
     </div>
 
+    {post.data.faqs && post.data.faqs.length > 0 && (
+      <section class="mt-16 border-t border-neutral-200 pt-12" aria-labelledby="preguntas-frecuentes">
+        <h2 id="preguntas-frecuentes" class="text-2xl font-serif font-black text-neutral-900 mb-8 tracking-tight">
+          Preguntas frecuentes
+        </h2>
+        <div class="space-y-8">
+          {post.data.faqs.map((faq) => (
+            <div>
+              <h3 class="text-lg font-serif font-black text-neutral-900 mb-2">{faq.pregunta}</h3>
+              <p class="text-neutral-700 leading-relaxed">{faq.respuesta}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
     {related && related.length > 0 && (
       <section class="mt-20 pt-12 border-t border-neutral-150">
         <h2 class="text-2xl font-serif font-black text-neutral-900 mb-8 text-center tracking-tight">Artículos relacionados</h2>
