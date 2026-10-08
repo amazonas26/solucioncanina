@@ -1,6 +1,9 @@
-/** Cabeceras del blog: silueta × pose × motivo × campo.
- *  `bespoke` conserva el SVG dibujado a mano. El resto lo compone `compose.ts`.
+/** Cabeceras del blog: ilustración (A) o tipográfica (B).
+ *  Las guías de raza llevan `photoPending` y usan B temporal hasta foto con licencia.
  */
+
+export type HeaderStyle = 'illustration' | 'typographic';
+
 export type Silueta =
   | 'labrador'
   | 'golden'
@@ -63,73 +66,93 @@ export type Campo =
   | 'warm-arc'
   | 'blue-circles';
 
-export interface HeaderSpec {
+export interface IllustrationSpec {
+  style: 'illustration';
   silueta: Silueta;
   pose: Pose;
   motivo: Motivo;
   campo: Campo;
   desc: string;
-  bespoke?: true;
 }
 
-const PLANA = 'silueta plana en los colores de Solución Canina';
+export interface TypographicSpec {
+  style: 'typographic';
+  eyebrow: string;
+  lines: string[];
+  campo: Campo;
+  desc: string;
+}
+
+export type HeaderSpec = IllustrationSpec | TypographicSpec;
+
+const PLANA = 'silueta en capas en los colores de Solución Canina';
 
 export const BLOG_HEADERS = {
-  // Dibujadas a mano. No repetir esta combinación en las compuestas.
-  'labrador-retriever-como-cuidar-en-casa': {
-    bespoke: true,
-    silueta: 'labrador',
-    pose: 'sentado',
-    motivo: 'comedero',
-    campo: 'mint-dots',
-    desc: `Labrador sentado junto a un comedero, ${PLANA}.`,
+  // Guías de raza (C): foto WebP en `public/images/blog/<slug>.webp` vía frontmatter `imagen`.
+  // No van aquí — ver scratch/imagenes-pendientes.md.
+
+  // —— B tipográficas (decisión / comparativa) ——
+  'arnes-o-collar-perros-guia': {
+    style: 'typographic',
+    eyebrow: 'Guías',
+    lines: ['Arnés o collar:', 'qué elegir'],
+    campo: 'mint-bands',
+    desc: 'Cabecera tipográfica: arnés frente a collar.',
   },
+  'pienso-con-condroprotectores-o-suplemento': {
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['¿Pienso con condro', 'o suplemento?'],
+    campo: 'cream-dots',
+    desc: 'Cabecera tipográfica: pienso con condro frente a suplemento.',
+  },
+  'pastillas-perros-artrosis-comprimidos-gotas-snacks': {
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Comprimidos, gotas', 'o snacks'],
+    campo: 'cream-dots',
+    desc: 'Cabecera tipográfica: formatos de pastillas para artrosis.',
+  },
+  'relajantes-naturales-perros-gotas-feromonas-chaleco': {
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Gotas, feromonas', 'o chaleco'],
+    campo: 'blue-dots',
+    desc: 'Cabecera tipográfica: relajantes naturales comparados.',
+  },
+  'mejores-camas-ortopedicas-perros': {
+    style: 'typographic',
+    eyebrow: 'Guías',
+    lines: ['Camas ortopédicas:', 'guía 2026'],
+    campo: 'warm-arc',
+    desc: 'Cabecera tipográfica: guía de camas ortopédicas.',
+  },
+  'mejores-correas-largas-perros-adiestramiento': {
+    style: 'typographic',
+    eyebrow: 'Guías',
+    lines: ['Mejores correas', 'largas'],
+    campo: 'warm-dots',
+    desc: 'Cabecera tipográfica: correas largas para adiestramiento.',
+  },
+  'mejor-condroprotector-perros-artrosis': {
+    style: 'typographic',
+    eyebrow: 'Guías',
+    lines: ['Elegir el mejor', 'condroprotector'],
+    campo: 'mint-dots',
+    desc: 'Cabecera tipográfica: cómo elegir condroprotector.',
+  },
+
+  // —— A ilustraciones (salud / condición / uso) ——
   'bozales-perros-guia-elegir-talla': {
-    bespoke: true,
+    style: 'illustration',
     silueta: 'medio',
     pose: 'sentado',
     motivo: 'bozal',
     campo: 'blue-dots',
     desc: `Perro sentado de perfil con bozal de cesta, ${PLANA}.`,
   },
-  'golden-retriever-guia-cuidados-completa': {
-    bespoke: true,
-    silueta: 'golden',
-    pose: 'de-pie',
-    motivo: 'cepillo',
-    campo: 'warm-hill',
-    desc: `Golden Retriever de pie junto a un cepillo, ${PLANA}.`,
-  },
-  'pastor-aleman-cuidados-displasia-comportamiento': {
-    bespoke: true,
-    silueta: 'pastor',
-    pose: 'andando',
-    motivo: 'cadera',
-    campo: 'mint-bands',
-    desc: `Pastor Alemán andando de perfil, con la cadera marcada, ${PLANA}.`,
-  },
-  'bulldog-frances-cuidados-problemas-salud': {
-    bespoke: true,
-    silueta: 'bulldog',
-    pose: 'echado',
-    motivo: 'rampa',
-    campo: 'mint-bigdots',
-    desc: `Bulldog Francés echado junto a una rampa baja, ${PLANA}.`,
-  },
-  'border-collie-cuidados-problemas-comportamiento': {
-    bespoke: true,
-    silueta: 'collie',
-    pose: 'agachado',
-    motivo: 'casa',
-    campo: 'blue-arc',
-    desc: `Border Collie agachado frente a una casa, ${PLANA}.`,
-  },
-
-  // Las tres guías de la home (relajantes, pienso con condroprotectores,
-  // pienso bajo en sodio) usan foto real en `imagen`. No van aquí.
-
-  // Con impresiones en Search Console.
   'condroprotectores-perros-guia-completa': {
+    style: 'illustration',
     silueta: 'medio',
     pose: 'sentado',
     motivo: 'bote',
@@ -137,6 +160,7 @@ export const BLOG_HEADERS = {
     desc: `Perro sentado junto a un bote de suplemento, ${PLANA}.`,
   },
   'mi-perro-se-rasca-mucho-sin-pulgas-causas': {
+    style: 'illustration',
     silueta: 'collie',
     pose: 'rascandose',
     motivo: 'marcas',
@@ -144,6 +168,7 @@ export const BLOG_HEADERS = {
     desc: `Perro rascándose el cuello, sin insectos, ${PLANA}.`,
   },
   'glucosamina-para-perros-para-que-sirve-dosis': {
+    style: 'illustration',
     silueta: 'medio',
     pose: 'de-pie',
     motivo: 'pastilla',
@@ -151,6 +176,7 @@ export const BLOG_HEADERS = {
     desc: `Perro de pie junto a un comprimido, ${PLANA}.`,
   },
   'como-evitar-que-mi-perro-suelte-pelo': {
+    style: 'illustration',
     silueta: 'golden',
     pose: 'sentado',
     motivo: 'cepillo',
@@ -158,13 +184,23 @@ export const BLOG_HEADERS = {
     desc: `Golden sentado junto a un cepillo, ${PLANA}.`,
   },
   'pienso-renal-perros-guia': {
+    style: 'illustration',
     silueta: 'bulldog',
     pose: 'de-pie',
     motivo: 'saco-cuenco',
     campo: 'warm-hill',
     desc: `Bulldog de pie junto a un saco y un cuenco, ${PLANA}.`,
   },
+  'pienso-bajo-sodio-perros-renal': {
+    style: 'illustration',
+    silueta: 'bulldog',
+    pose: 'sentado',
+    motivo: 'saco-cuenco',
+    campo: 'cream-dots',
+    desc: `Bulldog sentado junto a un saco y un cuenco, ${PLANA}.`,
+  },
   'displasia-cadera-perros-sintomas-cuidados': {
+    style: 'illustration',
     silueta: 'pastor',
     pose: 'echado',
     motivo: 'cadera',
@@ -172,6 +208,7 @@ export const BLOG_HEADERS = {
     desc: `Pastor echado con la cadera marcada, ${PLANA}.`,
   },
   'rampas-para-perros-beneficios': {
+    style: 'illustration',
     silueta: 'senior',
     pose: 'andando',
     motivo: 'rampa',
@@ -179,6 +216,7 @@ export const BLOG_HEADERS = {
     desc: `Perro mayor andando hacia una rampa, ${PLANA}.`,
   },
   'camas-ortopedicas-perros-artrosis-displasia': {
+    style: 'illustration',
     silueta: 'senior',
     pose: 'echado',
     motivo: 'cama',
@@ -186,6 +224,7 @@ export const BLOG_HEADERS = {
     desc: `Perro mayor echado junto a una cama con borde, ${PLANA}.`,
   },
   'senales-estres-perros-ansiedad': {
+    style: 'illustration',
     silueta: 'medio',
     pose: 'sentado',
     motivo: 'ondas',
@@ -193,6 +232,7 @@ export const BLOG_HEADERS = {
     desc: `Perro sentado con ondas de tensión a un lado, ${PLANA}.`,
   },
   'ansiedad-ruidos-perros-calmar-estres': {
+    style: 'illustration',
     silueta: 'bulldog',
     pose: 'agachado',
     motivo: 'ondas',
@@ -200,6 +240,7 @@ export const BLOG_HEADERS = {
     desc: `Bulldog agachado junto a ondas de ruido, ${PLANA}.`,
   },
   'ansiedad-separacion-perros-guia': {
+    style: 'illustration',
     silueta: 'pequeno',
     pose: 'sentado',
     motivo: 'casa',
@@ -207,6 +248,7 @@ export const BLOG_HEADERS = {
     desc: `Perro pequeño sentado frente a una casa, ${PLANA}.`,
   },
   'miedo-petardos-perros-soluciones': {
+    style: 'illustration',
     silueta: 'pequeno',
     pose: 'agachado',
     motivo: 'estrellas',
@@ -214,50 +256,23 @@ export const BLOG_HEADERS = {
     desc: `Perro pequeño agachado bajo unas estrellas, ${PLANA}.`,
   },
   'aceite-salmon-perros-beneficios': {
+    style: 'illustration',
     silueta: 'golden',
     pose: 'hocico-bajo',
     motivo: 'aceite',
     campo: 'blue-arc',
     desc: `Golden con el hocico bajo junto a un frasco de aceite, ${PLANA}.`,
   },
-  'arnes-o-collar-perros-guia': {
-    silueta: 'collie',
-    pose: 'de-pie',
-    motivo: 'arnes',
-    campo: 'mint-bands',
-    desc: `Collie de pie junto a un arnés y un collar, ${PLANA}.`,
-  },
-
-  // Resto de artículos que aún usaban foto de stock o no tenían imagen.
-  'pastillas-perros-artrosis-comprimidos-gotas-snacks': {
-    silueta: 'senior',
-    pose: 'sentado',
-    motivo: 'tres-formatos',
-    campo: 'cream-dots',
-    desc: `Perro mayor sentado junto a un comprimido, un gotero y un snack, ${PLANA}.`,
-  },
   'como-mejorar-movilidad-perro-mayor': {
+    style: 'illustration',
     silueta: 'senior',
     pose: 'de-pie',
     motivo: 'escalon',
     campo: 'warm-dots',
     desc: `Perro mayor de pie junto a un escalón bajo, ${PLANA}.`,
   },
-  'mejores-camas-ortopedicas-perros': {
-    silueta: 'golden',
-    pose: 'echado',
-    motivo: 'cama',
-    campo: 'warm-arc',
-    desc: `Golden echado junto a una cama con borde, ${PLANA}.`,
-  },
-  'mejor-condroprotector-perros-artrosis': {
-    silueta: 'collie',
-    pose: 'sentado',
-    motivo: 'bote',
-    campo: 'mint-dots',
-    desc: `Collie sentado junto a un bote de suplemento, ${PLANA}.`,
-  },
   'mi-perro-no-quiere-comer-causas': {
+    style: 'illustration',
     silueta: 'labrador',
     pose: 'hocico-bajo',
     motivo: 'cuenco',
@@ -265,6 +280,7 @@ export const BLOG_HEADERS = {
     desc: `Labrador con el hocico bajo frente a un cuenco, ${PLANA}.`,
   },
   'por-que-mi-perro-come-heces': {
+    style: 'illustration',
     silueta: 'collie',
     pose: 'hocico-bajo',
     motivo: 'marca-suelo',
@@ -272,6 +288,7 @@ export const BLOG_HEADERS = {
     desc: `Collie con el hocico junto a una marca en el suelo, ${PLANA}.`,
   },
   'como-socializar-perro-adulto-guia': {
+    style: 'illustration',
     silueta: 'medio',
     pose: 'de-pie',
     motivo: 'segundo-perro',
@@ -279,6 +296,7 @@ export const BLOG_HEADERS = {
     desc: `Dos perros de pie, uno frente al otro, ${PLANA}.`,
   },
   'como-limpiar-dientes-perro-guia': {
+    style: 'illustration',
     silueta: 'medio',
     pose: 'sentado',
     motivo: 'cepillo-dientes',
@@ -286,18 +304,12 @@ export const BLOG_HEADERS = {
     desc: `Perro sentado junto a un cepillo de dientes, ${PLANA}.`,
   },
   'perro-tira-de-la-correa-soluciones': {
+    style: 'illustration',
     silueta: 'pastor',
     pose: 'tirando',
     motivo: 'correa',
     campo: 'blue-circles',
     desc: `Pastor inclinándose hacia delante con la correa tensa, ${PLANA}.`,
-  },
-  'mejores-correas-largas-perros-adiestramiento': {
-    silueta: 'pastor',
-    pose: 'andando',
-    motivo: 'correa-larga',
-    campo: 'warm-dots',
-    desc: `Pastor andando junto a una correa enrollada, ${PLANA}.`,
   },
 } satisfies Record<string, HeaderSpec>;
 
@@ -307,10 +319,19 @@ export function hasBlogHeader(slug: string): slug is BlogHeaderSlug {
   return Object.prototype.hasOwnProperty.call(BLOG_HEADERS, slug);
 }
 
-export function isBespokeHeader(slug: string): slug is BlogHeaderSlug {
-  return hasBlogHeader(slug) && BLOG_HEADERS[slug].bespoke === true;
+export function isTypographicHeader(slug: string): boolean {
+  return hasBlogHeader(slug) && BLOG_HEADERS[slug].style === 'typographic';
+}
+
+export function isIllustrationHeader(slug: string): boolean {
+  return hasBlogHeader(slug) && BLOG_HEADERS[slug].style === 'illustration';
+}
+
+/** @deprecated Las cabeceras bespoke se retiraron; todo pasa por compose. */
+export function isBespokeHeader(_slug: string): boolean {
+  return false;
 }
 
 export function composedHeaderSlugs(): BlogHeaderSlug[] {
-  return (Object.keys(BLOG_HEADERS) as BlogHeaderSlug[]).filter((slug) => !BLOG_HEADERS[slug].bespoke);
+  return Object.keys(BLOG_HEADERS) as BlogHeaderSlug[];
 }

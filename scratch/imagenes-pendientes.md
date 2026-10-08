@@ -1,25 +1,47 @@
-# Imágenes pendientes (artículos 1, 3, 4 y 5)
+# Imágenes pendientes / atribuciones
 
-Fecha: 19 de septiembre de 2026.
+## Guías de raza — cabecera C (foto Pexels)
 
-Criterio: no usar foto genérica si no encaja el tema. Donde hay una imagen de cluster ya en `public/images/blog/`, se ha reutilizado (mismo patrón que el artículo de movilidad). Donde no encaja ninguna, el frontmatter va **sin** `imagen`. Un og:image con el logo es peor que uno repetido: si hay foto de cluster, se reutiliza.
+Fecha: 8 de octubre de 2026.
 
-## 1. Pastillas para perros con artrosis (`pastillas-perros-artrosis-comprimidos-gotas-snacks`)
+**Licencia:** [Pexels License](https://www.pexels.com/license/) — uso comercial gratuito; atribución no obligatoria, pero queda anotada por trazabilidad.
 
-- **Publicada ahora:** `/images/blog/mejor-condroprotector-perros-artrosis.jpg` (collie en la playa; ya es la visual del cluster artrosis/condro).
-- **Qué haría falta:** foto propia de los tres formatos juntos (bote de comprimidos, frasco cuentagotas, snack masticable) sobre una mesa, con un perro sénior al fondo. Nada de stock de «perro feliz en la playa». Ideal: etiqueta visible (mg), sin marca inventada.
+**Archivos:** `public/images/blog/<slug>.webp` (1600×900, quality 88). Frontmatter `imagen` apunta al `.webp`. Fuera de `BLOG_HEADERS` (la UI usa la foto, no SVG).
 
-## 3. Relajantes naturales (`relajantes-naturales-perros-gotas-feromonas-chaleco`)
+| Slug | Archivo | Origen Pexels | Autor | Notas |
+|---|---|---|---|---|
+| `labrador-retriever-como-cuidar-en-casa` | `labrador-retriever-como-cuidar-en-casa.webp` | https://www.pexels.com/photo/calm-labrador-retriever-in-indoor-setting-36679054/ | Kimy Moto | Adulto, interior, collar/correa negros sin marca. Original 6000×4000. |
+| `golden-retriever-guia-cuidados-completa` | `golden-retriever-guia-cuidados-completa.webp` | https://www.pexels.com/photo/golden-retriever-relaxing-indoors-on-wooden-floor-32468375/ | Julissa Pires | Adulto en suelo de madera, interior. Original 6016×4016. |
+| `pastor-aleman-cuidados-displasia-comportamiento` | `pastor-aleman-cuidados-displasia-comportamiento.webp` | https://www.pexels.com/photo/a-german-shepherd-dog-resting-on-a-white-surface-7419312/ | Rajesh S Balouria | Retrato calmado, interior. Original 6000×4000. |
+| `bulldog-frances-cuidados-problemas-salud` | `bulldog-frances-cuidados-problemas-salud.webp` | https://www.pexels.com/photo/relaxed-french-bulldog-in-sunlit-room-30792124/ | David Kanigan | En suelo de madera, luz natural. Original 9504×6336. |
+| `border-collie-cuidados-problemas-comportamiento` | `border-collie-cuidados-problemas-comportamiento.webp` | https://www.pexels.com/photo/happy-border-collie-indoors-in-sao-carlos-brazil-32838180/ | Isabela Pirola | Interior, suelo a cuadros. Original 6658×4672. |
 
-- **Publicada ahora:** `/images/blog/miedo-petardos-perros-soluciones.jpg` (carlino tumbado; cluster ansiedad).
-- **Qué haría falta:** composición de las tres herramientas (difusor enchufado, gotero, chaleco de presión bien puesto), en un interior calmado. Evitar pug con cazadora vaquera (`ansiedad-ruidos-…`) y golden en la bañera (`ansiedad-separacion-…`): no cuentan el producto.
+Criterio de selección: perro adulto, entorno doméstico/interior, sin marcas comerciales, sin disfraces, tono cálido coherente, apaisado recortado a 16:9.
 
-## 4. Pienso bajo en sodio (`pienso-bajo-sodio-perros-renal`)
+---
 
-- **Publicada ahora:** `/images/blog/pienso-renal-perros-guia.jpg` (bulldog con sudadera; ya es la visual de la guía renal hermana). Encaje débil: no muestra saco ni etiqueta. Se reutiliza a propósito: un og:image con el logo es peor que uno repetido.
-- **Qué haría falta:** foto propia — sacos renales reales del catálogo (o un primer plano de etiqueta con fósforo/sodio) más un cuenco con húmedo renal. No otro perro disfrazado, ni reciclar la visual de la guía renal.
+## Artículos de producto (notas previas, 19 sep 2026)
 
-## 5. Pienso con condroprotectores (`pienso-con-condroprotectores-o-suplemento`)
+Criterio histórico: no usar foto genérica si no encaja el tema.
 
-- **Publicada ahora:** ninguna. No hay foto de saco senior vs bote, ni de etiqueta de glucosamina en pienso. Las de condro (`condroprotectores-perros-guia-completa.jpg`, `mejor-condroprotector-perros-artrosis.jpg`) y las de comida (`aceite-salmon-…`, `mi-perro-no-quiere-comer-…`) no explican la comparación.
-- **Qué haría falta:** un saco de pienso senior (sin inventar marca del catálogo: el catálogo no tiene pienso de articulaciones) al lado de un bote de condroprotector con la etiqueta de mg a la vista. O captura de la calculadora de dosis junto a una etiqueta de saco que *no* declara mg.
+**Nota oct 2026:** estos posts ya tienen cabecera tipográfica (B) o ilustración (A) en el índice/home. Las fotos de abajo solo importan si se quieren para OG o cuerpo del artículo.
+
+### Pastillas para perros con artrosis (`pastillas-perros-artrosis-comprimidos-gotas-snacks`)
+
+- **Cabecera UI:** tipográfica (B).
+- **Qué haría falta (OG/cuerpo):** foto propia de los tres formatos juntos (comprimidos, gotero, snack) sobre una mesa, con un perro sénior al fondo.
+
+### Relajantes naturales (`relajantes-naturales-perros-gotas-feromonas-chaleco`)
+
+- **Cabecera UI:** tipográfica (B).
+- **Qué haría falta:** composición difusor + gotero + chaleco en interior calmado.
+
+### Pienso bajo en sodio (`pienso-bajo-sodio-perros-renal`)
+
+- **Cabecera UI:** ilustración (A).
+- **Qué haría falta (OG):** saco renal / etiqueta fósforo-sodio + cuenco; sin perro disfrazado.
+
+### Pienso con condroprotectores (`pienso-con-condroprotectores-o-suplemento`)
+
+- **Cabecera UI:** tipográfica (B).
+- **Qué haría falta (OG):** saco senior junto a bote de condro con mg visibles.

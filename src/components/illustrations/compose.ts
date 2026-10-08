@@ -3,15 +3,19 @@ import {
   hasBlogHeader,
   type Campo,
   type HeaderSpec,
+  type IllustrationSpec,
   type Motivo,
   type Pose,
   type Silueta,
+  type TypographicSpec,
 } from './registry';
 
 const DOG = '#3C9E91';
+const DOG_DEEP = '#2f7f75';
 const INK = '#1B3A5C';
 const INK2 = '#244b7c';
 const MINT = '#7bccc3';
+const MINT_LIGHT = '#ade1db';
 
 type Ear = 'floppy' | 'erect' | 'bat' | 'prick';
 type Tail = 'curl' | 'feather' | 'bush' | 'short' | 'flag';
@@ -124,6 +128,13 @@ function tail(type: Tail, bx: number, by: number, bodyRx: number, bodyRy: number
   return `<ellipse cx="${r(x)}" cy="${r(y)}" rx="${r(bodyRx * 0.58)}" ry="28" transform="rotate(-16 ${r(x)} ${r(y)})"/>`;
 }
 
+function bodyEllipse(cx: number, cy: number, rx: number, ry: number, transform = ''): string {
+  const t = transform ? ` transform="${transform}"` : '';
+  return `<ellipse cx="${r(cx)}" cy="${r(cy)}" rx="${r(rx)}" ry="${r(ry)}" fill="${DOG}"${t}/>
+    <ellipse cx="${r(cx + rx * 0.08)}" cy="${r(cy - ry * 0.22)}" rx="${r(rx * 0.62)}" ry="${r(ry * 0.48)}" fill="${MINT}" fill-opacity="0.32"${t}/>
+    <ellipse cx="${r(cx - rx * 0.06)}" cy="${r(cy + ry * 0.38)}" rx="${r(rx * 0.72)}" ry="${r(ry * 0.36)}" fill="${DOG_DEEP}" fill-opacity="0.28"${t}/>`;
+}
+
 function face(hx: number, hy: number, headR: number, mx: number, my: number, mrx: number, mry: number): string {
   const eyeX = hx - headR * 0.28;
   const eyeY = hy - headR * 0.12;
@@ -137,7 +148,11 @@ function face(hx: number, hy: number, headR: number, mx: number, my: number, mrx
   const nx = mx + mrx * (short ? 0.28 : 0.72);
   const ny = my - mry * 0.02;
   const nrx = Math.max(11, mrx * 0.16);
-  return `<ellipse cx="${r(nx)}" cy="${r(ny)}" rx="${r(nrx)}" ry="${r(nrx * 0.78)}" fill="${INK}"/>
+  const cheekX = hx + headR * 0.12;
+  const cheekY = hy + headR * 0.18;
+  return `<ellipse cx="${r(cheekX)}" cy="${r(cheekY)}" rx="${r(headR * 0.42)}" ry="${r(headR * 0.32)}" fill="${MINT}" fill-opacity="0.22"/>
+    <ellipse cx="${r(nx)}" cy="${r(ny)}" rx="${r(nrx)}" ry="${r(nrx * 0.78)}" fill="${INK}"/>
+    <circle cx="${r(eyeMid - headR * 0.02)}" cy="${r(eyeY + headR * 0.06)}" r="${r(Math.max(5, headR * 0.055))}" fill="${INK}" fill-opacity="0.35"/>
     <path d="M${r(eyeX)} ${r(eyeY)} Q${r(eyeMid)} ${r(eyeY + headR * 0.2)} ${r(eyeEnd)} ${r(eyeY)}" fill="none" stroke="${INK}" stroke-width="${r(stroke)}" stroke-linecap="round"/>
     <path d="${smile}" fill="none" stroke="${INK}" stroke-width="${r(stroke * 0.9)}" stroke-linecap="round"/>`;
 }
@@ -220,11 +235,12 @@ function sitting(p: Preset, scratch: boolean): DogLayout {
     : '';
   const svg = `<g fill="${DOG}">
       ${tail(p.tail, bx, by, p.bodyRx, p.bodyRy)}
-      <ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(p.bodyRx)}" ry="${r(p.bodyRy)}"/>
+      ${bodyEllipse(bx, by, p.bodyRx, p.bodyRy)}
       ${scratchLeg}
       ${pill(bx + p.bodyRx * 0.08, legY, p.legW, legH)}
       ${pill(bx + p.bodyRx * 0.55, legY + 6, p.legW * 0.92, legH * 0.92)}
       ${head.shapes}
+      <ellipse cx="${r(hx - p.headR * 0.15)}" cy="${r(hy - p.headR * 0.2)}" rx="${r(p.headR * 0.55)}" ry="${r(p.headR * 0.4)}" fill="${MINT}" fill-opacity="0.25"/>
     </g>
     ${head.face}`;
   return settle({
@@ -264,14 +280,15 @@ function standing(
       ? `<ellipse cx="${r((bx + hx + shift.x) / 2)}" cy="${r((by + hy + shift.y) / 2)}" rx="${r(p.headR * 0.42)}" ry="${r(p.headR * 0.34)}"/>`
       : '';
   const body = opts.lean
-    ? `<ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(p.bodyRx)}" ry="${r(p.bodyRy)}" transform="rotate(-14 ${r(bx)} ${r(by)})"/>`
-    : `<ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(p.bodyRx)}" ry="${r(p.bodyRy)}"/>`;
+    ? bodyEllipse(bx, by, p.bodyRx, p.bodyRy, `rotate(-14 ${r(bx)} ${r(by)})`)
+    : bodyEllipse(bx, by, p.bodyRx, p.bodyRy);
   const svg = `<g fill="${DOG}">
       ${tail(p.tail, bx, by - (opts.lean ? 10 : 0), p.bodyRx, p.bodyRy)}
       ${body}
       ${bridge}
       ${legs}
       ${head.shapes}
+      <ellipse cx="${r(hx - p.headR * 0.12)}" cy="${r(hy - p.headR * 0.18)}" rx="${r(p.headR * 0.5)}" ry="${r(p.headR * 0.36)}" fill="${MINT}" fill-opacity="0.25"/>
     </g>
     ${head.face}`;
   const laid = settle({
@@ -312,9 +329,10 @@ function walking(p: Preset): DogLayout {
   const footY = Math.max(...slots.map((slot) => by + p.bodyRy * slot.dy + p.legH * slot.h));
   const svg = `<g fill="${DOG}">
       ${tail(p.tail, bx - 10, by - 20, p.bodyRx, p.bodyRy)}
-      <ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(p.bodyRx)}" ry="${r(p.bodyRy * 0.82)}" transform="rotate(-12 ${r(bx)} ${r(by)})"/>
+      ${bodyEllipse(bx, by, p.bodyRx, p.bodyRy * 0.82, `rotate(-12 ${r(bx)} ${r(by)})`)}
       ${legs}
       ${head.shapes}
+      <ellipse cx="${r(hx - p.headR * 0.1)}" cy="${r(hy - p.headR * 0.16)}" rx="${r(p.headR * 0.48)}" ry="${r(p.headR * 0.34)}" fill="${MINT}" fill-opacity="0.25"/>
     </g>
     ${head.face}`;
   return settle({
@@ -339,10 +357,11 @@ function lying(p: Preset): DogLayout {
   const legH = Math.max(52, p.legH * 0.42);
   const svg = `<g fill="${DOG}">
       ${tail(p.tail, bx - bodyRx * 0.15, by, bodyRx * 0.8, bodyRy)}
-      <ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(bodyRx)}" ry="${r(bodyRy)}"/>
+      ${bodyEllipse(bx, by, bodyRx, bodyRy)}
       ${pill(bx - bodyRx * 0.42, legY, p.legW * 1.15, legH)}
       ${pill(bx + bodyRx * 0.08, legY + 6, p.legW, legH * 0.9)}
       ${head.shapes}
+      <ellipse cx="${r(hx - p.headR * 0.1)}" cy="${r(hy - p.headR * 0.14)}" rx="${r(p.headR * 0.48)}" ry="${r(p.headR * 0.34)}" fill="${MINT}" fill-opacity="0.25"/>
     </g>
     ${head.face}`;
   return settle({
@@ -377,9 +396,10 @@ function crouching(p: Preset): DogLayout {
     .join('');
   const svg = `<g fill="${DOG}">
       ${tail(p.tail, bx - 20, by, bodyRx, bodyRy)}
-      <ellipse cx="${r(bx)}" cy="${r(by)}" rx="${r(bodyRx)}" ry="${r(bodyRy)}" transform="rotate(-8 ${r(bx)} ${r(by)})"/>
+      ${bodyEllipse(bx, by, bodyRx, bodyRy, `rotate(-8 ${r(bx)} ${r(by)})`)}
       ${legs}
       ${head.shapes}
+      <ellipse cx="${r(hx - p.headR * 0.1)}" cy="${r(hy - p.headR * 0.14)}" rx="${r(p.headR * 0.48)}" ry="${r(p.headR * 0.34)}" fill="${MINT}" fill-opacity="0.25"/>
     </g>
     ${head.face}`;
   const footY = Math.max(...slots.map((slot) => legY + p.legH * slot.h));
@@ -421,6 +441,10 @@ function drawDog(silueta: Silueta, pose: Pose, dx = 0): DogLayout {
   };
 }
 
+function brandMark(opacity = 0.1): string {
+  return `<path d="M120 180 L260 350 L500 110" stroke="${INK}" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}"/>`;
+}
+
 function field(campo: Campo, id: string): string {
   const dot = `${id}-dots`;
   switch (campo) {
@@ -429,65 +453,77 @@ function field(campo: Campo, id: string): string {
         <rect width="1600" height="900" fill="#eef9f7"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <circle cx="1280" cy="220" r="280" fill="#d5f0ec"/>
-        <circle cx="1280" cy="220" r="160" fill="#ade1db" fill-opacity="0.45"/>`;
+        <circle cx="1280" cy="220" r="160" fill="${MINT_LIGHT}" fill-opacity="0.45"/>
+        ${brandMark(0.1)}`;
     case 'blue-dots':
       return `<defs><pattern id="${dot}" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1.5" fill="${INK}" fill-opacity="0.11"/></pattern></defs>
         <rect width="1600" height="900" fill="#eef3f8"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <circle cx="250" cy="200" r="260" fill="#d4deeb" fill-opacity="0.75"/>
-        <circle cx="250" cy="200" r="140" fill="#a9bdd7" fill-opacity="0.35"/>`;
+        <circle cx="250" cy="200" r="140" fill="#a9bdd7" fill-opacity="0.35"/>
+        ${brandMark(0.08)}`;
     case 'warm-hill':
       return `<defs><pattern id="${dot}" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="${INK}" fill-opacity="0.08"/></pattern></defs>
         <rect width="1600" height="900" fill="#f6f1e4"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <path d="M-40 760 Q480 540 920 730 T1680 600 V900 H-40Z" fill="#eadfc8"/>
-        <ellipse cx="250" cy="210" rx="300" ry="170" fill="#efe6d2"/>`;
+        <ellipse cx="250" cy="210" rx="300" ry="170" fill="#efe6d2"/>
+        ${brandMark(0.08)}`;
     case 'mint-bands':
       return `<rect width="1600" height="900" fill="#eef9f7"/>
         <rect y="140" width="1600" height="64" fill="#d5f0ec" fill-opacity="0.75"/>
-        <rect y="300" width="1600" height="48" fill="#ade1db" fill-opacity="0.35"/>
-        <rect y="560" width="1600" height="70" fill="#d5f0ec" fill-opacity="0.5"/>`;
+        <rect y="300" width="1600" height="48" fill="${MINT_LIGHT}" fill-opacity="0.35"/>
+        <rect y="560" width="1600" height="70" fill="#d5f0ec" fill-opacity="0.5"/>
+        ${brandMark(0.09)}`;
     case 'mint-bigdots':
       return `<defs><pattern id="${dot}" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="3.2" fill="#3C9E91" fill-opacity="0.14"/></pattern></defs>
         <rect width="1600" height="900" fill="#e8f6f3"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <circle cx="1320" cy="180" r="220" fill="#d5f0ec"/>
-        <circle cx="1320" cy="180" r="120" fill="#ade1db" fill-opacity="0.4"/>`;
+        <circle cx="1320" cy="180" r="120" fill="${MINT_LIGHT}" fill-opacity="0.4"/>
+        ${brandMark(0.1)}`;
     case 'blue-arc':
       return `<rect width="1600" height="900" fill="#eef3f8"/>
         <path d="M-80 820 Q280 260 800 540 T1720 300" stroke="${INK}" stroke-width="90" fill="none" opacity="0.08" stroke-linecap="round"/>
-        <circle cx="240" cy="180" r="180" fill="#d4deeb" fill-opacity="0.7"/>`;
+        <circle cx="240" cy="180" r="180" fill="#d4deeb" fill-opacity="0.7"/>
+        ${brandMark(0.08)}`;
     case 'warm-dots':
       return `<defs><pattern id="${dot}" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.8" fill="#C4A46A" fill-opacity="0.28"/></pattern></defs>
         <rect width="1600" height="900" fill="#f8f3e8"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <circle cx="1320" cy="240" r="240" fill="#efe4cc"/>
-        <circle cx="1320" cy="240" r="130" fill="#e4d3ae" fill-opacity="0.45"/>`;
+        <circle cx="1320" cy="240" r="130" fill="#e4d3ae" fill-opacity="0.45"/>
+        ${brandMark(0.08)}`;
     case 'mint-circles':
       return `<rect width="1600" height="900" fill="#eef9f7"/>
         <circle cx="180" cy="720" r="340" fill="#d5f0ec"/>
-        <circle cx="180" cy="720" r="190" fill="#ade1db" fill-opacity="0.4"/>
-        <circle cx="1380" cy="160" r="160" fill="#d5f0ec" fill-opacity="0.8"/>`;
+        <circle cx="180" cy="720" r="190" fill="${MINT_LIGHT}" fill-opacity="0.4"/>
+        <circle cx="1380" cy="160" r="160" fill="#d5f0ec" fill-opacity="0.8"/>
+        ${brandMark(0.09)}`;
     case 'blue-bands':
       return `<rect width="1600" height="900" fill="#eef3f8"/>
         <rect y="120" width="1600" height="56" fill="#d4deeb" fill-opacity="0.85"/>
         <rect y="280" width="1600" height="40" fill="#a9bdd7" fill-opacity="0.28"/>
-        <rect y="620" width="1600" height="64" fill="#d4deeb" fill-opacity="0.55"/>`;
+        <rect y="620" width="1600" height="64" fill="#d4deeb" fill-opacity="0.55"/>
+        ${brandMark(0.08)}`;
     case 'cream-dots':
       return `<defs><pattern id="${dot}" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="${INK}" fill-opacity="0.09"/></pattern></defs>
         <rect width="1600" height="900" fill="#f4f0e6"/>
         <rect width="1600" height="900" fill="url(#${dot})"/>
         <circle cx="220" cy="200" r="200" fill="#efe6d0"/>
-        <circle cx="220" cy="200" r="110" fill="#e6d7b4" fill-opacity="0.4"/>`;
+        <circle cx="220" cy="200" r="110" fill="#e6d7b4" fill-opacity="0.4"/>
+        ${brandMark(0.08)}`;
     case 'warm-arc':
       return `<rect width="1600" height="900" fill="#f7f1e6"/>
         <path d="M-60 180 Q480 620 1100 260 T1700 520" stroke="#C4A46A" stroke-width="100" fill="none" opacity="0.22" stroke-linecap="round"/>
-        <circle cx="1360" cy="180" r="170" fill="#efe4cc"/>`;
+        <circle cx="1360" cy="180" r="170" fill="#efe4cc"/>
+        ${brandMark(0.08)}`;
     case 'blue-circles':
       return `<rect width="1600" height="900" fill="#e8eef5"/>
         <circle cx="1360" cy="260" r="300" fill="#d4deeb"/>
         <circle cx="1360" cy="260" r="170" fill="#c1d0e4" fill-opacity="0.45"/>
-        <circle cx="180" cy="640" r="180" fill="#d4deeb" fill-opacity="0.55"/>`;
+        <circle cx="180" cy="640" r="180" fill="#d4deeb" fill-opacity="0.55"/>
+        ${brandMark(0.08)}`;
     default:
       return assertNever(campo);
   }
@@ -789,28 +825,90 @@ function dogShift(motivo: Motivo): number {
   return 0;
 }
 
-export function renderBlogHeader(slug: string, opts: RenderBlogHeaderOptions): string | null {
-  if (!hasBlogHeader(slug)) return null;
-  const spec: HeaderSpec = BLOG_HEADERS[slug];
-  if (spec.bespoke) return null;
+function svgShell(
+  opts: RenderBlogHeaderOptions,
+  labelled: string,
+  text: string,
+  body: string,
+): string {
+  const viewBox = opts.og ? '0 30 1600 840' : '0 0 1600 900';
+  const size = opts.og ? 'width="1200" height="630"' : 'width="100%" height="100%"';
+  const fit = opts.og ? 'xMidYMid meet' : 'xMidYMid slice';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" ${size} preserveAspectRatio="${fit}" fill="none" ${labelled} style="display:block">${text}
+    ${body}
+  </svg>`;
+}
 
+function renderIllustration(slug: string, spec: IllustrationSpec, opts: RenderBlogHeaderOptions): string {
   const dog = drawDog(spec.silueta, spec.pose, dogShift(spec.motivo));
   const bits = motifs(spec.motivo, dog);
   const id = `ill-${slug}`;
-  const viewBox = opts.og ? '0 30 1600 840' : '0 0 1600 900';
-  const size = opts.og ? 'width="1200" height="630"' : 'width="100%" height="100%"';
-  const labelled = opts.decorative
-    ? 'aria-hidden="true"'
-    : `role="img"`;
+  const labelled = opts.decorative ? 'aria-hidden="true"' : 'role="img"';
   const text = opts.decorative
     ? ''
     : `<title>${esc(opts.title)}</title><desc>${esc(spec.desc)}</desc>`;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" ${size} preserveAspectRatio="${opts.og ? 'xMidYMid meet' : 'xMidYMid slice'}" fill="none" ${labelled} style="display:block">${text}
-    ${field(spec.campo, id)}
-    <ellipse cx="820" cy="812" rx="460" ry="22" fill="${INK}" fill-opacity="0.07"/>
+  return svgShell(
+    opts,
+    labelled,
+    text,
+    `${field(spec.campo, id)}
+    <ellipse cx="820" cy="812" rx="480" ry="28" fill="${INK}" fill-opacity="0.09"/>
     ${bits.back}
     ${dog.svg}
-    ${bits.front}
-  </svg>`;
+    ${bits.front}`,
+  );
+}
+
+function typographicField(campo: Campo, id: string): string {
+  const warm = campo.startsWith('warm') || campo.startsWith('cream');
+  const blue = campo.startsWith('blue');
+  const bg = warm ? '#f6f1e4' : blue ? '#eef3f8' : '#eef9f7';
+  const soft = warm ? '#eadfc8' : blue ? '#d4deeb' : '#d5f0ec';
+  const mid = warm ? '#e4d3ae' : blue ? '#a9bdd7' : MINT_LIGHT;
+  const dot = `${id}-typ-dots`;
+  const dotColor = warm ? '#C4A46A' : blue ? INK : DOG;
+  return `<defs><pattern id="${dot}" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.5" fill="${dotColor}" fill-opacity="0.12"/></pattern></defs>
+    <rect width="1600" height="900" fill="${bg}"/>
+    <rect width="1600" height="900" fill="url(#${dot})"/>
+    <circle cx="1280" cy="200" r="340" fill="${INK}" fill-opacity="0.08"/>
+    <circle cx="1280" cy="200" r="210" fill="${soft}" fill-opacity="0.85"/>
+    <circle cx="1280" cy="200" r="120" fill="${mid}" fill-opacity="0.45"/>
+    <path d="M640 840 Q1020 500 1520 660" stroke="${DOG}" stroke-width="14" fill="none" opacity="0.32" stroke-linecap="round"/>`;
+}
+
+function renderTypographic(slug: string, spec: TypographicSpec, opts: RenderBlogHeaderOptions): string {
+  const id = `typ-${slug}`;
+  const labelled = opts.decorative ? 'aria-hidden="true"' : 'role="img"';
+  const text = opts.decorative
+    ? ''
+    : `<title>${esc(opts.title)}</title><desc>${esc(spec.desc)}</desc>`;
+
+  const lineCount = spec.lines.length;
+  const fontSize = lineCount >= 3 ? 58 : lineCount === 1 ? 78 : 68;
+  const lineHeight = fontSize * 1.18;
+  const startY = 340 - ((lineCount - 1) * lineHeight) / 2;
+  const tspans = spec.lines
+    .map((line, i) => {
+      const y = startY + i * lineHeight;
+      return `<tspan x="96" y="${r(y)}">${esc(line)}</tspan>`;
+    })
+    .join('');
+
+  return svgShell(
+    opts,
+    labelled,
+    text,
+    `${typographicField(spec.campo, id)}
+    <text x="96" y="210" fill="${DOG}" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" letter-spacing="0.14em">${esc(spec.eyebrow.toUpperCase())}</text>
+    <rect x="96" y="228" width="72" height="4" rx="2" fill="${DOG}"/>
+    <text fill="${INK}" font-family="Merriweather, Georgia, serif" font-size="${fontSize}" font-weight="900" letter-spacing="-0.02em">${tspans}</text>`,
+  );
+}
+
+export function renderBlogHeader(slug: string, opts: RenderBlogHeaderOptions): string | null {
+  if (!hasBlogHeader(slug)) return null;
+  const spec: HeaderSpec = BLOG_HEADERS[slug];
+  if (spec.style === 'typographic') return renderTypographic(slug, spec, opts);
+  return renderIllustration(slug, spec, opts);
 }

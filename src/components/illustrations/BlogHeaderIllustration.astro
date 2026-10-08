@@ -1,11 +1,5 @@
 ---
-import LabradorHeader from './headers/LabradorHeader.astro';
-import BozalesHeader from './headers/BozalesHeader.astro';
-import GoldenHeader from './headers/GoldenHeader.astro';
-import PastorAlemanHeader from './headers/PastorAlemanHeader.astro';
-import BulldogFrancesHeader from './headers/BulldogFrancesHeader.astro';
-import BorderCollieHeader from './headers/BorderCollieHeader.astro';
-import { hasBlogHeader, isBespokeHeader, type BlogHeaderSlug } from './registry';
+import { hasBlogHeader } from './registry';
 import { renderBlogHeader } from './compose';
 
 interface Props {
@@ -17,24 +11,9 @@ interface Props {
 
 const { slug, title, decorative = false, class: className = '' } = Astro.props;
 
-const map: Partial<Record<BlogHeaderSlug, typeof LabradorHeader>> = {
-  'labrador-retriever-como-cuidar-en-casa': LabradorHeader,
-  'bozales-perros-guia-elegir-talla': BozalesHeader,
-  'golden-retriever-guia-cuidados-completa': GoldenHeader,
-  'pastor-aleman-cuidados-displasia-comportamiento': PastorAlemanHeader,
-  'bulldog-frances-cuidados-problemas-salud': BulldogFrancesHeader,
-  'border-collie-cuidados-problemas-comportamiento': BorderCollieHeader,
-};
-
-const Cmp = isBespokeHeader(slug) ? (map[slug] ?? null) : null;
-const svg = Cmp ? null : renderBlogHeader(slug, { title, decorative });
+const svg = hasBlogHeader(slug) ? renderBlogHeader(slug, { title, decorative }) : null;
 ---
 
-{Cmp && (
-  <div class:list={['blog-header-illustration h-full w-full', className]}>
-    <Cmp title={title} decorative={decorative} />
-  </div>
-)}
 {svg && (
   <div class:list={['blog-header-illustration h-full w-full', className]} set:html={svg} />
 )}
