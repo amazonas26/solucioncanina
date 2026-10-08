@@ -2,46 +2,43 @@
 
 ## Guías de raza — cabecera C (foto Pexels)
 
-Fecha: 8 de octubre de 2026.
+Fecha: 8 de octubre de 2026. Licencia: [Pexels License](https://www.pexels.com/license/).
 
-**Licencia:** [Pexels License](https://www.pexels.com/license/) — uso comercial gratuito; atribución no obligatoria, pero queda anotada por trazabilidad.
-
-**Archivos:** `public/images/blog/<slug>.webp` (1600×900, quality 88). Frontmatter `imagen` apunta al `.webp`. Fuera de `BLOG_HEADERS` (la UI usa la foto, no SVG).
-
-| Slug | Archivo | Origen Pexels | Autor | Notas |
-|---|---|---|---|---|
-| `labrador-retriever-como-cuidar-en-casa` | `labrador-retriever-como-cuidar-en-casa.webp` | https://www.pexels.com/photo/calm-labrador-retriever-in-indoor-setting-36679054/ | Kimy Moto | Adulto, interior, collar/correa negros sin marca. Original 6000×4000. |
-| `golden-retriever-guia-cuidados-completa` | `golden-retriever-guia-cuidados-completa.webp` | https://www.pexels.com/photo/golden-retriever-relaxing-indoors-on-wooden-floor-32468375/ | Julissa Pires | Adulto en suelo de madera, interior. Original 6016×4016. |
-| `pastor-aleman-cuidados-displasia-comportamiento` | `pastor-aleman-cuidados-displasia-comportamiento.webp` | https://www.pexels.com/photo/a-german-shepherd-dog-resting-on-a-white-surface-7419312/ | Rajesh S Balouria | Retrato calmado, interior. Original 6000×4000. |
-| `bulldog-frances-cuidados-problemas-salud` | `bulldog-frances-cuidados-problemas-salud.webp` | https://www.pexels.com/photo/relaxed-french-bulldog-in-sunlit-room-30792124/ | David Kanigan | En suelo de madera, luz natural. Original 9504×6336. |
-| `border-collie-cuidados-problemas-comportamiento` | `border-collie-cuidados-problemas-comportamiento.webp` | https://www.pexels.com/photo/happy-border-collie-indoors-in-sao-carlos-brazil-32838180/ | Isabela Pirola | Interior, suelo a cuadros. Original 6658×4672. |
-
-Criterio de selección: perro adulto, entorno doméstico/interior, sin marcas comerciales, sin disfraces, tono cálido coherente, apaisado recortado a 16:9.
+| Slug | Archivo | Origen | Autor |
+|---|---|---|---|
+| `labrador-retriever-como-cuidar-en-casa` | `.webp` | https://www.pexels.com/photo/calm-labrador-retriever-in-indoor-setting-36679054/ | Kimy Moto |
+| `golden-retriever-guia-cuidados-completa` | `.webp` | https://www.pexels.com/photo/golden-retriever-relaxing-indoors-on-wooden-floor-32468375/ | Julissa Pires |
+| `pastor-aleman-cuidados-displasia-comportamiento` | `.webp` | https://www.pexels.com/photo/a-german-shepherd-dog-resting-on-a-white-surface-7419312/ | Rajesh S Balouria |
+| `bulldog-frances-cuidados-problemas-salud` | `.webp` | https://www.pexels.com/photo/relaxed-french-bulldog-in-sunlit-room-30792124/ | David Kanigan |
+| `border-collie-cuidados-problemas-comportamiento` | `.webp` | https://www.pexels.com/photo/happy-border-collie-indoors-in-sao-carlos-brazil-32838180/ | Isabela Pirola |
 
 ---
 
-## Artículos de producto (notas previas, 19 sep 2026)
+## Escenas domésticas (ex-A) — cabecera C
 
-Criterio histórico: no usar foto genérica si no encaja el tema.
+Fecha: 8 de octubre de 2026. 1600×900 WebP. Criterio: adulto, doméstico/paseo real, sin marcas, sin disfraces.
 
-**Nota oct 2026:** estos posts ya tienen cabecera tipográfica (B) o ilustración (A) en el índice/home. Las fotos de abajo solo importan si se quieren para OG o cuerpo del artículo.
+| Slug | Archivo | Origen | Autor | Notas |
+|---|---|---|---|---|
+| `como-evitar-que-mi-perro-suelte-pelo` | `.webp` | https://www.pexels.com/photo/a-person-brushing-the-dog-s-fur-8498543/ | Yaroslav Shuraev | Cepillado en casa. |
+| `perro-tira-de-la-correa-soluciones` | `.webp` | https://www.pexels.com/photo/golden-retriever-on-leash-strolling-outdoors-29249412/ | cnrdmroglu | Correa tensa / tiro. |
+| `camas-ortopedicas-perros-artrosis-displasia` | `.webp` | https://www.pexels.com/photo/dog-lying-on-pet-bed-5938111/ | Aysun Kahraman Öktem | Cama elevada, interior. |
+| `mejores-camas-ortopedicas-perros` | `.webp` | https://www.pexels.com/photo/dachshund-relaxing-in-sunlit-dog-bed-indoors-36422580/ | Giovanna Kamimura | Cama nido, luz natural. |
+| `como-socializar-perro-adulto-guia` | `.webp` | https://www.pexels.com/photo/two-dogs-in-a-sunlit-room-looking-attentively-16699309/ | Genie Music | Dos perros juntos, interior. |
 
-### Pastillas para perros con artrosis (`pastillas-perros-artrosis-comprimidos-gotas-snacks`)
+### Pedían foto; pasaron a tipográfica (B)
 
-- **Cabecera UI:** tipográfica (B).
-- **Qué haría falta (OG/cuerpo):** foto propia de los tres formatos juntos (comprimidos, gotero, snack) sobre una mesa, con un perro sénior al fondo.
+Sin escena Pexels con calidad suficiente (preferible B a foto mala):
 
-### Relajantes naturales (`relajantes-naturales-perros-gotas-feromonas-chaleco`)
+| Slug | Motivo |
+|---|---|
+| `como-limpiar-dientes-perro-guia` | Solo clínicas/retrato vertical con guantes; no escena doméstica apaisada. |
+| `rampas-para-perros-beneficios` | No hay foto de rampa real; escaleras no cuentan. |
+| `mi-perro-no-quiere-comer-causas` | Solo perros comiendo; contradice el tema. |
+| `aceite-salmon-perros-beneficios` | Solo botes de marca / suplementos humanos; sin escena doméstica limpia. |
 
-- **Cabecera UI:** tipográfica (B).
-- **Qué haría falta:** composición difusor + gotero + chaleco en interior calmado.
+---
 
-### Pienso bajo en sodio (`pienso-bajo-sodio-perros-renal`)
+## Motor A compuesto
 
-- **Cabecera UI:** ilustración (A).
-- **Qué haría falta (OG):** saco renal / etiqueta fósforo-sodio + cuenco; sin perro disfrazado.
-
-### Pienso con condroprotectores (`pienso-con-condroprotectores-o-suplemento`)
-
-- **Cabecera UI:** tipográfica (B).
-- **Qué haría falta (OG):** saco senior junto a bote de condro con mg visibles.
+Retirado (oct 2026). Cabeceras = tipográfica (B) o foto (C). Los diagramas de contenido (medir hocico, medir cama, ángulo rampa) se mantienen.

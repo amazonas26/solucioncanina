@@ -1,5 +1,7 @@
 /**
  * Rasteriza las cabeceras compuestas a PNG 1200×630 para Open Graph.
+ * En tipográficas (B) el texto va solo aquí (`og: true`); en tarjetas/UI
+ * el SVG es solo el fondo para no duplicar categoría/título.
  * Requiere @resvg/resvg-js (no está en las dependencias de la web).
  *
  *   NODE_PATH=/tmp/resvgtool/node_modules pnpm dlx tsx scripts/render-blog-og.ts

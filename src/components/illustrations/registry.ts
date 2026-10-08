@@ -1,56 +1,9 @@
-/** Cabeceras del blog: ilustración (A) o tipográfica (B).
- *  Las guías de raza llevan `photoPending` y usan B temporal hasta foto con licencia.
+/** Cabeceras tipográficas (B) del blog.
+ *  En UI: solo fondo geométrico de marca (sin título — ya va en HTML).
+ *  eyebrow/lines solo para og:image vía `renderBlogHeader(..., { og: true })`.
+ *  Fotos (C): WebP en `public/images/blog/<slug>.webp` + frontmatter `imagen`; fuera de este registro.
+ *  Diagramas de contenido (medir hocico/cama, ángulo rampa) no pasan por aquí.
  */
-
-export type HeaderStyle = 'illustration' | 'typographic';
-
-export type Silueta =
-  | 'labrador'
-  | 'golden'
-  | 'pastor'
-  | 'bulldog'
-  | 'collie'
-  | 'medio'
-  | 'senior'
-  | 'pequeno';
-
-export type Pose =
-  | 'sentado'
-  | 'de-pie'
-  | 'andando'
-  | 'echado'
-  | 'agachado'
-  | 'rascandose'
-  | 'tirando'
-  | 'hocico-bajo';
-
-export type Motivo =
-  | 'comedero'
-  | 'bozal'
-  | 'cepillo'
-  | 'cadera'
-  | 'rampa'
-  | 'casa'
-  | 'chaleco-gotero'
-  | 'saco-bote'
-  | 'saco-gota'
-  | 'marcas'
-  | 'bote'
-  | 'pastilla'
-  | 'saco-cuenco'
-  | 'cama'
-  | 'aceite'
-  | 'arnes'
-  | 'ondas'
-  | 'estrellas'
-  | 'tres-formatos'
-  | 'escalon'
-  | 'cuenco'
-  | 'marca-suelo'
-  | 'segundo-perro'
-  | 'cepillo-dientes'
-  | 'correa'
-  | 'correa-larga';
 
 export type Campo =
   | 'mint-dots'
@@ -66,15 +19,6 @@ export type Campo =
   | 'warm-arc'
   | 'blue-circles';
 
-export interface IllustrationSpec {
-  style: 'illustration';
-  silueta: Silueta;
-  pose: Pose;
-  motivo: Motivo;
-  campo: Campo;
-  desc: string;
-}
-
 export interface TypographicSpec {
   style: 'typographic';
   eyebrow: string;
@@ -83,15 +27,10 @@ export interface TypographicSpec {
   desc: string;
 }
 
-export type HeaderSpec = IllustrationSpec | TypographicSpec;
-
-const PLANA = 'silueta en capas en los colores de Solución Canina';
+export type HeaderSpec = TypographicSpec;
 
 export const BLOG_HEADERS = {
-  // Guías de raza (C): foto WebP en `public/images/blog/<slug>.webp` vía frontmatter `imagen`.
-  // No van aquí — ver scratch/imagenes-pendientes.md.
-
-  // —— B tipográficas (decisión / comparativa) ——
+  // —— Decisión / comparativa ——
   'arnes-o-collar-perros-guia': {
     style: 'typographic',
     eyebrow: 'Guías',
@@ -120,13 +59,6 @@ export const BLOG_HEADERS = {
     campo: 'blue-dots',
     desc: 'Cabecera tipográfica: relajantes naturales comparados.',
   },
-  'mejores-camas-ortopedicas-perros': {
-    style: 'typographic',
-    eyebrow: 'Guías',
-    lines: ['Camas ortopédicas:', 'guía 2026'],
-    campo: 'warm-arc',
-    desc: 'Cabecera tipográfica: guía de camas ortopédicas.',
-  },
   'mejores-correas-largas-perros-adiestramiento': {
     style: 'typographic',
     eyebrow: 'Guías',
@@ -141,175 +73,128 @@ export const BLOG_HEADERS = {
     campo: 'mint-dots',
     desc: 'Cabecera tipográfica: cómo elegir condroprotector.',
   },
-
-  // —— A ilustraciones (salud / condición / uso) ——
   'bozales-perros-guia-elegir-talla': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'sentado',
-    motivo: 'bozal',
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Bozales: uso,', 'talla y criterio'],
     campo: 'blue-dots',
-    desc: `Perro sentado de perfil con bozal de cesta, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: guía de bozales.',
   },
+
+  // —— Salud / condición / ansiedad ——
   'condroprotectores-perros-guia-completa': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'sentado',
-    motivo: 'bote',
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Condroprotectores:', 'cuándo empezar'],
     campo: 'mint-circles',
-    desc: `Perro sentado junto a un bote de suplemento, ${PLANA}.`,
-  },
-  'mi-perro-se-rasca-mucho-sin-pulgas-causas': {
-    style: 'illustration',
-    silueta: 'collie',
-    pose: 'rascandose',
-    motivo: 'marcas',
-    campo: 'warm-arc',
-    desc: `Perro rascándose el cuello, sin insectos, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: guía de condroprotectores.',
   },
   'glucosamina-para-perros-para-que-sirve-dosis': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'de-pie',
-    motivo: 'pastilla',
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Glucosamina:', 'para qué y dosis'],
     campo: 'cream-dots',
-    desc: `Perro de pie junto a un comprimido, ${PLANA}.`,
-  },
-  'como-evitar-que-mi-perro-suelte-pelo': {
-    style: 'illustration',
-    silueta: 'golden',
-    pose: 'sentado',
-    motivo: 'cepillo',
-    campo: 'blue-circles',
-    desc: `Golden sentado junto a un cepillo, ${PLANA}.`,
-  },
-  'pienso-renal-perros-guia': {
-    style: 'illustration',
-    silueta: 'bulldog',
-    pose: 'de-pie',
-    motivo: 'saco-cuenco',
-    campo: 'warm-hill',
-    desc: `Bulldog de pie junto a un saco y un cuenco, ${PLANA}.`,
-  },
-  'pienso-bajo-sodio-perros-renal': {
-    style: 'illustration',
-    silueta: 'bulldog',
-    pose: 'sentado',
-    motivo: 'saco-cuenco',
-    campo: 'cream-dots',
-    desc: `Bulldog sentado junto a un saco y un cuenco, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: glucosamina para perros.',
   },
   'displasia-cadera-perros-sintomas-cuidados': {
-    style: 'illustration',
-    silueta: 'pastor',
-    pose: 'echado',
-    motivo: 'cadera',
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Displasia de cadera:', 'síntomas y cuidados'],
     campo: 'blue-bands',
-    desc: `Pastor echado con la cadera marcada, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: displasia de cadera.',
   },
-  'rampas-para-perros-beneficios': {
-    style: 'illustration',
-    silueta: 'senior',
-    pose: 'andando',
-    motivo: 'rampa',
-    campo: 'mint-dots',
-    desc: `Perro mayor andando hacia una rampa, ${PLANA}.`,
-  },
-  'camas-ortopedicas-perros-artrosis-displasia': {
-    style: 'illustration',
-    silueta: 'senior',
-    pose: 'echado',
-    motivo: 'cama',
-    campo: 'mint-bigdots',
-    desc: `Perro mayor echado junto a una cama con borde, ${PLANA}.`,
-  },
-  'senales-estres-perros-ansiedad': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'sentado',
-    motivo: 'ondas',
-    campo: 'blue-dots',
-    desc: `Perro sentado con ondas de tensión a un lado, ${PLANA}.`,
-  },
-  'ansiedad-ruidos-perros-calmar-estres': {
-    style: 'illustration',
-    silueta: 'bulldog',
-    pose: 'agachado',
-    motivo: 'ondas',
-    campo: 'mint-circles',
-    desc: `Bulldog agachado junto a ondas de ruido, ${PLANA}.`,
-  },
-  'ansiedad-separacion-perros-guia': {
-    style: 'illustration',
-    silueta: 'pequeno',
-    pose: 'sentado',
-    motivo: 'casa',
+  'pienso-renal-perros-guia': {
+    style: 'typographic',
+    eyebrow: 'Alimentación',
+    lines: ['Pienso renal:', 'qué debes saber'],
     campo: 'warm-hill',
-    desc: `Perro pequeño sentado frente a una casa, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: pienso renal.',
   },
-  'miedo-petardos-perros-soluciones': {
-    style: 'illustration',
-    silueta: 'pequeno',
-    pose: 'agachado',
-    motivo: 'estrellas',
-    campo: 'blue-bands',
-    desc: `Perro pequeño agachado bajo unas estrellas, ${PLANA}.`,
-  },
-  'aceite-salmon-perros-beneficios': {
-    style: 'illustration',
-    silueta: 'golden',
-    pose: 'hocico-bajo',
-    motivo: 'aceite',
-    campo: 'blue-arc',
-    desc: `Golden con el hocico bajo junto a un frasco de aceite, ${PLANA}.`,
+  'pienso-bajo-sodio-perros-renal': {
+    style: 'typographic',
+    eyebrow: 'Alimentación',
+    lines: ['Pienso bajo en', 'sodio y fósforo'],
+    campo: 'cream-dots',
+    desc: 'Cabecera tipográfica: pienso bajo en sodio.',
   },
   'como-mejorar-movilidad-perro-mayor': {
-    style: 'illustration',
-    silueta: 'senior',
-    pose: 'de-pie',
-    motivo: 'escalon',
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Movilidad en un', 'perro mayor'],
     campo: 'warm-dots',
-    desc: `Perro mayor de pie junto a un escalón bajo, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: movilidad del perro mayor.',
   },
-  'mi-perro-no-quiere-comer-causas': {
-    style: 'illustration',
-    silueta: 'labrador',
-    pose: 'hocico-bajo',
-    motivo: 'cuenco',
-    campo: 'blue-circles',
-    desc: `Labrador con el hocico bajo frente a un cuenco, ${PLANA}.`,
+  'mi-perro-se-rasca-mucho-sin-pulgas-causas': {
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Se rasca mucho', 'sin pulgas'],
+    campo: 'warm-arc',
+    desc: 'Cabecera tipográfica: prurito sin pulgas.',
   },
   'por-que-mi-perro-come-heces': {
-    style: 'illustration',
-    silueta: 'collie',
-    pose: 'hocico-bajo',
-    motivo: 'marca-suelo',
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Por qué se come', 'las heces'],
     campo: 'mint-circles',
-    desc: `Collie con el hocico junto a una marca en el suelo, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: coprofagia.',
   },
-  'como-socializar-perro-adulto-guia': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'de-pie',
-    motivo: 'segundo-perro',
-    campo: 'warm-arc',
-    desc: `Dos perros de pie, uno frente al otro, ${PLANA}.`,
+  'ansiedad-separacion-perros-guia': {
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Ansiedad por', 'separación'],
+    campo: 'warm-hill',
+    desc: 'Cabecera tipográfica: ansiedad por separación.',
   },
+  'ansiedad-ruidos-perros-calmar-estres': {
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Ansiedad por', 'ruidos'],
+    campo: 'mint-circles',
+    desc: 'Cabecera tipográfica: ansiedad por ruidos.',
+  },
+  'senales-estres-perros-ansiedad': {
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Señales de estrés', 'y ansiedad'],
+    campo: 'blue-dots',
+    desc: 'Cabecera tipográfica: señales de estrés.',
+  },
+  'miedo-petardos-perros-soluciones': {
+    style: 'typographic',
+    eyebrow: 'Comportamiento',
+    lines: ['Miedo a petardos', 'y tormentas'],
+    campo: 'blue-bands',
+    desc: 'Cabecera tipográfica: miedo a petardos.',
+  },
+
+  // —— Pedían foto C; sin escena Pexels suficiente → B ——
   'como-limpiar-dientes-perro-guia': {
-    style: 'illustration',
-    silueta: 'medio',
-    pose: 'sentado',
-    motivo: 'cepillo-dientes',
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Limpiar los dientes', 'en casa'],
     campo: 'cream-dots',
-    desc: `Perro sentado junto a un cepillo de dientes, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: higiene dental (sin foto Pexels adecuada).',
   },
-  'perro-tira-de-la-correa-soluciones': {
-    style: 'illustration',
-    silueta: 'pastor',
-    pose: 'tirando',
-    motivo: 'correa',
+  'rampas-para-perros-beneficios': {
+    style: 'typographic',
+    eyebrow: 'Salud',
+    lines: ['Rampas para perros:', 'proteger la espalda'],
+    campo: 'mint-dots',
+    desc: 'Cabecera tipográfica: rampas (sin foto de rampa real en Pexels).',
+  },
+  'mi-perro-no-quiere-comer-causas': {
+    style: 'typographic',
+    eyebrow: 'Alimentación',
+    lines: ['Mi perro no', 'quiere comer'],
     campo: 'blue-circles',
-    desc: `Pastor inclinándose hacia delante con la correa tensa, ${PLANA}.`,
+    desc: 'Cabecera tipográfica: inapetencia (fotos disponibles solo de perros comiendo).',
+  },
+  'aceite-salmon-perros-beneficios': {
+    style: 'typographic',
+    eyebrow: 'Alimentación',
+    lines: ['Aceite de salmón:', 'beneficios'],
+    campo: 'blue-arc',
+    desc: 'Cabecera tipográfica: aceite de salmón (sin escena doméstica sin marca).',
   },
 } satisfies Record<string, HeaderSpec>;
 
@@ -320,14 +205,15 @@ export function hasBlogHeader(slug: string): slug is BlogHeaderSlug {
 }
 
 export function isTypographicHeader(slug: string): boolean {
-  return hasBlogHeader(slug) && BLOG_HEADERS[slug].style === 'typographic';
+  return hasBlogHeader(slug);
 }
 
-export function isIllustrationHeader(slug: string): boolean {
-  return hasBlogHeader(slug) && BLOG_HEADERS[slug].style === 'illustration';
+/** @deprecated El motor de ilustración compuesto se retiró. */
+export function isIllustrationHeader(_slug: string): boolean {
+  return false;
 }
 
-/** @deprecated Las cabeceras bespoke se retiraron; todo pasa por compose. */
+/** @deprecated */
 export function isBespokeHeader(_slug: string): boolean {
   return false;
 }
