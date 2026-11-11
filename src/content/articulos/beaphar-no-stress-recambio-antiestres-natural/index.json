@@ -7,10 +7,10 @@
   "linkAmazon": "https://www.amazon.es/dp/B076QFDGRB/?tag=solucioncanin-21",
   "categoria": "Ansiedad",
   "marca": "Beaphar",
-  "precio": "12.99€",
+  "precio": "9.59€",
   "imagen": "/images/articulos/beaphar-no-stress-recambio-antiestres-natural/imagen.jpg",
   "valoracion": 4.2,
-  "valoracionesCount": 192,
+  "valoracionesCount": 200,
   "secciones": [
     "Ansiedad y estrés"
   ],
@@ -27,5 +27,7 @@
     "El aroma a valeriana es perceptible los primeros días.",
     "Efecto más sutil que las feromonas: requiere paciencia para evaluarse."
   ],
-  "paraQuien": "Para hogares que prefieren un enfoque herbal o donde las feromonas no han dado resultado. No encaja como respuesta única a ansiedad severa: en esos casos conviene combinar con valoración del veterinario etólogo."
+  "paraQuien": "Para hogares que prefieren un enfoque herbal o donde las feromonas no han dado resultado. No encaja como respuesta única a ansiedad severa: en esos casos conviene combinar con valoración del veterinario etólogo.",
+  "precioOriginal": "10.30€",
+  "descuentoPct": 7
 }

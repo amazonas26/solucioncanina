@@ -1,15 +1,14 @@
 {
-  "nombre": "Condroprotector líquido en gotas para perros mayores · 60 ml",
+  "nombre": "Articulaciones Perro,Condroprotector Perros,Suplementos para las Articulaciones de Perros Mayores,Alivio del Dolor de Movilidad,Gotas de Condroitina para Perros,Glucosamina para Cadera Articulaciones",
   "nombreCorto": "Condroprotector en gotas · 60 ml",
   "tipoAnalisis": "Analizado",
   "slug": "condroprotector-gotas-perros-mayores-60ml",
   "descripcion": "Glucosamina para Cadera y Articulaciones para Perros: Las gotas de condroitina benefician a los perros al ayudar a reparar el cartílago dañado, reducir la inflamación articular y aliviar la rigidez, lo que favorece la flexibilidad y la movilidad articular, especialmente en perros con osteoartritis, displasia de cadera…",
   "linkAmazon": "https://www.amazon.es/dp/B0FP4PL7W2/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
-  "precio": "15.99€",
   "imagen": "/images/articulos/articulaciones-perrocondroprotector-perrossuplementos-para-l/imagen.jpg",
-  "valoracion": 4.4,
-  "valoracionesCount": 140,
+  "valoracion": 4.3,
+  "valoracionesCount": 156,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -27,5 +26,6 @@
     "La mejora es gradual: requiere 6-8 semanas para evaluar.",
     "Resultados variables según grado de artrosis del perro."
   ],
-  "paraQuien": "Para perros sénior con rigidez articular que no toleran pastillas o masticables. No encaja como tratamiento exprés en una crisis aguda: el condroprotector es preventivo y de mantenimiento, no analgésico inmediato."
+  "paraQuien": "Para perros sénior con rigidez articular que no toleran pastillas o masticables. No encaja como tratamiento exprés en una crisis aguda: el condroprotector es preventivo y de mantenimiento, no analgésico inmediato.",
+  "disponible": false
 }

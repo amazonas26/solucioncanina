@@ -1,16 +1,15 @@
 {
-  "nombre": "Veterinary Renal Húmedo 12x100g",
+  "nombre": "Veterinary Renal | 12 x 100 g | Dieta completa para perros adultos | Para favorecer la función renal | Trozos finos en salsa",
   "nombreCorto": "Royal Canin Renal húmedo · 12 × 100 g",
   "tipoAnalisis": "Analizado",
   "descripcion": "Alimento húmedo veterinario para perros con enfermedad renal. Favorece la hidratación y el aporte calórico con proteínas de alta calidad y bajo fósforo.",
   "imagen": "/images/articulos/royal-canin-renal-humedo-12x100g/imagen.jpg",
-  "precio": "15.95€",
   "linkAmazon": "https://www.amazon.es/dp/B08KJD9NDY/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Royal Canin",
   "valoracion": 4.6,
   "slug": "royal-canin-veterinary-renal-humedo-12x100g",
-  "valoracionesCount": 887,
+  "valoracionesCount": 901,
   "secciones": [
     "Problemas renales y urinarios"
   ],

@@ -1,17 +1,17 @@
 {
-  "nombre": "Condroprotector 9+ años 120 comprimidos",
+  "nombre": "Senior condroprotector perros +7, mejillón verde, 120 comprimidos",
   "nombreCorto": "YuMOVE condroprotector 9+ · 120 comprimidos",
   "tipoAnalisis": "Analizado",
   "descripcion": "Suplemento para articulaciones especialmente formulado para perros mayores de 9 años. Con glucosamina, condroitina y ácidos grasos omega-3 para mejorar la movilidad.",
   "imagen": "/images/articulos/yumove-condroprotector-9-anys-120/imagen.jpg",
-  "precio": "39.69€",
+  "precio": "23.68€",
   "linkAmazon": "https://www.amazon.es/dp/B07Z2BSHF9/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "YuMOVE",
-  "ventas": 300,
+  "ventas": 100,
   "valoracion": 4.5,
   "slug": "yumove-condroprotector-9-anos-120-comprimidos",
-  "valoracionesCount": 26347,
+  "valoracionesCount": 26435,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -31,5 +31,5 @@
   ],
   "paraQuien": "Para perros muy sénior (9+ años) con desgaste articular y dueños que valoran respaldo clínico. No encaja para perros jóvenes o adultos: hay versiones YuMOVE específicas para esas edades.",
   "precioOriginal": "45.10€",
-  "descuentoPct": 12
+  "descuentoPct": 47
 }

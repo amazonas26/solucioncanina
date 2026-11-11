@@ -1,16 +1,16 @@
 {
-  "nombre": "Bozal Flex Silicona M-L",
+  "nombre": "Bozal Flex, Silicona, L–XL, Negro, Perro",
   "nombreCorto": "Trixie bozal Flex silicona · M–L",
   "tipoAnalisis": "Analizado",
   "descripcion": "Bozal de silicona flexible y transpirable para perros de talla M-L. Cierre de velcro ajustable, permite jadear y beber. Fácil de limpiar y muy duradero.",
   "imagen": "/images/articulos/trixie-bozal-flex-silicona-ml/imagen.jpg",
-  "precio": "24.43€",
+  "precio": "20.71€",
   "linkAmazon": "https://www.amazon.es/dp/B071KHVMXF/?tag=solucioncanin-21",
   "categoria": "Bozales",
   "marca": "Trixie",
   "valoracion": 4.0,
   "slug": "trixie-bozal-flex-silicona-m-l",
-  "valoracionesCount": 568,
+  "valoracionesCount": 572,
   "secciones": [
     "Paseos seguros y control"
   ],
@@ -27,5 +27,7 @@
     "Revisar velcro al final del paseo para mantener adherencia.",
     "Si el perro está claramente en talla L, este modelo queda corto."
   ],
-  "paraQuien": "Para perros medianos-grandes (15-30 kg) que quedan justos en talla M y holgados en L. No encaja si tu perro entra de lleno en talla L o XL: opta por las versiones específicas."
+  "paraQuien": "Para perros medianos-grandes (15-30 kg) que quedan justos en talla M y holgados en L. No encaja si tu perro entra de lleno en talla L o XL: opta por las versiones específicas.",
+  "precioOriginal": "24.95€",
+  "descuentoPct": 17
 }

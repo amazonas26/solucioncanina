@@ -1,16 +1,16 @@
 {
-  "nombre": "IDC Powerharness Arnés Talla 0",
+  "nombre": "Arnés IDC Power, Tamaño: M/0, UV Naranja",
   "nombreCorto": "Julius-K9 IDC Powerharness · Talla 0",
   "tipoAnalisis": "Analizado",
   "descripcion": "Arnés profesional de control IDC amb manejo dorsal i lateral. Disseny ergonómico que no presiona el cuello, amb reflectants i personalitzable amb velcro. Talla 0 (perros medianos).",
   "imagen": "/images/articulos/julius-k9-idc-powerharness-talla-0/imagen.jpg",
-  "precio": "41.20€",
+  "precio": "35.42€",
   "linkAmazon": "https://www.amazon.es/dp/B01J5RB2J6/?tag=solucioncanin-21",
   "categoria": "Correas",
   "marca": "Julius-K9",
   "valoracion": 4.7,
   "slug": "julius-k9-idc-powerharness-arnes-talla-0",
-  "valoracionesCount": 33517,
+  "valoracionesCount": 33841,
   "secciones": [
     "Paseos seguros y control"
   ],
@@ -27,5 +27,7 @@
     "Pesa más que arneses simples; lógico por la robustez.",
     "Tallaje específico: medir contorno torácico siguiendo la guía oficial."
   ],
-  "paraQuien": "Para hogares con perro mediano (14-25 kg) que quieren el arnés definitivo con respaldo profesional. No encaja para perros mini: la talla 0 es la mínima y queda holgada por debajo de 14 kg; mirar Mini-Mini, Baby 2 o Baby 1."
+  "paraQuien": "Para hogares con perro mediano (14-25 kg) que quieren el arnés definitivo con respaldo profesional. No encaja para perros mini: la talla 0 es la mínima y queda holgada por debajo de 14 kg; mirar Mini-Mini, Baby 2 o Baby 1.",
+  "precioOriginal": "37.28€",
+  "descuentoPct": 5
 }

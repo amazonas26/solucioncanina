@@ -1,5 +1,5 @@
 {
-  "nombre": "Articulaciones Complemento alimenticio para Perros - 125 Comprimidos | Nueva fórmula JointSupport™ con MSM, Polvo de mejillón de Labio Verde, glucosamina y Garra del Diablo",
+  "nombre": "Condroprotector Perros con Mejillón Verde y Colágeno para Perros",
   "nombreCorto": "MyPetPrime JointSupport · 125 comprimidos",
   "tipoAnalisis": "Analizado",
   "slug": "articulaciones-complemento-alimenticio-para-perros-125-comprimidos-nueva-formula-jointsupport-con-msm-polvo-de-mejillon-de-labio-verde-glucosamina-y-garra-del-diablo",
@@ -7,11 +7,11 @@
   "linkAmazon": "https://www.amazon.es/dp/B0C4BDQFDW/?tag=solucioncanin-21",
   "categoria": "Condroprotectores",
   "marca": "MyPetPrime",
-  "precio": "26.99€",
+  "precio": "24.99€",
   "imagen": "/images/articulos/mypetprime-articulaciones-complemento-alimenticio-para-perro/imagen.jpg",
   "ventas": 50,
   "valoracion": 4.2,
-  "valoracionesCount": 1852,
+  "valoracionesCount": 1843,
   "secciones": [
     "Movilidad y artrosis",
     "Perros senior"
@@ -29,5 +29,7 @@
     "Sabor discreto: mezclar con comida en perros selectivos.",
     "No destaca especialmente sobre alternativas: opción equilibrada."
   ],
-  "paraQuien": "Para perros adultos con desgaste articular que buscan fórmula con MSM y mejillón labio verde en formato comprimido. No encaja para perros que rechazan comprimidos: ahí formato gotas o masticable es mejor."
+  "paraQuien": "Para perros adultos con desgaste articular que buscan fórmula con MSM y mejillón labio verde en formato comprimido. No encaja para perros que rechazan comprimidos: ahí formato gotas o masticable es mejor.",
+  "precioOriginal": "26.99€",
+  "descuentoPct": 7
 }
