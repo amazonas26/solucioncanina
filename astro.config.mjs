@@ -7,19 +7,50 @@ import sitemap from '@astrojs/sitemap';
 import internalLinkCheck from './scripts/astro-internal-link-check.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+
+const ROOT = path.resolve('.');
 
 // Precompute lastmod map: URL path → ISO date. Robust: failures don't break the build.
 const lastmodMap = new Map();
 function safeStat(p) {
   try { return fs.statSync(p); } catch { return null; }
 }
-function latestIso(files) {
-  let max = 0;
-  for (const p of files) {
-    const st = safeStat(p);
-    if (st && st.mtimeMs > max) max = st.mtimeMs;
+
+// Data de l'últim commit de cada fitxer. El mtime no serveix: un clone o checkout
+// posa tots els fitxers a l'hora actual i el sitemap marcava totes les URL com a
+// modificades el dia del build. Fitxers amb canvis sense commit (o sense git) → mtime.
+const gitDates = new Map();
+const dirtyFiles = new Set();
+try {
+  const git = (args) => execFileSync('git', ['-c', 'core.quotePath=false', ...args], {
+    cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'],
+  });
+  let commitIso = null;
+  for (const line of git(['log', '--format=%x00%cI', '--name-only', '--no-renames']).split('\n')) {
+    if (line.startsWith('\0')) { commitIso = new Date(line.slice(1)).toISOString(); continue; }
+    if (line && commitIso && !gitDates.has(line)) gitDates.set(line, commitIso);
   }
-  return max ? new Date(max).toISOString() : null;
+  const dirty = git(['diff', '--name-only', 'HEAD']) + git(['ls-files', '--others', '--exclude-standard']);
+  for (const f of dirty.split('\n')) if (f) dirtyFiles.add(f);
+} catch {
+  // Sense git (o error a mig camí): tot cau a mtime, mai dates de commit a mitges.
+  gitDates.clear();
+}
+
+function fileIso(p) {
+  const rel = path.relative(ROOT, p).split(path.sep).join('/');
+  if (!dirtyFiles.has(rel) && gitDates.has(rel)) return gitDates.get(rel);
+  const st = safeStat(p);
+  return st ? st.mtime.toISOString() : null;
+}
+function latestIso(files) {
+  let max = null;
+  for (const p of files) {
+    const iso = fileIso(p);
+    if (iso && (!max || iso > max)) max = iso;
+  }
+  return max;
 }
 function bumpLastmod(urlPath, iso) {
   if (!iso) return;
@@ -41,7 +72,6 @@ function slugifyLike(text) {
     .replace(/--+/g, '-');
 }
 
-const ROOT = path.resolve('.');
 const pagesDir = path.join(ROOT, 'src/pages');
 const articulosDir = path.join(ROOT, 'src/content/articulos');
 const blogDir = path.join(ROOT, 'src/content/blog');
@@ -51,7 +81,9 @@ const categoriaTpl = path.join(pagesDir, 'categoria', '[slug].astro');
 const productoTpl = path.join(pagesDir, 'producto', '[slug].astro');
 const blogTpl = path.join(pagesDir, 'blog', '[slug].astro');
 
-const categoryMaxMtime = new Map(); // categorySlug → ISO date (max mtime)
+const categoryMaxMtime = new Map(); // categorySlug → ISO date (la més recent)
+// Fitxes «Pendiente» (sense anàlisi): noindex a la plantilla i fora del sitemap.
+const noindexProductPaths = new Set();
 let latestProductIso = null;
 let latestBlogIso = null;
 try {
@@ -64,13 +96,14 @@ try {
       let data = {};
       try { data = JSON.parse(fs.readFileSync(jsonPath, 'utf8')); } catch { continue; }
       const slug = data.slug || (data.nombre ? slugifyLike(data.nombre) : entry.name);
-      const iso = st.mtime.toISOString();
+      if (data.tipoAnalisis === 'Pendiente') noindexProductPaths.add(`/producto/${slug}/`);
+      const iso = fileIso(jsonPath);
       setLastmod(`/producto/${slug}/`, jsonPath, productoTpl);
       if (!latestProductIso || iso > latestProductIso) latestProductIso = iso;
       if (data.categoria) {
         const catSlug = slugifyLike(data.categoria);
         const prev = categoryMaxMtime.get(catSlug);
-        if (!prev || st.mtime > new Date(prev)) categoryMaxMtime.set(catSlug, iso);
+        if (!prev || iso > prev) categoryMaxMtime.set(catSlug, iso);
       }
     }
   }
@@ -88,14 +121,14 @@ try {
       const contentFile = safeStat(mdxPath) ? mdxPath : mdPath;
       const st = safeStat(contentFile);
       if (!st) continue;
-      const iso = st.mtime.toISOString();
+      const iso = fileIso(contentFile);
       setLastmod(`/blog/${entry.name}/`, contentFile, blogTpl);
       if (!latestBlogIso || iso > latestBlogIso) latestBlogIso = iso;
     }
   }
 } catch { /* noop */ }
 
-// Páginas .astro estáticas: lastmod = mtime del fichero de ruta.
+// Páginas .astro estáticas: lastmod = último commit del fichero de ruta.
 function walkStaticPages(dir, urlBase = '/') {
   let entries = [];
   try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
@@ -117,7 +150,7 @@ function walkStaticPages(dir, urlBase = '/') {
 }
 walkStaticPages(pagesDir);
 
-// Ficheros de datos que alimentan listados / hubs (se queda el mtime más reciente).
+// Ficheros de datos que alimentan listados / hubs (se queda la fecha más reciente).
 setLastmod('/', problemSectionsFile, herramientasFile);
 bumpLastmod('/', latestProductIso);
 bumpLastmod('/', latestBlogIso);
@@ -182,7 +215,7 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: (page) =>
-
+        !noindexProductPaths.has(new URL(page).pathname) &&
         !page.includes('/asistente') &&
         !page.includes('/politica-privacidad') &&
         !page.includes('/politica-cookies') &&
