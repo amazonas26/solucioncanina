@@ -9,6 +9,7 @@ import {
   ArrowUpDown,
 } from 'lucide-react';
 import { ProductCard } from './ProductCard';
+import { notaPrecios } from '../utils/precioConsultado';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -313,6 +314,10 @@ export default function SearchableGrid({
 
     return list;
   }, [articulos, search, selectedCategory, activeSection, appliedFilters, sessionSeed]);
+
+  const notaPreciosVisibles = notaPrecios(
+    filteredArticulos.map((art) => art.data.slug || slugify(art.data.nombre)),
+  );
 
   const handleOpenFilters = () => {
     setDraftFilters(appliedFilters);
@@ -667,6 +672,7 @@ export default function SearchableGrid({
 
       <p className="text-xs text-neutral-400 font-medium">
         {filteredArticulos.length} {filteredArticulos.length === 1 ? 'producto encontrado' : 'productos encontrados'}
+        {notaPreciosVisibles && <span className="font-normal"> · {notaPreciosVisibles}</span>}
       </p>
 
       <div className="relative min-h-[300px]">

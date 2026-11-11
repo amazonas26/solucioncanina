@@ -6,6 +6,7 @@ import SectionIcon from "../components/SectionIcon.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../utils/slugify";
 import { itemListSchema } from "../utils/seo";
+import { notaPrecios } from "../utils/precioConsultado";
 import { problemSections, countProductsInSection } from "../utils/problemSections";
 import { HERRAMIENTAS } from "../utils/herramientas";
 import HerramientaCard from "../components/HerramientaCard.astro";
@@ -90,6 +91,7 @@ const topVendidos = articulos
   .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0)
   .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
   .slice(0, 6);
+const notaTopVendidos = notaPrecios(topVendidos.map((a) => a.data.slug || slugify(a.data.nombre)));
 
 // Últimos 3 artículos del Blog (orden cronológico real por fechaPublicacion).
 const allBlogPosts = await getCollection("blog");
@@ -394,12 +396,15 @@ const STAR_POINTS = (() => {
           <h2
             class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
           >
-            Lo que mejor está funcionando este mes
+            Lo más comprado en Amazon
           </h2>
           <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
-            Los productos que más están conectando con nuestros lectores. No es solo
-            ranking de ventas: es lo que pasa nuestros criterios y, encima, la gente repite la compra.
+            De los productos que hemos analizado, los que más se compraron el último mes
+            en Amazon.es. Primero pasan nuestros criterios; el orden lo marcan las compras.
           </p>
+          {notaTopVendidos && (
+            <p class="mt-1 text-xs text-neutral-400 max-w-2xl">{notaTopVendidos}</p>
+          )}
         </div>
         <a href="/productos/?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
           Ver todos los más populares

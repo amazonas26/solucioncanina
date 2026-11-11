@@ -137,7 +137,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {showsRating(valoracion) && (
               <div
                 className="flex items-center gap-1 shrink-0"
-                aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${
+                title="Valoración en Amazon"
+                aria-label={`Valoración en Amazon: ${valoracion.toFixed(1)} sobre 5${
                   valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''
                 }`}
               >

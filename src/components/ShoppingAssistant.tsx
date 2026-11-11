@@ -8,6 +8,7 @@ import {
   ArrowLeft, Sparkles, CheckCircle2, RotateCcw,
   Coins, Wallet, Gem
 } from 'lucide-react';
+import { notaPrecios } from '../utils/precioConsultado';
 
 type Article = {
   id: string;
@@ -373,6 +374,11 @@ export default function ShoppingAssistant({ articulos }: Props) {
                 </motion.div>
               ))}
             </div>
+            {notaPrecios(recommended.map((art) => art.slug)) && (
+              <p className="mt-6 text-center text-[11px] text-neutral-400">
+                {notaPrecios(recommended.map((art) => art.slug))}
+              </p>
+            )}
 
             <div className="mt-20 text-center">
               <button 

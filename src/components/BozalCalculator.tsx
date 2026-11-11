@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
+import { notaPrecios } from '../utils/precioConsultado';
 
 interface Props {
   productos: CalcProducto[];
@@ -102,6 +103,7 @@ export default function BozalCalculator({ productos }: Props) {
   );
 
   const recomendados = productos.slice(0, 4);
+  const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
   const tipoLabel =
     result.tipo === 'cesta' ? 'Cesta (rígida o silicona abierta tipo canasta)' : 'Silicona abierta';
 
@@ -292,6 +294,9 @@ export default function BozalCalculator({ productos }: Props) {
               </a>
             ))}
           </div>
+          {notaRecomendados && (
+            <p className="mt-3 text-[11px] text-neutral-400">{notaRecomendados}</p>
+          )}
           <a
             href="/categoria/bozales/"
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 hover:underline"

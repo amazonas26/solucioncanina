@@ -7,12 +7,15 @@ import { slugify } from '../utils/slugify';
 import { getCollection } from 'astro:content';
 import { organizationSchema, SITE_NAME, THEME_COLOR, websiteSchema } from '../utils/seo';
 import { problemSections } from '../utils/problemSections';
+import { ultimaConsultaPrecios } from '../utils/precioConsultado';
 
-// "Actualizado <mes> <año>" dinámico: se recalcula en cada build/deploy, así nunca
-// queda desfasado. (En un sitio estático toma el mes del momento de compilar.)
+// "Actualizado <mes> <año>": mes de la última consulta real de precios del catálogo
+// (src/data/precios-consultados.json), no el mes del build.
 const MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-const _hoy = new Date();
-const actualizadoLabel = `${MESES_ES[_hoy.getMonth()]} ${_hoy.getFullYear()}`;
+const _ultimaConsulta = ultimaConsultaPrecios();
+const actualizadoLabel = _ultimaConsulta
+  ? `${MESES_ES[Number(_ultimaConsulta.slice(5, 7)) - 1]} ${_ultimaConsulta.slice(0, 4)}`
+  : null;
 
 interface Props {
   title: string;
@@ -27,7 +30,7 @@ interface Props {
 
 const {
   title,
-  description = 'Análisis honestos y opiniones de productos para perros, con precio actualizado. Selección curada por Solución Canina.',
+  description = 'Análisis honestos y opiniones de productos para perros, con el precio de Amazon y la fecha en que lo consultamos. Selección curada por Solución Canina.',
   image,
   type = 'website',
   canonical,
@@ -133,7 +136,7 @@ const categories = categoriesProp.length > 0
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           Selección verificada de productos para perros
         </span>
-        <span class="hidden sm:block text-white/70">Actualizado {actualizadoLabel}</span>
+        {actualizadoLabel && <span class="hidden sm:block text-white/70">Actualizado {actualizadoLabel}</span>}
       </div>
     </div>
 

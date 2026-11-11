@@ -18,6 +18,9 @@ const articulosCollection = defineCollection({
     precio: z.string().optional(),
     precioOriginal: z.string().optional(),
     descuentoPct: z.number().int().min(0).max(100).optional(),
+    // `false` quan Amazon el dona per esgotat o la fitxa ja no existeix
+    // (ho posa scripts/update_prices.py, que també en treu el preu).
+    disponible: z.boolean().optional(),
     ventas: z.number().int().min(0).optional(),
     valoracion: z.number().min(0).max(5).optional(),
     valoracionesCount: z.number().int().min(0).optional(),

@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Calculator, Dog, ArrowRight, Star, Info } from 'lucide-react';
+import { notaPrecios } from '../utils/precioConsultado';
 
 export interface CalcProducto {
   slug: string;
@@ -65,6 +66,7 @@ export default function CondroprotectorCalculator({ productos }: Props) {
 
   // Recomendamos los 4 mejor valorados (los productos ya vienen ordenados).
   const recomendados = productos.slice(0, 4);
+  const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
@@ -204,6 +206,9 @@ export default function CondroprotectorCalculator({ productos }: Props) {
               </a>
             ))}
           </div>
+          {notaRecomendados && (
+            <p className="mt-3 text-[11px] text-neutral-400">{notaRecomendados}</p>
+          )}
           <a
             href="/categoria/condroprotectores/"
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 hover:underline"

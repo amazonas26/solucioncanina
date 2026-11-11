@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, X, ChevronRight, ArrowRight } from 'lucide-react';
+import { notaPrecios } from '../utils/precioConsultado';
 
 type SearchItem = {
   slug: string;
@@ -362,6 +363,11 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
                     );
                   })}
                 </ul>
+                {suggestions.some((s) => s.precio) && (
+                  <p className="px-4 pt-2 pb-1 text-[10px] text-neutral-400">
+                    {notaPrecios(suggestions.map((s) => s.slug))}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={goToAllResults}

@@ -10,6 +10,7 @@ import { getCollection } from 'astro:content';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../utils/seo';
 import { relatedProductsForBlog } from '../../utils/blogProductLinks';
 import { inlineMarkdownToHtml } from '../../utils/inlineMarkdown';
+import { notaPrecios } from '../../utils/precioConsultado';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -42,6 +43,7 @@ export async function getStaticPaths() {
 
 const { post, categories, related, relatedProducts } = Astro.props;
 const { Content } = await post.render();
+const notaRelatedProducts = notaPrecios((relatedProducts ?? []).map((p) => p.slug));
 
 const catLabels = {
   'comportamiento': 'Problemas de comportamiento',
@@ -262,6 +264,9 @@ const allBlogJsonLd = faqJsonLd
             </a>
           ))}
         </div>
+        {notaRelatedProducts && (
+          <p class="mt-4 text-[11px] text-neutral-400 text-center">{notaRelatedProducts}</p>
+        )}
       </section>
     )}
 

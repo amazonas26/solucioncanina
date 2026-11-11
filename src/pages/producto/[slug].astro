@@ -8,6 +8,7 @@ import { outboundProductUrl } from "../../utils/outbound";
 import { productSchema, breadcrumbSchema } from "../../utils/seo";
 import { blogsForCategory } from "../../utils/blogProductLinks";
 import { TIPO_ANALISIS_DEFAULT, tipoAnalisisHref } from "../../utils/tipoAnalisis";
+import { fechaPrecio, formatFechaPrecio, notaPrecios } from "../../utils/precioConsultado";
 
 export async function getStaticPaths() {
   const articulos = await getCollection("articulos");
@@ -50,6 +51,7 @@ const {
   precio,
   precioOriginal,
   descuentoPct,
+  disponible,
   linkAmazon,
   categoria,
   marca,
@@ -94,6 +96,9 @@ const esPiensoRenal =
   categoria === "Alimentación específica" &&
   /renal|kidney/i.test(`${productSlug} ${nombre} ${nombreCorto ?? ""}`);
 const productUrl = `/producto/${productSlug}/`;
+const precioFecha = fechaPrecio(productSlug);
+const noDisponible = disponible === false;
+const notaRelated = notaPrecios(related.map((r) => r.slug));
 const outboundUrl = outboundProductUrl(productSlug);
 const categoriaSlug = categoria ? slugify(categoria) : null;
 
@@ -107,12 +112,6 @@ const productJsonLd = productSchema({
   price: precio,
   priceOriginal: precioOriginal,
   category: categoria,
-  rating:
-    typeof valoracion === "number" && valoracion > 0 ? valoracion : undefined,
-  ratingCount:
-    typeof valoracionesCount === "number" && valoracionesCount > 0
-      ? valoracionesCount
-      : undefined,
   pros,
   cons: contras,
   reviewBody: veredicto,
@@ -331,9 +330,13 @@ const relatedBlogs = blogsForCategory(categoria);
                   <span class="text-base font-black text-neutral-900 tabular-nums">
                     {(valoracion ?? 0).toFixed(1)}
                   </span>
-                  {ratingCountTxt && (
+                  {ratingCountTxt ? (
                     <span class="text-[10px] font-bold text-neutral-400 border-l border-neutral-200 pl-3">
-                      {ratingCountTxt} reseñas
+                      {ratingCountTxt} reseñas en Amazon
+                    </span>
+                  ) : (
+                    <span class="text-[10px] font-bold text-neutral-400 border-l border-neutral-200 pl-3">
+                      en Amazon
                     </span>
                   )}
                 </div>
@@ -343,7 +346,7 @@ const relatedBlogs = blogsForCategory(categoria);
                 <div class="flex items-center gap-2 text-sm">
                   <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                   <span class="font-bold text-neutral-700 uppercase tracking-tight text-[10px]">
-                    {ventasTxt}+ comprados este mes
+                    {ventasTxt}+ comprados el mes pasado en Amazon
                   </span>
                 </div>
               )}
@@ -415,10 +418,16 @@ const relatedBlogs = blogsForCategory(categoria);
         {/* Precio + Dónde comprarlo (CTA demoure a outline) */}
         <div class="mb-3 flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
           <div class="flex items-baseline gap-3">
-            <span
-              class="text-3xl lg:text-4xl font-black text-neutral-900 tracking-tighter"
-              >{precio || "Consultar"}</span
-            >
+            {noDisponible ? (
+              <span class="text-xl lg:text-2xl font-black text-amber-700 tracking-tight">
+                No disponible ahora
+              </span>
+            ) : (
+              <span
+                class="text-3xl lg:text-4xl font-black text-neutral-900 tracking-tighter"
+                >{precio || "Consultar"}</span
+              >
+            )}
             {
               precioOriginal && (
                 <div class="flex flex-col">
@@ -449,6 +458,18 @@ const relatedBlogs = blogsForCategory(categoria);
             />
           </a>
         </div>
+        {noDisponible && (
+          <p class="text-xs text-neutral-500 leading-relaxed mb-1 max-w-md">
+            Amazon.es no lo tiene disponible{precioFecha && <> (comprobado el <time datetime={precioFecha}>{formatFechaPrecio(precioFecha)}</time>)</>}. Puede volver; mientras tanto, mira las alternativas de abajo.
+          </p>
+        )}
+        {precio && precioFecha && (
+          <p class="text-xs text-neutral-500 leading-relaxed mb-1 max-w-md">
+            Precio en Amazon.es consultado el{" "}
+            <time datetime={precioFecha}>{formatFechaPrecio(precioFecha)}</time>.
+            Puede haber cambiado: el precio final es el que veas en Amazon.
+          </p>
+        )}
         <p class="text-xs text-neutral-400 leading-relaxed mb-8 max-w-md">
           Te llevamos a Amazon. Solución Canina no vende directamente —
           ganamos una pequeña comisión si decides comprar allí. Eso no
@@ -778,6 +799,9 @@ const relatedBlogs = blogsForCategory(categoria);
               </div>
             ))}
           </div>
+          {notaRelated && (
+            <p class="-mt-8 mb-4 text-[11px] text-neutral-400">{notaRelated}</p>
+          )}
         </section>
       )
     }
@@ -797,9 +821,14 @@ const relatedBlogs = blogsForCategory(categoria);
         <div class="flex flex-col min-w-0">
           <span class="hidden sm:block text-sm font-bold text-neutral-900 truncate pr-4">{displayName}</span>
           <div class="flex items-baseline gap-2 mt-0.5">
-            <span class="text-lg sm:text-xl font-black text-neutral-900 leading-none">{precio || "Consultar"}</span>
+            <span class="text-lg sm:text-xl font-black text-neutral-900 leading-none">{noDisponible ? "No disponible" : precio || "Consultar"}</span>
             {precioOriginal && <span class="hidden sm:inline-block text-[11px] font-bold text-neutral-400 line-through decoration-red-500/30">{precioOriginal}</span>}
           </div>
+          {precio && precioFecha && (
+            <span class="text-[10px] text-neutral-400 leading-tight mt-0.5">
+              Amazon.es · {formatFechaPrecio(precioFecha)}
+            </span>
+          )}
         </div>
       </div>
       

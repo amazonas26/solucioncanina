@@ -118,7 +118,8 @@ const showStars = typeof valoracion === "number" && valoracion >= MIN_VISIBLE_RA
         {showStars && (
           <div
             class="flex items-center gap-1 shrink-0"
-            aria-label={`Valoración ${valoracion.toFixed(1)} sobre 5${valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''}`}
+            aria-label={`Valoración en Amazon: ${valoracion.toFixed(1)} sobre 5${valoracionesCount ? ` con ${valoracionesCount} reseñas` : ''}`}
+            title="Valoración en Amazon"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

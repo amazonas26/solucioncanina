@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, Scale, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
+import { notaPrecios } from '../utils/precioConsultado';
 
 interface Props {
   productos: CalcProducto[];
@@ -81,6 +82,7 @@ export default function RampaCalculator({ productos }: Props) {
   const result = useMemo(() => calcRampa(altura, peso, perfil), [altura, peso, perfil]);
   const perfilInfo = PERFILES.find((p) => p.id === perfil)!;
   const recomendados = productos.slice(0, 4);
+  const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
     <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
@@ -288,6 +290,9 @@ export default function RampaCalculator({ productos }: Props) {
               </a>
             ))}
           </div>
+          {notaRecomendados && (
+            <p className="mt-3 text-[11px] text-neutral-400">{notaRecomendados}</p>
+          )}
           <a
             href="/categoria/rampas/"
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 hover:underline"

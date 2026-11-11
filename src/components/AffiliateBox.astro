@@ -1,8 +1,10 @@
 ---
 import { CheckCircle2 } from 'lucide-react';
+import { getCollection } from 'astro:content';
+import { fechaPrecio, formatFechaPrecio } from '../utils/precioConsultado';
 interface Props {
   title: string;
-  image: string;
+  image?: string;
   link: string;
   pros: string[];
   price?: string;
@@ -12,6 +14,16 @@ interface Props {
 const { title, image, link, pros, price, badge } = Astro.props;
 const isInternalProduct = link.startsWith('/producto/');
 const ctaLabel = isInternalProduct ? 'Ver análisis' : 'Dónde comprarlo';
+
+// Si enlaza una ficha del catálogo, imagen y precio salen de ella: los del MDX
+// se quedaban viejos (y la imagen era a veces una foto de stock).
+const productSlug = isInternalProduct ? link.replace(/^\/producto\//, '').replace(/\/$/, '') : null;
+const producto = productSlug
+  ? (await getCollection('articulos')).find((a) => a.data.slug === productSlug)
+  : undefined;
+const imagen = producto ? producto.data.imagen : image;
+const precio = producto ? producto.data.precio : price;
+const precioFecha = producto && precio ? fechaPrecio(productSlug) : null;
 ---
 
 <div class="my-10 rounded-2xl border border-primary-100 bg-gradient-to-br from-white to-primary-50/20 overflow-hidden relative shadow-sm hover:shadow-md hover:scale-[1.005] hover:border-primary-200 transition-all duration-300 group/affbox">
@@ -21,9 +33,11 @@ const ctaLabel = isInternalProduct ? 'Ver análisis' : 'Dónde comprarlo';
     </div>
   )}
   <div class="flex flex-col sm:flex-row p-6 gap-6 pt-10 sm:pt-6">
-    <div class="w-full sm:w-1/3 flex-shrink-0 flex items-center justify-center bg-white rounded-xl p-4 border border-neutral-100 h-[200px] group-hover/affbox:shadow-sm group-hover/affbox:border-primary-100 transition-all duration-300">
-      <img src={image} alt={title} width="300" height="300" loading="lazy" decoding="async" class="max-w-full max-h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover/affbox:scale-105" />
-    </div>
+    {imagen && (
+      <div class="w-full sm:w-1/3 flex-shrink-0 flex items-center justify-center bg-white rounded-xl p-4 border border-neutral-100 h-[200px] group-hover/affbox:shadow-sm group-hover/affbox:border-primary-100 transition-all duration-300">
+        <img src={imagen} alt={title} width="300" height="300" loading="lazy" decoding="async" class="max-w-full max-h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover/affbox:scale-105" />
+      </div>
+    )}
     
     <div class="flex-1 flex flex-col justify-center">
       <h3 class="text-lg sm:text-xl font-serif font-black text-neutral-900 mb-3 leading-snug !mt-0 group-hover/affbox:text-primary-800 transition-colors duration-300">
@@ -42,9 +56,9 @@ const ctaLabel = isInternalProduct ? 'Ver análisis' : 'Dónde comprarlo';
       )}
       
       <div class="mt-auto flex flex-col sm:flex-row items-center gap-4">
-        {price && (
+        {precio && (
           <div class="text-2xl font-black text-neutral-900 shrink-0 tracking-tight">
-            {price}
+            {precio}
           </div>
         )}
         <a
@@ -61,6 +75,11 @@ const ctaLabel = isInternalProduct ? 'Ver análisis' : 'Dónde comprarlo';
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/affbox:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
+      {precioFecha && (
+        <p class="mt-3 text-[11px] text-neutral-400 leading-relaxed">
+          Precio en Amazon.es consultado el {formatFechaPrecio(precioFecha)}. Puede haber cambiado.
+        </p>
+      )}
       {!isInternalProduct && (
         <p class="mt-3 text-[11px] text-neutral-400 leading-relaxed">
           Te llevamos a Amazon. Solución Canina no vende directamente —
