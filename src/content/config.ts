@@ -50,8 +50,6 @@ const blogCollection = defineCollection({
     descripcionSeo: z.string().optional(),
     descripcion: z.string().optional(),
     imagen: z.string().optional(),
-    // Mostra un badge "Nuevo" a la targeta del blog. Treure'l quan deixi de ser recent.
-    nuevo: z.boolean().optional(),
     categoria: z.enum(['comportamiento', 'guias', 'salud', 'alimentacion']).default('guias'),
     autor: z.string().default('Equipo Solución Canina'),
     fechaPublicacion: z.coerce.date().optional(),

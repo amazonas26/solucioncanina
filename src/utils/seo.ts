@@ -1,4 +1,5 @@
 import { withTrailingSlash } from './paths';
+import { stripInlineMarkdown } from './inlineMarkdown';
 
 export const SITE_URL = 'https://www.solucioncanina.es';
 export const SITE_NAME = 'Solución Canina';
@@ -280,7 +281,7 @@ export function faqPageSchema(items: FaqItem[]) {
       name: it.pregunta,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: it.respuesta,
+        text: stripInlineMarkdown(it.respuesta),
       },
     })),
   };

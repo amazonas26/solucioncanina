@@ -9,6 +9,7 @@ import { hasBlogHeader } from '../../components/illustrations/registry';
 import { getCollection } from 'astro:content';
 import { articleSchema, breadcrumbSchema, faqPageSchema } from '../../utils/seo';
 import { relatedProductsForBlog } from '../../utils/blogProductLinks';
+import { inlineMarkdownToHtml } from '../../utils/inlineMarkdown';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -174,7 +175,7 @@ const allBlogJsonLd = faqJsonLd
           {post.data.faqs.map((faq) => (
             <div>
               <h3 class="text-lg font-serif font-black text-neutral-900 mb-2">{faq.pregunta}</h3>
-              <p class="text-neutral-700 leading-relaxed">{faq.respuesta}</p>
+              <p class="text-neutral-700 leading-relaxed" set:html={inlineMarkdownToHtml(faq.respuesta)} />
             </div>
           ))}
         </div>
