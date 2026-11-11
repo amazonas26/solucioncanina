@@ -79,7 +79,7 @@
     },
     {
       "source": "/producto/co-z-rampa-para-perros-para-coche-160-cm-rampa-plegable-para-mascotas-de-hasta-90-kg-superficie-antideslizante-para-coche-suv-camioneta-cama-sofa",
-      "destination": "/categoria/subir-al-coche-o-sofa/",
+      "destination": "/categoria/rampas/",
       "permanent": true
     },
     {
@@ -295,6 +295,71 @@
     {
       "source": "/herramientas/null",
       "destination": "/herramientas/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-evitar-que-tu-perro-suelte-pelo",
+      "destination": "/blog/como-evitar-que-mi-perro-suelte-pelo/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-evitar-que-mi-perro-suelte-tanto-pelo",
+      "destination": "/blog/como-evitar-que-mi-perro-suelte-pelo/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/como-evitar-tu-perro-suelte-tanto-pelo",
+      "destination": "/blog/como-evitar-que-mi-perro-suelte-pelo/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/mi-perro-no-come-causas",
+      "destination": "/blog/mi-perro-no-quiere-comer-causas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/nobleza-rampa-para-perros-para-coche-170-cm-rampa-plegable-cama-para-mascotas-de-metal-con-alfombra-antideslizante-para-perros-menos-de-110kg-escalera-para-perros-medianos-grande",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/y-rampa-plegable-para-perros-pequenos-y-grandes-hasta-60-kg",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/kit-difusor-de-feromonas-6-en-1-para-perros-2-difusores-4-recargas-120-dias-anti-estres-reduce-ladridosmordiscos-inodoro-seguro-negro-s",
+      "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/longevia-dogs-senior-360-180g",
+      "destination": "/categoria/condroprotectores/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/purina-pro-plan-veterinary-diets-neurocare",
+      "destination": "/categoria/alimentacion-especifica/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/yumove-condroprotector-perros-60-masticables-articulaciones-perro-senior-8-anos-con-mejillon-labio-verde-complejo-activease-de-150mg-cada-masticable-aceite-de-pescado-movilidad-del-canino",
+      "destination": "/producto/yumove-condroprotector-perros-30-masticables-articulaciones-perro-senior-8-anos-con-mejillon-labio-verde-complejo-activease-de-150mg-cada-masticable-aceite-de-pescado-movilidad-del-canino/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/subir-al-coche-o-sofa",
+      "destination": "/categoria/rampas/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/descanso-ortopedico",
+      "destination": "/categoria/camas-ortopedicas/",
+      "permanent": true
+    },
+    {
+      "source": "/categoria/ansiedad-y-estres",
+      "destination": "/categoria/ansiedad/",
       "permanent": true
     }
   ],
