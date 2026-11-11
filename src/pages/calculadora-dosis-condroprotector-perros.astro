@@ -29,6 +29,11 @@ const productos = articulos
 
 const faqs = [
   {
+    pregunta: '¿Cuántos comprimidos de condroprotector le doy a mi perro?',
+    respuesta:
+      'Depende de los mg que aporte cada comprimido y de su peso: es la dosis diaria dividida entre los mg por comprimido. Escribe los mg de tu marca en «Con tu producto» y la calculadora te da el número. Si la etiqueta o tu veterinario indican una pauta, esa manda.',
+  },
+  {
     pregunta: '¿Cuánta glucosamina necesita mi perro al día?',
     respuesta:
       'Se calcula por peso vivo. Los rangos de referencia veterinarios son: glucosamina 20-40 mg/kg al día, condroitina 15-30 mg/kg y MSM 50-100 mg/kg. Por ejemplo, un perro de 20 kg necesitaría unos 400-800 mg de glucosamina, 300-600 mg de condroitina y 1.000-2.000 mg de MSM al día. Compara siempre con la etiqueta: muchos suplementos baratos aportan tan poca dosis por comprimido que tendrías que dar varios al día.',
@@ -135,6 +140,20 @@ const faqJsonLd = faqPageSchema(faqs);
       (Cosequin / PetPlace, Pawlicy Advisor) y revisiones sobre MSM en perros (50-100 mg/kg en estudios de
       osteoartritis). Son rangos de referencia orientativos: el veterinario ajusta según el caso.
     </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Cuántos comprimidos de tu marca</h2>
+    <p class="text-neutral-700 leading-relaxed">
+      Da igual si tienes Condrovet Force HA, Omnicondro, Condrocare, Synoquin, Cosequin, YuMOVE,
+      Artroglycan, Condrosan o Acevit: lo que cuenta es <strong>cuántos mg de glucosamina (o de
+      condroitina) aporta cada comprimido, masticable o ml</strong>. Búscalo en la composición de la
+      etiqueta, escríbelo en «Con tu producto» y la calculadora te dice cuántas unidades al día
+      necesita tu perro según su peso.
+    </p>
+    <ul class="text-neutral-700 leading-relaxed">
+      <li><strong>Si la etiqueta da una pauta por peso</strong> (por ejemplo, «1 comprimido por cada 10 kg»), úsala: está pensada para esa fórmula. La calculadora sirve para comprobar si esa pauta llega al rango de referencia.</li>
+      <li><strong>Si hay versión para razas grandes y para razas pequeñas</strong>, la diferencia suele estar en los mg por comprimido: compara los mg, no el nombre.</li>
+      <li><strong>Si salen más de 6 unidades al día</strong>, el producto está poco concentrado para su peso: cuesta mantenerlo y acaba saliendo más caro.</li>
+    </ul>
 
     <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
     {faqs.map((f) => (

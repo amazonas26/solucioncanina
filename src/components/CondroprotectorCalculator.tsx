@@ -38,6 +38,21 @@ function getDose(peso: number, carga: boolean): Dose {
   };
 }
 
+// Rang diari (mg) d'un principi actiu per pes, amb o sense dosi de carga.
+type Principio = 'gluco' | 'condro';
+const RANGO_MG_KG: Record<Principio, [number, number]> = { gluco: [20, 40], condro: [15, 30] };
+function rangoMg(peso: number, principio: Principio, carga: boolean): [number, number] {
+  const k = carga ? 2 : 1;
+  const [min, max] = RANGO_MG_KG[principio];
+  return [peso * min * k, peso * max * k];
+}
+
+// Unitats al dia (comprimits, masticables o ml) en mitges unitats: el mínim s'arrodoneix
+// cap amunt (per arribar a la dosi mínima) i el màxim cap avall (per no passar-se'n).
+const unidadesMin = (mg: number, mgPorUnidad: number) => Math.max(0.5, Math.ceil((mg / mgPorUnidad) * 2) / 2);
+const unidadesMax = (mg: number, mgPorUnidad: number) => Math.floor((mg / mgPorUnidad) * 2) / 2;
+const fmtUnidades = (n: number) => n.toLocaleString('es-ES', { maximumFractionDigits: 1 });
+
 const ETAPAS: { id: Etapa; label: string; nota: string }[] = [
   {
     id: 'prevencion',
@@ -60,9 +75,20 @@ export default function CondroprotectorCalculator({ productos }: Props) {
   const [peso, setPeso] = useState<number>(20);
   const [etapa, setEtapa] = useState<Etapa>('senior');
   const [carga, setCarga] = useState<boolean>(false);
+  const [principio, setPrincipio] = useState<Principio>('gluco');
+  const [mgPorUnidad, setMgPorUnidad] = useState<string>('');
 
   const dose = useMemo(() => getDose(peso, carga), [peso, carga]);
   const etapaInfo = ETAPAS.find((e) => e.id === etapa)!;
+  const mgUnidad = Number(mgPorUnidad.replace(',', '.'));
+  const tuProducto = useMemo(() => {
+    if (!(mgUnidad > 0)) return null;
+    const [min, max] = rangoMg(peso, principio, carga);
+    const desde = unidadesMin(min, mgUnidad);
+    const hasta = unidadesMax(max, mgUnidad);
+    // Producte tan concentrat que ni mitja unitat cap dins del rang.
+    return { min: desde, max: Math.max(desde, hasta), excede: hasta < desde };
+  }, [peso, principio, carga, mgUnidad]);
 
   // Recomendamos los 4 mejor valorados (los productos ya vienen ordenados).
   const recomendados = productos.slice(0, 4);
@@ -169,9 +195,70 @@ export default function CondroprotectorCalculator({ productos }: Props) {
               <span className="font-black text-neutral-900">{dose.msm} mg</span>
             </li>
           </ul>
+          <div className="mt-5 border-t border-neutral-200 pt-4">
+            <p className="text-sm font-bold text-neutral-800 mb-2">Con tu producto</p>
+            <div className="flex gap-2 mb-2" role="group" aria-label="Qué indica la etiqueta">
+              {([['gluco', 'Glucosamina'], ['condro', 'Condroitina']] as const).map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setPrincipio(id)}
+                  aria-pressed={principio === id}
+                  className={
+                    'rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors ' +
+                    (principio === id
+                      ? 'border-primary-600 bg-primary-50 text-primary-700'
+                      : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300')
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <label htmlFor="mg-unidad" className="block text-xs text-neutral-600 mb-1">
+              mg por comprimido, masticable o ml (lo pone la etiqueta)
+            </label>
+            <input
+              id="mg-unidad"
+              type="number"
+              inputMode="decimal"
+              min={1}
+              placeholder="p. ej. 500"
+              value={mgPorUnidad}
+              onChange={(e) => setMgPorUnidad(e.target.value)}
+              className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm font-bold text-neutral-900"
+            />
+            {tuProducto ? (
+              <p className="mt-3 text-sm text-neutral-700" aria-live="polite">
+                <strong className="text-neutral-900">
+                  {tuProducto.min === tuProducto.max
+                    ? fmtUnidades(tuProducto.min)
+                    : `${fmtUnidades(tuProducto.min)} a ${fmtUnidades(tuProducto.max)}`}{' '}
+                  al día
+                </strong>{' '}
+                para cubrir la {principio === 'gluco' ? 'glucosamina' : 'condroitina'} de un perro de {peso} kg
+                {carga ? ' durante la carga' : ''}.
+                {tuProducto.excede && (
+                  <span className="block mt-1 text-xs text-amber-700">
+                    Con esta concentración, incluso media unidad supera el rango para su peso:
+                    sigue la pauta de la etiqueta o consúltalo con tu veterinario.
+                  </span>
+                )}
+                {tuProducto.max > 6 && (
+                  <span className="block mt-1 text-xs text-amber-700">
+                    Más de 6 al día es difícil de mantener: busca un producto más concentrado.
+                  </span>
+                )}
+              </p>
+            ) : (
+              <p className="mt-2 text-[11px] text-neutral-400">
+                Introduce los mg y te decimos cuántas unidades al día necesita.
+              </p>
+            )}
+          </div>
           <p className="mt-4 text-[11px] leading-relaxed text-neutral-400">
-            Orientativo, no sustituye el consejo veterinario. Compara la dosis con la etiqueta:
-            un producto sirve si cubre estas cantidades sin tener que dar 6 comprimidos al día.
+            Orientativo, no sustituye el consejo veterinario. Si la etiqueta o tu veterinario
+            dan una pauta por peso, esa manda.
           </p>
         </div>
       </div>
