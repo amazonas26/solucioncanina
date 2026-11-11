@@ -1,149 +1,49 @@
 ---
 name: fetch-product-data
 description: >
-  Actualitza automàticament les dades de productes d'una web Astro consultant Amazon.es.
-  Llegeix fitxers `src/content/articulos/<slug>/index.json`, extreu l'ASIN del camp `linkAmazon`,
-  busca el preu actual, preu original i descompte a Amazon.es via web search, i sobreescriu
-  els camps `precio`, `precioOriginal` i `descuentoPct` al JSON.
-  Usa aquesta skill sempre que l'usuari vulgui actualitzar preus, estoc o descomptes de productes,
-  mencioni "fetch-product", "actualitzar productes", "preus Amazon", o llanci `pnpm run fetch-product-images`.
+  Actualitza les dades dels productes de solucioncanina (preu, ofertes, nota, disponibilitat,
+  nom, imatges i descripcions que faltin) des d'Amazon.es amb `scripts/update_prices.py`, i
+  resumeix l'informe que genera. Usa aquesta skill sempre que l'usuari vulgui actualitzar preus,
+  estoc o descomptes de productes, mencioni "fetch-product", "actualitzar productes",
+  "preus Amazon", o llanci `pnpm run fetch-product-images`.
 ---
 
 # Fetch Product Data — Skill
 
-Actualitza els camps de preu i descompte dels productes Astro consultant Amazon.es.
+Tota la lectura d'Amazon la fa `scripts/update_prices.py` (client i parser a
+`scripts/amazon.py`): una petició per producte, pauses, reintents i aturada neta si
+Amazon respon amb CAPTCHA. **No** consultis Amazon producte a producte amb cerques
+web: és més lent, menys fiable i no apunta la data de consulta que mostra la web.
 
-## Estructura del projecte
+## Flux
 
-```
-src/content/articulos/
-└── <slug>/
-    └── index.json   ← fitxer a llegir i sobreescriure
-```
+1. Python del venv del repo (si no existeix, vegeu `deploy/README.md`):
 
-### Camps del JSON gestionats per aquesta skill
+   ```bash
+   .venv/bin/python scripts/update_prices.py --dry-run   # opcional: veure què canviaria
+   .venv/bin/python scripts/update_prices.py             # tot el catàleg, ~8-10 min
+   .venv/bin/python scripts/update_prices.py --only=<carpeta>   # un sol producte
+   ```
 
-| Camp | Tipus | Exemple |
-|---|---|---|
-| `precio` | string `"XX.XX€"` | `"34.99€"` |
-| `precioOriginal` | string `"XX.XX€"` o `null` | `"44.99€"` |
-| `descuentoPct` | number o `null` | `22` |
-| `linkAmazon` | string URL | `"https://www.amazon.es/dp/B01J5RB2J6"` |
+   És llarg: llança'l en segon pla i espera que acabi.
 
-> Els camps `nombre`, `descripcion`, `imagen`, `categoria`, `marca` **NO s'han de modificar mai**.
+2. Llegeix l'informe `scratch/productos/ultimo.md` i resumeix a l'usuari:
+   canvis de preu més grans, ofertes noves/acabades, no disponibles i, sobretot,
+   la secció **«A revisar»** (decisions editorials: nota baixa, ASIN canviat,
+   canvi de preu no confirmat, fitxa desapareguda).
 
----
+3. Si l'execució surt amb **codi 3**, Amazon ha bloquejat (CAPTCHA): el que s'havia
+   llegit ja està desat; proposa tornar-ho a provar d'aquí unes hores. No insisteixis.
 
-## Flux de treball
+4. Compila (`pnpm build`) per validar. **No** facis commit ni deploy si l'usuari no ho demana.
 
-### 1. Descobrir productes a actualitzar
+## Què canvia i què no
 
-```bash
-# Tots els productes
-find src/content/articulos -name "index.json"
-
-# Un producte concret (per slug)
-cat src/content/articulos/<slug>/index.json
-```
-
-### 2. Extreure l'ASIN
-
-De `linkAmazon`, fes match amb el patró:
-```
-amazon\.es/dp/([A-Z0-9]{10})
-```
-Exemple: `https://www.amazon.es/dp/B01J5RB2J6` → ASIN `B01J5RB2J6`
-
-### 3. Consultar Amazon.es
-
-Usa `web_search` amb la query:
-```
-site:amazon.es <ASIN> precio
-```
-O directament fes `web_fetch` de la URL del producte:
-```
-https://www.amazon.es/dp/<ASIN>
-```
-
-#### Camps a extreure del resultat
-
-- **`precio`**: preu actual de venda (el que paga el client ara mateix)
-- **`precioOriginal`**: preu taixat / "precio recomendado" (si n'hi ha); si no, `null`
-- **`descuentoPct`**: percentatge de descompte arrodonit a enter (si no hi ha, `null`)
-
-#### Càlcul del descompte (si Amazon no el mostra explícitament)
-
-```
-descuentoPct = round((precioOriginal - precio) / precioOriginal * 100)
-```
-
-#### Format dels preus
-
-Sempre string amb € al final, dos decimals, sense espais:
-```
-"34.99€"   ✓
-"34,99 €"  ✗
-"34.99"    ✗
-```
-
-### 4. Actualitzar el JSON
-
-Llegeix el fitxer, modifica **només** els tres camps de preu, i sobreescriu:
-
-```python
-import json, re
-
-path = "src/content/articulos/<slug>/index.json"
-
-with open(path, "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-# Actualitza només els camps de preu
-data["precio"] = "34.99€"
-data["precioOriginal"] = "44.99€"   # o None si no n'hi ha
-data["descuentoPct"] = 22            # o None si no n'hi ha
-
-with open(path, "w", encoding="utf-8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=2)
-    f.write("\n")  # trailing newline per compatibilitat amb git
-```
-
-### 5. Resum final
-
-Després d'actualitzar, mostra una taula resum:
-
-| Slug | ASIN | Preu anterior | Preu nou | Descompte |
-|------|------|--------------|----------|-----------|
-| julius-k9-... | B01J5RB2J6 | 39.99€ | 34.99€ | 22% |
-
----
-
-## Casos especials
-
-### Producte sense `precioOriginal`
-Si Amazon no mostra cap preu taixat:
-```json
-"precioOriginal": null,
-"descuentoPct": null
-```
-
-### Producte no disponible / sense estoc
-Si el producte apareix com "No disponible" o "Agotado":
-- Avisa l'usuari però **no modifiques** el JSON sense confirmació.
-
-### ASIN no trobat o URL trencada
-- Avisa l'usuari amb el slug afectat i continua amb la resta.
-
-### Múltiples productes
-Quan l'usuari demana actualitzar-los tots, processa'ls en seqüència i mostra el resum global al final.
-
----
-
-## Exemples de frases que activen aquesta skill
-
-- "Actualitza els preus dels productes"
-- "Fes un fetch dels productes"
-- "Comprova si han canviat els preus a Amazon"
-- "Actualitza el preu del julius-k9"
-- `pnpm run fetch-product-images` (l'usuari menciona que l'ha llançat)
-- "Hi ha descomptes nous a Amazon?"
+- Escriu: `precio`, `precioOriginal`/`descuentoPct` (només si Amazon mostra oferta
+  coherent), `ventas`, `valoracion`, `valoracionesCount`, `nombre`, i la data a
+  `src/data/precios-consultados.json`. `imagen` i `descripcion`, només si falten.
+- No disponible o fitxa 404: treu el preu i posa `disponible: false` (la web ho mostra).
+- Per defecte **no elimina** res. `--prune` elimina les fitxes que no compleixen
+  (nota < 3,7, < 10 valoracions, no disponibles) i crea els 301: només si l'usuari
+  ho demana explícitament.
+- No toca mai el text editorial (`analisis`, `veredicto`, `pros`, `contras`, `tituloSeo`…).

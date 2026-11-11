@@ -7,15 +7,18 @@
 #
 # ───────────────────────────────────────────────────────────────────────────
 # ETAPES (en pots encadenar diverses):
-#   prices         Refresca preus/valoracions i poda productes no disponibles. (destructiu)
-#                  Amb --refill també substitueix els eliminats (update_prices --refill-deleted).
+#   prices         Amazon → catàleg: preus, ofertes, notes, disponibilitat i nom; omple
+#                  imatges i descripcions que faltin. NO elimina res (informe a
+#                  scratch/productos/). Amb --refill sí: elimina i substitueix (destructiu).
+#                  El que no està disponible es queda sense preu i amb `disponible: false`.
 #   new            Descobreix nous productes a Amazon + n'omple imatge i descripció.
 #   images         Descarrega/actualitza imatges de producte (--skip-ok).
 #   descriptions   Omple el camp `descripcion` des d'Amazon.
 #   content        Pipeline editorial de ressenyes (reviews->classify->generate->quality). (LLM, cost)
 #   maintenance    Enllaços d'afiliat + seccions + secció primària (deterministes).
 #   build          Compila amb Astro: el comprovador d'enllaços valida tot el lloc. (gate)
-#   all            Tot, en l'ordre correcte, amb confirmació pel destructiu/car.
+#   all            Descobrir + productes + manteniment + contingut, amb confirmació pel car.
+#                  (Les imatges i descripcions que falten ja les omple l'etapa prices.)
 #
 # OPCIONS:
 #   -n, --dry-run  Passa --dry-run als scripts (lectura d'Amazon, però sense escriure res).
@@ -35,6 +38,10 @@
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
+
+# Python del venv del repo si existeix (Pillow, etc.); si no, el del sistema.
+PY=python3
+[ -x .venv/bin/python ] && PY=.venv/bin/python
 
 PLAN=0; DRYRUN=0; ASSUME_YES=0; REFILL=""; DO_BUILD=1
 STAGES=(); PASS_ARGS=()
@@ -83,16 +90,21 @@ confirm() {                   # confirmació per a etapes destructives/cares
 stage_header() { echo; echo "▶ $1"; }
 
 s_prices() {
-  local extra=(); [ -n "$REFILL" ] && extra=(--refill-deleted)
-  stage_header "PREUS  (refresca + poda${REFILL:+ + substitueix})  [destructiu]"
-  if [ "$DRYRUN" = 0 ]; then confirm "L'etapa 'prices' pot ELIMINAR productes (valoració baixa / no disponibles)."; fi
-  run python3 scripts/update_prices.py "${DRY[@]}" "${extra[@]}" "${PASS_ARGS[@]}"
+  local extra=()
+  if [ -n "$REFILL" ]; then
+    extra=(--refill-deleted)
+    stage_header "PRODUCTES  (Amazon → catàleg + elimina i substitueix)  [destructiu]"
+    if [ "$DRYRUN" = 0 ]; then confirm "Amb --refill s'ELIMINEN productes (valoració baixa / no disponibles) i se'n busquen de nous."; fi
+  else
+    stage_header "PRODUCTES  (Amazon → catàleg; no elimina res)"
+  fi
+  run "$PY" scripts/update_prices.py "${DRY[@]}" "${extra[@]}" "${PASS_ARGS[@]}"
 }
 s_images()       { stage_header "IMATGES";       run node scripts/fetch-amazon-images.mjs --skip-ok "${DRY[@]}"; }
-s_descriptions() { stage_header "DESCRIPCIONS";  run python3 scripts/fetch_descriptions.py "${DRY[@]}" "${PASS_ARGS[@]}"; }
+s_descriptions() { stage_header "DESCRIPCIONS";  run "$PY" scripts/fetch_descriptions.py "${DRY[@]}" "${PASS_ARGS[@]}"; }
 s_discover() {
   stage_header "NOUS PRODUCTES  (descobrir)"
-  run python3 scripts/find_new_products.py "${DRY[@]}" "${PASS_ARGS[@]}"
+  run "$PY" scripts/find_new_products.py "${DRY[@]}" "${PASS_ARGS[@]}"
 }
 s_new() {                     # descobrir + omplir-ne dades (imatge + descripció)
   s_discover
@@ -108,8 +120,8 @@ s_content() {
 }
 s_maintenance() {
   stage_header "MANTENIMENT  (afiliats + seccions)"
-  run python3 scripts/update_affiliate_links.py "${DRY[@]}"
-  run python3 scripts/update_secciones.py "${DRY[@]}"
+  run "$PY" scripts/update_affiliate_links.py "${DRY[@]}"
+  run "$PY" scripts/update_secciones.py "${DRY[@]}"
   if [ "$DRYRUN" = 1 ]; then run node scripts/assign-primary-section.mjs
   else run node scripts/assign-primary-section.mjs --write; fi
 }
@@ -124,7 +136,7 @@ run_stage() {
     prices) s_prices ;; new) s_new ;; images) s_images ;;
     descriptions) s_descriptions ;; content) s_content ;;
     maintenance) s_maintenance ;; build) s_build ;;
-    all) s_discover; s_prices; s_images; s_descriptions; s_maintenance; s_content ;;
+    all) s_discover; s_prices; s_maintenance; s_content ;;
   esac
 }
 

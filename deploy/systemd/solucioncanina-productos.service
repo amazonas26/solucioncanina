@@ -1,0 +1,18 @@
+# Plantilla: deploy/README.md («Actualización automática de productos») explica
+# cómo instalarla en ~/.config/systemd/user/ con las rutas de esta máquina.
+[Unit]
+Description=Solución Canina — actualización de productos desde Amazon
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=@REPO@
+# systemd --user arranca con un PATH mínimo: node y pnpm de esta máquina.
+Environment=PATH=@PATH@
+# Environment=AUTO_PUSH=1
+# Environment=AUTO_DEPLOY=1
+# Environment=DEPLOY_HOST=jan@82.223.161.90
+Nice=10
+ExecStart=@REPO@/scripts/productos_auto.sh
+# 3 = Amazon ha bloqueado (CAPTCHA): no es un fallo del servicio.
+SuccessExitStatus=3

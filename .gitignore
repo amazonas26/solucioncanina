@@ -21,3 +21,6 @@ __pycache__/
 scratch/gsc/
 scratch/informe-gsc.md
 scratch/informe-gsc-*.md
+
+# Informes de update_prices.py (uno por ejecución)
+scratch/productos/

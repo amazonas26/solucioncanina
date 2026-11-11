@@ -66,7 +66,19 @@ fi
 echo
 echo "▶ 4/7 — python scripts/update_prices.py"
 echo "   log → $LOG"
+set +e
 python scripts/update_prices.py 2>&1 | tee "$LOG"
+rc=${PIPESTATUS[0]}
+set -e
+if [ "$rc" -eq 3 ]; then
+  echo
+  echo "⛔ Amazon ha bloqueado las peticiones (CAPTCHA). Lo leído hasta ahí está guardado;"
+  echo "   no se hace commit ni deploy. Vuelve a lanzarlo dentro de unas horas."
+  exit 3
+elif [ "$rc" -ne 0 ]; then
+  echo "update_prices.py ha fallado (código $rc)." >&2
+  exit "$rc"
+fi
 
 echo
 echo "▶ 5/7 — Resumen"
@@ -75,9 +87,12 @@ echo "────────────────────────�
 n_updated=$(grep -c '-> ACTUALITZAT' "$LOG" || true)
 n_removed=$(grep -c '-> ELIMINAT' "$LOG" || true)
 n_failed=$(grep -c '-> NO TROBAT' "$LOG" || true)
+n_unavailable=$(grep -c 'NO DISPONIBLE a Amazon' "$LOG" || true)
 
 echo "  Actualizados:  $n_updated"
 echo "  Eliminados:    $n_removed"
+echo "  No disponibles:$n_unavailable (sin precio en la web)"
+echo "  Informe:       scratch/productos/ultimo.md"
 echo "  No encontrados:$n_failed"
 echo
 
@@ -87,7 +102,7 @@ if [ "$n_removed" -gt 0 ]; then
   echo
 fi
 
-CATALOG_PATHS=(src/content/articulos public/images/articulos vercel.json deploy/nginx/redirects.conf)
+CATALOG_PATHS=(src/content/articulos src/data/precios-consultados.json public/images/articulos vercel.json deploy/nginx/redirects.conf)
 
 echo "  Diff del catálogo:"
 if git status --porcelain -- "${CATALOG_PATHS[@]}" | grep -q .; then
@@ -128,7 +143,7 @@ fi
 
 echo
 echo "▶ 7/7 — commit + push + deploy"
-git add -A -- src/content/articulos public/images/articulos vercel.json deploy/nginx/redirects.conf
+git add -A -- "${CATALOG_PATHS[@]}"
 git commit -m "$(cat <<'EOF'
 chore: actualización semanal de precios
 
