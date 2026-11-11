@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AffiliateBox from '../../components/AffiliateBox.astro';
+import ScrollTable from '../../components/ScrollTable.astro';
 import BlogHeaderIllustration from '../../components/illustrations/BlogHeaderIllustration.astro';
 import DiagramMeasureMuzzle from '../../components/illustrations/diagrams/MeasureMuzzle.astro';
 import DiagramMeasureBed from '../../components/illustrations/diagrams/MeasureBed.astro';
@@ -165,7 +166,7 @@ const allBlogJsonLd = faqJsonLd
 
     {/* Content */}
     <div class="prose prose-lg prose-neutral mx-auto prose-headings:font-serif prose-headings:font-black prose-a:text-primary-600 prose-img:rounded-xl prose-img:border prose-img:border-neutral-200 [&_table]:max-w-full [&_table]:overflow-x-auto">
-      <Content components={{ AffiliateBox, DiagramMeasureMuzzle, DiagramMeasureBed, DiagramRampAngle }} />
+      <Content components={{ AffiliateBox, DiagramMeasureMuzzle, DiagramMeasureBed, DiagramRampAngle, table: ScrollTable }} />
     </div>
 
     {post.data.faqs && post.data.faqs.length > 0 && (
