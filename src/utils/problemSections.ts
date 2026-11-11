@@ -396,12 +396,12 @@ const categorySeo: Record<string, CategorySeo> = {
   "Condroprotectores": {
     title: "Condroprotectores para perros: comparativa y precios",
     description:
-      "Comparativa de condroprotectores para perros: glucosamina, condroitina, MSM y mejillón de labio verde. Precios actualizados y análisis honesto para acertar.",
+      "Comparativa de condroprotectores para perros: glucosamina, condroitina, MSM y mejillón de labio verde. Qué lleva cada uno, para qué perro y análisis honesto.",
   },
   "Camas ortopédicas": {
     title: "Camas ortopédicas para perros: comparativa y precios",
     description:
-      "Camas ortopédicas para perros: viscoelástica, impermeable y desenfundable. Tamaños, grosor de espuma y precios actualizados para elegir la mejor.",
+      "Camas ortopédicas para perros: viscoelástica, impermeable y desenfundable. Tamaño y grosor de espuma según el peso de tu perro para elegir la mejor.",
   },
   "Correas": {
     title: "Correas para perros: largas, adiestramiento y paseo",
