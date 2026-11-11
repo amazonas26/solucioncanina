@@ -101,8 +101,15 @@ sudo /usr/local/sbin/solucioncanina-goaccess
 
 Cron: 07:30 diario, después de logrotate.
 
-## Flags fijas del informe
+## Informes
 
-`--keep-last=30 -q --anonymize-ip`, sin `--real-time-html`, panel Geo ignorado.
-`--keep-last=30` necesita ~30 días de rotación: `logrotate` de este vhost
-guarda 32 días. El `access.log` global de las otras apps no se mezcla.
+| URL | Contenido |
+|---|---|
+| `/stats/` | Todo el tráfico, bots incluidos. |
+| `/stats/humanos.html` | Sin crawlers declarados (`--ignore-crawlers`), sin UA desconocidos (`--unknowns-as-crawlers`) y sin 404 (`--ignore-status=404`, los escáneres de `.env`/`wp-*`). Los dos últimos flags se omiten si la versión de GoAccess no los tiene (lo avisa en el log del cron). |
+
+Flags comunes: `-q --anonymize-ip`, sin `--real-time-html`, panel Geo ignorado.
+Sin `--keep-last`: el periodo lo marca `logrotate` de este vhost (32 días).
+El `access.log` global de las otras apps no se mezcla.
+
+Tras cambiar `generate-report.sh` hay que reinstalarlo en el servidor (paso 3).
