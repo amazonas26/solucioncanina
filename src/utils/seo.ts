@@ -141,8 +141,6 @@ export interface ProductInput {
   price?: string;
   priceOriginal?: string;
   availability?: string;
-  rating?: number;
-  ratingCount?: number;
   category?: string;
   pros?: string[];
   cons?: string[];
@@ -175,24 +173,11 @@ export function productSchema(input: ProductInput) {
     };
   }
 
-  if (input.rating && input.ratingCount) {
-    schema.aggregateRating = {
-      '@type': 'AggregateRating',
-      ratingValue: input.rating,
-      reviewCount: input.ratingCount,
-      bestRating: 5,
-      worstRating: 1,
-    };
-  }
-
   if (input.reviewBody || (input.pros && input.pros.length) || (input.cons && input.cons.length)) {
+    // Sin reviewRating ni aggregateRating: las notas son de Amazon y Google no
+    // permite marcar valoraciones de otras webs. Pros y contras no las necesitan.
     schema.review = {
       '@type': 'Review',
-      reviewRating: input.rating ? {
-        '@type': 'Rating',
-        ratingValue: input.rating,
-        bestRating: 5,
-      } : undefined,
       author: {
         '@type': 'Organization',
         name: SITE_NAME,
