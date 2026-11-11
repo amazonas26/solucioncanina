@@ -31,9 +31,9 @@ export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
 
 export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: string }[]> = {
   'Condroprotectores': [
-    { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
+    { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'Mejor condroprotector para perros: comparativa de 11' },
+    { slug: 'condroprotectores-perros-guia-completa', titulo: 'Qué son los condroprotectores y cuándo darlos' },
     { slug: 'glucosamina-para-perros-para-que-sirve-dosis', titulo: 'Glucosamina para perros: para qué sirve y dosis' },
-    { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'El mejor condroprotector para perros con artrosis' },
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
     { slug: 'pastillas-perros-artrosis-comprimidos-gotas-snacks', titulo: 'Pastillas para perros con artrosis: comprimidos, gotas o snacks' },
     { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
@@ -55,7 +55,7 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
     { slug: 'pastillas-perros-artrosis-comprimidos-gotas-snacks', titulo: 'Pastillas para perros con artrosis: comprimidos, gotas o snacks' },
     { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
-    { slug: 'condroprotectores-perros-guia-completa', titulo: 'Condroprotectores para perros: guía completa' },
+    { slug: 'condroprotectores-perros-guia-completa', titulo: 'Qué son los condroprotectores y cuándo darlos' },
     { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
   ],

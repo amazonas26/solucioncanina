@@ -18,7 +18,8 @@ export async function getStaticPaths() {
     props: { category, categories },
   }));
 
-  const problemPaths = problemSections.map((section) => ({
+  // Les seccions amb `aliasOf` no tenen pàgina: enllacen a la de la categoria (301 a nginx).
+  const problemPaths = problemSections.filter((section) => !section.aliasOf).map((section) => ({
     params: { slug: section.slug },
     props: { category: section.name, categories, sectionSlug: section.slug },
   }));

@@ -20,6 +20,9 @@ export type ProblemSection = {
   problema?: string;
   cuandoConviene?: string[];
   queMirar?: string[];
+  // Secció que mostra els mateixos productes que una categoria: no té pàgina pròpia
+  // (seria contingut duplicat) i enllaça a la de la categoria.
+  aliasOf?: string;
 };
 
 const includesAny = (text: string, words: string[]) =>
@@ -58,10 +61,10 @@ const section = (
   description: string,
   icon: string,
   match: (product: ProductLike) => boolean,
-  extra?: { problema?: string; cuandoConviene?: string[]; queMirar?: string[] },
+  extra?: { problema?: string; cuandoConviene?: string[]; queMirar?: string[]; aliasOf?: string },
 ): ProblemSection => ({
   name,
-  slug: slugify(name),
+  slug: slugify(extra?.aliasOf ?? name),
   description,
   icon,
   match,
@@ -95,6 +98,7 @@ export const problemSections = [
     "bed",
     (product) => categoryIs(product, ["Camas ortopédicas"]),
     {
+      aliasOf: "Camas ortopédicas",
       problema:
         "Un perro adulto pasa entre 12 y 16 horas al día tumbado. Esas horas, multiplicadas por una superficie inadecuada, son una factura silenciosa para la cadera, los codos y la columna. No hace falta esperar a tener un perro mayor para plantearse una cama ortopédica: en razas grandes, en perros operados, en cachorros que crecen rápido o en pisos con suelo duro, el descanso correcto previene problemas más que arreglarlos.",
       cuandoConviene: [
@@ -164,6 +168,7 @@ export const problemSections = [
     "calm",
     (product) => product.data.categoria === "Ansiedad",
     {
+      aliasOf: "Ansiedad",
       problema:
         "La ansiedad en perros casi nunca es 'ser nervioso'. Es un sistema de alarma que se queda encendido más tiempo del que debería, ante ausencias, ruidos, cambios o sin un detonante claro. Antes de mirar productos conviene entender de qué tipo de ansiedad hablamos, porque la respuesta a cada una es distinta: la separación se trabaja con protocolo de ausencias progresivas, los petardos con desensibilización y refugio, los viajes con familiarización al transportín. Los productos de esta sección son apoyos del trabajo de conducta, no atajos.",
       cuandoConviene: [
@@ -226,6 +231,7 @@ export const problemSections = [
     "ramp",
     (product) => product.data.categoria === "Rampas",
     {
+      aliasOf: "Rampas",
       problema:
         "Cada salto desde el maletero o el sofá impacta sobre la columna y las articulaciones del perro con fuerzas que pueden multiplicar varias veces su peso. En razas con espalda larga (Teckel, Bulldog Francés, Corgi), en perros grandes con tendencia a displasia, o en perros mayores con artrosis, las rampas no son una excentricidad: son prevención básica. Lo curioso es que la mayoría de la gente se las plantea cuando ya hay un problema diagnosticado, no antes — y en este caso, antes es mucho más útil.",
       cuandoConviene: [
@@ -394,9 +400,9 @@ type CategorySeo = { title: string; description: string };
 
 const categorySeo: Record<string, CategorySeo> = {
   "Condroprotectores": {
-    title: "Condroprotectores para perros: comparativa y precios",
+    title: "Condroprotectores para perros: precios y fichas",
     description:
-      "Comparativa de condroprotectores para perros: glucosamina, condroitina, MSM y mejillón de labio verde. Qué lleva cada uno, para qué perro y análisis honesto.",
+      "Los condroprotectores para perros que hemos analizado: glucosamina, condroitina, MSM o mejillón de labio verde, con su precio en Amazon y para qué perro sirve cada uno.",
   },
   "Camas ortopédicas": {
     title: "Camas ortopédicas para perros: comparativa y precios",
