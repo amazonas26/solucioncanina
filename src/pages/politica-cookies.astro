@@ -7,7 +7,7 @@ const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-const lastUpdate = "Septiembre de 2026";
+const lastUpdate = "Noviembre de 2026";
 ---
 
 <Layout
@@ -134,6 +134,11 @@ const lastUpdate = "Septiembre de 2026";
           5. Gestión y desactivación de cookies
         </h2>
         <p>
+          Puede cambiar su elección (aceptar o rechazar las cookies analíticas) en cualquier
+          momento desde el enlace «Configurar cookies» del pie de página. Al rechazarlas se
+          borran las cookies de Google Analytics ya instaladas.
+        </p>
+        <p class="mt-4">
           El usuario puede aceptar, rechazar o eliminar las cookies en cualquier momento
           desde la configuración de su navegador. A continuación se incluyen los enlaces a
           las páginas de ayuda de los navegadores más comunes:

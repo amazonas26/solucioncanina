@@ -207,6 +207,14 @@ const { target, nombre, slug, categoria, precio } = Astro.props;
           setTimeout(go, 0);
         }
 
+        // Sin consentimiento de cookies analíticas no se carga GA: redirección directa.
+        var consent = null;
+        try { consent = localStorage.getItem("sc_cookie_consent"); } catch (e) {}
+        if (consent !== "accepted") {
+          go();
+          return;
+        }
+
         var s = document.createElement("script");
         s.async = true;
         s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;

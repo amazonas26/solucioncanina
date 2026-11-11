@@ -7,7 +7,7 @@ const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
 );
 
-const lastUpdate = "Septiembre de 2026";
+const lastUpdate = "Noviembre de 2026";
 ---
 
 <Layout
@@ -75,8 +75,8 @@ const lastUpdate = "Septiembre de 2026";
             técnica recogida automáticamente por las cookies analíticas
             (dirección IP anonimizada, tipo de navegador, páginas visitadas,
             tiempo de permanencia, dispositivo). Finalidad: medir el tráfico y
-            mejorar la experiencia. Google Analytics permanece activo en el
-            Sitio.
+            mejorar la experiencia. Google Analytics solo se activa si el
+            usuario acepta las cookies analíticas en el banner.
           </li>
           <li>
             <strong>Registros de acceso del servidor</strong>: el servidor
@@ -148,7 +148,7 @@ const lastUpdate = "Septiembre de 2026";
         >
           <li>
             <strong>Google LLC</strong> (Google Analytics) — para la medición de tráfico
-            web. Google Analytics sigue activo. Puede implicar transferencia
+            web, solo si el usuario acepta las cookies analíticas. Puede implicar transferencia
             internacional de datos amparada por las Cláusulas Contractuales Tipo
             aprobadas por la Comisión Europea.
           </li>

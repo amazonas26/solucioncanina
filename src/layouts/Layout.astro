@@ -69,25 +69,32 @@ const categories = categoriesProp.length > 0
   <head>
     <meta charset="UTF-8" />
     <Fragment set:html={`<meta name="p:domain_verify" content="fceefba5cd3fc4201c57eef84a3c38ff"/>`} />
-    <!-- Google tag (gtag.js) — deferred to idle to free main thread for LCP/INP -->
+    <!-- Google tag (gtag.js) — solo con consentimiento (banner «Aceptar»); diferido a idle para LCP/INP -->
     <script is:inline>
       (function () {
         var GA_ID = 'G-FH339B1P51';
         window.dataLayer = window.dataLayer || [];
         function gtag(){ window.dataLayer.push(arguments); }
         window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', GA_ID);
-        function loadGA() {
+        var loaded = false;
+        window.scLoadAnalytics = function () {
+          window['ga-disable-' + GA_ID] = false;
+          if (loaded) return;
+          loaded = true;
+          gtag('js', new Date());
+          gtag('config', GA_ID);
           var s = document.createElement('script');
           s.async = true;
           s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
           document.head.appendChild(s);
-        }
+        };
+        var consent = null;
+        try { consent = localStorage.getItem('sc_cookie_consent'); } catch (e) {}
+        if (consent !== 'accepted') return;
         if ('requestIdleCallback' in window) {
-          requestIdleCallback(loadGA, { timeout: 4000 });
+          requestIdleCallback(window.scLoadAnalytics, { timeout: 4000 });
         } else {
-          window.addEventListener('load', function () { setTimeout(loadGA, 1500); });
+          window.addEventListener('load', function () { setTimeout(window.scLoadAnalytics, 1500); });
         }
       })();
     </script>
@@ -296,6 +303,7 @@ const categories = categoriesProp.length > 0
               <li><a href="/aviso-legal/#descargo-veterinario" class="hover:text-white transition-colors">Descargo veterinario</a></li>
               <li><a href="/politica-privacidad/" class="hover:text-white transition-colors">Política de privacidad</a></li>
               <li><a href="/politica-cookies/" class="hover:text-white transition-colors">Política de cookies</a></li>
+              <li><button type="button" id="cookie-settings" class="hover:text-white transition-colors">Configurar cookies</button></li>
             </ul>
             <p class="mt-4 text-xs text-white/40 leading-relaxed">
               <a href="/aviso-legal/#descargo-veterinario" class="hover:text-white/70 transition-colors">
@@ -335,15 +343,15 @@ const categories = categoriesProp.length > 0
     >
       <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <p class="text-sm text-white/80 flex-1 leading-relaxed">
-          Usamos cookies propias y de terceros (Google Analytics) para analizar el tráfico y mejorar la experiencia. Al continuar navegando aceptas su uso.
+          Usamos cookies analíticas de Google Analytics para medir el tráfico y mejorar la web. Solo se activan si las aceptas; puedes cambiar tu elección en cualquier momento desde «Configurar cookies», al pie de la página.
           <a href="/politica-cookies/" class="underline text-white/60 hover:text-white ml-1 whitespace-nowrap">Política de cookies</a>
         </p>
         <div class="flex gap-3 shrink-0">
           <button
             id="cookie-reject"
-            class="text-xs font-semibold text-white/50 hover:text-white transition-colors px-3 py-2"
+            class="text-xs font-bold text-white border border-white/40 hover:border-white hover:bg-white/10 px-5 py-2 rounded-lg transition-colors"
           >
-            Rechazar
+            Rechazar cookies
           </button>
           <button
             id="cookie-accept"
@@ -359,21 +367,48 @@ const categories = categoriesProp.length > 0
       (function () {
         var KEY = 'sc_cookie_consent';
         var banner = document.getElementById('cookie-banner');
-        var consent = localStorage.getItem(KEY);
+        var consent = null;
+        try { consent = localStorage.getItem(KEY); } catch (e) {}
+
+        function save(value) {
+          try { localStorage.setItem(KEY, value); } catch (e) {}
+          banner.style.display = 'none';
+        }
+
+        // Al rechazar (también después de haber aceptado): corta GA en esta página
+        // y borra las cookies _ga / _ga_* que ya hubiera dejado.
+        function clearAnalytics() {
+          window['ga-disable-G-FH339B1P51'] = true;
+          var base = location.hostname.replace(/^www\./, '');
+          document.cookie.split(';').forEach(function (c) {
+            var name = c.split('=')[0].trim();
+            if (name !== '_ga' && name.indexOf('_ga_') !== 0) return;
+            ['', '; domain=' + location.hostname, '; domain=.' + base].forEach(function (d) {
+              document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d;
+            });
+          });
+        }
 
         if (!consent) {
           banner.style.display = 'block';
         }
 
         document.getElementById('cookie-accept').addEventListener('click', function () {
-          localStorage.setItem(KEY, 'accepted');
-          banner.style.display = 'none';
+          save('accepted');
+          if (window.scLoadAnalytics) window.scLoadAnalytics();
         });
 
         document.getElementById('cookie-reject').addEventListener('click', function () {
-          localStorage.setItem(KEY, 'rejected');
-          banner.style.display = 'none';
+          save('rejected');
+          clearAnalytics();
         });
+
+        var settings = document.getElementById('cookie-settings');
+        if (settings) {
+          settings.addEventListener('click', function () {
+            banner.style.display = 'block';
+          });
+        }
       })();
 
       (function () {
