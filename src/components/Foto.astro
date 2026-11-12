@@ -1,0 +1,29 @@
+---
+// Foto dins d'un article MDX: <Foto src="/images/fotos/x.webp" pie="…" />.
+// L'alt i el crèdit surten de src/data/fotos.json.
+import FotoCredito from './FotoCredito.astro';
+import { fotoObligatoria } from '../utils/fotos';
+
+interface Props {
+  src: string;
+  pie?: string;
+}
+
+const { src, pie } = Astro.props;
+const foto = fotoObligatoria(src, Astro.url.pathname);
+---
+
+<figure class="not-prose my-10">
+  <img
+    src={src}
+    alt={foto.alt}
+    width={foto.ancho}
+    height={foto.alto}
+    loading="lazy"
+    decoding="async"
+    class="w-full h-auto"
+  />
+  <figcaption class="mt-2 text-sm text-neutral-600 leading-snug">
+    {pie && <span class="italic">{pie} </span>}<FotoCredito foto={foto} />
+  </figcaption>
+</figure>

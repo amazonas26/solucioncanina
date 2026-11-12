@@ -252,7 +252,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex lg:hidden h-9 w-9 items-center justify-center rounded-lg bg-neutral-50 border border-neutral-200 hover:bg-neutral-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 shrink-0"
+        className="inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-sm border border-neutral-300 hover:bg-neutral-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/20 shrink-0"
         aria-label="Abrir catálogo"
         id="catalog-hamburger"
       >
@@ -283,7 +283,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
           aria-haspopup="listbox"
           aria-expanded={showDropdown}
           aria-autocomplete="list"
-          className="w-full h-9 pl-9 pr-8 bg-neutral-50 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 text-sm text-neutral-900 placeholder:text-neutral-400 font-medium transition-colors"
+          className="w-full h-10 pl-9 pr-8 bg-white rounded-sm border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-neutral-900 text-sm text-neutral-900 placeholder:text-neutral-400 font-medium transition-colors"
           id="header-search"
         />
         {query.length > 0 && (
@@ -302,7 +302,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
           <div
             ref={dropdownRef}
             role="listbox"
-            className="absolute top-full left-0 right-0 mt-1.5 bg-white rounded-xl border border-neutral-200 shadow-2xl overflow-hidden z-[60]"
+            className="absolute top-full left-0 right-0 mt-1 bg-white rounded-sm border border-neutral-900 shadow-lg overflow-hidden z-[60]"
           >
             {suggestions.length === 0 ? (
               <div className="px-4 py-6 text-center text-sm">
@@ -399,7 +399,7 @@ export default function HeaderCatalogControls({ categories, searchIndex = [] }: 
               className="absolute inset-0 bg-neutral-900/40"
               onClick={() => setOpen(false)}
             />
-            <div className="absolute left-0 top-0 h-full w-[85vw] max-w-[380px] bg-white shadow-xl z-[71]">
+            <div className="absolute left-0 top-0 h-full w-[85vw] max-w-[380px] bg-paper shadow-xl z-[71]">
               <div className="flex items-center justify-between px-4 h-14 border-b border-neutral-100">
                 <div className="flex items-center gap-2">
                   <img src="/logo.png" alt="" className="w-6 h-6 object-contain" />

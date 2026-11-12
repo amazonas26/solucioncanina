@@ -1,0 +1,56 @@
+{
+  "asin": "B001N00KGA",
+  "fetched_at": "2026-11-12T19:33:23Z",
+  "source": "amazon.es/product-reviews",
+  "count": 6,
+  "reviews": [
+    {
+      "stars": 5.0,
+      "title": "Retirar y no da la dañar perros",
+      "body": "Maravilloso para pastora alemana pelo corto medio",
+      "date": "Reseñado en España el 11 de febrero de 2025",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Elle est parfaite !",
+      "body": "Elle est très maniable, va en profondeur sans blesser le chien et très efficace. Je recommande !",
+      "date": "Reseñado en Francia el 20 de julio de 2023",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Tarak",
+      "body": "Gayet kullanışlı",
+      "date": "Reseñado en Turquía el 17 de diciembre de 2024",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Tut was er soll.",
+      "body": "Alles gut",
+      "date": "Reseñado en Alemania el 8 de septiembre de 2021",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Idéal pour chiens à poils longs",
+      "body": "Râteau à double rangée pour enlever ET la sous couche de poils ET autres poils, morts.\nCeci sans trop d’efforts et surtout sans douleur pour l’animal.",
+      "date": "Reseñado en Francia el 15 de julio de 2024",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Kaliteli",
+      "body": "Malzeme çok kaliteli. Açık aralıklı dişleri olmasına rağmen çok iyi tüy topluyor.",
+      "date": "Reseñado en Turquía el 25 de octubre de 2022",
+      "helpful": 0,
+      "verified": true
+    }
+  ]
+}

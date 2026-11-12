@@ -1,0 +1,15 @@
+---
+// «Foto: Autor en Pexels», amb enllaç a la fitxa original.
+import type { Foto } from '../utils/fotos';
+
+interface Props {
+  foto: Foto;
+  class?: string;
+}
+
+const { foto, class: className } = Astro.props;
+---
+
+<span class:list={['text-xs text-neutral-500', className]}>
+  Foto: <a href={foto.url} target="_blank" rel="noopener noreferrer" class="underline decoration-neutral-300 underline-offset-2 hover:decoration-neutral-700">{foto.autor}</a> en {foto.fuente}
+</span>

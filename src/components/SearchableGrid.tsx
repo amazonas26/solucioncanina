@@ -15,7 +15,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import {
   problemSections,
-  productInSection,
+  productInPrimarySection,
   countProductsInSection,
 } from '../utils/problemSections';
 
@@ -264,7 +264,7 @@ export default function SearchableGrid({
 
       const catFilter = selectedCategory?.trim() || null;
       const matchesCatalogFilter = activeSection
-        ? productInSection(art, activeSection)
+        ? productInPrimarySection(art, activeSection)
         : catFilter
           ? art.data.categoria === catFilter
           : true;
@@ -348,7 +348,7 @@ export default function SearchableGrid({
               placeholder="Buscar por nombre, marca o categoría…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-neutral-900 placeholder:text-neutral-400 text-sm font-medium"
+              className="w-full pl-10 pr-4 py-3 bg-white rounded-sm border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-neutral-900 transition-all text-neutral-900 placeholder:text-neutral-400 text-sm font-medium"
               id="catalog-search"
             />
             {search && (
@@ -370,9 +370,9 @@ export default function SearchableGrid({
               aria-haspopup="dialog"
               aria-expanded={isFiltersOpen}
               className={cn(
-                "inline-flex items-center justify-between gap-2 px-4 py-3 rounded-lg border text-sm font-bold transition-all whitespace-nowrap w-full lg:w-auto",
+                "inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm border text-sm font-semibold transition-colors whitespace-nowrap w-full lg:w-auto",
                 activeFiltersCount > 0
-                  ? "bg-primary-600 text-white border-primary-600 shadow-sm hover:bg-primary-700"
+                  ? "bg-neutral-900 text-paper border-neutral-900"
                   : "bg-white text-neutral-700 border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50"
               )}
             >
@@ -574,7 +574,7 @@ export default function SearchableGrid({
         <div className="space-y-4" id="category-filters">
           {visibleSections.length > 0 && (
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-2">
+              <p className="text-sm font-semibold text-neutral-900 mb-2">
                 Por necesidad
               </p>
               <div className="flex flex-wrap gap-2">
@@ -583,10 +583,10 @@ export default function SearchableGrid({
                     key={section.slug}
                     href={`/categoria/${section.slug}/`}
                     className={cn(
-                      "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                      "px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors",
                       initialSectionSlug === section.slug
-                        ? "bg-primary-600 text-white shadow-sm"
-                        : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                        ? "bg-neutral-900 text-paper border-neutral-900"
+                        : "text-neutral-800 border-neutral-300 hover:border-neutral-900",
                     )}
                   >
                     {section.name}
@@ -597,17 +597,17 @@ export default function SearchableGrid({
           )}
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-2">
+            <p className="text-sm font-semibold text-neutral-900 mb-2">
               Por tipo de producto
             </p>
             <div className="flex flex-wrap gap-2">
               <a
                 href="/productos/"
                 className={cn(
-                  "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                  "px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors",
                   !selectedCategory && !initialSectionSlug
-                    ? "bg-navy-700 text-white shadow-sm"
-                    : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                    ? "bg-neutral-900 text-paper border-neutral-900"
+                    : "text-neutral-800 border-neutral-300 hover:border-neutral-900",
                 )}
               >
                 Todos
@@ -617,10 +617,10 @@ export default function SearchableGrid({
                   key={cat}
                   href={`/categoria/${slugify(cat)}/`}
                   className={cn(
-                    "px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-200",
+                    "px-3.5 py-1.5 rounded-full text-sm font-medium border transition-colors",
                     cat === selectedCategory && !initialSectionSlug
-                      ? "bg-navy-700 text-white shadow-sm"
-                      : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100 border border-neutral-200",
+                      ? "bg-neutral-900 text-paper border-neutral-900"
+                      : "text-neutral-800 border-neutral-300 hover:border-neutral-900",
                   )}
                 >
                   {cat}
@@ -680,7 +680,7 @@ export default function SearchableGrid({
           {filteredArticulos.length > 0 ? (
             <motion.div
               layout
-              className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5"
+              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-10"
             >
               {filteredArticulos.map((art) => (
                 <ProductCard

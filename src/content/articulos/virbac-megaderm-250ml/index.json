@@ -1,0 +1,31 @@
+{
+  "nombre": "Megaderm - 250ml",
+  "nombreCorto": "Virbac Megaderm omega-6 y omega-3 · 250 ml",
+  "slug": "virbac-megaderm-250-ml",
+  "linkAmazon": "https://www.amazon.es/dp/B00I0VX1B6/?tag=solucioncanin-21",
+  "categoria": "Piel y pelo",
+  "marca": "Virbac",
+  "tipoAnalisis": "Analizado",
+  "secciones": [
+    "Piel, picores y muda"
+  ],
+  "precio": "37.49€",
+  "valoracion": 4.5,
+  "valoracionesCount": 274,
+  "imagen": "/images/articulos/virbac-megaderm-250ml/imagen.jpg",
+  "descripcion": "Suplemento veterinario líquido con ácidos grasos omega-6 y omega-3 (ácido linoleico, gamma-linolénico y EPA), pensado para la piel y el pelo. Dosis del fabricante: 5 ml hasta 10 kg, 10 ml de 10 a 30 kg y 15 ml a partir de 30 kg.",
+  "veredicto": "Virbac Megaderm: suplemento veterinario de omega-6 y omega-3 para piel seca, picor y muda; no es un omega-3 concentrado ni está pensado para articulaciones.",
+  "analisis": "Megaderm es un producto de laboratorio veterinario que combina omega-6 y omega-3 con mucho más omega-6, el ácido graso que más interviene en la barrera de la piel. Por eso lo recetan para piel seca, caspa, picor o muda abundante, a menudo junto con el tratamiento de una dermatitis. No es la opción si buscas omega-3 para artrosis: ahí cuenta la cantidad de EPA y DHA, y este producto no va de eso.",
+  "experienciaReal": "Las reseñas son de dueños a los que se lo recomendó el veterinario: un boyero de Berna con piel seca, caspa y picor en la muda que mejoró en tres semanas, un perro diabético que perdió la caspa y un perro que soltaba mucho pelo. La queja: un comprador no recibió el tapón dosificador anunciado.",
+  "pros": [
+    "Producto veterinario.",
+    "Pensado para la barrera de la piel (omega-6 y omega-3).",
+    "Dosis sencilla por peso."
+  ],
+  "contras": [
+    "No sirve como omega-3 para artrosis.",
+    "Más caro por ml que un aceite de salmón.",
+    "Algún envío sin tapón dosificador."
+  ],
+  "paraQuien": "Para perros con piel seca, caspa, picor o muda excesiva, mejor con el visto bueno del veterinario si hay dermatitis. No es un omega-3 para articulaciones."
+}

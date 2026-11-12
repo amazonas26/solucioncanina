@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PanalCalculator from '../components/PanalCalculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+import { HERRAMIENTAS_PATH } from '../utils/herramientas';
+import { fuentesDe } from '../utils/fuentes';
+import OtrasHerramientas from '../components/OtrasHerramientas.astro';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+// Només els bolquers i faixes amb la taula de talles de la marca (camp `tallasPanal`).
+const productos = articulos
+  .filter((a) => a.data.tallasPanal)
+  // Només recomanem el que ara es pot comprar amb preu (scripts/update_prices.py).
+  .filter((a) => a.data.disponible !== false && Boolean(a.data.precio))
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    // Sense la talla de la variant enllaçada («· M, 30 uds»): aquí la talla la diu la calculadora.
+    titulo: (a.data.nombreCorto || a.data.nombre).split(' · ')[0],
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    sexo: a.data.tallasPanal!.sexo,
+    tipo: a.data.tallasPanal!.tipo,
+    tallas: a.data.tallasPanal!.tallas,
+  }));
+
+const faqs = [
+  {
+    pregunta: '¿Cómo mido la cintura de mi perro para el pañal?',
+    respuesta:
+      'Con una cinta métrica de costura, alrededor de la barriga justo delante de las patas traseras, con el perro de pie. Deja el metro ajustado pero sin apretar. Es la medida que usan las tablas de todas las marcas; el peso, si lo dan, solo sirve para desempatar.',
+  },
+  {
+    pregunta: '¿Faja o pañal completo?',
+    respuesta:
+      'Para un macho que solo pierde pis, una faja: rodea la barriga y tapa el pene, y es más cómoda. Para una hembra, o para cualquier perro que también pierde heces, un pañal completo con agujero para la cola.',
+  },
+  {
+    pregunta: '¿Desechable o lavable?',
+    respuesta:
+      'Los desechables absorben más y van mejor para la noche o para perros que se vacían enteros. Los lavables salen más baratos a la larga y bastan para goteos o para un macho que marca; si hace falta, se refuerzan con una compresa dentro.',
+  },
+  {
+    pregunta: '¿Cada cuánto hay que cambiar el pañal?',
+    respuesta:
+      'En cuanto esté mojado. La orina en contacto con la piel la irrita y puede producir una dermatitis alrededor de la vulva o del prepucio. Al cambiarlo, limpia y seca la zona; si la piel se enrojece, coméntalo con el veterinario.',
+  },
+  {
+    pregunta: '¿El pañal soluciona la incontinencia?',
+    respuesta:
+      'No: la tapa. En las perras esterilizadas, la causa más frecuente es que el esfínter de la uretra cierra peor, y suele responder bien a la medicación: en un ensayo, el 86 % de las perras tratadas dejó de tener escapes, frente al 33 % con placebo. Antes de comprar pañales para siempre, que lo vea el veterinario.',
+  },
+];
+
+const fuentes = fuentesDe(
+  ['merck-miccion', 'oneill-2017-incontinencia', 'oneill-2019-incontinencia', 'scott-2002'],
+  'calculadora-talla-panal',
+);
+
+const pageUrl = '/calculadora-talla-panal-perros/';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Herramientas', url: HERRAMIENTAS_PATH },
+  { name: 'Talla de pañal', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de talla de pañal para perros"
+  description="¿Qué talla de pañal o faja necesita tu perro? Mide su cintura y te decimos la talla de cada pañal desechable y lavable, para macho o hembra, según la tabla de cada marca."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-6 text-sm text-neutral-500 gap-2 items-center flex-wrap">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <span class="text-neutral-300">/</span>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Calculadoras</a>
+      <span class="text-neutral-300">/</span>
+      <span class="text-neutral-900">Talla de pañal</span>
+    </nav>
+    <h1 class="font-serif text-4xl md:text-6xl font-semibold tracking-[-0.025em] leading-[1.03] text-neutral-900 mb-4">
+      Calculadora de talla de pañal para perros
+    </h1>
+    <p class="font-serif text-xl md:text-2xl text-neutral-700 max-w-3xl leading-snug">
+      Mide la <strong>cintura</strong> de tu perro y te decimos qué <strong>talla</strong> pedir de cada
+      pañal y faja. Cada marca usa sus propios centímetros: una «M» de una no es la «M» de otra.
+    </p>
+  </div>
+
+  <PanalCalculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula</h2>
+    <ol>
+      <li>
+        <strong>La medida:</strong> el perímetro de la cintura, justo delante de las patas traseras. Es la que
+        usan las tablas de todas las marcas.
+      </li>
+      <li>
+        <strong>Las tablas:</strong> para cada pañal y faja del catálogo usamos los centímetros que publica la
+        marca en su ficha de Amazon, talla por talla.
+      </li>
+      <li>
+        <strong>El resultado:</strong> la talla o tallas en las que cabe tu medida. Si caben dos, es porque las
+        tablas se solapan: desempata con el peso, si la marca lo da, o elige la grande.
+      </li>
+    </ol>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Por qué se escapa el pis, qué puede hacer el veterinario y cómo proteger la cama y la piel, en la
+      <a href="/blog/incontinencia-perro-mayor-panales/" class="text-primary-600 font-semibold hover:underline">guía de incontinencia en perros mayores</a>.
+      Todos los productos, con precio y análisis, en la
+      <a href="/categoria/incontinencia/" class="text-primary-600 font-semibold hover:underline">sección de incontinencia</a>.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Fuentes</h2>
+    <ol class="text-sm text-neutral-700">
+      {fuentes.map((f) => (
+        <li class="mb-2">
+          <span class="font-semibold">{f.autores}{f.anio ? ` (${f.anio})` : ''}.</span>{' '}
+          <a href={f.url} target="_blank" rel="noopener noreferrer" class="underline">{f.titulo}</a>.{' '}
+          <span class="text-neutral-500">{f.publicacion}.</span>
+        </li>
+      ))}
+    </ol>
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Las tallas son las que publica cada marca y pueden cambiar; confírmalas en la ficha antes de comprar.
+      Un pañal no trata la incontinencia: si tu perro empieza a perder orina, llévalo al veterinario.
+    </p>
+  </section>
+
+  <OtrasHerramientas currentPath={pageUrl} />
+</Layout>

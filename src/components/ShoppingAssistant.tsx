@@ -5,7 +5,7 @@ import {
   Baby, Dog, Activity, 
   Minimize2, Expand, Maximize2, 
   Bone, Map, Zap, Drumstick, 
-  ArrowLeft, Sparkles, CheckCircle2, RotateCcw,
+  ArrowLeft, CheckCircle2, RotateCcw,
   Coins, Wallet, Gem
 } from 'lucide-react';
 import { notaPrecios } from '../utils/precioConsultado';
@@ -49,9 +49,9 @@ const QUESTIONS = [
     title: '¿Qué edad tiene tu perro?',
     subtitle: 'Las necesidades nutricionales y físicas cambian con la edad.',
     options: [
-      { label: 'Cachorro', value: 'cachorro', icon: <Baby size={36} strokeWidth={1.5} className="text-blue-500" />, desc: 'Menos de 1 año' },
-      { label: 'Adulto', value: 'adulto', icon: <Dog size={36} strokeWidth={1.5} className="text-amber-600" />, desc: 'De 1 a 7 años' },
-      { label: 'Senior', value: 'senior', icon: <Activity size={36} strokeWidth={1.5} className="text-teal-600" />, desc: 'Más de 7 años' },
+      { label: 'Cachorro', value: 'cachorro', icon: <Baby size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Menos de 1 año' },
+      { label: 'Adulto', value: 'adulto', icon: <Dog size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'De 1 a 7 años' },
+      { label: 'Senior', value: 'senior', icon: <Activity size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Más de 7 años' },
     ],
   },
   {
@@ -59,9 +59,9 @@ const QUESTIONS = [
     title: '¿Cuál es su tamaño aproximado?',
     subtitle: 'Importante para elegir correas, camas o dosis de suplementos.',
     options: [
-      { label: 'Pequeño', value: 'pequeno', icon: <Minimize2 size={36} strokeWidth={1.5} className="text-emerald-500" />, desc: 'Menos de 10 kg' },
-      { label: 'Mediano', value: 'mediano', icon: <Expand size={36} strokeWidth={1.5} className="text-indigo-500" />, desc: 'De 10 a 25 kg' },
-      { label: 'Grande', value: 'grande', icon: <Maximize2 size={36} strokeWidth={1.5} className="text-rose-500" />, desc: 'Más de 25 kg' },
+      { label: 'Pequeño', value: 'pequeno', icon: <Minimize2 size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Menos de 10 kg' },
+      { label: 'Mediano', value: 'mediano', icon: <Expand size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'De 10 a 25 kg' },
+      { label: 'Grande', value: 'grande', icon: <Maximize2 size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Más de 25 kg' },
     ],
   },
   {
@@ -69,10 +69,10 @@ const QUESTIONS = [
     title: '¿En qué área necesitas más ayuda hoy?',
     subtitle: 'Selecciona la principal preocupación o necesidad.',
     options: [
-      { label: 'Descanso y Movilidad', value: 'movilidad', icon: <Bone size={36} strokeWidth={1.5} className="text-stone-500" />, desc: 'Camas, rampas, articulaciones' },
-      { label: 'Paseo y Educación', value: 'paseo', icon: <Map size={36} strokeWidth={1.5} className="text-sky-500" />, desc: 'Tirones, bozales, collares' },
-      { label: 'Ansiedad y Miedos', value: 'ansiedad', icon: <Zap size={36} strokeWidth={1.5} className="text-yellow-500" />, desc: 'Tormentas, separación, estrés' },
-      { label: 'Alimentación y Digestión', value: 'alimentacion', icon: <Drumstick size={36} strokeWidth={1.5} className="text-orange-500" />, desc: 'Dietas especiales, suplementos' },
+      { label: 'Descanso y movilidad', value: 'movilidad', icon: <Bone size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Camas, rampas, articulaciones' },
+      { label: 'Paseo y educación', value: 'paseo', icon: <Map size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Tirones, bozales, collares' },
+      { label: 'Ansiedad y miedos', value: 'ansiedad', icon: <Zap size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Tormentas, separación, estrés' },
+      { label: 'Alimentación y digestión', value: 'alimentacion', icon: <Drumstick size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Dietas especiales, suplementos' },
     ],
   },
   {
@@ -80,9 +80,9 @@ const QUESTIONS = [
     title: '¿Cuánto tienes pensado invertir?',
     subtitle: 'Nos ayuda a recomendarte opciones dentro de tu rango de precios.',
     options: [
-      { label: 'Económico', value: 'economico', icon: <Coins size={36} strokeWidth={1.5} className="text-gray-500" />, desc: 'Prioridad al mejor precio' },
-      { label: 'Calidad-Precio', value: 'medio', icon: <Wallet size={36} strokeWidth={1.5} className="text-blue-500" />, desc: 'Opciones equilibradas' },
-      { label: 'Premium', value: 'premium', icon: <Gem size={36} strokeWidth={1.5} className="text-purple-500" />, desc: 'La mejor calidad posible' },
+      { label: 'Económico', value: 'economico', icon: <Coins size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Prioridad al mejor precio' },
+      { label: 'Calidad-Precio', value: 'medio', icon: <Wallet size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'Opciones equilibradas' },
+      { label: 'Premium', value: 'premium', icon: <Gem size={36} strokeWidth={1.5} className="text-primary-600" />, desc: 'La mejor calidad posible' },
     ],
   },
 ];
@@ -90,7 +90,6 @@ const QUESTIONS = [
 export default function ShoppingAssistant({ articulos }: Props) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleOptionClick = (optionValue: string) => {
     if (step === 0) {
@@ -102,16 +101,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
     const newAnswers = { ...answers, [currentQuestion.id]: optionValue };
     setAnswers(newAnswers);
 
-    if (step < QUESTIONS.length - 1) {
-      setStep(step + 1);
-    } else {
-      // Finished
-      setIsAnalyzing(true);
-      setTimeout(() => {
-        setStep(step + 1);
-        setIsAnalyzing(false);
-      }, 2000); // Fake analyzing delay for 'cool' effect
-    }
+    setStep(step + 1);
   };
 
   const getRecommendations = () => {
@@ -229,33 +219,8 @@ export default function ShoppingAssistant({ articulos }: Props) {
       <AnimatePresence mode="wait">
         
         {/* Analyzing State */}
-        {isAnalyzing && (
-          <motion.div 
-            key="analyzing"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            className="flex flex-col items-center text-center space-y-6"
-          >
-            <div className="relative w-24 h-24">
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="w-full h-full rounded-full border-4 border-neutral-100 border-t-primary-500 border-r-primary-500"
-              />
-              <div className="absolute inset-0 flex items-center justify-center text-primary-500">
-                <Sparkles size={32} />
-              </div>
-            </div>
-            <div>
-              <h2 className="text-2xl font-serif font-bold text-neutral-900 mb-2">Analizando opciones...</h2>
-              <p className="text-neutral-500">Buscando las mejores soluciones en nuestro catálogo</p>
-            </div>
-          </motion.div>
-        )}
-
         {/* Questions */}
-        {!isAnalyzing && step < QUESTIONS.length && (
+        {step < QUESTIONS.length && (
           <motion.div
             key={`step-${step}`}
             initial={{ opacity: 0, y: 20 }}
@@ -265,7 +230,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
             className="w-full flex flex-col items-center text-center"
           >
             {step > 0 && (
-              <div className="mb-8 text-sm font-bold text-primary-500 tracking-wider uppercase bg-primary-50 px-4 py-1 rounded-full border border-primary-100">
+              <div className="mb-6 text-sm font-semibold text-neutral-500">
                 Pregunta {step} de {QUESTIONS.length - 1}
               </div>
             )}
@@ -286,16 +251,12 @@ export default function ShoppingAssistant({ articulos }: Props) {
                   key={opt.value}
                   onClick={() => handleOptionClick(opt.value)}
                   className={step === 0 
-                    ? "bg-navy-700 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-xl hover:bg-navy-800 hover:-translate-y-1 transition-all cursor-pointer"
-                    : "relative overflow-hidden group flex text-left flex-col bg-white p-5 rounded-xl border-2 border-neutral-200 hover:border-primary-500 hover:shadow-xl transition-all hover:-translate-y-1.5 cursor-pointer"
+                    ? "bg-navy-700 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-navy-800 transition-colors cursor-pointer"
+                    : "relative group flex text-left flex-col bg-white p-5 rounded-lg border-2 border-neutral-200 hover:border-primary-500 hover:bg-primary-50/40 transition-colors cursor-pointer"
                   }
                 >
-                  {step !== 0 && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
-                  
                   <div className="relative z-10 w-full">
-                    {opt.icon && <span className="mb-3 block drop-shadow-sm group-hover:scale-110 transition-transform origin-left">{opt.icon}</span>}
+                    {opt.icon && <span className="mb-3 block">{opt.icon}</span>}
                     <span className={`block font-black ${step === 0 ? 'text-xl' : 'text-lg text-neutral-900'} mb-1.5 leading-tight`}>{opt.label}</span>
                     {opt.desc && <span className="block text-sm text-neutral-500 font-medium group-hover:text-primary-700 transition-colors">{opt.desc}</span>}
                   </div>
@@ -316,7 +277,7 @@ export default function ShoppingAssistant({ articulos }: Props) {
         )}
 
         {/* Results */}
-        {!isAnalyzing && step >= QUESTIONS.length && (
+        {step >= QUESTIONS.length && (
           <motion.div
             key="results"
             initial={{ opacity: 0, y: 30 }}
@@ -353,13 +314,12 @@ export default function ShoppingAssistant({ articulos }: Props) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.3 + (index * 0.1) }}
-                  className="relative mt-6 lg:mt-0"
+                  className="relative"
                 >
-                  <div className="absolute -top-5 -right-5 z-20 w-14 h-14 bg-gradient-to-tr from-amber-400 to-amber-300 text-amber-900 font-black rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-white rotate-12">
-                    <span className="text-[10px] leading-none uppercase tracking-wider mb-0.5 opacity-80">Top</span>
-                    <span className="text-xl leading-none">#{index + 1}</span>
-                  </div>
-                  <div className={index === 0 ? "ring-4 ring-amber-400 rounded-2xl shadow-xl scale-105 transition-transform" : "h-full"}>
+                  <p className="mb-2 text-sm font-semibold text-neutral-600">
+                    {index === 0 ? 'La que más encaja' : `Opción ${index + 1}`}
+                  </p>
+                  <div className={index === 0 ? "h-full ring-2 ring-primary-500 rounded-xl" : "h-full"}>
                     <ProductCard 
                       slug={art.slug}
                       nombre={art.data.nombreCorto || art.data.nombre}

@@ -1,15 +1,15 @@
 {
-  "nombre": "Veterinary Renal | 12 x 100 g | Dieta completa para perros adultos | Para favorecer la función renal | Trozos finos en salsa",
+  "nombre": "Veterinary Renal | 12 x 100 g | Alimento Completo para Perros Adultos | para favorecer la función renal | con sabrosos trozos en Salsa",
   "nombreCorto": "Royal Canin Renal húmedo · 12 × 100 g",
   "tipoAnalisis": "Analizado",
   "descripcion": "Alimento húmedo veterinario para perros con enfermedad renal. Favorece la hidratación y el aporte calórico con proteínas de alta calidad y bajo fósforo.",
   "imagen": "/images/articulos/royal-canin-renal-humedo-12x100g/imagen.jpg",
-  "linkAmazon": "https://www.amazon.es/dp/B08KJD9NDY/?tag=solucioncanin-21",
+  "linkAmazon": "https://www.amazon.es/dp/B0B3J748TD/?tag=solucioncanin-21",
   "categoria": "Alimentación específica",
   "marca": "Royal Canin",
-  "valoracion": 4.6,
+  "valoracion": 4.5,
   "slug": "royal-canin-veterinary-renal-humedo-12x100g",
-  "valoracionesCount": 901,
+  "valoracionesCount": 212,
   "secciones": [
     "Problemas renales y urinarios"
   ],
@@ -26,5 +26,7 @@
     "Coste por calorías superior al pienso seco.",
     "Requiere refrigeración una vez abierto."
   ],
-  "paraQuien": "Para perros con insuficiencia renal que necesitan hidratación extra o que rechazan pienso seco. No encaja como dieta exclusiva en perros grandes por coste: combinar con pienso seco renal."
+  "paraQuien": "Para perros con insuficiencia renal que necesitan hidratación extra o que rechazan pienso seco. No encaja como dieta exclusiva en perros grandes por coste: combinar con pienso seco renal.",
+  "precio": "18.42€",
+  "ventas": 50
 }

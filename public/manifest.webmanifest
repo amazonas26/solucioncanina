@@ -8,8 +8,8 @@
   "display": "browser",
   "lang": "es-ES",
   "dir": "ltr",
-  "theme_color": "#3C9E91",
-  "background_color": "#ffffff",
+  "theme_color": "#f7f4ee",
+  "background_color": "#f7f4ee",
   "icons": [
     {
       "src": "/icons/icon-192.png",

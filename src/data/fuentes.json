@@ -1,0 +1,634 @@
+{
+  "aaha-dental-2019": {
+    "autores": "Bellows et al.",
+    "anio": 2019,
+    "titulo": "2019 AAHA Dental Care Guidelines for Dogs and Cats",
+    "publicacion": "Journal of the American Animal Hospital Association",
+    "url": "https://doi.org/10.5326/JAAHA-MS-6933",
+    "nota": "Guía de la Asociación Americana de Hospitales Veterinarios sobre salud dental en perros y gatos."
+  },
+  "aaha-pain-2022": {
+    "autores": "Gruen et al.",
+    "anio": 2022,
+    "titulo": "2022 AAHA Pain Management Guidelines for Dogs and Cats",
+    "publicacion": "Journal of the American Animal Hospital Association",
+    "url": "https://doi.org/10.5326/JAAHA-MS-7292",
+    "nota": "Guía de la Asociación Americana de Hospitales Veterinarios sobre el dolor en perros y gatos, artrosis incluida."
+  },
+  "aaha-senior-2023": {
+    "autores": "Dhaliwal et al.",
+    "anio": 2023,
+    "titulo": "2023 AAHA Senior Care Guidelines for Dogs and Cats",
+    "publicacion": "Journal of the American Animal Hospital Association",
+    "url": "https://doi.org/10.5326/JAAHA-MS-7343",
+    "nota": "Guía de la Asociación Americana de Hospitales Veterinarios para el cuidado de perros y gatos mayores."
+  },
+  "araujo-2010": {
+    "autores": "Araujo et al.",
+    "anio": 2010,
+    "titulo": "ANXITANE® tablets reduce fear of human beings in a laboratory model of anxiety-related behavior",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2010.02.003",
+    "nota": "Estudio de laboratorio con L-teanina (Anxitane) sobre el miedo de los perros a las personas."
+  },
+  "avsab-puppy": {
+    "autores": "American Veterinary Society of Animal Behavior",
+    "anio": null,
+    "titulo": "Position Statement on Puppy Socialization",
+    "publicacion": "AVSAB",
+    "url": "https://avsab.org/wp-content/uploads/2019/01/Puppy-Socialization-Position-Statement-FINAL.pdf",
+    "nota": "Posición veterinaria sobre la socialización de cachorros."
+  },
+  "avsab-training-2021": {
+    "autores": "American Veterinary Society of Animal Behavior",
+    "anio": 2021,
+    "titulo": "Humane Dog Training Position Statement",
+    "publicacion": "AVSAB",
+    "url": "https://avsab.org/wp-content/uploads/2021/08/AVSAB-Humane-Dog-Training-Position-Statement-2021.pdf",
+    "nota": "Posición de la sociedad veterinaria de comportamiento sobre métodos de adiestramiento."
+  },
+  "barbeau-2022": {
+    "autores": "Barbeau-Grégoire et al.",
+    "anio": 2022,
+    "titulo": "A 2022 Systematic Review and Meta-Analysis of Enriched Therapeutic Diets and Nutraceuticals in Canine and Feline Osteoarthritis",
+    "publicacion": "International Journal of Molecular Sciences",
+    "url": "https://doi.org/10.3390/ijms231810384",
+    "nota": "Metaanálisis de 72 ensayos: los omega-3 alivian el dolor de la artrosis; la glucosamina con condroitina no mostró efecto y los autores desaconsejan recomendarla para el dolor."
+  },
+  "bauer-2011": {
+    "autores": "Bauer",
+    "anio": 2011,
+    "titulo": "Therapeutic use of fish oils in companion animals",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.239.11.1441",
+    "nota": "Revisión sobre el uso terapéutico del aceite de pescado en perros y gatos."
+  },
+  "beerda-1998": {
+    "autores": "Beerda et al.",
+    "anio": 1998,
+    "titulo": "Behavioural, saliva cortisol and heart rate responses to different types of stimuli in dogs",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/S0168-1591(97)00145-7",
+    "nota": "Estudio de las respuestas de estrés en perros: conducta, cortisol en saliva y frecuencia cardiaca ante distintos estímulos."
+  },
+  "bierer-2002": {
+    "autores": "Bierer y Bui",
+    "anio": 2002,
+    "titulo": "Improvement of Arthritic Signs in Dogs Fed Green-Lipped Mussel (Perna canaliculus)",
+    "publicacion": "The Journal of Nutrition",
+    "url": "https://doi.org/10.1093/jn/132.6.1634S",
+    "nota": "Ensayo con perros con artrosis alimentados con mejillón de labio verde (Perna canaliculus)."
+  },
+  "blackwell-2013": {
+    "autores": "Blackwell et al.",
+    "anio": 2013,
+    "titulo": "Fear responses to noises in domestic dogs: Prevalence, risk factors and co-occurrence with other fear related behaviour",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/j.applanim.2012.12.004",
+    "nota": "Encuesta a dueños sobre cuántos perros tienen miedo a los ruidos, sus factores de riesgo y su relación con otros miedos."
+  },
+  "boe-ley-7-2023": {
+    "autores": "Boletín Oficial del Estado",
+    "anio": 2023,
+    "titulo": "Ley 7/2023 de protección de los derechos y el bienestar de los animales",
+    "publicacion": "BOE",
+    "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-7936",
+    "nota": "Ley estatal de bienestar animal."
+  },
+  "boe-rd-287-2002": {
+    "autores": "Boletín Oficial del Estado",
+    "anio": 2002,
+    "titulo": "Real Decreto 287/2002, sobre la tenencia de animales potencialmente peligrosos",
+    "publicacion": "BOE",
+    "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-6016",
+    "nota": "Obliga a los perros potencialmente peligrosos a llevar bozal en lugares públicos."
+  },
+  "cambridge-boas": {
+    "autores": "Universidad de Cambridge",
+    "anio": null,
+    "titulo": "BOAS research",
+    "publicacion": "Departamento de Medicina Veterinaria",
+    "url": "https://www.vet.cam.ac.uk/boas",
+    "nota": "Investigación y evaluación del síndrome braquicefálico obstructivo (BOAS)."
+  },
+  "carter-2020": {
+    "autores": "Carter et al.",
+    "anio": 2020,
+    "titulo": "Canine collars: an investigation of collar type and the forces applied to a simulated neck model",
+    "publicacion": "Veterinary Record",
+    "url": "https://doi.org/10.1136/vr.105681",
+    "nota": "En un modelo de cuello, ningún collar probado bajó la presión lo suficiente como para evitar el riesgo de lesión al tirar de la correa."
+  },
+  "china-2020": {
+    "autores": "China et al.",
+    "anio": 2020,
+    "titulo": "Efficacy of Dog Training With and Without Remote Electronic Collars vs. a Focus on Positive Reinforcement",
+    "publicacion": "Frontiers in Veterinary Science",
+    "url": "https://doi.org/10.3389/fvets.2020.00508",
+    "nota": "Para enseñar la llamada y frenar persecuciones, el refuerzo positivo fue igual o más eficaz que el collar eléctrico, con menos riesgo para el bienestar."
+  },
+  "delaney-2006": {
+    "autores": "Delaney",
+    "anio": 2006,
+    "titulo": "Management of Anorexia in Dogs and Cats",
+    "publicacion": "Veterinary Clinics of North America: Small Animal Practice",
+    "url": "https://doi.org/10.1016/j.cvsm.2006.08.001",
+    "nota": "Revisión veterinaria sobre la falta de apetito en perros y gatos y cómo se aborda."
+  },
+  "frank-2010": {
+    "autores": "Frank et al.",
+    "anio": 2010,
+    "titulo": "Systematic review of the use of pheromones for treatment of undesirable behavior in cats and dogs",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.236.12.1308",
+    "nota": "Revisión sistemática: 11 de 14 estudios no aportaban pruebas suficientes de que las feromonas funcionen para problemas de conducta."
+  },
+  "guy-2015-grls": {
+    "autores": "Guy et al.",
+    "anio": 2015,
+    "titulo": "The Golden Retriever Lifetime Study: establishing an observational cohort study with translational relevance for human health",
+    "publicacion": "Philosophical Transactions of the Royal Society B: Biological Sciences",
+    "url": "https://doi.org/10.1098/rstb.2014.0230",
+    "nota": "Presenta el Golden Retriever Lifetime Study, que sigue a miles de golden durante toda su vida."
+  },
+  "hart-2018": {
+    "autores": "Hart et al.",
+    "anio": 2018,
+    "titulo": "The paradox of canine conspecific coprophagy",
+    "publicacion": "Veterinary Medicine and Science",
+    "url": "https://doi.org/10.1002/vms3.92",
+    "nota": "Encuestas a unos 3.000 dueños: el 16 % de los perros come heces a menudo, casi siempre frescas; no se relacionó con la dieta y los productos comerciales casi nunca funcionaron."
+  },
+  "harvey-2015": {
+    "autores": "Harvey et al.",
+    "anio": 2015,
+    "titulo": "Effect of Frequency of Brushing Teeth on Plaque and Calculus Accumulation, and Gingivitis in Dogs",
+    "publicacion": "Journal of Veterinary Dentistry",
+    "url": "https://doi.org/10.1177/089875641503200102",
+    "nota": "Cepillar a diario o cada dos días redujo placa, sarro y gingivitis mucho más que una vez por semana; recomiendan a diario."
+  },
+  "hensel-2015": {
+    "autores": "Hensel et al.",
+    "anio": 2015,
+    "titulo": "Canine atopic dermatitis: detailed guidelines for diagnosis and allergen identification",
+    "publicacion": "BMC Veterinary Research",
+    "url": "https://doi.org/10.1186/s12917-015-0515-5",
+    "nota": "Guía internacional para diagnosticar la dermatitis atópica canina y buscar el alérgeno."
+  },
+  "howell-2015": {
+    "autores": "Howell et al.",
+    "anio": 2015,
+    "titulo": "Puppy parties and beyond: the role of early age socialization practices on adult dog behavior",
+    "publicacion": "Veterinary Medicine: Research and Reports",
+    "url": "https://doi.org/10.2147/VMRR.S62081",
+    "nota": "Revisión sobre cómo la socialización temprana influye en el comportamiento del perro adulto."
+  },
+  "iris-dog-2026": {
+    "autores": "International Renal Interest Society (IRIS)",
+    "anio": 2026,
+    "titulo": "Treatment Recommendations for CKD in Dogs",
+    "publicacion": "IRIS",
+    "url": "https://www.iris-kidney.com/s/IRIS-DOG-Treatment_Recommendations_may-2026.pdf",
+    "nota": "Recomendaciones de tratamiento de la enfermedad renal crónica en perros según el estadio, dieta renal incluida."
+  },
+  "jacob-2002": {
+    "autores": "Jacob et al.",
+    "anio": 2002,
+    "titulo": "Clinical evaluation of dietary modification for treatment of spontaneous chronic renal failure in dogs",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.2002.220.1163",
+    "nota": "Ensayo en perros con enfermedad renal leve o moderada: la dieta renal redujo las crisis urémicas, la mortalidad y el deterioro del riñón."
+  },
+  "kealy-2002": {
+    "autores": "Kealy et al.",
+    "anio": 2002,
+    "titulo": "Effects of diet restriction on life span and age-related changes in dogs",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.2002.220.1315",
+    "nota": "Labradores seguidos toda la vida: comer un 25 % menos alargó la vida media y retrasó las enfermedades crónicas."
+  },
+  "king-2014": {
+    "autores": "King et al.",
+    "anio": 2014,
+    "titulo": "The effect of a pressure wrap (ThunderShirt®) on heart rate and behavior in canines diagnosed with anxiety disorder",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2014.06.007",
+    "nota": "Estudio del efecto de la camiseta de presión ThunderShirt en el pulso y la conducta de perros diagnosticados de ansiedad."
+  },
+  "king-2017-hd": {
+    "autores": "King",
+    "anio": 2017,
+    "titulo": "Etiopathogenesis of Canine Hip Dysplasia, Prevalence, and Genetics",
+    "publicacion": "Veterinary Clinics of North America: Small Animal Practice",
+    "url": "https://doi.org/10.1016/j.cvsm.2017.03.001",
+    "nota": "Revisión sobre las causas, la frecuencia y la genética de la displasia de cadera."
+  },
+  "korpivaara-2017": {
+    "autores": "Korpivaara et al.",
+    "anio": 2017,
+    "titulo": "Dexmedetomidine oromucosal gel for noise‐associated acute anxiety and fear in dogs—a randomised, double‐blind, placebo‐controlled clinical study",
+    "publicacion": "Veterinary Record",
+    "url": "https://doi.org/10.1136/vr.104045",
+    "nota": "Ensayo con placebo en Nochevieja: un gel veterinario con dexmedetomidina (con receta) funcionó bien en el 72 % de los perros, frente al 37 % con placebo."
+  },
+  "krontveit-2012": {
+    "autores": "Krontveit et al.",
+    "anio": 2012,
+    "titulo": "Housing- and exercise-related risk factors associated with the development of hip dysplasia as determined by radiographic evaluation in a prospective cohort of Newfoundlands, Labrador Retrievers, Leonbergers, and Irish Wolfhounds in Norway",
+    "publicacion": "American Journal of Veterinary Research",
+    "url": "https://doi.org/10.2460/ajvr.73.6.838",
+    "nota": "Cachorros de razas grandes: subir escaleras antes de los 3 meses aumentó el riesgo de displasia; el ejercicio libre en terreno blando lo redujo."
+  },
+  "lafuente-2019": {
+    "autores": "Lafuente et al.",
+    "anio": 2019,
+    "titulo": "Effects of restrictive and non‐restrictive harnesses on shoulder extension in dogs at walk and trot",
+    "publicacion": "Veterinary Record",
+    "url": "https://doi.org/10.1136/vr.104946",
+    "nota": "Los arneses limitan la extensión del hombro al andar y al trotar, también los considerados «no restrictivos»."
+  },
+  "levine-2007": {
+    "autores": "Levine et al.",
+    "anio": 2007,
+    "titulo": "A prospective study of two self-help CD based desensitization and counter-conditioning programmes with the use of Dog Appeasing Pheromone for the treatment of firework fears in dogs (Canis familiaris)",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/j.applanim.2006.11.006",
+    "nota": "Estudio de dos programas de desensibilización con grabaciones de sonidos, combinados con feromona (DAP), para el miedo a los petardos."
+  },
+  "lund-1999": {
+    "autores": "Lund y Jørgensen",
+    "anio": 1999,
+    "titulo": "Behaviour patterns and time course of activity in dogs with separation problems",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/s0168-1591(99)00011-8",
+    "nota": "Estudio con grabaciones de lo que hacen los perros con problemas de separación mientras están solos."
+  },
+  "mariti-2012": {
+    "autores": "Mariti et al.",
+    "anio": 2012,
+    "titulo": "Perception of dogs’ stress by their owners",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2011.09.004",
+    "nota": "Estudio sobre cómo perciben los dueños el estrés de su perro."
+  },
+  "mccarthy-2007": {
+    "autores": "McCarthy et al.",
+    "anio": 2007,
+    "titulo": "Randomised double-blind, positive-controlled trial to assess the efficacy of glucosamine/chondroitin sulfate for the treatment of dogs with osteoarthritis",
+    "publicacion": "The Veterinary Journal",
+    "url": "https://doi.org/10.1016/j.tvjl.2006.02.015",
+    "nota": "Ensayo en perros con artrosis: la glucosamina con condroitina mejoró dolor y apoyo a los 70 días, más despacio que un antiinflamatorio (carprofeno)."
+  },
+  "mehler-2016": {
+    "autores": "Mehler et al.",
+    "anio": 2016,
+    "titulo": "A prospective, randomized, double blind, placebo-controlled evaluation of the effects of eicosapentaenoic acid and docosahexaenoic acid on the clinical signs and erythrocyte membrane polyunsaturated fatty acid concentrations in dogs with osteoarthritis",
+    "publicacion": "Prostaglandins, Leukotrienes and Essential Fatty Acids",
+    "url": "https://doi.org/10.1016/j.plefa.2016.03.015",
+    "nota": "Ensayo con placebo en 74 perros con artrosis: la suplementación diaria con EPA y DHA (omega-3) se asoció a menos signos clínicos."
+  },
+  "merck-alopecia": {
+    "autores": "Manual Veterinario Merck",
+    "anio": null,
+    "titulo": "Hair Loss (Alopecia) in Dogs",
+    "publicacion": "MSD Veterinary Manual",
+    "url": "https://www.merckvetmanual.com/dog-owners/skin-disorders-of-dogs/hair-loss-alopecia-in-dogs",
+    "nota": "Causas de la pérdida de pelo en perros y cuándo consultar al veterinario."
+  },
+  "mueller-2016": {
+    "autores": "Mueller et al.",
+    "anio": 2016,
+    "titulo": "Critically appraised topic on adverse food reactions of companion animals (2): common food allergen sources in dogs and cats",
+    "publicacion": "BMC Veterinary Research",
+    "url": "https://doi.org/10.1186/s12917-016-0633-8",
+    "nota": "Revisión: los alérgenos alimentarios más probables en perros son la ternera, los lácteos, el pollo y el trigo."
+  },
+  "ofa-hd": {
+    "autores": "Orthopedic Foundation for Animals",
+    "anio": null,
+    "titulo": "Hip Dysplasia",
+    "publicacion": "OFA",
+    "url": "https://ofa.org/diseases/hip-dysplasia/",
+    "nota": "Qué es la displasia de cadera y cómo se evalúa con radiografías."
+  },
+  "olivry-2015": {
+    "autores": "Olivry et al. (ICADA)",
+    "anio": 2015,
+    "titulo": "Treatment of canine atopic dermatitis: 2015 updated guidelines from the International Committee on Allergic Diseases of Animals (ICADA)",
+    "publicacion": "BMC Veterinary Research",
+    "url": "https://doi.org/10.1186/s12917-015-0514-6",
+    "nota": "Guía internacional (ICADA) para tratar la dermatitis atópica canina."
+  },
+  "oneill-2017-gsd": {
+    "autores": "O’Neill et al.",
+    "anio": 2017,
+    "titulo": "Demography and disorders of German Shepherd Dogs under primary veterinary care in the UK",
+    "publicacion": "Canine Genetics and Epidemiology",
+    "url": "https://doi.org/10.1186/s40575-017-0046-4",
+    "nota": "Registros de clínicas veterinarias del Reino Unido: los problemas de salud más frecuentes del pastor alemán."
+  },
+  "oneill-2018-frenchie": {
+    "autores": "O’Neill et al.",
+    "anio": 2018,
+    "titulo": "Demography and disorders of the French Bulldog population under primary veterinary care in the UK in 2013",
+    "publicacion": "Canine Genetics and Epidemiology",
+    "url": "https://doi.org/10.1186/s40575-018-0057-9",
+    "nota": "Registros de clínicas veterinarias del Reino Unido: los problemas de salud más frecuentes del bulldog francés."
+  },
+  "packer-2015-boas": {
+    "autores": "Packer et al.",
+    "anio": 2015,
+    "titulo": "Impact of Facial Conformation on Canine Health: Brachycephalic Obstructive Airway Syndrome",
+    "publicacion": "PLOS ONE",
+    "url": "https://doi.org/10.1371/journal.pone.0137496",
+    "nota": "Cuanto más corto el hocico, más grueso el cuello o más peso, más riesgo de síndrome braquicefálico."
+  },
+  "packer-2016-dachs": {
+    "autores": "Packer et al.",
+    "anio": 2016,
+    "titulo": "DachsLife 2015: an investigation of lifestyle associations with the risk of intervertebral disc disease in Dachshunds",
+    "publicacion": "Canine Genetics and Epidemiology",
+    "url": "https://doi.org/10.1186/s40575-016-0039-8",
+    "nota": "Encuesta a dueños de teckels sobre estilo de vida y riesgo de hernia discal (IVDD)."
+  },
+  "pauli-2006": {
+    "autores": "Pauli et al.",
+    "anio": 2006,
+    "titulo": "Effects of the Application of Neck Pressure by a Collar or Harness on Intraocular Pressure in Dogs",
+    "publicacion": "Journal of the American Animal Hospital Association",
+    "url": "https://doi.org/10.5326/0420207",
+    "nota": "Al tirar, la presión del collar subió la presión dentro del ojo; con arnés, no."
+  },
+  "pettitt-2015": {
+    "autores": "Pettitt y German",
+    "anio": 2015,
+    "titulo": "Investigation and management of canine osteoarthritis",
+    "publicacion": "In Practice",
+    "url": "https://doi.org/10.1136/inp.h5763",
+    "nota": "Revisión práctica sobre el diagnóstico y el manejo de la artrosis en perros."
+  },
+  "polzin-2011": {
+    "autores": "Polzin",
+    "anio": 2011,
+    "titulo": "Chronic Kidney Disease in Small Animals",
+    "publicacion": "Veterinary Clinics of North America: Small Animal Practice",
+    "url": "https://doi.org/10.1016/j.cvsm.2010.09.004",
+    "nota": "Revisión veterinaria sobre el diagnóstico y el manejo de la enfermedad renal crónica."
+  },
+  "raffan-2016": {
+    "autores": "Raffan et al.",
+    "anio": 2016,
+    "titulo": "A Deletion in the Canine POMC Gene Is Associated with Weight and Appetite in Obesity-Prone Labrador Retriever Dogs",
+    "publicacion": "Cell Metabolism",
+    "url": "https://doi.org/10.1016/j.cmet.2016.04.012",
+    "nota": "Una variante del gen POMC, frecuente en labradores, se asocia a más peso y más motivación por la comida."
+  },
+  "roush-2010": {
+    "autores": "Roush et al.",
+    "anio": 2010,
+    "titulo": "Evaluation of the effects of dietary supplementation with fish oil omega-3 fatty acids on weight bearing in dogs with osteoarthritis",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.236.1.67",
+    "nota": "Ensayo multicéntrico: con una dieta rica en omega-3 de aceite de pescado, el 82 % de los perros con artrosis apoyó mejor la pata, frente al 38 % con la dieta control."
+  },
+  "sherman-mills-2008": {
+    "autores": "Sherman y Mills",
+    "anio": 2008,
+    "titulo": "Canine Anxieties and Phobias: An Update on Separation Anxiety and Noise Aversions",
+    "publicacion": "Veterinary Clinics of North America: Small Animal Practice",
+    "url": "https://doi.org/10.1016/j.cvsm.2008.04.012",
+    "nota": "Revisión veterinaria sobre la ansiedad por separación y el miedo a los ruidos, y cómo se tratan."
+  },
+  "vandeweerd-2012": {
+    "autores": "Vandeweerd et al.",
+    "anio": 2012,
+    "titulo": "Systematic Review of Efficacy of Nutraceuticals to Alleviate Clinical Signs of Osteoarthritis",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/j.1939-1676.2012.00901.x",
+    "nota": "Revisión sistemática: la evidencia de los nutracéuticos para la artrosis es pobre, salvo las dietas con omega-3 en perros."
+  },
+  "vohc": {
+    "autores": "Veterinary Oral Health Council",
+    "anio": null,
+    "titulo": "Accepted Products",
+    "publicacion": "VOHC",
+    "url": "https://vohc.org/accepted-products/",
+    "nota": "Productos dentales que han demostrado reducir placa o sarro (sello VOHC)."
+  },
+  "wsava-pet-food": {
+    "autores": "WSAVA Global Nutrition Committee",
+    "anio": 2021,
+    "titulo": "Selecting a pet food for your pet",
+    "publicacion": "WSAVA",
+    "url": "https://wsava.org/wp-content/uploads/2021/04/Selecting-a-pet-food-for-your-pet-updated-2021_WSAVA-Global-Nutrition-Toolkit.pdf",
+    "nota": "Qué preguntar al fabricante antes de elegir un pienso."
+  },
+  "ziv-2017": {
+    "autores": "Ziv",
+    "anio": 2017,
+    "titulo": "The effects of using aversive training methods in dogs—A review",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2017.02.004",
+    "nota": "Revisión de los efectos de los métodos de adiestramiento aversivos en perros."
+  },
+  "shih-2021": {
+    "autores": "Shih et al.",
+    "anio": 2021,
+    "titulo": "Dog Pulling on the Leash: Effects of Restraint by a Neck Collar vs. a Chest Harness",
+    "publicacion": "Frontiers in Veterinary Science",
+    "url": "https://doi.org/10.3389/fvets.2021.735680",
+    "nota": "Con 52 perros de protectora, los perros tiraron más fuerte y durante más tiempo con un arnés de anilla en la espalda que con collar para llegar a un premio; no hubo diferencias en señales de estrés."
+  },
+  "lenox-2013": {
+    "autores": "Lenox y Bauer",
+    "anio": 2013,
+    "titulo": "Potential adverse effects of omega-3 fatty acids in dogs and cats",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.12033",
+    "nota": "Revisión de los posibles efectos adversos del omega-3 de aceite de pescado: digestivos, sobre la coagulación y la cicatrización, oxidación del aceite, aumento de peso e interacciones con medicamentos."
+  },
+  "duranton-2019": {
+    "autores": "Duranton y Horowitz",
+    "anio": 2019,
+    "titulo": "Let me sniff! Nosework induces positive judgment bias in pet dogs",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/j.applanim.2018.12.009",
+    "nota": "Tras dos semanas de ejercicios de olfato, los perros reaccionaron de forma más «optimista» en una prueba de sesgo cognitivo; los que practicaron caminar junto al dueño, no."
+  },
+  "wells-2004": {
+    "autores": "Wells",
+    "anio": 2004,
+    "titulo": "The influence of toys on the behaviour and welfare of kennelled dogs",
+    "publicacion": "Animal Welfare",
+    "url": "https://doi.org/10.1017/s0962728600028499",
+    "nota": "Con 32 perros de protectora, los perros jugaron menos del 8 % del tiempo con los juguetes y perdieron el interés con los días; la autora recomienda rotarlos."
+  },
+  "schipper-2008": {
+    "autores": "Schipper et al.",
+    "anio": 2008,
+    "titulo": "The effect of feeding enrichment toys on the behaviour of kennelled dogs (Canis familiaris)",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/j.applanim.2008.01.001",
+    "nota": "Un juguete sencillo que suelta comida aumentó la conducta de búsqueda y la variedad de conductas de perros en perrera, al menos a corto plazo."
+  },
+  "hunt-2022": {
+    "autores": "Hunt et al.",
+    "anio": 2022,
+    "titulo": "Effects of Environmental Enrichment on Dog Behaviour: Pilot Study",
+    "publicacion": "Animals",
+    "url": "https://doi.org/10.3390/ani12020141",
+    "nota": "Estudio piloto con perros de asistencia en formación: las actividades de enriquecimiento aumentaron la conducta de relajación; el juego con otros perros fue lo que más cambio produjo y los juguetes con comida, lo que menos."
+  },
+  "rudinsky-2022": {
+    "autores": "Rudinsky et al.",
+    "anio": 2022,
+    "titulo": "Randomized controlled trial demonstrates nutritional management is superior to metronidazole for treatment of acute colitis in dogs",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.22.08.0349",
+    "nota": "59 perros con colitis aguda no infecciosa: con una dieta muy digestible (con o sin psyllium) remitieron en una mediana de 5 días; añadir metronidazol la alargó a 8,5 días y alteró la microbiota. Estudio con financiación de Royal Canin."
+  },
+  "werner-2020": {
+    "autores": "Werner et al.",
+    "anio": 2020,
+    "titulo": "Effect of amoxicillin-clavulanic acid on clinical scores, intestinal microbiome, and amoxicillin-resistant Escherichia coli in dogs with uncomplicated acute diarrhea",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.15775",
+    "nota": "Ensayo con placebo: el antibiótico no aceleró la recuperación de la diarrea aguda sin complicaciones (todos los perros se recuperaron en 1 a 6 días) y aumentó las bacterias resistentes durante al menos 3 semanas."
+  },
+  "scahill-2024": {
+    "autores": "Scahill et al.",
+    "anio": 2024,
+    "titulo": "Efficacy of antimicrobial and nutraceutical treatment for canine acute diarrhoea: A systematic review and meta-analysis for European Network for Optimization of Antimicrobial Therapy (ENOVAT) guidelines",
+    "publicacion": "The Veterinary Journal",
+    "url": "https://doi.org/10.1016/j.tvjl.2023.106054",
+    "nota": "Revisión para la guía europea ENOVAT: con evidencia de alta certeza, los antibióticos no tienen un efecto clínicamente relevante en la diarrea aguda leve o moderada; prebióticos y probióticos no acortaron la diarrea de forma clínicamente significativa."
+  },
+  "jensen-2019": {
+    "autores": "Jensen y Bjørnvad",
+    "anio": 2019,
+    "titulo": "Clinical effect of probiotics in prevention or treatment of gastrointestinal disease in dogs: A systematic review",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.15554",
+    "nota": "17 estudios: efecto muy limitado de los probióticos en la diarrea aguda; en la enfermedad digestiva crónica, la dieta sigue siendo la clave del tratamiento."
+  },
+  "nixon-2019": {
+    "autores": "Nixon et al.",
+    "anio": 2019,
+    "titulo": "Efficacy of an orally administered anti-diarrheal probiotic paste (Pro-Kolin Advanced) in dogs with acute diarrhea: A randomized, placebo-controlled, double-blinded clinical study",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.15481",
+    "nota": "Pasta con Enterococcus faecium en diarrea aguda: duración mediana de 32 horas frente a 47 con placebo. Estudio financiado por el fabricante."
+  },
+  "volkmann-2017": {
+    "autores": "Volkmann et al.",
+    "anio": 2017,
+    "titulo": "Chronic Diarrhea in Dogs – Retrospective Study in 136 Cases",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.14739",
+    "nota": "Diarrea de 3 semanas o más: el 71 % eran enteropatías inflamatorias y, de ellas, dos de cada tres respondieron a un cambio de dieta. El 87 % de los perros remitió."
+  },
+  "candellone-2020": {
+    "autores": "Candellone et al.",
+    "anio": 2020,
+    "titulo": "Acute Diarrhea in Dogs: Current Management and Potential Role of Dietary Polyphenols Supplementation",
+    "publicacion": "Antioxidants",
+    "url": "https://doi.org/10.3390/antiox9080725",
+    "nota": "Revisión: la diarrea aguda suele resolverse sola; la dieta forma parte del tratamiento, con un alimento muy digestible y moderado en grasa, veterinario gastrointestinal o casero equilibrado."
+  },
+  "merck-ahds": {
+    "autores": "Manual Veterinario Merck",
+    "anio": 2025,
+    "titulo": "Acute Hemorrhagic Diarrhea Syndrome in Dogs",
+    "publicacion": "MSD Veterinary Manual",
+    "url": "https://www.merckvetmanual.com/digestive-system/diseases-of-the-large-intestine-in-small-animals/acute-hemorrhagic-diarrhea-syndrome-in-dogs",
+    "nota": "Vómitos y diarrea con sangre de aparición brusca, más frecuente en razas pequeñas; puede llevar a un shock por deshidratación, pero con tratamiento el pronóstico es bueno."
+  },
+  "merck-parvo": {
+    "autores": "Manual Veterinario Merck",
+    "anio": 2025,
+    "titulo": "Canine Parvovirus Infection (Parvoviral Enteritis in Dogs)",
+    "publicacion": "MSD Veterinary Manual",
+    "url": "https://www.merckvetmanual.com/digestive-system/infectious-diseases-of-the-gastrointestinal-tract-in-small-animals/canine-parvovirus-infection-parvoviral-enteritis-in-dogs",
+    "nota": "Los cachorros de 6 semanas a 6 meses sin vacunar o con la vacunación incompleta son los más expuestos: vómitos, diarrea a menudo con sangre y decaimiento."
+  },
+  "shmalberg-2019": {
+    "autores": "Shmalberg et al.",
+    "anio": 2019,
+    "titulo": "A Randomized Double Blinded Placebo-Controlled Clinical Trial of a Probiotic or Metronidazole for Acute Canine Diarrhea",
+    "publicacion": "Frontiers in Veterinary Science",
+    "url": "https://doi.org/10.3389/fvets.2019.00163",
+    "nota": "60 perros con diarrea aguda: heces normales a los 3,5 días con probiótico, 4,6 con metronidazol y 4,8 con placebo; las diferencias no fueron significativas."
+  },
+  "merck-gastritis": {
+    "autores": "Manual Veterinario Merck",
+    "anio": 2025,
+    "titulo": "Gastritis in Small Animals",
+    "publicacion": "MSD Veterinary Manual",
+    "url": "https://www.merckvetmanual.com/digestive-system/diseases-of-the-stomach-in-small-animals/gastritis-in-small-animals",
+    "nota": "Cuando el perro vuelve a comer: pequeñas cantidades a menudo y vuelta a la rutina habitual en 3 a 5 días."
+  },
+  "allenspach-2007": {
+    "autores": "Allenspach et al.",
+    "anio": 2007,
+    "titulo": "Chronic enteropathies in dogs: evaluation of risk factors for negative outcome",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1892/0891-6640(2007)21[700:ceideo]2.0.co;2",
+    "nota": "70 perros con enteropatía crónica tratados por pasos: primero una dieta de eliminación y, solo si no respondían, corticoides."
+  },
+  "oneill-2017-incontinencia": {
+    "autores": "O'Neill et al.",
+    "anio": 2017,
+    "titulo": "Urinary incontinence in bitches under primary veterinary care in England: prevalence and risk factors",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/jsap.12731",
+    "nota": "Más de 100.000 perras en Inglaterra: un 3,1 % con incontinencia, más del 15 % en razas de riesgo (setter irlandés, dóberman, collie, dálmata). Más riesgo con 9 a 12 años, esterilizadas y con sobrepeso."
+  },
+  "oneill-2019-incontinencia": {
+    "autores": "O'Neill et al.",
+    "anio": 2019,
+    "titulo": "Urinary incontinence in male dogs under primary veterinary care in England: prevalence and risk factors",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/jsap.12951",
+    "nota": "Más de 100.000 machos: alrededor del 1 % con incontinencia; el riesgo se multiplica por 10 entre los 9 y los 12 años. A diferencia de las hembras, la castración no influyó."
+  },
+  "owen-2019": {
+    "autores": "Owen",
+    "anio": 2019,
+    "titulo": "Ureteral ectopia and urethral sphincter mechanism incompetence: an update on diagnosis and management options",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/jsap.12950",
+    "nota": "Las dos causas principales de incontinencia en perros: el uréter ectópico en cachorros y la incompetencia del esfínter uretral en adultos."
+  },
+  "scott-2002": {
+    "autores": "Scott et al.",
+    "anio": 2002,
+    "titulo": "Evaluation of phenylpropanolamine in the treatment of urethral sphincter mechanism incompetence in the bitch",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/j.1748-5827.2002.tb00020.x",
+    "nota": "Ensayo con placebo en 50 perras: a los 28 días, el 86 % de las tratadas con fenilpropanolamina no tenía escapes, frente al 33 % con placebo. Estudio de un fabricante."
+  },
+  "mandigers-2001": {
+    "autores": "Mandigers y Nell",
+    "anio": 2001,
+    "titulo": "Treatment of bitches with acquired urinary incontinence with oestriol",
+    "publicacion": "Veterinary Record",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/11808663/",
+    "nota": "129 perras con incontinencia adquirida tratadas con estriol 42 días: el 83 % dejó de tener escapes o mejoró."
+  },
+  "merck-miccion": {
+    "autores": "Manual Veterinario Merck",
+    "anio": 2025,
+    "titulo": "Disorders of Micturition in Dogs and Cats",
+    "publicacion": "MSD Veterinary Manual",
+    "url": "https://www.merckvetmanual.com/urinary-system/noninfectious-diseases-of-the-urinary-system-in-small-animals/disorders-of-micturition-in-dogs-and-cats",
+    "nota": "La incompetencia del esfínter uretral es la causa más frecuente; afecta sobre todo a perras esterilizadas, que pierden orina dormidas o tumbadas. Se trata con fenilpropanolamina o estriol. La orina puede irritar la piel de la zona."
+  },
+  "salvin-2010": {
+    "autores": "Salvin et al.",
+    "anio": 2010,
+    "titulo": "Under diagnosis of canine cognitive dysfunction: a cross-sectional survey of older companion dogs",
+    "publicacion": "The Veterinary Journal",
+    "url": "https://doi.org/10.1016/j.tvjl.2009.11.007",
+    "nota": "Encuesta con perros de 8 años o más: un 14 % tenía signos de deterioro cognitivo, pero solo un 1,9 % estaba diagnosticado por un veterinario. La frecuencia sube con la edad."
+  }
+}

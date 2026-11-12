@@ -1,0 +1,71 @@
+---
+// Bloc del final d'una guia: els productes que hi surten i les calculadores
+// que hi toquen. Va després del text i abans de les preguntes i les fonts.
+import ProductCard from './ProductCard.astro';
+import HerramientaCard from './HerramientaCard.astro';
+import type { RelatedBlogProduct } from '../utils/blogProductLinks';
+import type { Herramienta } from '../utils/herramientas';
+
+interface Props {
+  productos: RelatedBlogProduct[];
+  herramientas: Herramienta[];
+  notaPrecios?: string | null;
+}
+
+const { productos, herramientas, notaPrecios } = Astro.props;
+
+const titulo =
+  productos.length > 0 && herramientas.length > 0
+    ? herramientas.length > 1 ? 'Productos y calculadoras de esta guía' : 'Productos y calculadora de esta guía'
+    : productos.length > 0
+      ? 'Productos de esta guía'
+      : herramientas.length > 1 ? 'Calculadoras de esta guía' : 'Calculadora de esta guía';
+---
+
+{(productos.length > 0 || herramientas.length > 0) && (
+  <section class="mt-16 section-rule not-prose" aria-labelledby="productos-guia">
+    <h2 id="productos-guia" class="font-serif text-3xl md:text-4xl font-semibold text-neutral-900 tracking-tight scroll-mt-32">
+      {titulo}
+    </h2>
+
+    {productos.length > 0 && (
+      <>
+        <ul class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          {productos.map((p) => (
+            <li>
+              <ProductCard
+                slug={p.slug}
+                nombre={p.nombre}
+                imagen={p.imagen}
+                precio={p.precio}
+                precioOriginal={p.precioOriginal}
+                descuentoPct={p.descuentoPct}
+                marca={p.marca}
+                valoracion={p.valoracion}
+                valoracionesCount={p.valoracionesCount}
+              />
+            </li>
+          ))}
+        </ul>
+        {notaPrecios && (
+          <p class="mt-5 text-xs text-neutral-500 leading-relaxed">{notaPrecios}</p>
+        )}
+      </>
+    )}
+
+    {herramientas.length > 0 && (
+      <div class:list={[productos.length > 0 && 'mt-10']}>
+        {productos.length > 0 && (
+          <p class="font-sans text-sm font-bold text-neutral-900 mb-3">
+            {herramientas.length > 1 ? 'Calculadoras' : 'Calculadora'}
+          </p>
+        )}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10">
+          {herramientas.map((h) => (
+            <HerramientaCard herramienta={h} heading="h3" />
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+)}

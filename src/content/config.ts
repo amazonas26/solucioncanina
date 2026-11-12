@@ -1,5 +1,6 @@
 import { z, defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { HERRAMIENTA_IDS } from '../utils/herramientas';
 
 const articulosCollection = defineCollection({
   loader: glob({ pattern: '**/index.json', base: './src/content/articulos' }),
@@ -39,6 +40,26 @@ const articulosCollection = defineCollection({
     pros: z.array(z.string()).optional(),
     contras: z.array(z.string()).optional(),
     paraQuien: z.string().optional(),
+    // % d'EPA+DHA (en pes) que declara la fitxa d'un oli d'omega-3; l'usa la calculadora d'omega-3.
+    epaDhaPct: z.number().min(0).max(100).optional(),
+    // Taula de talles d'un bolquer o faixa (cintura en cm, i pes en kg si la marca el dona);
+    // l'usa la calculadora de talla de bolquer. `deducida`: la marca no la publica en text.
+    tallasPanal: z
+      .object({
+        sexo: z.enum(['macho', 'hembra']),
+        tipo: z.enum(['desechable', 'lavable']),
+        tallas: z.array(
+          z.object({
+            talla: z.string(),
+            min: z.number(),
+            max: z.number(),
+            pesoMin: z.number().optional(),
+            pesoMax: z.number().optional(),
+            deducida: z.boolean().optional(),
+          }),
+        ),
+      })
+      .optional(),
   }),
 });
 
@@ -61,10 +82,15 @@ const blogCollection = defineCollection({
     // blog → categoria de producte. `productosExcluidos` s'aplica sempre.
     productosRecomendados: z.array(z.string().min(1)).optional(),
     productosExcluidos: z.array(z.string().min(1)).optional(),
+    // Calculadores que es mostren al bloc del final, en aquest ordre.
+    calculadoras: z.array(z.enum(HERRAMIENTA_IDS)).optional(),
     faqs: z.array(z.object({
       pregunta: z.string(),
       respuesta: z.string(),
     })).optional(),
+    // Ids de src/data/fuentes.json (estudis amb DOI verificat a Crossref i webs
+    // d'organismes). Es mostren al final de l'article; un id inexistent fa fallar el build.
+    fuentes: z.array(z.string().min(1)).optional(),
   }),
 });
 

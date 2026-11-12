@@ -6,7 +6,7 @@ export const SITE_NAME = 'Solución Canina';
 export const SITE_LOGO = `${SITE_URL}/logo.png`;
 export const ORG_EMAIL = 'hola@solucioncanina.es';
 /** Teal del logo (`primary-500`) — chrome del navegador y manifest. */
-export const THEME_COLOR = '#3C9E91';
+export const THEME_COLOR = '#f7f4ee';
 
 export type SocialProfileName = 'Pinterest' | 'Instagram' | 'Facebook';
 
@@ -104,6 +104,7 @@ export interface ArticleInput {
   dateModified?: string;
   author?: string;
   section?: string;
+  citations?: { name: string; url: string }[];
 }
 
 export function articleSchema(input: ArticleInput) {
@@ -116,8 +117,9 @@ export function articleSchema(input: ArticleInput) {
     image: input.image ? absUrl(input.image) : SITE_LOGO,
     datePublished: input.datePublished ?? now,
     dateModified: input.dateModified ?? input.datePublished ?? now,
+    // «Equipo Solución Canina» és l'organització, no una persona
     author: {
-      '@type': input.author ? 'Person' : 'Organization',
+      '@type': input.author && !/equipo|solución canina/i.test(input.author) ? 'Person' : 'Organization',
       name: input.author ?? SITE_NAME,
     },
     publisher: {
@@ -128,6 +130,9 @@ export function articleSchema(input: ArticleInput) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': absUrl(input.url) },
     articleSection: input.section,
     inLanguage: 'es-ES',
+    ...(input.citations && input.citations.length > 0
+      ? { citation: input.citations.map((c) => ({ '@type': 'CreativeWork', name: c.name, url: c.url })) }
+      : {}),
   };
 }
 

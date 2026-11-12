@@ -1,84 +1,109 @@
-/* Self-hosted Google Fonts — Inter + Merriweather (latin + latin-ext) */
+/* Lletres pròpies (Google Fonts, OFL), servides des del mateix domini.
+   Newsreader: títols i text dels articles. Libre Franklin: interfície. */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Libre Franklin';
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/inter-latin.woff2') format('woff2');
+  src: url('/fonts/libre-franklin-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Libre Franklin';
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+  src: url('/fonts/libre-franklin-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
-  font-family: 'Merriweather';
+  font-family: 'Newsreader';
   font-style: normal;
-  font-weight: 400 900;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/merriweather-latin.woff2') format('woff2');
+  src: url('/fonts/newsreader-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Merriweather';
+  font-family: 'Newsreader';
   font-style: normal;
-  font-weight: 400 900;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/merriweather-latin-ext.woff2') format('woff2');
+  src: url('/fonts/newsreader-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @import "tailwindcss";
 
 @theme {
-  /* Primary — teal del logo */
-  --color-primary-50: #eef9f7;
-  --color-primary-100: #d5f0ec;
-  --color-primary-200: #ade1db;
-  --color-primary-300: #7bccc3;
-  --color-primary-400: #4fb5a9;
-  --color-primary-500: #3C9E91;
-  --color-primary-600: #2f7f75;
-  --color-primary-700: #296860;
-  --color-primary-800: #24544f;
-  --color-primary-900: #214642;
+  /* Verd del logo, més fosc i menys «app»: s'usa per a enllaços i detalls */
+  --color-primary-50: #ecf4f1;
+  --color-primary-100: #d3e6df;
+  --color-primary-200: #a9cec2;
+  --color-primary-300: #78b1a1;
+  --color-primary-400: #4c917f;
+  --color-primary-500: #367a69;
+  --color-primary-600: #2a6557;
+  --color-primary-700: #225347;
+  --color-primary-800: #1b433a;
+  --color-primary-900: #14332c;
 
-  /* Navy — del check del logo */
-  --color-navy-50: #eef3f8;
-  --color-navy-100: #d4deeb;
-  --color-navy-200: #a9bdD7;
-  --color-navy-300: #7e9cc3;
-  --color-navy-400: #537baf;
-  --color-navy-500: #2d5a94;
-  --color-navy-600: #244b7c;
-  --color-navy-700: #1B3A5C;
-  --color-navy-800: #152d47;
-  --color-navy-900: #0f2032;
+  /* «navy» es manté com a nom, però ara és tinta càlida (botons, peu) */
+  --color-navy-50: #f2f0eb;
+  --color-navy-100: #e4e0d7;
+  --color-navy-200: #c9c2b5;
+  --color-navy-300: #a69d8d;
+  --color-navy-400: #7f7667;
+  --color-navy-500: #5e564b;
+  --color-navy-600: #423c34;
+  --color-navy-700: #26231f;
+  --color-navy-800: #1d1b18;
+  --color-navy-900: #141311;
 
-  /* Accent — naranja Amazon */
+  /* Terracota: números de rànquing i marques puntuals */
+  --color-clay-50: #fbf0ea;
+  --color-clay-100: #f4d9cb;
+  --color-clay-500: #b65a33;
+  --color-clay-600: #9a4a28;
+  --color-clay-700: #7c3b20;
+
+  /* Taronja Amazon: només per als botons de compra */
   --color-accent-400: #FFad33;
   --color-accent-500: #FF9900;
   --color-accent-600: #e68a00;
   --color-accent-700: #cc7a00;
 
-  /* Neutrals */
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-200: #e8e8e8;
-  --color-neutral-300: #d4d4d4;
-  --color-neutral-400: #a3a3a3;
-  --color-neutral-500: #737373;
-  --color-neutral-600: #525252;
-  --color-neutral-700: #404040;
-  --color-neutral-800: #262626;
-  --color-neutral-900: #1a1a2e;
+  /* Grisos càlids (paper i tinta), no els grisos freds per defecte */
+  --color-paper: #f7f4ee;
+  --color-neutral-50: #f1ede5;
+  --color-neutral-100: #e9e4da;
+  --color-neutral-200: #dcd5c8;
+  --color-neutral-300: #c4bbab;
+  --color-neutral-400: #9a8f7e;
+  --color-neutral-500: #73695b;
+  --color-neutral-600: #585046;
+  --color-neutral-700: #423c34;
+  --color-neutral-800: #2c2823;
+  --color-neutral-900: #1b1916;
 
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-serif: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-sans: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
 
   --breakpoint-xs: 420px;
   --breakpoint-sm: 640px;
@@ -86,24 +111,48 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1800px;
 
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-nav: 0 1px 3px rgba(0, 0, 0, 0.05);
+  /* Cantonades gairebé rectes a tot arreu (abans, tot eren capses arrodonides) */
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 3px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-nav: none;
 }
 
 @layer base {
   body {
-    @apply bg-white text-neutral-900 font-sans antialiased;
+    @apply bg-paper text-neutral-900 font-sans antialiased;
   }
 
   h1, h2, h3 {
     font-family: var(--font-serif);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    font-optical-sizing: auto;
   }
 }
 
 @layer utilities {
+  /* Contenidor de pàgina: aprofita pantalles grans (abans 1280 px fixos) */
+  .wrap {
+    width: 100%;
+    max-width: 1840px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 3rem);
+  }
+
+  /* Capçalera de secció tipus diari: filet gruixut a dalt, títol i enllaç */
+  .section-rule {
+    border-top: 3px solid var(--color-neutral-900);
+    padding-top: 0.85rem;
+  }
+
   .section-divider {
     @apply border-t border-neutral-200;
   }
@@ -124,11 +173,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f5f5f5;
+  background: var(--color-paper);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
+  background: var(--color-neutral-300);
   border-radius: 4px;
 }
 
@@ -138,50 +187,58 @@
 
 /* Selection */
 ::selection {
-  background: #3C9E91;
-  color: white;
+  background: var(--color-primary-200);
+  color: var(--color-neutral-900);
 }
 
 /* ==========================================================================
-   PREMIUM EDITORIAL BLOG & ARTICLES STYLING SYSTEM
+   Text llarg: articles, calculadores i fitxes (.prose)
    ========================================================================== */
 
-/* Container and base typography settings */
+/* Text llarg en serif (Newsreader), com una revista; ~70 caràcters per línia */
 .prose {
-  max-width: 52rem; /* 832px - ideal reading width */
-  font-family: var(--font-sans);
-  font-size: 1.125rem; /* 18px */
-  line-height: 1.85;
-  color: var(--color-neutral-700);
-}
-
-/* Beautiful Dropcap for the first letter of the first paragraph */
-.prose > p:first-of-type::first-letter {
+  max-width: 44rem;
   font-family: var(--font-serif);
-  font-size: 4rem;
-  font-weight: 900;
-  color: var(--color-primary-600);
-  float: left;
-  line-height: 0.8;
-  margin-right: 0.65rem;
-  margin-top: 0.25rem;
-  text-shadow: 2px 2px 0px var(--color-primary-50);
+  font-size: 1.1875rem; /* 19px */
+  line-height: 1.65;
+  color: var(--color-neutral-800);
+  font-optical-sizing: auto;
 }
 
-/* Elegant and bold Paragraph spacings */
+.prose-lg {
+  font-size: 1.3125rem; /* 21px als articles */
+  line-height: 1.6;
+}
+
+/* Lletra capital només als articles del blog (.prose-lg), no a fitxes ni calculadores */
+.prose-lg > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 4.6rem;
+  font-weight: 700;
+  color: var(--color-clay-600);
+  float: left;
+  line-height: 0.78;
+  margin-right: 0.55rem;
+  margin-top: 0.4rem;
+}
+
+/* Paràgrafs */
 .prose p {
   margin-bottom: 1.75rem;
   text-wrap: pretty;
 }
 
-/* Stunning headings styling */
+/* Títols */
+.prose h2,
+.prose h3 {
+  scroll-margin-top: 8rem;
+}
+
 .prose h2 {
   font-family: var(--font-serif);
-  font-size: 2rem; /* 32px */
-  font-weight: 900;
+  font-size: 2.15rem;
+  font-weight: 600;
   color: var(--color-navy-800);
-  border-left: 5px solid var(--color-primary-500);
-  padding-left: 1.25rem;
   margin-top: 3.5rem;
   margin-bottom: 1.25rem;
   line-height: 1.25;
@@ -190,8 +247,8 @@
 
 .prose h3 {
   font-family: var(--font-serif);
-  font-size: 1.5rem; /* 24px */
-  font-weight: 800;
+  font-size: 1.55rem;
+  font-weight: 600;
   color: var(--color-navy-700);
   margin-top: 2.5rem;
   margin-bottom: 0.85rem;
@@ -209,34 +266,15 @@
   line-height: 1.4;
 }
 
-/* Beautiful themed separators (Paw divider 🐾) */
+/* Separadors */
 .prose hr {
   border: none;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--color-neutral-300), transparent);
-  margin: 3.5rem 0;
-  position: relative;
-  overflow: visible;
+  background: var(--color-neutral-200);
+  margin: 3rem 0;
 }
 
-.prose hr::after {
-  content: '🐾';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 0 1rem;
-  color: var(--color-primary-500);
-  font-size: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.prose hr:hover::after {
-  transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
-}
-
-/* Customized premium list styling */
+/* Llistes */
 .prose ul {
   list-style: none;
   padding-left: 0.5rem;
@@ -258,6 +296,15 @@
   left: 0.25rem;
   top: -0.2rem;
   line-height: 1;
+}
+
+/* Llistes amb icona pròpia (caixes de producte): sense la vinyeta del text */
+.prose ul.list-none > li {
+  padding-left: 0;
+}
+
+.prose ul.list-none > li::before {
+  content: none;
 }
 
 .prose ol {
@@ -285,61 +332,30 @@
   font-family: var(--font-sans);
 }
 
-/* Beautiful inline links styling */
+/* Enllaços dins del text: subratllat normal, també quan van en negreta */
 .prose p a, .prose li a {
-  color: var(--color-primary-600);
+  color: var(--color-primary-700);
   font-weight: 600;
-  text-decoration: none;
-  border-bottom: 2px solid var(--color-primary-200);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 0.15rem;
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary-300);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 0.15s, text-decoration-color 0.15s;
 }
 
 .prose p a:hover, .prose li a:hover {
-  color: var(--color-primary-700);
-  border-bottom-color: var(--color-primary-600);
-  background-color: var(--color-primary-50);
-  border-radius: 4px;
-}
-
-/* Automatically style bold inline markdown links (**[text](url)**) as badges */
-.prose strong a, .prose a strong {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%);
-  color: var(--color-primary-800) !important;
-  border: 1px solid var(--color-primary-200);
-  padding: 0.15rem 0.65rem;
-  border-radius: 0.5rem;
-  font-weight: 700;
-  text-decoration: none !important;
-  border-bottom: 1px solid var(--color-primary-200) !important; /* Override standard link style */
-  box-shadow: 0 1px 3px rgba(60, 158, 145, 0.05);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  margin: 0 0.1rem;
-}
-
-.prose strong a:hover, .prose a strong:hover {
-  background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%);
-  color: var(--color-primary-900) !important;
-  border-color: var(--color-primary-300);
-  transform: translateY(-1.5px);
-  box-shadow: 0 4px 8px rgba(60, 158, 145, 0.12);
-  background-color: transparent !important; /* Cancel standard link hover bg */
+  color: var(--color-primary-800);
+  text-decoration-color: var(--color-primary-700);
 }
 
 /* Style images and their captions */
 .prose figure {
   margin: 2.5rem 0;
-  border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--color-neutral-200);
 }
 
 .prose img {
-  border-radius: 0.75rem;
+  border-radius: 0;
   width: 100%;
   height: auto;
 }
@@ -364,19 +380,20 @@
   margin: 2rem 0 2.5rem;
   font-size: 0.9375rem;
   line-height: 1.55;
-  border: 1px solid var(--color-neutral-200);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-  background: white;
+  border-top: 2px solid var(--color-neutral-900);
+  border-bottom: 1px solid var(--color-neutral-900);
+  font-family: var(--font-sans);
+  background: transparent;
 }
 
 .prose thead {
-  background: linear-gradient(135deg, var(--color-navy-800) 0%, var(--color-navy-700) 100%);
+  background: transparent;
+  border-bottom: 1px solid var(--color-neutral-900);
 }
 
 .prose th {
-  color: white;
+  color: var(--color-neutral-900);
+  border-bottom: 1px solid var(--color-neutral-900) !important;
   font-weight: 700;
   text-align: left;
   padding: 0.9rem 1.1rem;
@@ -394,7 +411,7 @@
 }
 
 .prose tbody tr:nth-child(even) {
-  background: var(--color-neutral-50);
+  background: transparent;
 }
 
 .prose tbody tr:hover {
@@ -442,109 +459,53 @@
   }
 }
 
-/* Beautiful inline product recommendation grids inside articles */
+/* Graelles de productes dins dels articles */
 .prose .grid {
   margin: 2.5rem 0;
 }
 
 .prose .grid .border-neutral-200 {
   border: 1px solid var(--color-neutral-200) !important;
-  background-color: var(--color-neutral-50) !important;
-  border-radius: 1.25rem !important;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-card) !important;
-}
-
-.prose .grid .border-neutral-200::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-primary-400), var(--color-navy-500));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 10;
+  background-color: white !important;
+  border-radius: 0.75rem !important;
+  transition: border-color 0.15s !important;
 }
 
 .prose .grid .border-neutral-200:hover {
-  transform: translateY(-5px);
   border-color: var(--color-primary-300) !important;
-  background-color: white !important;
-  box-shadow: 0 16px 32px rgba(60, 158, 145, 0.08) !important;
 }
 
-.prose .grid .border-neutral-200:hover::before {
-  opacity: 1;
-}
-
-/* Style CTA button inside article recommendation grids to be solid & premium */
 .prose .grid a[href^="/producto/"] {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: 100%;
-  padding: 0.75rem 1.25rem !important;
-  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%) !important;
+  padding: 0.7rem 1.25rem !important;
+  background: var(--color-primary-700) !important;
   color: white !important;
-  font-weight: 800 !important;
-  border-radius: 0.85rem !important;
+  font-weight: 700 !important;
+  border-radius: 0.5rem !important;
   font-size: 0.875rem !important;
   text-decoration: none !important;
   border: none !important;
-  transition: all 0.25s ease !important;
-  box-shadow: 0 4px 10px rgba(47, 127, 117, 0.15) !important;
+  transition: background-color 0.15s !important;
   margin-top: 0.5rem;
 }
 
 .prose .grid a[href^="/producto/"]:hover {
-  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%) !important;
-  transform: translateY(-1.5px) !important;
-  box-shadow: 0 6px 16px rgba(47, 127, 117, 0.25) !important;
+  background: var(--color-primary-800) !important;
 }
 
-/* Beautiful custom formatting for not-prose boxes */
-.not-prose.bg-blue-50 {
-  background: linear-gradient(135deg, rgba(239, 246, 255, 0.75) 0%, rgba(219, 234, 254, 0.5) 100%) !important;
-  border: none !important;
-  border-left: 5px solid #2563eb !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.04);
-  padding: 1.5rem !important;
-  transition: transform 0.2s ease;
-}
-
-.not-prose.bg-blue-50:hover {
-  transform: scale(1.005);
-}
-
-.not-prose.bg-red-50 {
-  background: linear-gradient(135deg, rgba(254, 242, 242, 0.75) 0%, rgba(254, 226, 226, 0.5) 100%) !important;
-  border: none !important;
-  border-left: 5px solid #dc2626 !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.04);
-  padding: 1.5rem !important;
-  transition: transform 0.2s ease;
-}
-
-.not-prose.bg-red-50:hover {
-  transform: scale(1.005);
-}
-
+/* Requadres de nota (not-prose) dins dels articles */
+.not-prose.bg-blue-50,
+.not-prose.bg-red-50,
 .not-prose.bg-primary-50 {
-  background: linear-gradient(135deg, rgba(238, 249, 247, 0.75) 0%, rgba(213, 240, 236, 0.5) 100%) !important;
   border: none !important;
-  border-left: 5px solid var(--color-primary-500) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(60, 158, 145, 0.04);
-  padding: 1.5rem !important;
-  transition: transform 0.2s ease;
+  border-left: 4px solid var(--note-color) !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+  padding: 1.25rem 1.5rem !important;
 }
 
-.not-prose.bg-primary-50:hover {
-  transform: scale(1.005);
-}
+.not-prose.bg-blue-50 { --note-color: #2563eb; }
+.not-prose.bg-red-50 { --note-color: #dc2626; }
+.not-prose.bg-primary-50 { --note-color: var(--color-primary-500); }

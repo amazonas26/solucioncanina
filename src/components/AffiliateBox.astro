@@ -1,5 +1,4 @@
 ---
-import { CheckCircle2 } from 'lucide-react';
 import { getCollection } from 'astro:content';
 import { fechaPrecio, formatFechaPrecio } from '../utils/precioConsultado';
 interface Props {
@@ -26,63 +25,48 @@ const precio = producto ? producto.data.precio : price;
 const precioFecha = producto && precio ? fechaPrecio(productSlug) : null;
 ---
 
-<div class="my-10 rounded-2xl border border-primary-100 bg-gradient-to-br from-white to-primary-50/20 overflow-hidden relative shadow-sm hover:shadow-md hover:scale-[1.005] hover:border-primary-200 transition-all duration-300 group/affbox">
-  {badge && (
-    <div class="absolute top-0 left-0 bg-navy-700 text-white text-[10px] font-black px-4 py-1.5 rounded-br-xl z-10 uppercase tracking-[0.1em] shadow-sm">
-      {badge}
-    </div>
-  )}
-  <div class="flex flex-col sm:flex-row p-6 gap-6 pt-10 sm:pt-6">
+<div class="not-prose my-12 border-t-2 border-neutral-900 pt-5 font-sans">
+  <div class="flex flex-col sm:flex-row gap-6">
     {imagen && (
-      <div class="w-full sm:w-1/3 flex-shrink-0 flex items-center justify-center bg-white rounded-xl p-4 border border-neutral-100 h-[200px] group-hover/affbox:shadow-sm group-hover/affbox:border-primary-100 transition-all duration-300">
-        <img src={imagen} alt={title} width="300" height="300" loading="lazy" decoding="async" class="max-w-full max-h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover/affbox:scale-105" />
-      </div>
+      <a href={link} class="w-full sm:w-[200px] shrink-0 aspect-square bg-neutral-50 flex items-center justify-center p-4 overflow-hidden" tabindex="-1" aria-hidden="true">
+        <img src={imagen} alt="" width="300" height="300" loading="lazy" decoding="async" class="!w-auto !h-auto max-w-full max-h-full object-contain mix-blend-multiply" />
+      </a>
     )}
-    
-    <div class="flex-1 flex flex-col justify-center">
-      <h3 class="text-lg sm:text-xl font-serif font-black text-neutral-900 mb-3 leading-snug !mt-0 group-hover/affbox:text-primary-800 transition-colors duration-300">
-        {title}
-      </h3>
-      
+
+    <div class="flex flex-col min-w-0 flex-1">
+      {badge && <p class="!mb-0 text-sm font-semibold text-clay-600">{badge}</p>}
+      <h3 class="!mt-1 !mb-0 font-serif !text-2xl font-semibold text-neutral-900 !leading-snug">{title}</h3>
+
       {pros && pros.length > 0 && (
-        <ul class="space-y-2 mb-5 p-0 list-none">
+        <ul class="list-none !pl-0 !mb-0 mt-3 space-y-1.5">
           {pros.map((pro) => (
-            <li class="flex items-start gap-2.5 text-sm text-neutral-600 m-0 leading-relaxed">
-              <CheckCircle2 size={15} className="text-primary-500 shrink-0 mt-0.5 group-hover/affbox:scale-110 transition-transform duration-300" />
+            <li class="!m-0 flex items-start gap-2.5 text-[15px] text-neutral-800 leading-snug">
+              <span class="text-primary-600 font-bold shrink-0" aria-hidden="true">+</span>
               <span>{pro}</span>
             </li>
           ))}
         </ul>
       )}
-      
-      <div class="mt-auto flex flex-col sm:flex-row items-center gap-4">
-        {precio && (
-          <div class="text-2xl font-black text-neutral-900 shrink-0 tracking-tight">
-            {precio}
-          </div>
-        )}
+
+      <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+        {precio && <span class="text-2xl font-bold text-neutral-900 tabular-nums">{precio}</span>}
         <a
           href={link}
           target={isInternalProduct ? undefined : "_blank"}
           rel={isInternalProduct ? undefined : "sponsored nofollow noopener noreferrer"}
-          class={`inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl transition-colors flex-1 w-full !no-underline whitespace-nowrap ${
-            isInternalProduct
-              ? "bg-primary-600 hover:bg-primary-700 text-white"
-              : "border-2 border-primary-600 text-primary-700 bg-white hover:bg-primary-50"
-          }`}
+          class="inline-flex items-center gap-2 bg-neutral-900 text-paper px-6 py-3 text-sm font-semibold hover:bg-primary-800 transition-colors !no-underline"
         >
-          {ctaLabel}
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/affbox:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          {ctaLabel} <span aria-hidden="true">→</span>
         </a>
       </div>
       {precioFecha && (
-        <p class="mt-3 text-[11px] text-neutral-400 leading-relaxed">
+        <p class="!mb-0 mt-3 text-xs text-neutral-500 leading-relaxed">
           Precio en Amazon.es consultado el {formatFechaPrecio(precioFecha)}. Puede haber cambiado.
         </p>
       )}
       {!isInternalProduct && (
-        <p class="mt-3 text-[11px] text-neutral-400 leading-relaxed">
-          Te llevamos a Amazon. Solución Canina no vende directamente —
+        <p class="!mb-0 mt-3 text-xs text-neutral-500 leading-relaxed">
+          Te llevamos a Amazon. Solución Canina no vende directamente:
           ganamos una pequeña comisión si decides comprar allí.
         </p>
       )}

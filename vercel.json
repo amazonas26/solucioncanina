@@ -14,7 +14,7 @@
     },
     {
       "source": "/producto/perrocondroprotector-perrossuplementos-para-las-articulaciones-de-perros-mayoresalivio-del-dolor-de-movilidadgotas-de-condroitina-para-perrosglucosamina-para-cadera-articulaciones",
-      "destination": "/producto/condroprotector-gotas-perros-mayores-60ml/",
+      "destination": "/producto/kowi-flex-drops-condroprotector-gotas-60ml/",
       "permanent": true
     },
     {
@@ -360,6 +360,36 @@
     {
       "source": "/categoria/ansiedad-y-estres",
       "destination": "/categoria/ansiedad/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/canin-veterinary-renal-2-kg-alimento-completo-dietetico-para-perros-adultos-de-todas-las-tallas-y-razas-bajo-contenido-de-fosforo",
+      "destination": "/producto/canin-c-11232-diet-renal-rf14-14-kg/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/escaleras-para-perros-para-coche-de-4-escalones-carga-de-68-kg-rampa-plegable-para-perros-de-aluminio-ligero-con-superficie-antideslizante-escalones-portatiles-de-mascotas-para-coche-y-camion",
+      "destination": "/producto/para-perros-pequenos-o-grandes-priorpet-marca-que-brilla-en-la-oscuridad-rampa-de-coche-plegable-adecuada-para-todos-los-coches-superficie-antideslizante-4-escalones/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/zesty-paws-probioticos-digestivos-90-uds",
+      "destination": "/producto/purina-fortiflora-probiotico-perros-30-sobres/",
+      "permanent": true
+    },
+    {
+      "source": "/producto/condroprotector-gotas-perros-mayores-60ml",
+      "destination": "/producto/kowi-flex-drops-condroprotector-gotas-60ml/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/miedo-petardos-perros-soluciones",
+      "destination": "/blog/ansiedad-ruidos-perros-calmar-estres/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/mejores-camas-ortopedicas-perros",
+      "destination": "/blog/camas-ortopedicas-perros-artrosis-displasia/",
       "permanent": true
     }
   ],

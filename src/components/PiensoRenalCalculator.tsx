@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator, Scale, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 interface Props {
   productos: CalcProducto[];
@@ -42,10 +43,6 @@ const ACTIVIDADES: ActividadInfo[] = [
 const KCAL_POR_100G = 390;
 const KCAL_MIN = 370;
 const KCAL_MAX = 410;
-
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
 
 function rerKcal(peso: number): number {
   return 70 * Math.pow(peso, 0.75);
@@ -95,8 +92,8 @@ export default function PiensoRenalCalculator({ productos }: Props) {
   const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de ración de pienso renal</h2>
       </div>
@@ -130,13 +127,11 @@ export default function PiensoRenalCalculator({ productos }: Props) {
                 aria-describedby="peso-renal-val"
               />
               <span id="peso-renal-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={2}
                   max={70}
-                  step={0.5}
                   value={peso}
-                  onChange={(e) => setPeso(clamp(Number(e.target.value) || 2, 2, 70))}
+                  onValueChange={setPeso}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Peso en kilogramos"
                 />

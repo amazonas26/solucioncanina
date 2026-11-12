@@ -74,7 +74,7 @@ PROBLEM_SECTIONS: list[dict] = [
         "Movilidad y artrosis",
         "Ayudas para perros con dolor articular, cadera delicada o movilidad reducida.",
         "joint",
-        lambda d: _category_is(d, ["Condroprotectores", "Rampas"]),
+        lambda d: _category_is(d, ["Condroprotectores", "Omega-3 y aceite de salmón", "Rampas"]),
     ),
     _section(
         "Descanso ortopédico",
@@ -104,6 +104,18 @@ PROBLEM_SECTIONS: list[dict] = [
         ),
     ),
     _section(
+        "Piel, picores y muda",
+        "Cepillos para la muda, champús suaves y productos para la piel seca o con picor.",
+        "brush",
+        lambda d: _category_is(d, ["Piel y pelo"]),
+    ),
+    _section(
+        "Incontinencia",
+        "Pañales, fajas, empapadores y limpiadores para perros que se escapan el pis, sobre todo los mayores.",
+        "drop",
+        lambda d: _category_is(d, ["Incontinencia"]),
+    ),
+    _section(
         "Ansiedad y estrés",
         "Feromonas, calmantes y apoyo para ruidos, separación, viajes o cambios de rutina.",
         "calm",
@@ -115,7 +127,7 @@ PROBLEM_SECTIONS: list[dict] = [
         "Productos útiles para perros mayores: articulaciones, descanso, rampas y dietas específicas.",
         "senior",
         lambda d: (
-            _category_is(d, ["Condroprotectores", "Rampas", "Camas ortopédicas"])
+            _category_is(d, ["Condroprotectores", "Omega-3 y aceite de salmón", "Rampas", "Camas ortopédicas", "Incontinencia"])
             or _includes_any(_text_of(d), _SENIOR_HINTS)
         ),
     ),
@@ -124,7 +136,7 @@ PROBLEM_SECTIONS: list[dict] = [
         "Correas, arneses y bozales para paseos más tranquilos, seguros y controlados.",
         "lead",
         # Solo correas y bozales (evita rampas con «correas para transporte» en el título).
-        lambda d: _category_is(d, ["Correas", "Bozales"]),
+        lambda d: _category_is(d, ["Correas", "Arneses", "Bozales"]),
     ),
     _section(
         "Subir al coche o sofá",
@@ -165,11 +177,32 @@ CATALOG_CATEGORIES: dict[str, list[str]] = {
     "Condroprotectores": [
         "condroprotector perro glucosamina",
         "suplemento articulaciones perro senior",
+    ],
+    "Omega-3 y aceite de salmón": [
         "aceite salmon perro omega 3",
+        "omega 3 perro capsulas epa dha",
     ],
     "Correas": [
         "correa perro adiestramiento larga",
         "correa canicross perro",
+    ],
+    "Juguetes interactivos": [
+        "kong perro rellenable",
+        "juguete interactivo perro puzzle",
+        "alfombra olfativa perro",
+    ],
+    "Piel y pelo": [
+        "cepillo perro muda",
+        "champu perro piel sensible",
+    ],
+    "Incontinencia": [
+        "pañales perro macho incontinencia",
+        "pañales perra desechables",
+        "empapadores lavables perro",
+    ],
+    "Arneses": [
+        "arnes perro antitirones",
+        "arnes perro en y",
     ],
     "Bozales": [
         "bozal perro silicona cesta",

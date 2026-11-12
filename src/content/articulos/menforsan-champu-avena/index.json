@@ -1,0 +1,33 @@
+{
+  "nombre": "Champú Perros con Avena - 300 ml",
+  "nombreCorto": "Menforsan champú con avena · 300 ml",
+  "slug": "menforsan-champu-avena-300-ml",
+  "linkAmazon": "https://www.amazon.es/dp/B073XQJ2LX/?tag=solucioncanin-21",
+  "categoria": "Piel y pelo",
+  "marca": "Menforsan",
+  "tipoAnalisis": "Analizado",
+  "secciones": [
+    "Piel, picores y muda"
+  ],
+  "precio": "5.04€",
+  "precioOriginal": "5.90€",
+  "descuentoPct": 15,
+  "ventas": 50,
+  "valoracion": 4.5,
+  "valoracionesCount": 427,
+  "descripcion": "Champú con avena para perros de piel delicada, seca, sensible o irritada. Formato de 300 ml.",
+  "imagen": "/images/articulos/menforsan-champu-avena/imagen.jpg",
+  "veredicto": "Menforsan champú con avena: champú suave y muy barato para baños habituales de perros de piel sensible.",
+  "analisis": "Un champú suave con avena, pensado para pieles secas o sensibles, de marca española y a un precio muy bajo. Sirve para los baños normales de un perro de piel delicada sin gastar en un champú veterinario cada vez. Si tu perro tiene una dermatitis diagnosticada, el champú lo decide el veterinario.",
+  "experienciaReal": "Las reseñas destacan que deja el pelo suave y con buen olor sin irritar. Un dueño de un bulldog inglés con piel atópica lo usa para los baños normales y reserva el champú medicado para una vez al mes; otro dice que su perro se rasca menos los días después del baño.",
+  "pros": [
+    "Muy barato.",
+    "Suave, para piel sensible.",
+    "Buen olor sin irritar."
+  ],
+  "contras": [
+    "No es un champú medicado.",
+    "Formato pequeño (300 ml)."
+  ],
+  "paraQuien": "Para baños habituales de perros con piel sensible o seca. Para una dermatitis, como complemento del champú que paute el veterinario."
+}

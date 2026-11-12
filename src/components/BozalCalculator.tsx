@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 interface Props {
   productos: CalcProducto[];
@@ -28,10 +29,6 @@ const TALLAS: TallaRow[] = [
   { num: 5, label: 'XL', periMin: 31, periMax: 37, longRef: 9 },
   { num: 6, label: 'XXL', periMin: 37, periMax: 50, longRef: 11 },
 ];
-
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
 
 function tallaPorPerimetro(perimetro: number): TallaRow {
   // En el límite exacto entre filas, sube de talla.
@@ -108,8 +105,8 @@ export default function BozalCalculator({ productos }: Props) {
     result.tipo === 'cesta' ? 'Cesta (rígida o silicona abierta tipo canasta)' : 'Silicona abierta';
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de talla de bozal</h2>
       </div>
@@ -133,13 +130,11 @@ export default function BozalCalculator({ productos }: Props) {
                 aria-describedby="perimetro-val"
               />
               <span id="perimetro-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={10}
                   max={50}
-                  step={0.5}
                   value={perimetro}
-                  onChange={(e) => setPerimetro(clamp(Number(e.target.value) || 10, 10, 50))}
+                  onValueChange={setPerimetro}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Perímetro en centímetros"
                 />
@@ -166,13 +161,11 @@ export default function BozalCalculator({ productos }: Props) {
                 aria-describedby="longitud-val"
               />
               <span id="longitud-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={2}
                   max={15}
-                  step={0.5}
                   value={longitud}
-                  onChange={(e) => setLongitud(clamp(Number(e.target.value) || 2, 2, 15))}
+                  onValueChange={setLongitud}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Longitud en centímetros"
                 />

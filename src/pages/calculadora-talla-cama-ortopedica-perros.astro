@@ -14,6 +14,8 @@ const categories = Array.from(
 
 const productos = articulos
   .filter((a) => a.data.categoria === 'Camas ortopédicas')
+  // Només recomanem el que ara es pot comprar amb preu (scripts/update_prices.py).
+  .filter((a) => a.data.disponible !== false && Boolean(a.data.precio))
   .map((a) => ({
     slug: a.data.slug || slugify(a.data.nombre),
     titulo: a.data.nombreCorto || a.data.tituloSeo || a.data.nombre,
@@ -68,17 +70,17 @@ const faqJsonLd = faqPageSchema(faqs);
   jsonLd={[breadcrumbJsonLd, faqJsonLd]}
 >
   <div class="mb-8">
-    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+    <nav aria-label="Breadcrumb" class="flex mb-6 text-sm text-neutral-500 gap-2 items-center flex-wrap">
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Herramientas</a>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Calculadoras</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       <span class="text-neutral-900">Talla de cama</span>
     </nav>
-    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+    <h1 class="font-serif text-4xl md:text-6xl font-semibold tracking-[-0.025em] leading-[1.03] text-neutral-900 mb-4">
       Calculadora de talla de cama para perros
     </h1>
-    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+    <p class="font-serif text-xl md:text-2xl text-neutral-700 max-w-3xl leading-snug">
       <strong>Cómo medir a tu perro para la cama:</strong> de la <strong>punta del hocico a la base de la cola</strong>,
       más el <strong>peso</strong> y la <strong>postura</strong> habitual. Te damos la <strong>talla</strong> mínima
       (largo +30 cm; el ancho cambia con cómo duerma) y el grosor de espuma. Así no compras a ojo la talla de abajo.
@@ -119,7 +121,7 @@ const faqJsonLd = faqPageSchema(faqs);
       por la noche. Si dudas entre dos tallas comerciales, quédate con la grande.
     </p>
 
-    <table class="w-full text-sm my-6 border-collapse">
+    <div class="table-scroll"><table class="w-full text-sm my-6 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Talla habitual</th>
@@ -133,10 +135,10 @@ const faqJsonLd = faqPageSchema(faqs);
         <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>95–110 cm</td><td class="text-neutral-500">65–80 cm</td></tr>
         <tr><td class="py-2 pr-4 font-semibold">XL</td><td>115–130 cm</td><td class="text-neutral-500">85–100 cm</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Ancho según postura</p>
-    <table class="w-full text-sm my-4 border-collapse">
+    <div class="table-scroll"><table class="w-full text-sm my-4 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Postura</th>
@@ -149,10 +151,10 @@ const faqJsonLd = faqPageSchema(faqs);
         <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">De lado</td><td>máx(45, 0,70 × L)</td><td class="text-neutral-500">Más ancha</td></tr>
         <tr><td class="py-2 pr-4 font-semibold">Ovillado</td><td>máx(40, 0,65 × L)</td><td class="text-neutral-500">Intermedio</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Grosor de espuma por peso</p>
-    <table class="w-full text-sm my-4 border-collapse">
+    <div class="table-scroll"><table class="w-full text-sm my-4 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Peso</th>
@@ -164,7 +166,7 @@ const faqJsonLd = faqPageSchema(faqs);
         <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">15–30 kg</td><td>≥ 10 cm</td></tr>
         <tr><td class="py-2 pr-4 font-semibold">&gt; 30 kg</td><td>≥ 12 cm (ideal 15–19 cm)</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p class="text-xs text-neutral-500 leading-relaxed mt-2">
       <strong>Nota:</strong> cada fabricante numera distinto (un «L» de 90 cm no equivale a un «L» de 110 cm).
@@ -172,10 +174,8 @@ const faqJsonLd = faqPageSchema(faqs);
     </p>
 
     <p class="text-neutral-700 leading-relaxed">
-      El criterio de talla y espuma está desarrollado en
-      <a href="/blog/mejores-camas-ortopedicas-perros/" class="text-primary-600 font-semibold hover:underline">camas ortopédicas: guía completa</a>
-      y en
-      <a href="/blog/camas-ortopedicas-perros-artrosis-displasia/" class="text-primary-600 font-semibold hover:underline">camas para artrosis y displasia</a>.
+      El criterio de talla y espuma está desarrollado en la
+      <a href="/blog/camas-ortopedicas-perros-artrosis-displasia/" class="text-primary-600 font-semibold hover:underline">guía de camas ortopédicas para artrosis, displasia y perros mayores</a>.
       Cuando tengas la talla, compara fichas en la
       <a href="/categoria/camas-ortopedicas/" class="text-primary-600 font-semibold hover:underline">sección de camas analizadas</a>.
     </p>

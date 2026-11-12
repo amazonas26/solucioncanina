@@ -23,10 +23,7 @@ export function tipoAnalisisHref(
 }
 
 export const TIPO_ANALISIS_BADGE_CLASS: Record<TipoAnalisis, string> = {
-  'Probado en casa':
-    'bg-primary-50 text-primary-800 border-primary-100 hover:border-primary-300',
-  Analizado:
-    'bg-white text-neutral-700 border-neutral-200 hover:border-primary-200 hover:text-primary-700',
-  Pendiente:
-    'bg-amber-50 text-amber-900 border-amber-200 hover:border-amber-300',
+  'Probado en casa': 'text-primary-700 decoration-primary-300 hover:decoration-primary-600',
+  Analizado: 'text-neutral-600 decoration-neutral-300 hover:text-primary-700 hover:decoration-primary-400',
+  Pendiente: 'text-amber-800 decoration-amber-300 hover:decoration-amber-600',
 };

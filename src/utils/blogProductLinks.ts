@@ -12,17 +12,21 @@ export const BLOG_TO_PRODUCT_CATEGORY: Record<string, string> = {
   'mejor-condroprotector-perros-artrosis': 'Condroprotectores',
   'condroprotectores-perros-guia-completa': 'Condroprotectores',
   'glucosamina-para-perros-para-que-sirve-dosis': 'Condroprotectores',
-  'mejores-camas-ortopedicas-perros': 'Camas ortopédicas',
   'rampas-para-perros-beneficios': 'Rampas',
   'pienso-renal-perros-guia': 'Alimentación específica',
   'pienso-bajo-sodio-perros-renal': 'Alimentación específica',
-  'aceite-salmon-perros-beneficios': 'Alimentación específica',
+  'perro-diarrea-que-hacer-dieta': 'Alimentación específica',
+  'aceite-salmon-perros-beneficios': 'Omega-3 y aceite de salmón',
   'ansiedad-ruidos-perros-calmar-estres': 'Ansiedad',
   'ansiedad-separacion-perros-guia': 'Ansiedad',
-  'miedo-petardos-perros-soluciones': 'Ansiedad',
   'relajantes-naturales-perros-gotas-feromonas-chaleco': 'Ansiedad',
-  'perro-tira-de-la-correa-soluciones': 'Correas',
-  'arnes-o-collar-perros-guia': 'Correas',
+  'perro-tira-de-la-correa-soluciones': 'Arneses',
+  'arnes-o-collar-perros-guia': 'Arneses',
+  'arnes-perro-como-elegir-talla': 'Arneses',
+  'como-evitar-que-mi-perro-suelte-pelo': 'Piel y pelo',
+  'mi-perro-se-rasca-mucho-sin-pulgas-causas': 'Piel y pelo',
+  'juguetes-interactivos-perros-aburrimiento': 'Juguetes interactivos',
+  'incontinencia-perro-mayor-panales': 'Incontinencia',
   'mejores-correas-largas-perros-adiestramiento': 'Correas',
   'bozales-perros-guia-elegir-talla': 'Bozales',
   'camas-ortopedicas-perros-artrosis-displasia': 'Camas ortopédicas',
@@ -39,8 +43,7 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
   ],
   'Camas ortopédicas': [
-    { slug: 'mejores-camas-ortopedicas-perros', titulo: 'Mejores camas ortopédicas para perros' },
-    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
+    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas: cuál elegir con artrosis, displasia o ya mayor' },
     { slug: 'displasia-cadera-perros-sintomas-cuidados', titulo: 'Displasia de cadera en perros: síntomas y cuidados' },
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
   ],
@@ -56,19 +59,53 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'pastillas-perros-artrosis-comprimidos-gotas-snacks', titulo: 'Pastillas para perros con artrosis: comprimidos, gotas o snacks' },
     { slug: 'pienso-con-condroprotectores-o-suplemento', titulo: '¿Basta un pienso con condroprotectores?' },
     { slug: 'condroprotectores-perros-guia-completa', titulo: 'Qué son los condroprotectores y cuándo darlos' },
-    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas para perros con artrosis o displasia' },
+    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas: cuál elegir con artrosis, displasia o ya mayor' },
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
+  ],
+  'Omega-3 y aceite de salmón': [
+    { slug: 'aceite-salmon-perros-beneficios', titulo: 'Aceite de salmón y omega-3: para qué sirve y cuánto darle' },
+    { slug: 'mejor-condroprotector-perros-artrosis', titulo: 'Mejor condroprotector para perros: comparativa' },
+    { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
+    { slug: 'mi-perro-se-rasca-mucho-sin-pulgas-causas', titulo: 'Mi perro se rasca mucho sin pulgas: causas' },
   ],
   'Alimentación específica': [
     { slug: 'pienso-renal-perros-guia', titulo: 'Pienso renal para perros: guía' },
     { slug: 'pienso-bajo-sodio-perros-renal', titulo: 'Pienso bajo en sodio (y fósforo) para problema renal' },
-    { slug: 'aceite-salmon-perros-beneficios', titulo: 'Beneficios del aceite de salmón para perros' },
+    { slug: 'perro-diarrea-que-hacer-dieta', titulo: 'Perro con diarrea: qué hacer y qué darle de comer' },
+  ],
+  'Problemas renales y urinarios': [
+    { slug: 'pienso-renal-perros-guia', titulo: 'Pienso renal para perros: guía' },
+    { slug: 'pienso-bajo-sodio-perros-renal', titulo: 'Pienso bajo en sodio (y fósforo) para problema renal' },
+  ],
+  'Digestión sensible': [
+    { slug: 'perro-diarrea-que-hacer-dieta', titulo: 'Perro con diarrea: qué hacer y qué darle de comer' },
+    { slug: 'mi-perro-no-quiere-comer-causas', titulo: 'Mi perro no quiere comer: causas y qué hacer' },
+    { slug: 'por-que-mi-perro-come-heces', titulo: 'Por qué mi perro come heces' },
   ],
   'Ansiedad': [
-    { slug: 'ansiedad-ruidos-perros-calmar-estres', titulo: 'Calmar la ansiedad por ruidos en perros' },
+    { slug: 'ansiedad-ruidos-perros-calmar-estres', titulo: 'Miedo a los petardos y a los ruidos: qué hacer' },
     { slug: 'ansiedad-separacion-perros-guia', titulo: 'Ansiedad por separación: guía para perros' },
-    { slug: 'miedo-petardos-perros-soluciones', titulo: 'Miedo a los petardos: soluciones' },
     { slug: 'relajantes-naturales-perros-gotas-feromonas-chaleco', titulo: 'Relajantes naturales: gotas, feromonas y chaleco' },
+  ],
+  'Juguetes interactivos': [
+    { slug: 'juguetes-interactivos-perros-aburrimiento', titulo: 'Juguetes para que tu perro no se aburra' },
+    { slug: 'border-collie-cuidados-problemas-comportamiento', titulo: 'Border collie: por qué se aburre y cómo encauzarlo' },
+    { slug: 'ansiedad-separacion-perros-guia', titulo: 'Ansiedad por separación: guía para perros' },
+    { slug: 'senales-estres-perros-ansiedad', titulo: 'Señales de estrés en perros' },
+  ],
+  'Piel y pelo': [
+    { slug: 'como-evitar-que-mi-perro-suelte-pelo', titulo: 'Cómo evitar que tu perro suelte tanto pelo' },
+    { slug: 'mi-perro-se-rasca-mucho-sin-pulgas-causas', titulo: 'Mi perro se rasca mucho sin pulgas: causas' },
+    { slug: 'aceite-salmon-perros-beneficios', titulo: 'Aceite de salmón y omega-3: para qué sirve y cuánto darle' },
+  ],
+  'Incontinencia': [
+    { slug: 'incontinencia-perro-mayor-panales', titulo: 'Perro mayor que se hace pis: incontinencia y pañales' },
+    { slug: 'camas-ortopedicas-perros-artrosis-displasia', titulo: 'Camas ortopédicas: cuál elegir con artrosis, displasia o ya mayor' },
+  ],
+  'Arneses': [
+    { slug: 'arnes-perro-como-elegir-talla', titulo: 'Arnés para perro: qué tipo elegir y cómo medir la talla' },
+    { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },
+    { slug: 'perro-tira-de-la-correa-soluciones', titulo: 'Si tu perro tira de la correa: soluciones' },
   ],
   'Correas': [
     { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },
@@ -80,6 +117,15 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
 export function blogsForCategory(categoria?: string | null): { slug: string; titulo: string }[] {
   if (!categoria) return [];
   return PRODUCT_CATEGORY_TO_BLOGS[categoria] ?? [];
+}
+
+// Seccions amb guies pròpies dins d'una categoria barrejada: «Alimentación específica»
+// té pinsos renals i digestius, i cada fitxa ha d'enllaçar les guies del seu problema.
+const SECCIONES_CON_GUIAS_PROPIAS = ['Digestión sensible', 'Problemas renales y urinarios'];
+
+export function blogsForProduct(categoria?: string | null, secciones?: string[]): { slug: string; titulo: string }[] {
+  const seccion = secciones?.find((s) => SECCIONES_CON_GUIAS_PROPIAS.includes(s));
+  return blogsForCategory(seccion ?? categoria);
 }
 
 export function categoryForBlog(slug: string): string | null {
@@ -95,19 +141,31 @@ export type BlogProductSource = {
     nombreCorto?: string;
     imagen?: string;
     precio?: string;
+    precioOriginal?: string;
+    descuentoPct?: number;
     marca?: string;
     valoracion?: number;
+    valoracionesCount?: number;
     categoria?: string;
+    disponible?: boolean;
   };
 };
+
+// Només es recomana el que ara es pot comprar amb preu (scripts/update_prices.py treu
+// el preu als no disponibles i als que no tenen oferta de nou a Amazon).
+const recomendable = (articulo: BlogProductSource) =>
+  articulo.data.disponible !== false && Boolean(articulo.data.precio);
 
 export type RelatedBlogProduct = {
   slug: string;
   nombre: string;
   imagen?: string;
   precio?: string;
+  precioOriginal?: string;
+  descuentoPct?: number;
   marca?: string;
   valoracion?: number;
+  valoracionesCount?: number;
 };
 
 export type BlogPostForProducts = {
@@ -128,8 +186,11 @@ function toRelatedProduct(articulo: BlogProductSource): RelatedBlogProduct {
     nombre: articulo.data.nombreCorto || articulo.data.nombre,
     imagen: articulo.data.imagen,
     precio: articulo.data.precio,
+    precioOriginal: articulo.data.precioOriginal,
+    descuentoPct: articulo.data.descuentoPct,
     marca: articulo.data.marca,
     valoracion: articulo.data.valoracion,
+    valoracionesCount: articulo.data.valoracionesCount,
   };
 }
 
@@ -154,7 +215,7 @@ export function relatedProductsForBlog(
     return recommended
       .filter((slug) => !excluded.has(slug))
       .map((slug) => bySlug.get(slug))
-      .filter((articulo): articulo is BlogProductSource => Boolean(articulo))
+      .filter((articulo): articulo is BlogProductSource => Boolean(articulo) && recomendable(articulo))
       .slice(0, limit)
       .map(toRelatedProduct);
   }
@@ -165,7 +226,7 @@ export function relatedProductsForBlog(
   return articulos
     .filter((articulo) => {
       const slug = articuloProductSlug(articulo);
-      return articulo.data.categoria === productCat && !excluded.has(slug);
+      return articulo.data.categoria === productCat && !excluded.has(slug) && recomendable(articulo);
     })
     .sort((a, b) => {
       const rating = (b.data.valoracion ?? 0) - (a.data.valoracion ?? 0);

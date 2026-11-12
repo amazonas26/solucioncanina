@@ -2,29 +2,51 @@
 
 > Guía editorial independiente en español que selecciona y analiza productos para perros disponibles en Amazon España, con foco en **salud y movilidad del perro senior**: condroprotectores, camas ortopédicas, rampas, correas, bozales, alimentación veterinaria y antiestrés. Cada producto incluye veredicto editorial, pros, contras y análisis basado en reseñas reales.
 
-Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta directa). El contenido no sustituye el consejo veterinario.
+Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta directa). El contenido no sustituye el consejo veterinario. Lo escriben dos personas que no son veterinarias y no prueban los productos: cada guía cita al final sus fuentes (estudios veterinarios con DOI y organismos oficiales).
 
 ## Categorías de producto
 
-- [Condroprotectores para perros](https://www.solucioncanina.es/categoria/condroprotectores/):/ suplementos articulares con glucosamina, condroitina, MSM y mejillón de labio verde para artrosis y prevención.
-- [Camas ortopédicas para perros](https://www.solucioncanina.es/categoria/camas-ortopedicas/):/ camas viscoelásticas e impermeables para perros mayores, grandes o con artrosis/displasia.
-- [Rampas para perros](https://www.solucioncanina.es/categoria/rampas/):/ rampas plegables para coche, sofá y cama, por peso y altura.
-- [Correas para perros](https://www.solucioncanina.es/categoria/correas/):/ correas largas, de adiestramiento, de paseo y antitirones.
-- [Bozales para perros](https://www.solucioncanina.es/categoria/bozales/):/ bozales de cesta de silicona y nylon, por talla y forma del hocico.
-- [Alimentación específica](https://www.solucioncanina.es/categoria/alimentacion-especifica/):/ dietas veterinarias (renal, urinaria, gastrointestinal) y suplementos como aceite de salmón.
-- [Antiestrés y ansiedad](https://www.solucioncanina.es/categoria/ansiedad/):/ feromonas, snacks calmantes y suplementos para ruidos, separación y viajes.
+- [Condroprotectores para perros](https://www.solucioncanina.es/categoria/condroprotectores/): suplementos articulares con glucosamina, condroitina, MSM y mejillón de labio verde para artrosis y prevención.
+- [Camas ortopédicas para perros](https://www.solucioncanina.es/categoria/camas-ortopedicas/): camas viscoelásticas e impermeables para perros mayores, grandes o con artrosis/displasia.
+- [Rampas para perros](https://www.solucioncanina.es/categoria/rampas/): rampas plegables para coche, sofá y cama, por peso y altura.
+- [Correas para perros](https://www.solucioncanina.es/categoria/correas/): correas largas, de adiestramiento y de paseo.
+- [Juguetes interactivos para perros](https://www.solucioncanina.es/categoria/juguetes-interactivos/): rellenables tipo Kong, alfombras de olfato, dispensadores de pienso, rompecabezas y alfombrillas para lamer.
+- [Piel y pelo](https://www.solucioncanina.es/categoria/piel-y-pelo/): cepillos para la muda según el tipo de pelo, champús para piel sensible y productos para piel seca o con picor.
+- [Arneses para perros](https://www.solucioncanina.es/categoria/arneses/): antitirones con enganche en el pecho, en Y, antiescape y para perros pequeños.
+- [Bozales para perros](https://www.solucioncanina.es/categoria/bozales/): bozales de cesta de silicona y nylon, por talla y forma del hocico.
+- [Alimentación específica](https://www.solucioncanina.es/categoria/alimentacion-especifica/): dietas veterinarias (renal, urinaria, gastrointestinal).
+- [Digestión sensible](https://www.solucioncanina.es/categoria/digestion-sensible/): dietas gastrointestinales secas y húmedas, un pienso para digestión sensible y probióticos para diarreas y estómagos delicados.
+- [Incontinencia](https://www.solucioncanina.es/categoria/incontinencia/): pañales desechables y lavables, fajas para machos, empapadores y limpiadores enzimáticos para perros que se escapan el pis.
+- [Omega-3 y aceite de salmón](https://www.solucioncanina.es/categoria/omega-3-y-aceite-de-salmon/): aceites de salmón, omega-3 concentrado y cápsulas, comparados por su EPA y DHA.
+- [Antiestrés y ansiedad](https://www.solucioncanina.es/categoria/ansiedad/): feromonas, snacks calmantes y suplementos para ruidos, separación y viajes.
+
+## Calculadoras
+
+- [Calculadora de dosis de condroprotector](https://www.solucioncanina.es/calculadora-dosis-condroprotector-perros/): mg de glucosamina, condroitina y MSM al día según el peso, y cuántos comprimidos de tu producto.
+- [Calculadora de talla de bozal](https://www.solucioncanina.es/calculadora-talla-bozal-perros/): talla por perímetro y longitud del hocico; cesta o silicona.
+- [Calculadora de talla de cama ortopédica](https://www.solucioncanina.es/calculadora-talla-cama-ortopedica-perros/): largo, ancho y grosor de espuma según longitud, peso y postura.
+- [Calculadora de medida de rampa](https://www.solucioncanina.es/calculadora-medida-rampa-perros/): longitud mínima según la altura y una pendiente segura, y carga necesaria.
+- [Calculadora de talla de arnés y collar](https://www.solucioncanina.es/calculadora-talla-arnes-collar-perros/): talla por perímetro de cuello y de pecho.
+- [Calculadora de ración de pienso renal](https://www.solucioncanina.es/calculadora-racion-pienso-renal-perros/): gramos al día de pienso renal seco según peso y actividad (orientativo).
+- [Calculadora de dosis de omega-3](https://www.solucioncanina.es/calculadora-dosis-omega-3-perros/): ml de aceite o cápsulas al día para la dosis de EPA+DHA estudiada en artrosis, según el peso y el % del producto.
+- [Calculadora de talla de pañal](https://www.solucioncanina.es/calculadora-talla-panal-perros/): talla de cada pañal y faja del catálogo según la cintura, para macho o hembra, desechable o lavable.
+- [Todas las herramientas](https://www.solucioncanina.es/herramientas/)
 
 ## Guías y artículos de referencia
 
-- [Condroprotectores para perros: cuándo empezar y cuáles funcionan](https://www.solucioncanina.es/blog/condroprotectores-perros-guia-completa/):/ glucosamina, condroitina, MSM y ácido hialurónico; dosis por peso; cuándo empezar.
-- [Mejor condroprotector para perros con artrosis](https://www.solucioncanina.es/blog/mejor-condroprotector-perros-artrosis/):/ comparativa y criterios de elección.
-- [Mejores camas ortopédicas para perros](https://www.solucioncanina.es/blog/mejores-camas-ortopedicas-perros/):/ grosor de espuma, impermeabilidad y tamaño.
-- [Camas ortopédicas para perros con artrosis o displasia](https://www.solucioncanina.es/blog/camas-ortopedicas-perros-artrosis-displasia/):/ qué buscar para aliviar codos y caderas.
-- [Bozales para perros: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/bozales-perros-guia-elegir-talla/):/ cesta vs tela, cómo medir el hocico, acostumbrarlo sin estrés.
-- [Mejores correas largas para perros (adiestramiento)](https://www.solucioncanina.es/blog/mejores-correas-largas-perros-adiestramiento/):/ longitudes, materiales y mosquetón.
-- [Rampas para perros: beneficios y cuál elegir](https://www.solucioncanina.es/blog/rampas-para-perros-beneficios/):/ cuándo usarlas y qué mirar.
-- [Pienso renal para perros: guía](https://www.solucioncanina.es/blog/pienso-renal-perros-guia/):/ dietas veterinarias para insuficiencia renal.
-- [Beneficios del aceite de salmón para perros](https://www.solucioncanina.es/blog/aceite-salmon-perros-beneficios/):/ Omega 3 para pelaje, piel y articulaciones.
+- [Condroprotectores para perros: qué son y cuándo darlos](https://www.solucioncanina.es/blog/condroprotectores-perros-guia-completa/): qué hacen la glucosamina, la condroitina, el MSM y el ácido hialurónico; dosis por peso; cuándo empezar.
+- [Mejor condroprotector para perros: comparativa](https://www.solucioncanina.es/blog/mejor-condroprotector-perros-artrosis/): comparativa de los 11 condroprotectores analizados y cuál elegir según edad, peso y formato.
+- [Camas ortopédicas para perros con artrosis, displasia o mayores](https://www.solucioncanina.es/blog/camas-ortopedicas-perros-artrosis-displasia/): espuma, grosor según el peso, talla y modelos comparados.
+- [Arnés para perro: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/arnes-perro-como-elegir-talla/): anilla en el pecho o en la espalda, arnés en Y o antiescape, cómo medir el pecho y 8 modelos comparados.
+- [Juguetes para que tu perro no se aburra](https://www.solucioncanina.es/blog/juguetes-interactivos-perros-aburrimiento/): qué tipo de juguete interactivo sirve para qué, cómo usarlo y cuándo no basta con juguetes.
+- [Bozales para perros: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/bozales-perros-guia-elegir-talla/): cesta vs tela, cómo medir el hocico, acostumbrarlo sin estrés.
+- [Mejores correas largas para perros (adiestramiento)](https://www.solucioncanina.es/blog/mejores-correas-largas-perros-adiestramiento/): longitudes, materiales y mosquetón.
+- [Rampas para perros: beneficios y cuál elegir](https://www.solucioncanina.es/blog/rampas-para-perros-beneficios/): cuándo usarlas y qué mirar.
+- [Pienso renal para perros: guía](https://www.solucioncanina.es/blog/pienso-renal-perros-guia/): dietas veterinarias para insuficiencia renal.
+- [Perro mayor que se hace pis: incontinencia y pañales](https://www.solucioncanina.es/blog/incontinencia-perro-mayor-panales/): incontinencia o pis voluntario, causas, tratamiento veterinario, cómo elegir pañal o faja y proteger la cama y la piel.
+- [Perro con diarrea: qué hacer y qué darle de comer](https://www.solucioncanina.es/blog/perro-diarrea-que-hacer-dieta/): señales para ir al veterinario, qué darle de comer, qué dicen los estudios de probióticos y antibióticos y qué dieta gastrointestinal elegir.
+- [Aceite de salmón y omega-3 para perros](https://www.solucioncanina.es/blog/aceite-salmon-perros-beneficios/): dónde hay evidencia (artrosis, piel), cuántos mg de EPA+DHA dar según el peso y efectos secundarios.
+- [Miedo a los petardos y a los ruidos en perros](https://www.solucioncanina.es/blog/ansiedad-ruidos-perros-calmar-estres/): qué hacer el día del ruido, protocolo de desensibilización y cuándo ir al veterinario.
 
 ## Cuidados por raza
 
@@ -37,8 +59,8 @@ Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta di
 ## Navegación
 
 - [Inicio](https://www.solucioncanina.es/): productos más vendidos, mejor valorados y con mayor descuento.
-- [Catálogo completo](https://www.solucioncanina.es/productos):/ todos los productos analizados, con buscador y filtros.
-- [Blog y guías](https://www.solucioncanina.es/blog):/ todos los artículos.
+- [Catálogo completo](https://www.solucioncanina.es/productos): todos los productos analizados, con buscador y filtros.
+- [Blog y guías](https://www.solucioncanina.es/blog): todos los artículos.
 
 ## Información del sitio
 

@@ -1,0 +1,164 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Omega3Calculator from '../components/Omega3Calculator';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slugify';
+import { breadcrumbSchema, faqPageSchema } from '../utils/seo';
+import { HERRAMIENTAS_PATH } from '../utils/herramientas';
+import { fuentesDe } from '../utils/fuentes';
+import OtrasHerramientas from '../components/OtrasHerramientas.astro';
+
+const articulos = await getCollection('articulos');
+const categories = Array.from(
+  new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[])
+);
+
+// Només els olis que declaren el % d'EPA+DHA: sense aquest dada no es pot calcular res.
+const productos = articulos
+  .filter((a) => typeof a.data.epaDhaPct === 'number')
+  // Només recomanem el que ara es pot comprar amb preu (scripts/update_prices.py).
+  .filter((a) => a.data.disponible !== false && Boolean(a.data.precio))
+  .map((a) => ({
+    slug: a.data.slug || slugify(a.data.nombre),
+    titulo: a.data.nombreCorto || a.data.nombre,
+    precio: a.data.precio || '',
+    valoracion: typeof a.data.valoracion === 'number' ? a.data.valoracion : 0,
+    epaDhaPct: a.data.epaDhaPct as number,
+  }))
+  .sort((x, y) => y.epaDhaPct - x.epaDhaPct);
+
+const faqs = [
+  {
+    pregunta: '¿De dónde sale la dosis de 69 mg por kg?',
+    respuesta:
+      'De un ensayo con placebo en perros con artrosis (Mehler y colaboradores, 2016): los perros que tomaron EPA y DHA, de media 69 mg por kg de peso al día, mejoraron en dolor, cojera y gravedad de la articulación a las 12 semanas frente al placebo. Es la dosis estudiada, no un máximo ni un mínimo oficial.',
+  },
+  {
+    pregunta: '¿Y para la piel y el pelo?',
+    respuesta:
+      'No hay una dosis de estudio clara para la piel y el pelo. Para eso, la dosis de la etiqueta del aceite suele ser suficiente. Esta calculadora está pensada para la artrosis, que es donde el omega-3 tiene más evidencia.',
+  },
+  {
+    pregunta: '¿Por qué me salen tantos ml con un aceite de salmón normal?',
+    respuesta:
+      'Porque un aceite de salmón normal lleva alrededor de un 6 % de EPA+DHA: el resto es otra grasa. Para llegar a la dosis del ensayo hacen falta muchos ml y muchas calorías. Con un aceite concentrado (alrededor del 27 %) basta con unas cuatro veces menos.',
+  },
+  {
+    pregunta: '¿Dónde encuentro el % de EPA+DHA de mi aceite?',
+    respuesta:
+      'En la etiqueta o la ficha, como «EPA x %» y «DHA y %» (súmalos), o como mg de EPA y de DHA por ml o por cápsula. Si el producto no lo indica, no hay forma de saber cuánto omega-3 das: mejor elegir uno que lo declare.',
+  },
+  {
+    pregunta: '¿Tiene riesgos dar tanto omega-3?',
+    respuesta:
+      'A dosis altas puede dar heces blandas o diarrea, aumentar de peso (es grasa) y afectar a la coagulación. Empieza con una cuarta parte y sube poco a poco, y coméntalo con el veterinario, sobre todo si tu perro toma antiinflamatorios u otros medicamentos o va a operarse.',
+  },
+];
+
+const fuentes = fuentesDe(['mehler-2016', 'roush-2010', 'barbeau-2022', 'lenox-2013'], 'calculadora-dosis-omega-3');
+
+const pageUrl = '/calculadora-dosis-omega-3-perros/';
+const breadcrumbJsonLd = breadcrumbSchema([
+  { name: 'Inicio', url: '/' },
+  { name: 'Herramientas', url: HERRAMIENTAS_PATH },
+  { name: 'Dosis de omega-3', url: pageUrl },
+]);
+const faqJsonLd = faqPageSchema(faqs);
+---
+
+<Layout
+  title="Calculadora de omega-3 y aceite de salmón para perros"
+  description="¿Cuánto aceite de salmón u omega-3 darle a tu perro? Introduce su peso y el % de EPA+DHA de tu aceite: te decimos los ml al día para la dosis estudiada en artrosis y cuántas calorías suma."
+  categories={categories}
+  jsonLd={[breadcrumbJsonLd, faqJsonLd]}
+>
+  <div class="mb-8">
+    <nav aria-label="Breadcrumb" class="flex mb-6 text-sm text-neutral-500 gap-2 items-center flex-wrap">
+      <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
+      <span class="text-neutral-300">/</span>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Calculadoras</a>
+      <span class="text-neutral-300">/</span>
+      <span class="text-neutral-900">Dosis de omega-3</span>
+    </nav>
+    <h1 class="font-serif text-4xl md:text-6xl font-semibold tracking-[-0.025em] leading-[1.03] text-neutral-900 mb-4">
+      Calculadora de dosis de omega-3 para perros
+    </h1>
+    <p class="font-serif text-xl md:text-2xl text-neutral-700 max-w-3xl leading-snug">
+      Introduce el <strong>peso</strong> de tu perro y el <strong>% de EPA+DHA</strong> de tu aceite. Te
+      decimos cuántos <strong>ml al día</strong> hacen falta para la dosis que se estudió en la artrosis,
+      y cuántas calorías suman.
+    </p>
+  </div>
+
+  <Omega3Calculator client:load productos={productos} />
+
+  <section class="mt-12 prose prose-neutral max-w-2xl">
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mb-3">Cómo se calcula</h2>
+    <ol>
+      <li>
+        <strong>Dosis de EPA+DHA:</strong> 69 mg por kg de peso al día, la dosis media de un ensayo con
+        placebo en perros con artrosis.
+      </li>
+      <li>
+        <strong>mg por ml de tu aceite:</strong> el % de EPA+DHA × 0,92 g por ml (la densidad aproximada
+        de un aceite de pescado). Un aceite con un 6 % aporta unos 55 mg por ml; uno con un 27 %, unos 250.
+      </li>
+      <li>
+        <strong>ml al día:</strong> la dosis entre los mg por ml, redondeado a medio ml.
+      </li>
+      <li>
+        <strong>Calorías:</strong> 9 kcal por gramo de aceite. Las comparamos con lo que suele necesitar un
+        perro adulto castrado (1,6 × 70 × peso<sup>0,75</sup> kcal al día), una estimación general.
+      </li>
+    </ol>
+
+    <div class="table-scroll"><table class="w-full text-sm my-6 border-collapse">
+      <thead>
+        <tr class="border-b-2 border-neutral-200 text-left">
+          <th class="py-2 pr-4">Peso</th>
+          <th class="py-2 pr-4">EPA+DHA</th>
+          <th class="py-2 pr-4">Aceite al 6 %</th>
+          <th class="py-2">Aceite al 27 %</th>
+        </tr>
+      </thead>
+      <tbody class="text-neutral-700">
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">10 kg</td><td>690 mg</td><td>12,5 ml</td><td>3 ml</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">20 kg</td><td>1.380 mg</td><td>25 ml</td><td>5,5 ml</td></tr>
+        <tr><td class="py-2 pr-4 font-semibold">30 kg</td><td>2.070 mg</td><td>37,5 ml</td><td>8,5 ml</td></tr>
+      </tbody>
+    </table></div>
+
+    <p class="text-neutral-700 leading-relaxed">
+      Qué dice la evidencia, para qué sirve y cómo elegir aceite, en la
+      <a href="/blog/aceite-salmon-perros-beneficios/" class="text-primary-600 font-semibold hover:underline">guía de aceite de salmón y omega-3</a>.
+      Todos los productos, con precio y análisis, en la
+      <a href="/categoria/omega-3-y-aceite-de-salmon/" class="text-primary-600 font-semibold hover:underline">sección de omega-3</a>.
+    </p>
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <div class="mb-5">
+        <p class="font-bold text-neutral-900 mb-1">{f.pregunta}</p>
+        <p class="text-neutral-700 leading-relaxed text-sm">{f.respuesta}</p>
+      </div>
+    ))}
+
+    <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Fuentes</h2>
+    <ol class="text-sm text-neutral-700">
+      {fuentes.map((f) => (
+        <li class="mb-2">
+          <span class="font-semibold">{f.autores}{f.anio ? ` (${f.anio})` : ''}.</span>{' '}
+          <a href={f.url} target="_blank" rel="noopener noreferrer" class="underline">{f.titulo}</a>.{' '}
+          <span class="text-neutral-500">{f.publicacion}.</span>
+        </li>
+      ))}
+    </ol>
+
+    <p class="text-xs text-neutral-400 mt-8 border-t border-neutral-200 pt-4">
+      Esta calculadora es orientativa y no sustituye el consejo de un veterinario. Si tu perro tiene
+      artrosis, toma medicamentos o va a operarse, la dosis de omega-3 debe conocerla tu veterinario.
+    </p>
+  </section>
+
+  <OtrasHerramientas currentPath={pageUrl} />
+</Layout>

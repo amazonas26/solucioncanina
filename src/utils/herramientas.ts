@@ -5,10 +5,14 @@ export interface HerramientaInput {
   unit?: string;
 }
 
+// Ids que un article pot citar al frontmatter (`calculadoras`) per mostrar-les al final.
+export const HERRAMIENTA_IDS = ['condroprotector', 'bozal', 'cama', 'rampa', 'arnes', 'renal', 'omega3', 'panal'] as const;
+export type HerramientaId = (typeof HERRAMIENTA_IDS)[number];
+
 export type HerramientaAccent = 'teal' | 'navy' | 'mint' | 'sky' | 'forest' | 'warm';
 
 export interface Herramienta {
-  id: string;
+  id: HerramientaId;
   nombre: string;
   breadcrumb: string;
   href: string;
@@ -128,11 +132,52 @@ export const HERRAMIENTAS: Herramienta[] = [
     paraQuien:
       'Dueños con dieta renal ya prescrita que quieren una cifra de partida para la cantidad, no un diagnóstico.',
   },
+  {
+    id: 'omega3',
+    nombre: 'Calculadora de dosis de omega-3',
+    breadcrumb: 'Dosis de omega-3',
+    href: '/calculadora-dosis-omega-3-perros/',
+    pregunta: '¿Cuánto aceite de salmón u omega-3 le doy a mi perro?',
+    accent: 'teal',
+    paraQue:
+      'Pasar la dosis de EPA+DHA que se usó en el ensayo de artrosis a ml de tu aceite o a cápsulas, y ver cuántas calorías suma.',
+    inputs: 'Peso del perro y el % de EPA+DHA del aceite (o los mg por cápsula).',
+    inputLabels: [
+      { label: 'Peso', unit: 'kg' },
+      { label: 'Producto' },
+    ],
+    paraQuien:
+      'Dueños de perros con artrosis que quieren saber si su aceite de salmón llega a una dosis útil o se queda corto.',
+  },
+  {
+    id: 'panal',
+    nombre: 'Calculadora de talla de pañal',
+    breadcrumb: 'Talla de pañal',
+    href: '/calculadora-talla-panal-perros/',
+    pregunta: '¿Qué talla de pañal necesita mi perro?',
+    accent: 'sky',
+    paraQue:
+      'Pasar la cintura de tu perro a la talla de cada pañal y faja del catálogo, porque una «M» de una marca no es la «M» de otra.',
+    inputs: 'Sexo, perímetro de la cintura y si prefieres desechable o lavable.',
+    inputLabels: [
+      { label: 'Cintura', unit: 'cm' },
+      { label: 'Sexo' },
+      { label: 'Tipo' },
+    ],
+    paraQuien:
+      'Quien va a comprar pañales o fajas para un perro con incontinencia y no quiere acertar la talla a la segunda.',
+  },
 ];
 
 export function herramientaByHref(href: string): Herramienta | undefined {
   const clean = href.endsWith('/') ? href : `${href}/`;
   return HERRAMIENTAS.find((h) => h.href === clean);
+}
+
+export function herramientasPorIds(ids: readonly HerramientaId[] = []): Herramienta[] {
+  return ids
+    .map((id) => HERRAMIENTAS.find((h) => h.id === id))
+    .filter((h): h is Herramienta => Boolean(h));
 }
 
 export function otrasHerramientas(currentHref: string): Herramienta[] {

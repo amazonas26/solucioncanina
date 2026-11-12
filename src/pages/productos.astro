@@ -35,28 +35,18 @@ const catalogPageJsonLd = collectionPageSchema({
 ---
 
 <Layout
-  title="Catálogo de Productos"
-  description="Catálogo completo de productos para perros: alimentación, accesorios, salud y juguetes. Selección curada y verificada."
+  title="Catálogo de productos para perros"
+  description="Todos los productos para perros que hemos analizado: camas ortopédicas, condroprotectores, rampas, bozales, correas y alimentación específica, con precio y valoración de Amazon."
   categories={categories}
   jsonLd={[catalogPageJsonLd, catalogJsonLd]}
 >
   <div class="mb-6 md:mb-10">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1"
-          >
-            Catálogo
-          </p>
-          <h1
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            Todos los productos
-          </h1>
-        </div>
-      </div>
-    </div>
+    <header class="border-b border-neutral-900 pb-6 mb-8">
+      <h1 class="font-serif text-4xl md:text-6xl font-semibold tracking-tight text-neutral-900">Todos los productos</h1>
+      <p class="mt-3 font-serif text-xl text-neutral-700 max-w-3xl">
+        {publicArticulos.length} productos analizados, ordenados por necesidad y por tipo. Cada ficha explica para qué perro sirve y para cuál no.
+      </p>
+    </header>
 
     <div id="articulos">
       <SearchableGrid client:load articulos={publicArticulos} />

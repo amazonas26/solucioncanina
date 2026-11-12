@@ -1,0 +1,57 @@
+{
+  "nombre": "Pañales Perro Macho, 48 Unidades Pañales Desechables para Perros S con protección contra Fugas e indicador de Humedad, Superabsorbentes Pañales para Perros Macho Incontinencia",
+  "nombreCorto": "Pet Soft faja desechable para macho · S, 48 uds",
+  "slug": "pet-soft-panales-desechables-perro-macho-48",
+  "linkAmazon": "https://www.amazon.es/dp/B0B1M9TPH2/?tag=solucioncanin-21",
+  "categoria": "Incontinencia",
+  "marca": "Pet Soft",
+  "tipoAnalisis": "Analizado",
+  "secciones": [],
+  "tallasPanal": {
+    "sexo": "macho",
+    "tipo": "desechable",
+    "tallas": [
+      {
+        "talla": "XS",
+        "min": 15,
+        "max": 33,
+        "pesoMin": 2.3,
+        "pesoMax": 3.6
+      },
+      {
+        "talla": "S",
+        "min": 30,
+        "max": 48,
+        "pesoMin": 3.6,
+        "pesoMax": 9.1
+      },
+      {
+        "talla": "M",
+        "min": 45,
+        "max": 63,
+        "pesoMin": 9.1,
+        "pesoMax": 20.4
+      }
+    ]
+  },
+  "precio": "39.99€",
+  "valoracion": 4.6,
+  "valoracionesCount": 708,
+  "descripcion": "Fajas desechables para perros macho pequeños y medianos, con barrera antifugas e indicador de humedad. Tallas XS (15–33 cm), S (30–48 cm) y M (45–63 cm).",
+  "imagen": "/images/articulos/pet-soft-panales-macho/imagen.jpg",
+  "veredicto": "Pet Soft para macho: la faja desechable mejor valorada para perros pequeños y medianos; no tiene talla para perros grandes.",
+  "analisis": "Es una faja desechable para machos como la de Amazon Basics, con barreras laterales antifugas e indicador de humedad. Las tallas van por cintura y por peso: XS (15–33 cm, de 2,3 a 3,6 kg), S (30–48 cm, de 3,6 a 9 kg) y M (45–63 cm, de 9 a 20 kg). No hay talla para perros grandes. Tiene mejor nota media que la de Amazon Basics, aunque con muchas menos valoraciones, y el paquete de 48 sale algo más caro por unidad. Las reseñas la usan sobre todo en perros pequeños muy mayores que ya no aguantan el pis por la noche.",
+  "pros": [
+    "4,6 de media, de las mejores notas en pañales.",
+    "Tallas por cintura y por peso.",
+    "Barreras antifugas que funcionan bien de noche, según las reseñas.",
+    "Packs de 12 para probar la talla."
+  ],
+  "contras": [
+    "Solo hasta 63 cm de cintura: no sirve para perros grandes.",
+    "Más caro por unidad que el de Amazon Basics.",
+    "Solo para machos y solo para orina."
+  ],
+  "paraQuien": "Para machos pequeños y medianos (hasta unos 20 kg) con escapes de orina, sobre todo perros mayores por la noche. Si tu perro es grande, mira Amazon Basics talla L o la faja lavable de Paw Legend.",
+  "experienciaReal": "Las reseñas son casi todas de perros mayores con incontinencia: un caniche miniatura que ya no llega al jardín a tiempo y un perro de 16 años que no controla el pis por la noche, «sin ninguna fuga aunque estén muy empapados». Varios dicen que es lo único que les ha funcionado después de probar otras marcas."
+}

@@ -10,25 +10,22 @@ const { currentPath } = Astro.props;
 const otras = otrasHerramientas(currentPath);
 ---
 
-<section class="mt-16 pt-10 border-t border-neutral-200 not-prose" aria-labelledby="otras-herramientas-heading">
-  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+<section class="mt-20 not-prose" aria-labelledby="otras-herramientas-heading">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
     <div>
-      <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-1">
-        Más calculadoras
-      </p>
-      <h2 id="otras-herramientas-heading" class="text-2xl md:text-3xl font-serif font-black text-neutral-900 tracking-tight">
-        Otras herramientas
+      <h2 id="otras-herramientas-heading" class="font-serif text-3xl md:text-[2.4rem] font-semibold text-neutral-900 tracking-tight">
+        Otras calculadoras
       </h2>
     </div>
     <a
       href="/herramientas/"
-      class="text-sm font-bold text-primary-700 hover:underline"
+      class="text-[15px] font-semibold text-primary-700 hover:underline underline-offset-4"
     >
-      Todas las herramientas →
+      Todas las calculadoras →
     </a>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10">
     {otras.map((h) => (
       <HerramientaCard herramienta={h} heading="h3" />
     ))}

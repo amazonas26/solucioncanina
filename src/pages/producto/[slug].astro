@@ -1,12 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import TipoAnalisisBadge from "../../components/TipoAnalisisBadge.astro";
+import ProductCard from "../../components/ProductCard.astro";
 import { getCollection } from "astro:content";
-import { CheckCircle2, XCircle, ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { slugify } from "../../utils/slugify";
 import { outboundProductUrl } from "../../utils/outbound";
 import { productSchema, breadcrumbSchema } from "../../utils/seo";
-import { blogsForCategory } from "../../utils/blogProductLinks";
+import { blogsForProduct } from "../../utils/blogProductLinks";
+import { pesoTalla } from "../../components/PanalCalculator";
 import { TIPO_ANALISIS_DEFAULT, tipoAnalisisHref } from "../../utils/tipoAnalisis";
 import { fechaPrecio, formatFechaPrecio, notaPrecios } from "../../utils/precioConsultado";
 
@@ -24,6 +26,8 @@ export async function getStaticPaths() {
         (a) =>
           a.data.categoria &&
           a.data.categoria === art.data.categoria &&
+          a.data.disponible !== false &&
+          Boolean(a.data.precio) &&
           (a.data.slug || slugify(a.data.nombre)) !== slug,
       )
       .slice(0, 8)
@@ -32,8 +36,11 @@ export async function getStaticPaths() {
         nombre: a.data.nombreCorto || a.data.nombre,
         imagen: a.data.imagen,
         precio: a.data.precio,
+        precioOriginal: a.data.precioOriginal,
+        descuentoPct: a.data.descuentoPct,
         marca: a.data.marca,
-        outboundUrl: outboundProductUrl(a.data.slug || slugify(a.data.nombre)),
+        valoracion: a.data.valoracion,
+        valoracionesCount: a.data.valoracionesCount,
       }));
     return {
       params: { slug },
@@ -90,6 +97,7 @@ const ratingCountTxt = fmtCount(valoracionesCount);
 const ventasTxt = fmtVentas(ventas);
 
 const displayName = nombreCorto || nombre;
+const [analisisIntro, ...analisisResto] = analisis ? analisis.split("\n\n") : [];
 const isPendiente = (tipoAnalisis ?? TIPO_ANALISIS_DEFAULT) === "Pendiente";
 const productSlug = articulo.data.slug || slugify(nombre);
 const esPiensoRenal =
@@ -124,15 +132,27 @@ if (categoria && categoriaSlug) {
 breadcrumbItems.push({ name: displayName, url: productUrl });
 const breadcrumbJsonLd = breadcrumbSchema(breadcrumbItems);
 
-const seoDescription =
+// Meta description: el veredicto editorial (únic, ~120 car.) abans que la descripció
+// d'Amazon (text comercial, repetit entre variants i de fins a 500 car.), retallada
+// sense partir paraules perquè Google no la talli a mitja frase.
+function recortar(texto: string, max = 158): string {
+  if (texto.length <= max) return texto;
+  const palabras = texto.slice(0, max - 1).split(" ").slice(0, -1);
+  // Sense acabar en article, preposició o conjunció («…conserva muy bien el…»).
+  const vacias = new Set(["el", "la", "los", "las", "un", "una", "de", "del", "y", "o", "con", "en", "a", "al", "por", "para", "que", "su", "sus"]);
+  while (palabras.length > 1 && vacias.has(palabras[palabras.length - 1].toLowerCase())) palabras.pop();
+  return palabras.join(" ").replace(/[\s,.;:–-]+$/, "") + "…";
+}
+const seoDescription = recortar(
   articulo.data.descripcionSeo ||
-  descripcion ||
-  veredicto ||
-  `Reseña detallada de ${displayName}${marca ? " de " + marca : ""} en Solución Canina.`;
+    veredicto ||
+    descripcion ||
+    `Reseña detallada de ${displayName}${marca ? " de " + marca : ""} en Solución Canina.`,
+);
 
 const pageTitle = `${displayName} · análisis y precio`;
 
-const relatedBlogs = blogsForCategory(categoria);
+const relatedBlogs = blogsForProduct(categoria, articulo.data.secciones);
 ---
 
 <Layout
@@ -144,11 +164,11 @@ const relatedBlogs = blogsForCategory(categoria);
   categories={categories}
   noindex={isPendiente}
 >
-  <article class="max-w-6xl mx-auto px-4 md:px-0">
+  <article>
     {/* Breadcrumbs */}
     <nav
       aria-label="Breadcrumb"
-      class="flex mb-6 text-[10px] font-bold uppercase tracking-widest text-neutral-400 gap-2 items-center flex-wrap"
+      class="flex mb-6 lg:mb-8 text-sm text-neutral-500 gap-2 items-center flex-wrap"
     >
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <span class="text-neutral-300">/</span>
@@ -166,118 +186,56 @@ const relatedBlogs = blogsForCategory(categoria);
         )
       }
       <span
-        class="text-neutral-900 truncate max-w-[150px] sm:max-w-none hidden sm:inline-block font-bold"
+        class="text-neutral-800 truncate max-w-[150px] sm:max-w-none hidden sm:inline-block"
         aria-current="page"
         >{displayName}</span
       >
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
-      {/* Columna Izquierda: Galería/Imagen */}
-      <div class="lg:col-span-5 space-y-6">
-        <div
-          class="group relative rounded-[2rem] border border-neutral-100/60 bg-gradient-to-br from-white via-white to-neutral-50 p-8 md:p-12 flex items-center justify-center min-h-[300px] md:min-h-[400px] shadow-xl shadow-neutral-200/40 overflow-hidden"
-        >
-          <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(60,158,145,0.03),transparent)] opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-          </div>
-
-          {
-            descuentoPct && descuentoPct > 0 && (
-              <div class="absolute top-6 left-6 z-10">
-                <span class="bg-red-500 text-white text-[11px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-red-500/20 uppercase tracking-wider">
-                  -{descuentoPct}% Dto.
-                </span>
-              </div>
-            )
-          }
-
-          {
-            imagen ? (
-              <img
-                src={imagen}
-                alt={`Comprar ${displayName} al mejor precio`}
-                title={`${displayName}${marca ? ` - ${marca}` : ""}`}
-                width="600"
-                height="600"
-                loading="eager"
-                decoding="async"
-                fetchpriority="high"
-                class="max-w-full max-h-[450px] object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
-              />
-            ) : (
-              <div class="text-neutral-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <>
-                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                    <circle cx="9" cy="9" r="2" />
-                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                  </>
-                </svg>
-              </div>
-            )
-          }
-
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-20 items-start">
+      {/* Imagen */}
+      <div class="lg:col-span-6 lg:sticky lg:top-32">
+        <div class="relative aspect-square bg-neutral-50 flex items-center justify-center p-8 md:p-14 overflow-hidden">
+          {imagen ? (
+            <img
+              src={imagen}
+              alt={`Comprar ${displayName} al mejor precio`}
+              title={`${displayName}${marca ? ` - ${marca}` : ""}`}
+              width="700"
+              height="700"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              class="max-w-full max-h-full object-contain mix-blend-multiply"
+            />
+          ) : (
+            <span class="text-neutral-400 text-sm">Sin imagen</span>
+          )}
         </div>
-
-        {/* Veredicto Editorial (Destacado) */}
-        {
-          veredicto && (
-            <div class="bg-white border border-primary-100 rounded-2xl p-6 relative overflow-hidden shadow-sm group">
-              <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-primary-400 to-primary-600" />
-              <div class="flex items-center gap-2 mb-3 text-primary-700">
-                <div class="p-1.5 bg-primary-50 rounded-lg">
-                  <ShieldCheck size={18} />
-                </div>
-                <h3 class="text-[11px] font-black uppercase tracking-widest">
-                  Recomendación Solución Canina
-                </h3>
-              </div>
-              <p class="text-neutral-800 font-medium text-[15px] leading-relaxed italic">
-                "{veredicto}"
-              </p>
-            </div>
-          )
-        }
       </div>
 
       {/* Columna Derecha: Info Principal */}
-      <div class="lg:col-span-7 min-w-0">
-        <div class="flex flex-wrap items-center gap-3 mb-6">
-          {
-            marca && (
-              <span class="px-4 py-1.5 bg-navy-700 text-white rounded-lg text-[11px] font-black uppercase tracking-[0.1em] shadow-sm shadow-navy-900/10">
-                {marca}
-              </span>
-            )
-          }
-          {
-            categoria && (
-              <span class="px-4 py-1.5 bg-primary-50 text-primary-700 rounded-lg text-[11px] font-black uppercase tracking-[0.1em] border border-primary-100">
-                {categoria}
-              </span>
-            )
-          }
+      <div class="lg:col-span-6 min-w-0">
+        <p class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3 text-sm text-neutral-500">
+          {marca && <span class="font-semibold text-neutral-700">{marca}</span>}
+          {marca && categoria && <span aria-hidden="true">·</span>}
+          {categoria && (
+            <a href={`/categoria/${slugify(categoria)}/`} class="hover:text-primary-700 hover:underline underline-offset-2">{categoria}</a>
+          )}
+          <span aria-hidden="true">·</span>
           <TipoAnalisisBadge tipo={tipoAnalisis ?? TIPO_ANALISIS_DEFAULT} />
-        </div>
+        </p>
 
         <h1
-          class="text-2xl sm:text-3xl lg:text-4xl font-sans font-black text-neutral-900 mb-2 leading-tight tracking-tight break-words [hyphens:auto]"
+          class="font-serif text-[2.1rem] sm:text-5xl xl:text-[3.6rem] font-semibold text-neutral-900 leading-[1.02] tracking-[-0.025em] break-words [hyphens:auto]"
           lang="es"
         >
           {displayName}
         </h1>
+
+        {veredicto && (
+          <p class="mt-5 font-serif text-xl md:text-2xl leading-snug text-neutral-700">{veredicto}</p>
+        )}
 
         {
           isPendiente && (
@@ -285,7 +243,7 @@ const relatedBlogs = blogsForCategory(categoria);
               class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4"
               role="status"
             >
-              <p class="text-[10px] font-black uppercase tracking-widest text-amber-800 mb-1">
+              <p class="text-sm font-bold text-amber-900 mb-1">
                 Análisis pendiente
               </p>
               <p class="text-sm text-amber-950/80 leading-relaxed">
@@ -303,39 +261,36 @@ const relatedBlogs = blogsForCategory(categoria);
           )
         }
 
-        <div class="mb-6">
-          <p class="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-1">
-            Nombre en Amazon
-          </p>
-          <p class="text-sm text-neutral-500 leading-snug">{nombre}</p>
-        </div>
+        <p class="mt-5 mb-4 text-sm text-neutral-500 leading-snug">
+          <span class="text-neutral-400">Nombre en Amazon:</span> {nombre}
+        </p>
 
         {/* Valoración + Social Proof */}
         {
           (hasRating || ventasTxt) && (
-            <div class="flex flex-wrap items-center gap-x-8 gap-y-4 mb-6">
+            <div class="flex flex-wrap items-center gap-x-8 gap-y-3 pb-6 mb-6 border-b border-neutral-300">
               {hasRating && (
-                <div class="flex items-center gap-3 bg-white px-3 py-1.5 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center gap-2">
                   <div class="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         viewBox="0 0 24 24"
-                        class={`h-3.5 w-3.5 ${i < Math.floor(valoracion || 0) ? "text-yellow-400" : "text-neutral-200"}`}
+                        class={`h-4 w-4 ${i < Math.floor(valoracion || 0) ? "text-[#d99a1e]" : "text-neutral-300"}`}
                         fill="currentColor"
                       >
                         <polygon points="12,2 14.94,8.96 22.5,9.56 16.74,14.62 18.49,22 12,17.93 5.51,22 7.26,14.62 1.5,9.56 9.06,8.96" />
                       </svg>
                     ))}
                   </div>
-                  <span class="text-base font-black text-neutral-900 tabular-nums">
+                  <span class="text-base font-bold text-neutral-900 tabular-nums">
                     {(valoracion ?? 0).toFixed(1)}
                   </span>
                   {ratingCountTxt ? (
-                    <span class="text-[10px] font-bold text-neutral-400 border-l border-neutral-200 pl-3">
-                      {ratingCountTxt} reseñas en Amazon
+                    <span class="text-xs text-neutral-500">
+                      ({ratingCountTxt} reseñas en Amazon)
                     </span>
                   ) : (
-                    <span class="text-[10px] font-bold text-neutral-400 border-l border-neutral-200 pl-3">
+                    <span class="text-xs text-neutral-500">
                       en Amazon
                     </span>
                   )}
@@ -343,9 +298,8 @@ const relatedBlogs = blogsForCategory(categoria);
               )}
 
               {ventasTxt && (
-                <div class="flex items-center gap-2 text-sm">
-                  <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                  <span class="font-bold text-neutral-700 uppercase tracking-tight text-[10px]">
+                <div class="text-xs text-neutral-500">
+                  <span>
                     {ventasTxt}+ comprados el mes pasado en Amazon
                   </span>
                 </div>
@@ -356,12 +310,12 @@ const relatedBlogs = blogsForCategory(categoria);
 
         {
           analisis && (
-            <div class="mb-6 border-l-2 border-primary-200 pl-4">
-              <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
+            <div class="mb-7">
+              <h2 class="font-sans text-sm font-bold text-neutral-900 mb-2">
                 Por qué lo hemos analizado
-              </p>
-              <p class="text-neutral-700 text-base leading-relaxed">
-                {analisis.split("\n\n")[0]}
+              </h2>
+              <p class="font-serif text-lg leading-relaxed text-neutral-800">
+                {analisisIntro}
               </p>
             </div>
           )
@@ -369,11 +323,11 @@ const relatedBlogs = blogsForCategory(categoria);
 
         {/* Para qué tipo de perro está pensado */}
         {paraQuien && (
-          <div class="mb-6 bg-neutral-50 border border-neutral-200 rounded-2xl p-5">
-            <p class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-2">
+          <div class="mb-7">
+            <h2 class="font-sans text-sm font-bold text-neutral-900 mb-2">
               Para qué tipo de perro está pensado
-            </p>
-            <p class="text-neutral-700 text-sm leading-relaxed">
+            </h2>
+            <p class="font-serif text-lg leading-relaxed text-neutral-800">
               {paraQuien}
             </p>
           </div>
@@ -381,16 +335,14 @@ const relatedBlogs = blogsForCategory(categoria);
 
         {/* Pros y Contras (movidos arriba del precio) */}
         {((pros && pros.length > 0) || (contras && contras.length > 0)) && (
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-9">
             {pros && pros.length > 0 && (
-              <div class="bg-gradient-to-b from-emerald-50/50 to-white border border-emerald-100/80 rounded-2xl p-6 shadow-sm">
-                <h4 class="text-[10px] font-black uppercase tracking-widest text-emerald-800 mb-3">
-                  A favor
-                </h4>
-                <ul class="space-y-2">
+              <div class="border-t-2 border-neutral-900 pt-3">
+                <h2 class="font-sans text-sm font-bold text-neutral-900 mb-3">A favor</h2>
+                <ul class="space-y-2.5">
                   {pros.map((pro: string) => (
-                    <li class="flex items-start gap-2 text-sm text-neutral-700 leading-snug">
-                      <CheckCircle2 size={14} className="text-emerald-500 mt-0.5 shrink-0" />
+                    <li class="flex items-start gap-2.5 text-[15px] text-neutral-800 leading-snug">
+                      <span class="text-primary-600 font-bold shrink-0" aria-hidden="true">+</span>
                       <span>{pro}</span>
                     </li>
                   ))}
@@ -398,14 +350,12 @@ const relatedBlogs = blogsForCategory(categoria);
               </div>
             )}
             {contras && contras.length > 0 && (
-              <div class="bg-gradient-to-b from-rose-50/50 to-white border border-rose-100/80 rounded-2xl p-6 shadow-sm">
-                <h4 class="text-[10px] font-black uppercase tracking-widest text-rose-800 mb-3">
-                  A tener en cuenta
-                </h4>
-                <ul class="space-y-2">
+              <div class="border-t-2 border-neutral-900 pt-3">
+                <h2 class="font-sans text-sm font-bold text-neutral-900 mb-3">A tener en cuenta</h2>
+                <ul class="space-y-2.5">
                   {contras.map((contra: string) => (
-                    <li class="flex items-start gap-2 text-sm text-neutral-700 leading-snug">
-                      <XCircle size={14} className="text-rose-400 mt-0.5 shrink-0" />
+                    <li class="flex items-start gap-2.5 text-[15px] text-neutral-800 leading-snug">
+                      <span class="text-clay-600 font-bold shrink-0" aria-hidden="true">−</span>
                       <span>{contra}</span>
                     </li>
                   ))}
@@ -416,7 +366,7 @@ const relatedBlogs = blogsForCategory(categoria);
         )}
 
         {/* Precio + Dónde comprarlo (CTA demoure a outline) */}
-        <div class="mb-3 flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
+        <div class="mb-3 pt-6 border-t border-neutral-900 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
           <div class="flex items-baseline gap-3">
             {noDisponible ? (
               <span class="text-xl lg:text-2xl font-black text-amber-700 tracking-tight">
@@ -424,20 +374,16 @@ const relatedBlogs = blogsForCategory(categoria);
               </span>
             ) : (
               <span
-                class="text-3xl lg:text-4xl font-black text-neutral-900 tracking-tighter"
+                class="text-4xl font-bold text-neutral-900 tracking-tight tabular-nums"
                 >{precio || "Consultar"}</span
               >
             )}
             {
               precioOriginal && (
                 <div class="flex flex-col">
-                  <span class="text-base text-neutral-300 line-through font-bold decoration-red-500/20">
-                    {precioOriginal}
-                  </span>
+                  <s class="text-sm text-neutral-500">{precioOriginal}</s>
                   {descuentoPct && (
-                    <span class="text-[10px] font-black text-red-600 uppercase">
-                      Ahorra -{descuentoPct}%
-                    </span>
+                    <span class="text-xs font-semibold text-clay-600">−{descuentoPct} %</span>
                   )}
                 </div>
               )
@@ -448,14 +394,10 @@ const relatedBlogs = blogsForCategory(categoria);
             href={outboundUrl}
             target="_blank"
             rel="sponsored nofollow noopener noreferrer"
-            class="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 bg-[#FF9900] text-neutral-950 hover:bg-[#FFa822] shadow-[0_8px_30px_rgba(255,153,0,0.35)] hover:shadow-[0_12px_40px_rgba(255,153,0,0.55)] font-black text-lg sm:text-xl rounded-2xl transition-all duration-300 hover:-translate-y-1"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#FF9900] text-neutral-950 hover:bg-[#F08C00] font-bold text-base transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="animate-[bounce_2s_infinite]"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-            VER PRECIO EN AMAZON
-            <ArrowRight
-              size={22}
-              className="transition-transform group-hover:translate-x-2"
-            />
+            Ver precio en Amazon
+            <ArrowRight size={18} />
           </a>
         </div>
         {noDisponible && (
@@ -470,99 +412,32 @@ const relatedBlogs = blogsForCategory(categoria);
             Puede haber cambiado: el precio final es el que veas en Amazon.
           </p>
         )}
-        <p class="text-xs text-neutral-400 leading-relaxed mb-8 max-w-md">
-          Te llevamos a Amazon. Solución Canina no vende directamente —
+        <p class="text-xs text-neutral-400 leading-relaxed mb-10 max-w-md">
+          Te llevamos a Amazon. Solución Canina no vende directamente:
           ganamos una pequeña comisión si decides comprar allí. Eso no
           condiciona qué entra en nuestro catálogo.
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-          <div
-            class="flex items-center gap-3 p-4 rounded-2xl bg-neutral-50 border border-neutral-100"
-          >
-            <div
-              class="h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                class="text-primary-600"
-                ><path d="M22 10v6M2 10v6"></path><path d="M6 12h12"
-                ></path><path d="M12 4v16"></path><path d="M15 8l-3-3-3 3"
-                ></path><path d="M15 16l-3 3-3-3"></path></svg
-              >
-            </div>
-            <div>
-              <span
-                class="block text-[10px] font-black uppercase tracking-widest text-neutral-400"
-                >Envío</span
-              >
-              <span class="text-sm font-bold text-neutral-700"
-                >Entrega según disponibilidad</span
-              >
-            </div>
-          </div>
-          <div
-            class="flex items-center gap-3 p-4 rounded-2xl bg-neutral-50 border border-neutral-100"
-          >
-            <div
-              class="h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                class="text-primary-600"
-                ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                ></path><path d="m9 12 2 2 4-4"></path></svg
-              >
-            </div>
-            <div>
-              <span
-                class="block text-[10px] font-black uppercase tracking-widest text-neutral-400"
-                >Garantía</span
-              >
-              <span class="text-sm font-bold text-neutral-700"
-                >Compra 100% segura</span
-              >
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
     {
       categoria === "Camas ortopédicas" && (
-        <section class="mt-12" id="medir-talla-cama">
+        <section class="mt-16" id="medir-talla-cama">
           <a
             href="/calculadora-talla-cama-ortopedica-perros/"
-            class="group flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-white p-6 md:p-8 hover:border-primary-300 hover:shadow-md transition-all"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 bg-navy-800 text-white px-6 py-7 md:px-10"
           >
-            <div class="shrink-0 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-            </div>
             <div class="flex-grow">
-              <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-1">
-                Herramienta gratis
-              </p>
-              <h2 class="text-xl md:text-2xl font-serif font-black text-neutral-900 leading-snug">
+              <h2 class="font-serif text-2xl md:text-3xl font-semibold text-white leading-snug group-hover:underline decoration-1 underline-offset-4">
                 Cómo medir a tu perro para esta cama
               </h2>
-              <p class="text-sm text-neutral-600 mt-1 max-w-xl">
+              <p class="text-[15px] text-white/70 mt-2 max-w-2xl leading-relaxed">
                 Mide de hocico a cola, suma 30 cm y compara con las medidas de esta ficha. La
                 calculadora te da la talla (largo y ancho) y el grosor de espuma.
               </p>
             </div>
-            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-6 py-3.5 bg-paper text-neutral-900 text-sm font-semibold group-hover:bg-white transition-colors">
               Abrir calculadora
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </span>
@@ -572,28 +447,97 @@ const relatedBlogs = blogsForCategory(categoria);
     }
 
     {
-      categoria === "Correas" && (
-        <section class="mt-12" id="medir-talla-arnes">
+      (categoria === "Correas" || categoria === "Arneses") && (
+        <section class="mt-16" id="medir-talla-arnes">
           <a
             href="/calculadora-talla-arnes-collar-perros/"
-            class="group flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-white p-6 md:p-8 hover:border-primary-300 hover:shadow-md transition-all"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 bg-navy-800 text-white px-6 py-7 md:px-10"
           >
-            <div class="shrink-0 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-            </div>
             <div class="flex-grow">
-              <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-1">
-                Herramienta gratis
-              </p>
-              <h2 class="text-xl md:text-2xl font-serif font-black text-neutral-900 leading-snug">
+              <h2 class="font-serif text-2xl md:text-3xl font-semibold text-white leading-snug group-hover:underline decoration-1 underline-offset-4">
                 Cómo medir a tu perro para arnés o collar
               </h2>
-              <p class="text-sm text-neutral-600 mt-1 max-w-xl">
+              <p class="text-[15px] text-white/70 mt-2 max-w-2xl leading-relaxed">
                 Perímetro de cuello y de pecho, más el peso para comprobar. Compara la talla con las
                 medidas de esta ficha antes de pedir.
               </p>
             </div>
-            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-6 py-3.5 bg-paper text-neutral-900 text-sm font-semibold group-hover:bg-white transition-colors">
+              Abrir calculadora
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+        </section>
+      )
+    }
+
+    {
+      articulo.data.tallasPanal && (
+        <section class="mt-16" id="tallas-panal">
+          <h2 class="font-serif text-2xl md:text-3xl font-semibold text-neutral-900 mb-4">Tallas por cintura</h2>
+          <div class="table-scroll">
+            <table class="w-full max-w-xl text-sm border-collapse">
+              <thead>
+                <tr class="border-b-2 border-neutral-200 text-left">
+                  <th class="py-2 pr-4">Talla</th>
+                  <th class="py-2 pr-4">Cintura</th>
+                  {articulo.data.tallasPanal.tallas.some((t) => pesoTalla(t)) && <th class="py-2">Peso</th>}
+                </tr>
+              </thead>
+              <tbody class="text-neutral-700">
+                {articulo.data.tallasPanal.tallas.map((t) => (
+                  <tr class="border-b border-neutral-100">
+                    <td class="py-2 pr-4 font-semibold">{t.talla}</td>
+                    <td class="py-2 pr-4">{t.min}–{t.max} cm{t.deducida && ' *'}</td>
+                    {articulo.data.tallasPanal?.tallas.some((x) => pesoTalla(x)) && <td class="py-2">{pesoTalla(t)}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-2 text-xs text-neutral-500">
+            Medidas de la marca. Cintura justo delante de las patas traseras; en Amazon se elige la talla en el desplegable.
+            {articulo.data.tallasPanal.tallas.some((t) => t.deducida) && ' * La marca no la publica en texto: la deducimos de las tallas vecinas; confírmala en su tabla.'}
+          </p>
+          <a
+            href="/calculadora-talla-panal-perros/"
+            class="group mt-6 flex flex-col sm:flex-row sm:items-center gap-5 bg-navy-800 text-white px-6 py-7 md:px-10"
+          >
+            <div class="flex-grow">
+              <p class="font-serif text-2xl md:text-3xl font-semibold text-white leading-snug group-hover:underline decoration-1 underline-offset-4">
+                ¿Qué talla le pido?
+              </p>
+              <p class="text-[15px] text-white/70 mt-2 max-w-2xl leading-relaxed">
+                Con la cintura de tu perro, la calculadora te dice la talla de este pañal y de los demás de la
+                sección, desechables o lavables.
+              </p>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-6 py-3.5 bg-paper text-neutral-900 text-sm font-semibold group-hover:bg-white transition-colors">
+              Abrir calculadora
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
+        </section>
+      )
+    }
+
+    {
+      categoria === "Omega-3 y aceite de salmón" && (
+        <section class="mt-16" id="calcular-omega-3">
+          <a
+            href="/calculadora-dosis-omega-3-perros/"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 bg-navy-800 text-white px-6 py-7 md:px-10"
+          >
+            <div class="flex-grow">
+              <h2 class="font-serif text-2xl md:text-3xl font-semibold text-white leading-snug group-hover:underline decoration-1 underline-offset-4">
+                ¿Cuánto le doy al día?
+              </h2>
+              <p class="text-[15px] text-white/70 mt-2 max-w-2xl leading-relaxed">
+                Con el peso de tu perro y el % de EPA+DHA de este producto, la calculadora te dice cuántos ml
+                hacen falta para la dosis estudiada en artrosis y cuántas calorías suma.
+              </p>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-6 py-3.5 bg-paper text-neutral-900 text-sm font-semibold group-hover:bg-white transition-colors">
               Abrir calculadora
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </span>
@@ -604,27 +548,21 @@ const relatedBlogs = blogsForCategory(categoria);
 
     {
       esPiensoRenal && (
-        <section class="mt-12" id="racion-pienso-renal">
+        <section class="mt-16" id="racion-pienso-renal">
           <a
             href="/calculadora-racion-pienso-renal-perros/"
-            class="group flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-white p-6 md:p-8 hover:border-primary-300 hover:shadow-md transition-all"
+            class="group flex flex-col sm:flex-row sm:items-center gap-5 bg-navy-800 text-white px-6 py-7 md:px-10"
           >
-            <div class="shrink-0 flex h-14 w-14 items-center justify-center rounded-xl bg-primary-600 text-white shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-            </div>
             <div class="flex-grow">
-              <p class="text-xs font-bold uppercase tracking-wide text-primary-600 mb-1">
-                Herramienta gratis
-              </p>
-              <h2 class="text-xl md:text-2xl font-serif font-black text-neutral-900 leading-snug">
+              <h2 class="font-serif text-2xl md:text-3xl font-semibold text-white leading-snug group-hover:underline decoration-1 underline-offset-4">
                 Ración orientativa de este pienso renal
               </h2>
-              <p class="text-sm text-neutral-600 mt-1 max-w-xl">
+              <p class="text-[15px] text-white/70 mt-2 max-w-2xl leading-relaxed">
                 Gramos diarios según peso y actividad. La pauta la marca el veterinario: la
                 calculadora solo orienta la cantidad, nunca si este pienso es el adecuado.
               </p>
             </div>
-            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-5 py-3 bg-primary-600 text-white text-sm font-bold rounded-lg group-hover:bg-primary-700 transition-colors">
+            <span class="shrink-0 inline-flex items-center gap-2 self-start sm:self-auto px-6 py-3.5 bg-paper text-neutral-900 text-sm font-semibold group-hover:bg-white transition-colors">
               Abrir calculadora
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </span>
@@ -633,196 +571,102 @@ const relatedBlogs = blogsForCategory(categoria);
       )
     }
 
-    {/* Sección de Análisis Detallado */}
-    {(analisis || experienciaReal) && (
-      <div class="mt-12 border-t border-neutral-100 pt-12 max-w-4xl">
-        <div
-          class="inline-flex items-center gap-2 mb-8 px-4 py-1.5 bg-neutral-900 text-white rounded-full shadow-lg shadow-neutral-900/10"
-        >
-          <span class="w-2 h-2 rounded-full bg-primary-400 animate-pulse"></span>
-          <span class="text-[10px] font-black uppercase tracking-widest">
-            Análisis del Equipo
-          </span>
+    {/* Análisis largo + guías relacionadas al lado */}
+    {(analisisResto.length > 0 || experienciaReal || (!analisis && descripcion) || relatedBlogs.length > 0) && (
+      <div class="mt-16 pt-10 border-t border-neutral-900 grid lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="lg:col-span-7 min-w-0">
+          {analisisResto.length > 0 && (
+            <section class="mb-12">
+              <h2 class="font-serif text-3xl md:text-[2.2rem] font-semibold tracking-tight text-neutral-900 mb-5">
+                Cómo funciona y para qué destaca
+              </h2>
+              <div class="prose max-w-none">
+                {analisisResto.map((paragraph: string) => <p>{paragraph}</p>)}
+              </div>
+            </section>
+          )}
+
+          {experienciaReal && (
+            <section>
+              <h2 class="font-serif text-3xl md:text-[2.2rem] font-semibold tracking-tight text-neutral-900 mb-5">
+                Qué dicen los dueños
+              </h2>
+              <div class="prose max-w-none">
+                {experienciaReal.split("\n\n").map((paragraph: string) => <p>{paragraph}</p>)}
+              </div>
+            </section>
+          )}
+
+          {!analisis && !experienciaReal && descripcion && (
+            <p class="font-serif text-xl leading-relaxed text-neutral-800">{descripcion}</p>
+          )}
         </div>
 
-        {analisis && (
-          <section class="mb-10">
-            <h2 class="text-xl md:text-2xl font-sans font-black text-neutral-900 mb-4 tracking-tight">
-              Cómo funciona y para qué destaca
-            </h2>
-            <div class="prose prose-neutral prose-p:leading-[1.9] prose-p:text-neutral-600 prose-p:text-[16px] md:prose-p:text-[17px] prose-a:text-primary-600 max-w-none">
-              {analisis.split("\n\n").map((paragraph: string) => (
-                <p class="mb-5">{paragraph}</p>
-              ))}
+        {relatedBlogs.length > 0 && (
+          <aside class="lg:col-span-5 xl:col-span-4 xl:col-start-9">
+            <div class="lg:sticky lg:top-32">
+              <h2 class="font-sans text-sm font-bold text-neutral-900 pb-2 border-b-2 border-neutral-900">
+                Guías relacionadas
+              </h2>
+              <ul>
+                {relatedBlogs.map((b) => (
+                  <li class="border-b border-neutral-300">
+                    <a href={`/blog/${b.slug}/`} class="block py-4 font-serif text-lg leading-snug font-medium text-neutral-900 hover:underline decoration-1 underline-offset-4">
+                      {b.titulo}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </section>
-        )}
-
-        {experienciaReal && (
-          <section>
-            <h2 class="text-xl md:text-2xl font-sans font-black text-neutral-900 mb-4 tracking-tight">
-              Qué dicen los dueños
-            </h2>
-            <div class="prose prose-neutral prose-p:leading-[1.9] prose-p:text-neutral-600 prose-p:text-[16px] md:prose-p:text-[17px] prose-a:text-primary-600 max-w-none">
-              {experienciaReal.split("\n\n").map((paragraph: string) => (
-                <p class="mb-5">{paragraph}</p>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {!analisis && !experienciaReal && descripcion && (
-          <p class="text-neutral-600 leading-relaxed">{descripcion}</p>
+          </aside>
         )}
       </div>
     )}
 
-    {
-      relatedBlogs.length > 0 && (
-        <section class="mt-16 pt-10 border-t border-neutral-100">
-          <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
-            Lee también
-          </p>
-          <h2 class="text-2xl md:text-3xl font-serif font-black text-neutral-900 tracking-tight mb-6">
-            Guías relacionadas
-          </h2>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {relatedBlogs.map((b) => (
-              <li>
-                <a
-                  href={`/blog/${b.slug}/`}
-                  class="group flex items-center gap-3 p-4 rounded-2xl border border-neutral-100 hover:border-primary-200 hover:bg-primary-50/30 transition-colors"
-                >
-                  <span class="text-primary-600 shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                  </span>
-                  <span class="text-sm font-bold text-neutral-800 group-hover:text-primary-700 leading-snug">
-                    {b.titulo}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      related && related.length > 0 && (
-        <section class="mt-20 pt-12 border-t border-neutral-100 relative overflow-hidden">
-          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <p class="text-[10px] font-black uppercase tracking-widest text-primary-600 mb-2">
-                Más opciones
-              </p>
-              <h2 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 tracking-tight leading-none">
-                También te puede <br class="sm:hidden" /> interesar
-              </h2>
-            </div>
-            <a
-              href="/productos/"
-              class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-neutral-400 hover:text-primary-600 transition-colors whitespace-nowrap"
-            >
-              Ver catálogo completo
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <>
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </>
-              </svg>
-            </a>
-          </div>
-
-          <div class="flex gap-5 overflow-x-auto pb-12 scrollbar-none snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0">
-            {related.map((r) => (
-              <div class="min-w-[260px] sm:min-w-[280px] snap-start">
-                <div
-                  class="group flex flex-col h-full bg-white border border-neutral-100 rounded-[32px] p-5 hover:shadow-2xl hover:shadow-neutral-200/50 transition-all duration-500 hover:-translate-y-1"
-                >
-                  <a href={`/producto/${r.slug}/`} class="block mb-6">
-                    <div class="aspect-square flex items-center justify-center bg-neutral-50 rounded-2xl overflow-hidden relative group-hover:bg-white transition-colors">
-                      {r.imagen ? (
-                        <img
-                          src={r.imagen}
-                          alt={r.nombre}
-                          width="300"
-                          height="300"
-                          loading="lazy"
-                          decoding="async"
-                          class="max-w-[70%] max-h-[70%] object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : null}
-                    </div>
-                  </a>
-
-                  <div class="flex-grow flex flex-col">
-                    <div class="mb-4">
-                      {r.marca && (
-                        <span class="block text-[9px] font-black uppercase tracking-[0.15em] text-neutral-400 mb-2">
-                          {r.marca}
-                        </span>
-                      )}
-                      <a href={`/producto/${r.slug}/`} class="group/title">
-                        <h3 class="text-sm font-bold text-neutral-900 leading-tight line-clamp-2 group-hover/title:text-primary-600 transition-colors">
-                          {r.nombre}
-                        </h3>
-                      </a>
-                    </div>
-
-                    <div class="mt-auto space-y-4">
-                      <div class="flex items-center justify-between">
-                         <span class="text-lg font-black text-neutral-900">
-                          {r.precio || "Consultar"}
-                        </span>
-                      </div>
-
-                      <a
-                        href={`/producto/${r.slug}/`}
-                        class="flex items-center justify-center gap-2 w-full py-3 border border-primary-200 text-primary-700 bg-primary-50/50 hover:bg-primary-100 hover:border-primary-300 text-[11px] font-black rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
-                      >
-                        Ver análisis
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {notaRelated && (
-            <p class="-mt-8 mb-4 text-[11px] text-neutral-400">{notaRelated}</p>
-          )}
-        </section>
-      )
-    }
+    {related && related.length > 0 && (
+      <section class="mt-16 md:mt-20">
+        <div class="section-rule flex flex-wrap items-baseline justify-between gap-3 mb-8">
+          <h2 class="font-serif text-3xl md:text-[2.4rem] font-semibold tracking-tight text-neutral-900">Alternativas</h2>
+          <a href={categoria ? `/categoria/${slugify(categoria)}/` : "/productos/"} class="text-[15px] font-semibold text-primary-700 hover:underline underline-offset-4">
+            Ver toda la categoría →
+          </a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-6 gap-y-10">
+          {related.slice(0, 6).map((r) => (
+            <ProductCard
+              slug={r.slug}
+              nombre={r.nombre}
+              imagen={r.imagen}
+              precio={r.precio}
+              precioOriginal={r.precioOriginal}
+              descuentoPct={r.descuentoPct}
+              marca={r.marca}
+              valoracion={r.valoracion}
+              valoracionesCount={r.valoracionesCount}
+            />
+          ))}
+        </div>
+        {notaRelated && <p class="mt-6 text-xs text-neutral-500">{notaRelated}</p>}
+      </section>
+    )}
   </article>
 
   {/* Sticky Bar (siempre visible en todas las pantallas) */}
   <div
-    class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-neutral-200 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]"
+    class="fixed bottom-0 left-0 right-0 bg-paper border-t border-neutral-900 z-50"
   >
-    <div class="max-w-6xl mx-auto px-4 md:px-0 py-3 sm:py-4 flex items-center justify-between gap-4">
+    <div class="wrap py-3 flex items-center justify-between gap-4">
       <div class="flex items-center gap-4 min-w-0">
         {imagen && (
-          <div class="hidden sm:flex items-center justify-center w-12 h-12 bg-white rounded-lg border border-neutral-100 overflow-hidden shrink-0">
+          <div class="hidden sm:flex items-center justify-center w-12 h-12 bg-neutral-50 overflow-hidden shrink-0">
             <img src={imagen} alt={displayName} class="max-w-full max-h-full object-contain mix-blend-multiply" loading="lazy" />
           </div>
         )}
         <div class="flex flex-col min-w-0">
           <span class="hidden sm:block text-sm font-bold text-neutral-900 truncate pr-4">{displayName}</span>
           <div class="flex items-baseline gap-2 mt-0.5">
-            <span class="text-lg sm:text-xl font-black text-neutral-900 leading-none">{noDisponible ? "No disponible" : precio || "Consultar"}</span>
-            {precioOriginal && <span class="hidden sm:inline-block text-[11px] font-bold text-neutral-400 line-through decoration-red-500/30">{precioOriginal}</span>}
+            <span class="text-lg sm:text-xl font-bold text-neutral-900 leading-none tabular-nums">{noDisponible ? "No disponible" : precio || "Consultar"}</span>
+            {precioOriginal && <s class="hidden sm:inline-block text-xs text-neutral-400">{precioOriginal}</s>}
           </div>
           {precio && precioFecha && (
             <span class="text-[10px] text-neutral-400 leading-tight mt-0.5">
@@ -836,11 +680,10 @@ const relatedBlogs = blogsForCategory(categoria);
         href={outboundUrl}
         target="_blank"
         rel="sponsored nofollow noopener noreferrer"
-        class="group flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-3 bg-[#FF9900] text-neutral-950 hover:bg-[#FFa822] shadow-[0_0_20px_rgba(255,153,0,0.4)] font-black text-[15px] sm:text-base rounded-xl transition-all hover:-translate-y-0.5"
+        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 sm:px-8 py-3 bg-[#FF9900] text-neutral-950 hover:bg-[#F08C00] font-bold text-[15px] sm:text-base transition-colors"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="hidden sm:block"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
         Ver precio
-        <ArrowRight size={18} className="hidden sm:block transition-transform group-hover:translate-x-1" />
+        <ArrowRight size={18} className="hidden sm:block" />
       </a>
     </div>
   </div>

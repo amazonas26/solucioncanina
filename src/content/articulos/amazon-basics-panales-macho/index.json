@@ -1,0 +1,59 @@
+{
+  "nombre": "Pañales desechables para perros macho, M, paquete de 30, color blanco",
+  "nombreCorto": "Amazon Basics faja desechable para macho · M, 30 uds",
+  "slug": "amazon-basics-panales-desechables-perro-macho",
+  "linkAmazon": "https://www.amazon.es/dp/B072F9TK99/?tag=solucioncanin-21",
+  "categoria": "Incontinencia",
+  "marca": "Amazon Basics",
+  "tipoAnalisis": "Analizado",
+  "secciones": [],
+  "tallasPanal": {
+    "sexo": "macho",
+    "tipo": "desechable",
+    "tallas": [
+      {
+        "talla": "XS",
+        "min": 20,
+        "max": 27
+      },
+      {
+        "talla": "S",
+        "min": 27,
+        "max": 41
+      },
+      {
+        "talla": "M",
+        "min": 41,
+        "max": 53
+      },
+      {
+        "talla": "L",
+        "min": 53,
+        "max": 76
+      }
+    ]
+  },
+  "precio": "17.44€",
+  "precioOriginal": "23.15€",
+  "descuentoPct": 25,
+  "ventas": 400,
+  "valoracion": 4.2,
+  "valoracionesCount": 37225,
+  "descripcion": "Fajas desechables para perros macho, con núcleo absorbente, indicador de humedad y cierre de velcro reposicionable. Tallas de XS (20 cm de cintura) a L (76 cm).",
+  "imagen": "/images/articulos/amazon-basics-panales-macho/imagen.jpg",
+  "veredicto": "Amazon Basics para macho: la faja desechable con más valoraciones con diferencia; barata, absorbente y con tallas hasta 76 cm de cintura para perros grandes.",
+  "analisis": "Es una faja que rodea la barriga del perro macho y tapa el pene, con un núcleo que absorbe la orina, un indicador que cambia de color cuando está mojada y un velcro que se puede despegar y volver a pegar. Viene en cuatro tallas por cintura: XS (20–27 cm), S (27–41), M (41–53) y L (53–76); en Amazon se elige la talla en el desplegable. Como solo cubre la parte delantera, sirve para la orina, no para las heces. Para un perro mayor con escapes por la noche o durante la siesta es de lo más práctico y barato, y la talla L es de las pocas que valen para perros grandes. Hay que cambiarla en cuanto esté mojada para cuidar la piel.",
+  "pros": [
+    "Decenas de miles de valoraciones con 4,2 de media.",
+    "Indicador de humedad y velcro reposicionable.",
+    "Talla L hasta 76 cm de cintura, para perros grandes.",
+    "Barato por unidad, sobre todo en packs de 50."
+  ],
+  "contras": [
+    "Solo para machos y solo para orina.",
+    "Algunas reseñas dicen que en un perro muy activo aguanta un pis, no varios.",
+    "Un comprador nota un cambio de diseño reciente que le funciona peor."
+  ],
+  "paraQuien": "Para perros macho mayores con escapes de orina, sobre todo por la noche, y para machos que marcan dentro de casa. Mide la cintura delante de las patas traseras y elige la talla con la calculadora.",
+  "experienciaReal": "Las reseñas más útiles son de perros mayores: un westie de 17 años que duerme con sus dueños («volvemos a dormir»), un cocker americano anciano y un pastor alemán de 50 kg para el que la L es la única que encontraron grande. Destacan que absorben bien y no huelen. Las quejas: el precio por pañal cuando sube, un velcro que se despega en perros muy movidos y alguien que nota que han cambiado el diseño."
+}

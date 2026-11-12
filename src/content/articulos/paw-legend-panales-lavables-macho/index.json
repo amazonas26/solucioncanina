@@ -1,0 +1,67 @@
+{
+  "nombre": "Pañales Lavables para Perro Macho, pañales de Alta absorción para Cachorros y Perros machos (Paquete de 3, ejército, Gris, Azul Marino, S)",
+  "nombreCorto": "Paw Legend faja lavable para macho · S, 3 uds",
+  "slug": "paw-legend-panales-lavables-perro-macho",
+  "linkAmazon": "https://www.amazon.es/dp/B073PX4K4M/?tag=solucioncanin-21",
+  "categoria": "Incontinencia",
+  "marca": "Paw Legend",
+  "tipoAnalisis": "Analizado",
+  "secciones": [],
+  "tallasPanal": {
+    "sexo": "macho",
+    "tipo": "lavable",
+    "tallas": [
+      {
+        "talla": "XS",
+        "min": 23,
+        "max": 28
+      },
+      {
+        "talla": "S",
+        "min": 28,
+        "max": 36
+      },
+      {
+        "talla": "M",
+        "min": 36,
+        "max": 46,
+        "deducida": true
+      },
+      {
+        "talla": "L",
+        "min": 46,
+        "max": 53
+      },
+      {
+        "talla": "XL",
+        "min": 56,
+        "max": 69
+      },
+      {
+        "talla": "XXL",
+        "min": 71,
+        "max": 86
+      }
+    ]
+  },
+  "precio": "21.10€",
+  "valoracion": 4.6,
+  "valoracionesCount": 6906,
+  "descripcion": "Fajas lavables para perros macho, con almohadilla absorbente cosida y capa exterior impermeable, en pack de 3. Tallas de XS a XXL (hasta unos 86 cm de cintura).",
+  "imagen": "/images/articulos/paw-legend-panales-lavables-macho/imagen.jpg",
+  "veredicto": "Paw Legend: la faja lavable más valorada; sale más barata que los desechables a la larga, pero absorbe menos que un pañal desechable en escapes grandes.",
+  "analisis": "Son fajas de tela con una almohadilla absorbente cosida dentro y una capa exterior impermeable; se cierran con velcro y se lavan a máquina. Vienen en pack de 3 y en seis tallas por cintura, según la marca: XS (23–28 cm), S (28–36), L (46–53), XL (56–69) y XXL (71–86); la M no la publica en texto, pero por las tallas vecinas debería ir de unos 36 a 46 cm: confírmalo en su tabla antes de comprar. A la larga sale más barata que los desechables, pero absorbe menos: va bien para goteos y marcaje, y para escapes grandes de noche se puede añadir una compresa dentro. Hay que tener varias para ir lavando.",
+  "pros": [
+    "Casi 7.000 valoraciones con 4,6 de media.",
+    "Lavable: más barata a la larga y sin basura.",
+    "Tallas hasta XXL para perros grandes.",
+    "Se puede reforzar con una compresa dentro."
+  ],
+  "contras": [
+    "Absorbe menos que un desechable en un pis completo.",
+    "Pesa más: un dueño dice que a su perro con problemas de espalda le molestaba.",
+    "La talla M no viene en centímetros en la ficha."
+  ],
+  "paraQuien": "Para machos con goteos o que marcan dentro de casa, y para quien prefiere no gastar en desechables. Para un perro mayor que se vacía entero por la noche, un desechable absorbe más.",
+  "experienciaReal": "Las reseñas destacan que no tienen fugas y se lavan bien: un caniche de 4 kg con la talla XS «perfecta», y un dueño que dice que su perro pasó el primer día en semanas sin estar mojado. También hay quien las usa para un rottweiler que marcaba la casa. La pega más concreta es que pesan más que un desechable y a un perro con problemas de columna le resultaban incómodas."
+}

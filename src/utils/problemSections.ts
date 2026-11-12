@@ -71,12 +71,28 @@ const section = (
   ...extra,
 });
 
+// Mateix text a la secció (àlies) i a la pàgina de la categoria.
+const guiaIncontinencia = {
+  problema:
+    "Si tu perro deja manchas de pis donde ha dormido sin darse cuenta, es incontinencia, y es más frecuente en perras esterilizadas y en perros mayores. La causa más habitual en las hembras adultas es que el esfínter de la uretra cierra peor, y suele responder bien a la medicación. Por eso lo primero es el veterinario: hay que descartar una infección de orina, que beba y orine mucho más por otra enfermedad o un problema de conducta. Los pañales, fajas y empapadores no curan nada, pero mientras se trata, o si no mejora del todo, mantienen la casa seca y la piel del perro sana.",
+  cuandoConviene: [
+    "Escapes por la noche o durante la siesta mientras empieza el tratamiento.",
+    "Perros mayores que ya no llegan a tiempo a la calle.",
+    "Machos que marcan dentro de casa, mientras se trabaja la conducta.",
+  ],
+  queMirar: [
+    "Talla por la cintura, medida justo delante de las patas traseras, no por el peso.",
+    "Faja para machos; pañal completo para hembras o si también se escapan las heces.",
+    "Cambiar el pañal en cuanto esté mojado: la orina irrita la piel.",
+  ],
+};
+
 export const problemSections = [
   section(
     "Movilidad y artrosis",
     "Ayudas para perros con dolor articular, cadera delicada o movilidad reducida.",
     "joint",
-    (product) => categoryIs(product, ["Condroprotectores", "Rampas"]),
+    (product) => categoryIs(product, ["Condroprotectores", "Omega-3 y aceite de salmón", "Rampas"]),
     {
       problema:
         "El dolor articular casi nunca aparece de golpe. Empieza por pequeñas señales que la mayoría normaliza: el perro tarda más en levantarse, le cuesta saltar al coche, evita las escaleras, se sienta antes de tiempo en el paseo. Cuando se ve cojera ya hay un trasfondo de inflamación crónica que lleva meses. Por eso esta sección no es solo para perros mayores: en razas grandes y trabajadoras tiene sentido empezar a apoyar las articulaciones mucho antes, como prevención.",
@@ -141,7 +157,7 @@ export const problemSections = [
   ),
   section(
     "Digestión sensible",
-    "Opciones para perros con estómago delicado, digestiones difíciles o apoyo intestinal.",
+    "Dietas gastrointestinales, un pienso para digestión sensible y probióticos para diarreas y estómagos delicados.",
     "bowl",
     (product) => {
       const text = textOf(product);
@@ -149,17 +165,48 @@ export const problemSections = [
     },
     {
       problema:
-        "Las heces blandas recurrentes, los gases, las regurgitaciones o los episodios de gastroenteritis no siempre son un problema grave, pero sí merecen una mirada honesta. Muchas veces hay detrás una microbiota desequilibrada, una intolerancia alimentaria sin identificar o un cambio de pienso mal gestionado. Antes de probar suplementos conviene descartar parásitos y revisar la dieta base; después, un apoyo digestivo de fondo (probióticos, fibras solubles, dieta gastrointestinal) puede estabilizar la situación durante semanas o meses.",
+        "La mayoría de las diarreas agudas se pasan solas en pocos días, y lo que más ayuda es la comida: un alimento muy digestible, en raciones pequeñas. En los ensayos, el antibiótico no acelera la recuperación de una diarrea sin complicaciones, y los probióticos, como mucho, la acortan un poco. Si las heces blandas se repiten durante semanas, la causa más frecuente es una inflamación intestinal que a menudo mejora con un cambio de dieta, pero eso hay que confirmarlo con el veterinario. Aquí están las dietas gastrointestinales, un pienso para digestión sensible y dos probióticos de botiquín.",
       cuandoConviene: [
-        "Heces blandas frecuentes sin causa aguda evidente.",
-        "Tras un tratamiento con antibióticos que ha alterado la flora intestinal.",
-        "En perros con tendencia a regurgitar o vomitar bilis por la mañana.",
+        "Diarrea leve en un perro que está bien, come y bebe: unos días de dieta gastrointestinal.",
+        "Heces blandas o gases frecuentes con su pienso de siempre: un pienso para digestión sensible.",
+        "Pancreatitis o vómitos cuando come grasa: dieta baja en grasa, con el veterinario.",
       ],
       queMirar: [
-        "Que el probiótico declare cepas concretas y UFC vivas, no 'fermentos genéricos'.",
-        "Que la dieta sea de fácil digestión y, si es necesario, hipoalergénica.",
-        "Si los síntomas pasan de 3-4 semanas, consulta veterinaria antes de seguir probando.",
+        "Sangre, vómitos repetidos, decaimiento o un cachorro sin vacunar: al veterinario, no a la tienda.",
+        "Para una diarrea, una gastrointestinal normal; la «low fat», solo si hay que reducir la grasa.",
+        "Cambia de pienso poco a poco, en una semana, y dale unas semanas antes de juzgar.",
       ],
+    },
+  ),
+  section(
+    "Piel, picores y muda",
+    "Cepillos para la muda, champús suaves y productos para la piel seca o con picor.",
+    "brush",
+    (product) => categoryIs(product, ["Piel y pelo"]),
+    {
+      aliasOf: "Piel y pelo",
+      problema:
+        "Picor, caspa, rojeces o mucho pelo en el sofá. Primero, distinguir: soltar pelo sin calvas ni picor es la muda normal y se controla con cepillado; rascarse, morderse, calvas, enrojecimiento o mal olor apuntan a un problema de piel (parásitos, infecciones, alergias u hormonas) que hay que ver con el veterinario. Los productos de esta sección son para cuidar la piel y el pelo y apoyar el tratamiento: el cepillo adecuado para cada pelo, champús suaves y productos de ácidos grasos para la barrera de la piel. No curan una dermatitis por sí solos.",
+      cuandoConviene: [
+        "Muda abundante en razas de doble capa o perros que viven dentro de casa.",
+        "Piel seca, caspa o picor leve, como apoyo del tratamiento veterinario.",
+        "Perros con dermatitis que necesitan baños con champú suave.",
+      ],
+      queMirar: [
+        "Cepillo según el pelo: goma para pelo corto, rastrillo o deslanador para doble capa.",
+        "Champú suave y sin perfume para piel sensible; los medicados, con pauta veterinaria.",
+        "Si hay calvas, rojeces o mal olor, antes que cualquier producto, el veterinario.",
+      ],
+    },
+  ),
+  section(
+    "Incontinencia",
+    "Pañales, fajas, empapadores y limpiadores para perros que se escapan el pis, sobre todo los mayores.",
+    "drop",
+    (product) => categoryIs(product, ["Incontinencia"]),
+    {
+      aliasOf: "Incontinencia",
+      ...guiaIncontinencia,
     },
   ),
   section(
@@ -188,7 +235,7 @@ export const problemSections = [
     "Productos útiles para perros mayores: articulaciones, descanso, rampas y dietas específicas.",
     "senior",
     (product) =>
-      categoryIs(product, ["Condroprotectores", "Rampas", "Camas ortopédicas"]) ||
+      categoryIs(product, ["Condroprotectores", "Omega-3 y aceite de salmón", "Rampas", "Camas ortopédicas", "Incontinencia"]) ||
       includesAny(textOf(product), seniorHints),
     {
       problema:
@@ -209,7 +256,7 @@ export const problemSections = [
     "Paseos seguros y control",
     "Correas, arneses y bozales para paseos más tranquilos, seguros y controlados.",
     "lead",
-    (product) => categoryIs(product, ["Correas", "Bozales"]),
+    (product) => categoryIs(product, ["Correas", "Arneses", "Bozales"]),
     {
       problema:
         "El paseo no debería ser una pelea. Si tu perro tira, se cruza con otros perros con tensión, o tienes que usar bozal por seguridad en transporte público o en la consulta del veterinario, el material que uses cambia totalmente la experiencia. Un arnés bien ajustado evita daños cervicales; una correa larga abre la puerta al trabajo de llamada y al olfato libre; un bozal de cesta correctamente medido permite jadear y beber sin restringir la respiración. Aquí prima la elección por funcionalidad real, no por estética.",
@@ -288,6 +335,7 @@ type CategoryGuide = {
 };
 
 const categoryGuides: Record<string, CategoryGuide> = {
+  "Incontinencia": guiaIncontinencia,
   "Camas ortopédicas": {
     problema:
       "La cama es el mueble que más usa tu perro y, paradójicamente, al que menos atención solemos dar. Una cama ortopédica de calidad reparte el peso, reduce puntos de presión y permite un sueño más profundo, algo que se nota especialmente en razas grandes, perros mayores o tras una operación. No es lujo: es una de las inversiones con mejor retorno a medio plazo en confort y prevención articular.",
@@ -342,6 +390,62 @@ const categoryGuides: Record<string, CategoryGuide> = {
       "Mosquetón resistente y bien cosido al material.",
       "Tacto que no queme al deslizarse entre los dedos en un tirón.",
       "Reflectantes si paseas a primera hora o de noche.",
+    ],
+  },
+  "Omega-3 y aceite de salmón": {
+    problema:
+      "El omega-3 de pescado (EPA y DHA) es el suplemento para la artrosis con mejor evidencia en perros: en ensayos con placebo, los perros que lo tomaron cojearon menos y tuvieron menos dolor. En la piel y el pelo ayuda como complemento, sobre todo en piel seca o dermatitis. La trampa está en la dosis: lo que cuenta son los mg de EPA+DHA, no los ml de aceite, y un aceite de salmón normal lleva unas cuatro veces menos que uno concentrado.",
+    cuandoConviene: [
+      "Perros con artrosis, como complemento del tratamiento del dolor.",
+      "Piel seca, caspa o pelo apagado, o como apoyo en una dermatitis.",
+      "Perros mayores que ya toman otros suplementos articulares sin mucho efecto.",
+    ],
+    queMirar: [
+      "Que declare los mg o el porcentaje de EPA y DHA.",
+      "Para artrosis, aceite concentrado: menos ml y menos calorías.",
+      "Envase opaco, con vitamina E, que se gaste antes de ponerse rancio.",
+    ],
+  },
+  "Juguetes interactivos": {
+    problema:
+      "Un perro que pasa muchas horas sin nada que hacer acaba buscándose ocupación: morder, ladrar, rascar puertas. Los juguetes interactivos le dan trabajo para la nariz y la cabeza: rellenables que se congelan, alfombras de olfato, dispensadores de pienso y rompecabezas. El trabajo de olfato es lo que más evidencia tiene. Pero no son magia: en los estudios, los perros pierden el interés por un juguete si siempre está a mano, y el ejercicio y la compañía cuentan más que cualquier juguete.",
+    cuandoConviene: [
+      "Perros que se quedan solos varias horas o se aburren en casa.",
+      "Razas de trabajo (border collie, pastores) que necesitan tarea mental.",
+      "Perros mayores o en reposo que no pueden hacer mucho ejercicio.",
+    ],
+    queMirar: [
+      "Talla según su boca: que no pueda tragárselo.",
+      "Nivel de dificultad: empieza por uno fácil para que no se frustre.",
+      "Material: los de plástico, solo con supervisión.",
+    ],
+  },
+  "Piel y pelo": {
+    problema:
+      "Picor, caspa, rojeces o mucho pelo en el sofá. Primero, distinguir: soltar pelo sin calvas ni picor es la muda normal y se controla con cepillado; rascarse, morderse, calvas, enrojecimiento o mal olor apuntan a un problema de piel (parásitos, infecciones, alergias u hormonas) que hay que ver con el veterinario. Los productos de esta sección son para cuidar la piel y el pelo y apoyar el tratamiento: el cepillo adecuado para cada pelo, champús suaves y productos de ácidos grasos para la barrera de la piel. No curan una dermatitis por sí solos.",
+    cuandoConviene: [
+      "Muda abundante en razas de doble capa o perros que viven dentro de casa.",
+      "Piel seca, caspa o picor leve, como apoyo del tratamiento veterinario.",
+      "Perros con dermatitis que necesitan baños con champú suave.",
+    ],
+    queMirar: [
+      "Cepillo según el pelo: goma para pelo corto, rastrillo o deslanador para doble capa.",
+      "Champú suave y sin perfume para piel sensible; los medicados, con pauta veterinaria.",
+      "Si hay calvas, rojeces o mal olor, antes que cualquier producto, el veterinario.",
+    ],
+  },
+  "Arneses": {
+    problema:
+      "Un arnés reparte la fuerza del tirón por el pecho en lugar de por el cuello. Con collar, cada tirón presiona la tráquea y aumenta la presión dentro de los ojos; con arnés, no. Pero no todos los arneses son iguales: los que llevan la anilla en la espalda dejan que el perro tire con todo su peso, los que la llevan en el pecho le giran cuando tira, y los que tienen una tira en la barriga son los más difíciles de quitarse para un perro escapista. La talla se elige por el perímetro del pecho, no por el peso.",
+    cuandoConviene: [
+      "Perros que tiran de la correa o tosen con el collar.",
+      "Razas braquicéfalas (bulldog, carlino) y perros con problemas de tráquea o de ojos.",
+      "Perros miedosos o recién adoptados que pueden intentar escaparse.",
+    ],
+    queMirar: [
+      "Dónde va la anilla: espalda para pasear, pecho si tira.",
+      "Tira en la barriga si tu perro se ha escapado alguna vez del arnés.",
+      "Talla por el perímetro del pecho medido con cinta, y dos dedos de holgura.",
     ],
   },
   "Bozales": {
@@ -418,6 +522,36 @@ const categorySeo: Record<string, CategorySeo> = {
     title: "Pienso y dietas veterinarias para perros",
     description:
       "Piensos y dietas veterinarias para perros: renal, urinario, gastrointestinal y articular. Comparativa de marcas y precios con criterio.",
+  },
+  "Digestión sensible": {
+    title: "Dieta gastrointestinal y probióticos para perros",
+    description:
+      "Piensos gastrointestinales, comida húmeda, un pienso para digestión sensible y probióticos para perros con diarrea o estómago delicado. Cuál sirve para qué y cuándo ir al veterinario.",
+  },
+  "Incontinencia": {
+    title: "Pañales para perros con incontinencia: tallas y cuál elegir",
+    description:
+      "Pañales desechables y lavables, fajas para machos, empapadores y limpiadores enzimáticos para perros con incontinencia. Tallas por cintura y calculadora para elegir.",
+  },
+  "Omega-3 y aceite de salmón": {
+    title: "Aceite de salmón y omega-3 para perros: comparativa",
+    description:
+      "Aceites de salmón, omega-3 concentrado y cápsulas para perros comparados por su contenido de EPA y DHA. Para qué sirven, cuánto dar según el peso y cuál elegir.",
+  },
+  "Juguetes interactivos": {
+    title: "Juguetes interactivos para perros: Kong, olfato y puzles",
+    description:
+      "Juguetes para que tu perro no se aburra: rellenables tipo Kong, alfombras de olfato, dispensadores de pienso, rompecabezas y alfombrillas para lamer. Cuál elegir y cómo usarlos.",
+  },
+  "Piel y pelo": {
+    title: "Piel, picores y muda en perros: cepillos y champús",
+    description:
+      "Cepillos para la muda según el tipo de pelo, champús para piel sensible y productos para piel seca o con picor. Qué sirve, qué no y cuándo hay que ir al veterinario.",
+  },
+  "Arneses": {
+    title: "Arneses para perros: antitirones, en Y y antiescape",
+    description:
+      "Arneses para perros comparados: antitirones con enganche en el pecho, en Y, antiescape y para perros pequeños. Cómo elegir la talla por el pecho y cuál encaja con tu perro.",
   },
   "Bozales": {
     title: "Bozales para perros: cesta, silicona y a medida",

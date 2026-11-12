@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Calculator, Dog, ArrowRight, Star, Info } from 'lucide-react';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 export interface CalcProducto {
   slug: string;
@@ -95,8 +96,8 @@ export default function CondroprotectorCalculator({ productos }: Props) {
   const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de dosis de condroprotector</h2>
       </div>
@@ -121,12 +122,11 @@ export default function CondroprotectorCalculator({ productos }: Props) {
                 aria-describedby="peso-val"
               />
               <span id="peso-val" className="shrink-0 w-20 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={1}
                   max={90}
                   value={peso}
-                  onChange={(e) => setPeso(Math.max(1, Math.min(90, Number(e.target.value) || 1)))}
+                  onValueChange={setPeso}
                   className="w-14 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Peso en kilogramos"
                 />

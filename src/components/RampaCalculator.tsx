@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, Scale, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 interface Props {
   productos: CalcProducto[];
@@ -45,10 +46,6 @@ const PRESETS_ALTURA: { label: string; cm: number }[] = [
   { label: 'SUV', cm: 75 },
 ];
 
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
-
 function roundUp5(n: number) {
   return Math.ceil(n / 5) * 5;
 }
@@ -85,8 +82,8 @@ export default function RampaCalculator({ productos }: Props) {
   const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de medida de rampa</h2>
       </div>
@@ -110,12 +107,11 @@ export default function RampaCalculator({ productos }: Props) {
                 aria-describedby="altura-val"
               />
               <span id="altura-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={20}
                   max={100}
                   value={altura}
-                  onChange={(e) => setAltura(clamp(Number(e.target.value) || 20, 20, 100))}
+                  onValueChange={setAltura}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Altura en centímetros"
                 />
@@ -158,12 +154,11 @@ export default function RampaCalculator({ productos }: Props) {
                 aria-describedby="peso-rampa-val"
               />
               <span id="peso-rampa-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={2}
                   max={80}
                   value={peso}
-                  onChange={(e) => setPeso(clamp(Number(e.target.value) || 2, 2, 80))}
+                  onValueChange={setPeso}
                   className="w-14 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Peso en kilogramos"
                 />

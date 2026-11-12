@@ -1,0 +1,72 @@
+{
+  "nombre": "Pañales desechables Simple Solution hembra M Paquete de 12",
+  "nombreCorto": "Simple Solution pañal desechable para hembra · M",
+  "slug": "simple-solution-panales-desechables-perra",
+  "linkAmazon": "https://www.amazon.es/dp/B000BHHD84/?tag=solucioncanin-21",
+  "categoria": "Incontinencia",
+  "marca": "Simple Solution",
+  "tipoAnalisis": "Analizado",
+  "secciones": [],
+  "tallasPanal": {
+    "sexo": "hembra",
+    "tipo": "desechable",
+    "tallas": [
+      {
+        "talla": "XS",
+        "min": 23,
+        "max": 36,
+        "pesoMax": 5
+      },
+      {
+        "talla": "S",
+        "min": 30,
+        "max": 48,
+        "pesoMin": 5,
+        "pesoMax": 11
+      },
+      {
+        "talla": "M",
+        "min": 38,
+        "max": 58,
+        "pesoMin": 11,
+        "pesoMax": 23
+      },
+      {
+        "talla": "L/XL",
+        "min": 46,
+        "max": 69,
+        "pesoMin": 23,
+        "pesoMax": 34
+      },
+      {
+        "talla": "XXL",
+        "min": 56,
+        "max": 94,
+        "pesoMin": 34
+      }
+    ]
+  },
+  "precio": "9.78€",
+  "precioOriginal": "12.65€",
+  "descuentoPct": 23,
+  "ventas": 100,
+  "valoracion": 4.0,
+  "valoracionesCount": 12719,
+  "descripcion": "Pañales desechables completos para perras, con agujero para la cola, núcleo absorbente e indicador de humedad. Tallas de XS a XXL por cintura y peso.",
+  "imagen": "/images/articulos/simple-solution-panales-hembra/imagen.jpg",
+  "veredicto": "Simple Solution: el pañal desechable de hembra con más valoraciones; absorbe bien y tiene tallas hasta 94 cm de cintura, pero tiende a quedar pequeño: mide bien antes de elegir.",
+  "analisis": "Es un pañal completo, como el de un bebé, con agujero para la cola, cierres de velcro e indicador de humedad. Al cubrir también por detrás, es el formato para hembras y además recoge las heces. Las tallas van por cintura y peso: XS (23–36 cm, menos de 5 kg), S (30–48 cm, de 5 a 11 kg), M (38–58 cm, de 11 a 23 kg), L/XL (46–69 cm, de 23 a 34 kg) y XXL (56–94 cm, más de 34 kg). Varias reseñas dicen que talla pequeño, así que si tu perra está en el límite, elige la siguiente. Se usa mucho para el celo, pero también para incontinencia.",
+  "pros": [
+    "Más de 12.000 valoraciones.",
+    "Tallas hasta XXL, para perras muy grandes.",
+    "Agujero para la cola e indicador de humedad.",
+    "Barato por pack para probar la talla."
+  ],
+  "contras": [
+    "Varias reseñas dicen que talla pequeño.",
+    "En perras muy activas puede bajarse al andar.",
+    "Un solo uso: a la larga, más caro que uno lavable."
+  ],
+  "paraQuien": "Para perras con incontinencia, sobre todo por la noche, y para perros con escapes de heces. Si está entre dos tallas, la grande.",
+  "experienciaReal": "Las reseñas lo usan para el celo y para incontinencia: una american bulldog de 35 kg con incontinencia total a la que le cubría hasta las heces, y una podenca sin fugas en toda la noche. La queja que más se repite es la talla: varias compradoras tuvieron que subir una, y una dice que se le bajaba por las patas al andar."
+}

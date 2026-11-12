@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, Scale, ArrowRight, Star, AlertTriangle, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 interface Props {
   productos: CalcProducto[];
@@ -40,10 +41,6 @@ const TALLAS_PESO: { label: string; min: number; max: number }[] = [
   { label: 'L', min: 22, max: 40 },
   { label: 'XL', min: 35, max: 90 },
 ];
-
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
 
 function tallaPorRango(valor: number, tabla: TallaRango[]): TallaRango {
   for (let i = 0; i < tabla.length; i++) {
@@ -117,8 +114,8 @@ export default function ArnesCollarCalculator({ productos }: Props) {
   const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de talla de arnés o collar</h2>
       </div>
@@ -142,12 +139,11 @@ export default function ArnesCollarCalculator({ productos }: Props) {
                 aria-describedby="cuello-arnes-val"
               />
               <span id="cuello-arnes-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={18}
                   max={80}
                   value={cuello}
-                  onChange={(e) => setCuello(clamp(Number(e.target.value) || 18, 18, 80))}
+                  onValueChange={setCuello}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Perímetro del cuello en centímetros"
                 />
@@ -176,12 +172,11 @@ export default function ArnesCollarCalculator({ productos }: Props) {
                 aria-describedby="pecho-arnes-val"
               />
               <span id="pecho-arnes-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={30}
                   max={120}
                   value={pecho}
-                  onChange={(e) => setPecho(clamp(Number(e.target.value) || 30, 30, 120))}
+                  onValueChange={setPecho}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Perímetro del pecho en centímetros"
                 />
@@ -210,12 +205,11 @@ export default function ArnesCollarCalculator({ productos }: Props) {
                 aria-describedby="peso-arnes-val"
               />
               <span id="peso-arnes-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={2}
                   max={80}
                   value={peso}
-                  onChange={(e) => setPeso(clamp(Number(e.target.value) || 2, 2, 80))}
+                  onValueChange={setPeso}
                   className="w-14 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Peso en kilogramos"
                 />
@@ -280,7 +274,7 @@ export default function ArnesCollarCalculator({ productos }: Props) {
       {recomendados.length > 0 && (
         <div className="border-t border-neutral-200 p-6">
           <h3 className="text-sm font-bold text-neutral-900 mb-4">
-            Arneses y correas mejor valorados que hemos analizado
+            Arneses mejor valorados que hemos analizado
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {recomendados.map((p) => (
@@ -313,10 +307,10 @@ export default function ArnesCollarCalculator({ productos }: Props) {
             <p className="mt-3 text-[11px] text-neutral-400">{notaRecomendados}</p>
           )}
           <a
-            href="/categoria/correas/"
+            href="/categoria/arneses/"
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 hover:underline"
           >
-            Ver todas las correas y arneses analizados <ArrowRight size={15} />
+            Ver todos los arneses analizados <ArrowRight size={15} />
           </a>
         </div>
       )}

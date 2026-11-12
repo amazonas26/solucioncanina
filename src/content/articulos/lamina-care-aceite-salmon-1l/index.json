@@ -1,0 +1,34 @@
+{
+  "nombre": "Aceite de Salmón para Perros y Gatos 1 Litro - Omega 3, 6, EPA y DHA - Pelo Brillante, Piel Sana y Articulaciones",
+  "nombreCorto": "Lamina Care aceite de salmón · 1 L",
+  "slug": "lamina-care-aceite-salmon-1l",
+  "linkAmazon": "https://www.amazon.es/dp/B0C9QXKHZC/?tag=solucioncanin-21",
+  "categoria": "Omega-3 y aceite de salmón",
+  "marca": "Lamina Care",
+  "tipoAnalisis": "Analizado",
+  "secciones": [
+    "Movilidad y artrosis",
+    "Perros senior"
+  ],
+  "precio": "19.95€",
+  "ventas": 50,
+  "valoracion": 4.4,
+  "valoracionesCount": 738,
+  "descripcion": "Aceite de salmón con un mínimo del 14 % de omega-3: 2,5 % de EPA, 3,5 % de DHA y 1 % de DPA, estabilizado con tocoferoles (vitamina E). Botella de 1 litro con dosificador.",
+  "imagen": "/images/articulos/lamina-care-aceite-salmon-1l/imagen.jpg",
+  "veredicto": "Lamina Care 1 L: aceite de salmón que declara su composición (6 % de EPA+DHA), bien de precio y con muchas reseñas; un buen aceite «normal».",
+  "analisis": "Es de los pocos aceites del catálogo que dice exactamente cuánto omega-3 lleva: un 2,5 % de EPA y un 3,5 % de DHA, es decir, unos 55 mg de EPA+DHA por ml. Lleva tocoferoles (vitamina E) para que no se oxide. Para la piel y el pelo, unos pocos ml al día cubren lo habitual. Para artrosis, las dosis de los estudios supondrían muchos ml al día y muchas calorías, así que ahí tiene más sentido un aceite concentrado o hablarlo con el veterinario.",
+  "experienciaReal": "Las reseñas destacan la buena aceptación (perros y gatos que se lo comen sin problema, una perra mayor muy delgada que empezó a comer mejor) y el brillo del pelo. Una dueña de gatos dice que brillan más pero no nota que suelten menos pelo. Algún comprador recibió el dosificador roto.",
+  "pros": [
+    "Declara EPA, DHA y DPA.",
+    "Con vitamina E para frenar la oxidación.",
+    "Buen precio por litro.",
+    "Muy bien aceptado."
+  ],
+  "contras": [
+    "Para dosis de artrosis hacen falta muchos ml.",
+    "Algún envío con el dosificador roto."
+  ],
+  "paraQuien": "Para piel, pelo y como apoyo general, si quieres saber qué das. Para artrosis, mejor un concentrado o la pauta del veterinario.",
+  "epaDhaPct": 6
+}

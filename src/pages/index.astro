@@ -1,19 +1,20 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProductCard from "../components/ProductCard.astro";
-import ProductCarouselWrapper from "../components/ProductCarouselWrapper.astro";
-import SectionIcon from "../components/SectionIcon.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../utils/slugify";
 import { itemListSchema } from "../utils/seo";
 import { notaPrecios } from "../utils/precioConsultado";
 import { problemSections, countProductsInSection } from "../utils/problemSections";
 import { HERRAMIENTAS } from "../utils/herramientas";
-import HerramientaCard from "../components/HerramientaCard.astro";
 import BlogHeaderIllustration from "../components/illustrations/BlogHeaderIllustration.astro";
 import { hasBlogHeader } from "../components/illustrations/registry";
+import FotoCredito from "../components/FotoCredito.astro";
+import { fotoObligatoria } from "../utils/fotos";
 
 const articulos = await getCollection("articulos");
+const HERO = "/images/fotos/golden-bosque.webp";
+const fotoHero = fotoObligatoria(HERO, "/");
 
 const categories = Array.from(
   new Set(articulos.map((a) => a.data.categoria).filter(Boolean) as string[]),
@@ -31,6 +32,14 @@ const categoryDetails: Record<string, { description: string; icon: string }> = {
   "Alimentación específica": {
     description: "Piensos y dietas para necesidades renales, digestivas o veterinarias.",
     icon: "bowl",
+  },
+  "Omega-3 y aceite de salmón": {
+    description: "Omega-3 de pescado para artrosis, piel y pelo, comparado por su EPA y DHA.",
+    icon: "joint",
+  },
+  "Juguetes interactivos": {
+    description: "Rellenables, alfombras de olfato y puzles para perros que se aburren en casa.",
+    icon: "calm",
   },
   Ansiedad: {
     description: "Feromonas, snacks y soluciones para perros nerviosos o con estrés.",
@@ -57,6 +66,9 @@ const CATEGORIES_COVERED_BY_PROBLEM_SECTIONS = new Set([
   "Condroprotectores",
   "Rampas",
   "Correas",
+  "Arneses",
+  "Piel y pelo",
+  "Incontinencia",
   "Bozales",
   "Ansiedad",
 ]);
@@ -86,14 +98,23 @@ const problemCards = problemSections
 
 const sectionCards = [...problemCards, ...categoryCards];
 
-// Top 6 productos más vendidos (de más a menos).
-const topVendidos = articulos
-  .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0)
-  .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
-  .slice(0, 6);
+// Top 6 más vendidos, como mucho uno por categoría: si no, salían dos camas seguidas.
+const topVendidos = (() => {
+  const vistos = new Set<string>();
+  return articulos
+    .filter((a) => typeof a.data.ventas === "number" && (a.data.ventas ?? 0) > 0 && a.data.disponible !== false && Boolean(a.data.precio))
+    .sort((a, b) => (b.data.ventas ?? 0) - (a.data.ventas ?? 0))
+    .filter((a) => {
+      const cat = a.data.categoria ?? a.id;
+      if (vistos.has(cat)) return false;
+      vistos.add(cat);
+      return true;
+    })
+    .slice(0, 6);
+})();
 const notaTopVendidos = notaPrecios(topVendidos.map((a) => a.data.slug || slugify(a.data.nombre)));
 
-// Últimos 3 artículos del Blog (orden cronológico real por fechaPublicacion).
+// Últimos 5 artículos del Blog (1 destacado + 4 en lista) (orden cronológico real por fechaPublicacion).
 const allBlogPosts = await getCollection("blog");
 const latestPosts = allBlogPosts
   .sort((a, b) => {
@@ -102,26 +123,25 @@ const latestPosts = allBlogPosts
     if (tA !== tB) return tB - tA;
     return b.id.localeCompare(a.id);
   })
-  .slice(0, 3);
+  .slice(0, 5);
+const [leadPost, ...morePosts] = latestPosts;
 
-// Polígono "starburst" para el sello TOP #N (16 puntas).
-const STAR_POINTS = (() => {
-  const N = 32; // 16 picos × 2 puntos
-  const outerR = 50;
-  const innerR = 41;
-  return Array.from({ length: N }, (_, i) => {
-    const angle = ((i * (360 / N) - 90) * Math.PI) / 180;
-    const r = i % 2 === 0 ? outerR : innerR;
-    const x = 50 + r * Math.cos(angle);
-    const y = 50 + r * Math.sin(angle);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(" ");
-})();
+const BLOG_CAT: Record<string, string> = {
+  comportamiento: "Comportamiento",
+  guias: "Guías de compra",
+  salud: "Salud",
+  alimentacion: "Alimentación",
+};
+const pad = (n: number) => String(n).padStart(2, "0");
+
+// Enlace «ver más» común a todas las secciones: siempre debajo del contenido
+const moreLink = "inline-block text-lg font-semibold text-neutral-900 underline decoration-neutral-400 decoration-1 underline-offset-[7px] hover:decoration-neutral-900";
+const moreLinkDark = "inline-block text-lg font-semibold text-white underline decoration-white/40 decoration-1 underline-offset-[7px] hover:decoration-white";
 ---
 
 <Layout
   title="Solución Canina · Decisiones bien hechas para vivir mejor con tu perro"
-  description="Análisis honestos, criterio claro y solo recomendaciones que aguantarían la pregunta '¿se lo darías al tuyo?'. Sin marearte, sin spam de marketplace."
+  description="Guías y análisis de productos para perros con las fuentes a la vista: camas ortopédicas, condroprotectores, rampas, bozales, correas y dietas. Sin rankings inflados."
   categories={categories}
   jsonLd={[
     itemListSchema(
@@ -135,421 +155,222 @@ const STAR_POINTS = (() => {
   ]}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/images/hero/hero_clean.avif" type="image/avif" fetchpriority="high" />
+    <link rel="preload" as="image" href={HERO} type="image/webp" fetchpriority="high" />
   </Fragment>
 
-  {/* Hero Section */}
-  <section
-    class="relative mb-14 md:mb-20 overflow-hidden rounded-xl border border-neutral-200"
-    id="hero-section"
-  >
-    <div class="absolute inset-0 -z-10">
-      <picture>
-        <source srcset="/images/hero/hero_clean.avif" type="image/avif" />
-        <source srcset="/images/hero/hero_clean.webp" type="image/webp" />
-        <img
-          src="/images/hero/hero_clean.png"
-          alt="Perro jugando en el campo"
-          width="1024"
-          height="1024"
-          class="h-full w-full object-cover object-center"
-          loading="eager"
-          decoding="async"
-          fetchpriority="high"
-        />
-      </picture>
-      <div
-        class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30"
-      >
-      </div>
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent"
-      >
-      </div>
-    </div>
-
-    <div
-      class="px-6 py-10 sm:px-10 sm:py-12 md:px-12 md:py-16 lg:px-14 lg:py-20 max-w-3xl"
-    >
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-primary-50 border border-primary-200 text-primary-700 text-xs font-bold mb-6"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg
-        >
-        Análisis editorial · Sin presión de venta
-      </div>
-
-      <h1
-        class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-black text-neutral-900 mb-5 leading-tight"
-      >
-        Decisiones bien hechas <br class="hidden sm:block" />
-        <span class="text-primary-600">para vivir mejor con tu perro</span>
-      </h1>
-
-      <p
-        class="text-base md:text-lg text-neutral-600 mb-8 max-w-xl leading-relaxed"
-      >
-        Analizamos producto a producto con criterio veterinario y de educadores.
-        Aquí no recomendamos nada que no le daríamos al nuestro — y los enlaces
-        a Amazon están al final del análisis, no al principio.
+  {/* Portada: titular gran + foto a tot color */}
+  <section class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center pb-6 md:pb-10" id="hero-section">
+    <div class="lg:col-span-7 xl:col-span-7">
+      <p class="text-sm font-semibold text-clay-600 mb-6">
+        {articulos.length} productos analizados · {allBlogPosts.length} guías · {HERRAMIENTAS.length} calculadoras
       </p>
-
-      <div class="flex flex-wrap gap-3">
-        <a
-          href="/productos/"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-navy-700 text-white text-sm font-bold rounded-lg hover:bg-navy-800 transition-colors"
-          id="hero-cta"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"
-            ></path></svg
-          >
-          Explorar productos
+      <h1 class="font-serif text-[clamp(2.6rem,6.2vw,6rem)] font-semibold leading-[0.97] tracking-[-0.03em] text-neutral-900">
+        Decisiones bien hechas para vivir mejor con tu perro
+      </h1>
+      <p class="mt-7 font-serif text-xl md:text-[1.6rem] leading-snug text-neutral-700 max-w-3xl">
+        Leemos lo que publican veterinarios y estudios, y lo que cuentan miles de
+        compradores, y te lo resumimos producto a producto. Cada guía enlaza sus fuentes.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a href="/productos/" id="hero-cta" class="inline-flex items-center gap-2 bg-neutral-900 text-paper px-7 py-4 text-[15px] font-semibold hover:bg-primary-800 transition-colors">
+          Explorar productos <span aria-hidden="true">→</span>
         </a>
-        <a
-          href="#sobre-nosotros"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 text-sm font-semibold rounded-lg border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-colors"
-        >
+        <a href="#sobre-nosotros" class="text-[15px] font-semibold text-neutral-900 underline decoration-neutral-400 underline-offset-[6px] hover:decoration-neutral-900">
           Cómo trabajamos
         </a>
       </div>
     </div>
+    <figure class="lg:col-span-5 xl:col-span-5">
+      <img
+        src={HERO}
+        alt={fotoHero.alt}
+        width={fotoHero.ancho}
+        height={fotoHero.alto}
+        class="w-full aspect-[4/3] lg:aspect-[5/6] object-cover object-[50%_40%]"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <figcaption class="mt-1.5 text-right"><FotoCredito foto={fotoHero} /></figcaption>
+    </figure>
   </section>
 
-
-  {/* Herramientas */}
-  <section class="mb-14 md:mb-20 scroll-mt-28" id="herramientas">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">
-            Herramientas
-          </p>
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
-            Calcula talla, dosis y medida
-          </h2>
-          <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
-            Empieza por la pregunta. Cada calculadora pide dos o tres datos y te da una cifra
-            orientativa. El método está a la vista; no sustituyen al veterinario.
-          </p>
-        </div>
-        <a href="/herramientas/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver todas las herramientas
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
-      </div>
+  {/* Índice por problema */}
+  <section class="pt-12 md:pt-16" id="secciones-producto">
+    <div class="section-rule mb-3">
+      <h2 class="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-neutral-900 leading-[1.05]">¿Qué le pasa a tu perro?</h2>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {HERRAMIENTAS.map((h) => (
-        <HerramientaCard herramienta={h} heading="h3" />
+    <p class="text-lg text-neutral-600 max-w-3xl mb-7">
+      Cada sección parte de un problema real y explica antes de nada qué pasa y qué mirar. Los productos vienen después.
+    </p>
+    <ol class="grid sm:grid-cols-2 xl:grid-cols-3 gap-x-12 border-t border-neutral-300">
+      {sectionCards.map((category, i) => (
+        <li class="border-b border-neutral-300">
+          <a href={category.href} class="group flex gap-5 py-6" aria-label={`Ver productos de ${category.name}`}>
+            <span class="font-serif text-[2.4rem] leading-none font-medium text-clay-600 tabular-nums w-14 shrink-0" aria-hidden="true">{pad(i + 1)}</span>
+            <span class="min-w-0">
+              <span class="block font-serif text-[1.7rem] leading-tight font-semibold text-neutral-900 group-hover:underline decoration-1 underline-offset-4">{category.name}</span>
+              <span class="block mt-2 text-base text-neutral-600 leading-relaxed line-clamp-2">{category.description}</span>
+              <span class="block mt-2 text-sm font-medium text-neutral-500">{category.count} {category.count === 1 ? "producto" : "productos"}</span>
+            </span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ol>
+    <a href="/productos/" class={`mt-8 ${moreLink}`}>Todo el catálogo →</a>
   </section>
 
-  {/* Artículos destacados del Blog */}
-  <section class="mb-14 md:mb-20" id="blog-destacado">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1">
-            Contenido Editorial
-          </p>
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight">
-            Guías y Consejos Caninos
-          </h2>
-        </div>
-        <a href="/blog/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ir al blog completo
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
+  {/* Calculadoras: bloque oscuro */}
+  <section class="mt-14 md:mt-20 bg-navy-800 text-white px-6 py-12 sm:px-10 md:py-16 lg:px-14 scroll-mt-28" id="herramientas">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+      <div class="lg:col-span-4">
+        <h2 class="font-serif text-4xl md:text-[3.5rem] font-semibold leading-[1.02] tracking-tight text-white">Calcula antes de comprar</h2>
+        <p class="mt-5 text-lg text-white/70 leading-relaxed max-w-sm">
+          Dos o tres datos de tu perro y una cifra orientativa: talla, dosis, medida o ración.
+          El método está a la vista; no sustituyen al veterinario.
+        </p>
+        <a href="/herramientas/" class={`mt-8 ${moreLinkDark}`}>Todas las calculadoras →</a>
       </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {latestPosts.map((post) => (
-        <a href={`/blog/${post.slug}/`} class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-          <div class="aspect-[16/9] overflow-hidden relative">
-            {hasBlogHeader(post.slug) ? (
-              <div class="h-full w-full transition-transform duration-500 group-hover:scale-105">
-                <BlogHeaderIllustration slug={post.slug} title={post.data.titulo} decorative />
-              </div>
-            ) : post.data.imagen ? (
-              <img
-                src={post.data.imagen}
-                alt={post.data.titulo}
-                width="640"
-                height="360"
-                loading="lazy"
-                decoding="async"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            ) : (
-              <div class="w-full h-full bg-neutral-100 flex items-center justify-center text-neutral-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
-              </div>
-            )}
-            <div class="absolute top-4 left-4">
-              <span class="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-primary-700 text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
-                {post.data.categoria}
+      <ul class="lg:col-span-8 grid sm:grid-cols-2 gap-x-12">
+        {HERRAMIENTAS.map((h) => (
+          <li class="border-t border-white/20">
+            <a href={h.href} class="group block py-6">
+              <span class="block font-serif text-[1.7rem] leading-snug font-medium text-white group-hover:underline decoration-1 underline-offset-4">{h.pregunta}</span>
+              <span class="block mt-2 text-base text-white/60">
+                Pide: {h.inputLabels.map((input) => input.label.toLowerCase()).join(", ")}
               </span>
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-lg font-black text-neutral-900 leading-tight mb-3 group-hover:text-primary-600 transition-colors">
-              {post.data.titulo}
-            </h3>
-            <p class="text-neutral-500 text-sm line-clamp-2 leading-relaxed">
-              {post.data.descripcion}
-            </p>
-            <div class="mt-4 flex items-center gap-2 text-primary-600 font-bold text-xs uppercase tracking-widest">
-              Leer artículo
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </div>
-          </div>
-        </a>
-      ))}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  {/* Secciones de producto */}
-  <section class="mb-14 md:mb-20" id="secciones-producto">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
-          >
-            Guía por necesidades
-          </p>
-          <h2
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            ¿Qué le pasa a tu perro? Empieza por aquí
-          </h2>
-          <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
-            Cada sección parte de un problema real (ansiedad, articulaciones, descanso, paseo)
-            y explica antes de nada qué pasa y qué mirar. Los productos vienen después.
-          </p>
-        </div>
-        <a href="/productos/" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver catálogo completo
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
+  {/* Últimas guías: una destacada + lista */}
+  {leadPost && (
+    <section class="pt-14 md:pt-20" id="blog-destacado">
+      <div class="section-rule mb-8">
+        <h2 class="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-neutral-900 leading-[1.05]">Últimas guías</h2>
       </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {sectionCards.map((category) => (
-        <a
-          href={category.href}
-          class="group flex items-center justify-between p-4 bg-white border border-neutral-200 rounded-2xl shadow-sm hover:shadow-md hover:border-primary-300 hover:bg-primary-50/50 transition-all duration-300 hover:-translate-y-0.5"
-          aria-label={`Ver productos de ${category.name}`}
-        >
-          <div class="flex items-center gap-4 min-w-0">
-            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 group-hover:bg-primary-100 group-hover:scale-110 transition-all duration-300">
-              <SectionIcon name={category.icon} />
-            </div>
-            <div class="min-w-0">
-              <h3 class="text-[15px] font-bold text-neutral-900 group-hover:text-primary-700 transition-colors truncate">
-                {category.name}
-              </h3>
-              <p class="text-[11px] font-bold uppercase tracking-widest text-neutral-400 mt-1">
-                {category.count} {category.count === 1 ? "producto" : "productos"}
-              </p>
-            </div>
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+        <div class="lg:col-span-7">
+        <a href={`/blog/${leadPost.slug}/`} class="group block">
+          <div class="aspect-[16/9] overflow-hidden bg-neutral-100">
+            {hasBlogHeader(leadPost.slug) ? (
+              <BlogHeaderIllustration slug={leadPost.slug} title={leadPost.data.titulo} decorative />
+            ) : leadPost.data.imagen && (
+              <img src={leadPost.data.imagen} alt={leadPost.data.titulo} width="1200" height="675" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+            )}
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-300 group-hover:text-primary-600 transition-all group-hover:translate-x-1 shrink-0 ml-3" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+          <p class="mt-5 text-sm font-semibold text-clay-600">{BLOG_CAT[leadPost.data.categoria] ?? "Guía"}</p>
+          <h3 class="mt-2 font-serif text-3xl md:text-[2.8rem] leading-[1.06] font-semibold tracking-tight text-neutral-900 group-hover:underline decoration-2 underline-offset-[6px]">{leadPost.data.titulo}</h3>
+          <p class="mt-4 font-serif text-xl md:text-2xl text-neutral-700 leading-snug max-w-2xl">{leadPost.data.descripcion}</p>
         </a>
-      ))}
-    </div>
-  </section>
-
-  {/* Productos más vendidos */}
-  <section class="mb-14 md:mb-20" id="top-vendidos">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-primary-600 mb-1"
-          >
-            Curaduría del mes
-          </p>
-          <h2
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            Lo más comprado en Amazon
-          </h2>
-          <p class="mt-2 text-sm text-neutral-500 max-w-2xl">
-            De los productos que hemos analizado, los que más se compraron el último mes
-            en Amazon.es. Primero pasan nuestros criterios; el orden lo marcan las compras.
-          </p>
-          {notaTopVendidos && (
-            <p class="mt-1 text-xs text-neutral-400 max-w-2xl">{notaTopVendidos}</p>
-          )}
+        <a href="/blog/" class={`mt-8 ${moreLink}`}>Todas las guías →</a>
         </div>
-        <a href="/productos/?sort=sales-desc" class="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-50 text-neutral-700 text-xs font-bold uppercase tracking-wide rounded-md border border-neutral-200 hover:bg-neutral-100 hover:text-neutral-900 transition-colors sm:self-center">
-          Ver todos los más populares
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-        </a>
-      </div>
-    </div>
-
-    {
-      topVendidos.length > 0 ? (
-        <ProductCarouselWrapper>
-          {topVendidos.map((art, i) => (
-            <div class="relative w-56 flex-shrink-0 h-[420px]">
-              <div
-                class="absolute -top-3 -left-3 z-20 h-14 w-14 pointer-events-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.15)]"
-                aria-label={`Top número ${i + 1} en ventas`}
-                role="img"
-              >
-                <svg viewBox="0 0 100 100" class="w-full h-full">
-                  <polygon
-                    points={STAR_POINTS}
-                    fill="#FACC15"
-                    stroke="#DC2626"
-                    stroke-width="5"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <div class="absolute inset-0 flex flex-col items-center justify-center leading-none text-red-700 font-black">
-                  <span class="text-[8px] uppercase tracking-wider -mb-0.5">Top</span>
-                  <span class="text-base">#{i + 1}</span>
-                </div>
-              </div>
-              <ProductCard
-                slug={art.data.slug || slugify(art.data.nombre)}
-                nombre={art.data.nombreCorto || art.data.nombre}
-                linkAmazon={art.data.linkAmazon}
-                imagen={art.data.imagen}
-                descripcion={art.data.descripcion}
-                precio={art.data.precio}
-                precioOriginal={art.data.precioOriginal}
-                descuentoPct={art.data.descuentoPct}
-                categoria={art.data.categoria}
-                marca={art.data.marca}
-                valoracion={art.data.valoracion}
-                valoracionesCount={art.data.valoracionesCount}
-              />
-            </div>
+        <ul class="lg:col-span-5 border-t border-neutral-300 lg:border-t-0">
+          {morePosts.map((post) => (
+            <li class="border-b border-neutral-300 first:lg:pt-0">
+              <a href={`/blog/${post.slug}/`} class="group block py-5">
+                <p class="text-sm font-semibold text-clay-600">{BLOG_CAT[post.data.categoria] ?? "Guía"}</p>
+                <h3 class="mt-1 font-serif text-[1.7rem] leading-snug font-semibold text-neutral-900 group-hover:underline decoration-1 underline-offset-4">{post.data.titulo}</h3>
+                <p class="mt-2 text-base text-neutral-600 leading-relaxed line-clamp-2">{post.data.descripcion}</p>
+              </a>
+            </li>
           ))}
-        </ProductCarouselWrapper>
-      ) : (
-        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-8">
-          <p class="text-neutral-500 text-sm">
-            Aún no hay datos de ventas. Ejecuta{" "}
-            <code class="px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-700 font-mono text-xs">
-              python scripts/update_prices.py
-            </code>{" "}
-            para rellenar el campo <code>ventas</code>.
-          </p>
-        </div>
-      )
-    }
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {/* Lo más comprado: ranking numerado */}
+  <section class="pt-14 md:pt-20" id="top-vendidos">
+    <div class="section-rule mb-3">
+      <h2 class="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-neutral-900 leading-[1.05]">Lo más comprado en Amazon</h2>
+    </div>
+    <p class="text-lg text-neutral-600 max-w-3xl">
+      De los productos que hemos analizado, los que más se compraron el último mes en Amazon.es,
+      uno de cada tipo. Primero pasan nuestros criterios; el orden lo marcan las compras.
+    </p>
+    {notaTopVendidos && <p class="mt-1 text-xs text-neutral-500">{notaTopVendidos}</p>}
+    {topVendidos.length > 0 ? (
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-x-6 gap-y-10">
+        {topVendidos.map((art, i) => (
+          <ProductCard
+            rank={i + 1}
+            slug={art.data.slug || slugify(art.data.nombre)}
+            nombre={art.data.nombreCorto || art.data.nombre}
+            linkAmazon={art.data.linkAmazon}
+            imagen={art.data.imagen}
+            descripcion={art.data.descripcion}
+            precio={art.data.precio}
+            precioOriginal={art.data.precioOriginal}
+            descuentoPct={art.data.descuentoPct}
+            categoria={art.data.categoria}
+            marca={art.data.marca}
+            valoracion={art.data.valoracion}
+            valoracionesCount={art.data.valoracionesCount}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="mt-8 text-neutral-500 text-sm">
+        Aún no hay datos de ventas. Ejecuta <code class="font-mono text-xs">python scripts/update_prices.py</code> para rellenar el campo <code>ventas</code>.
+      </p>
+    )}
+    <a href="/productos/?sort=sales-desc" class={`mt-10 ${moreLink}`}>Más vendidos →</a>
   </section>
 
   {/* Sobre nosotros */}
-  <section id="sobre-nosotros" class="scroll-mt-28">
-    <div class="border-b border-neutral-200 pb-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-        <div>
-          <p
-            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1"
-          >
-            Quiénes somos
-          </p>
-          <h2
-            class="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-neutral-900 tracking-tight"
-          >
-            Sobre Solución Canina
-          </h2>
-        </div>
-      </div>
+  <section id="sobre-nosotros" class="pt-14 md:pt-20 scroll-mt-28">
+    <div class="section-rule mb-8">
+      <h2 class="font-serif text-4xl md:text-[3.25rem] font-semibold tracking-tight text-neutral-900 leading-[1.05]">Sobre Solución Canina</h2>
     </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div
-        class="lg:col-span-2 space-y-4 text-neutral-600 text-sm leading-relaxed"
-      >
-        <p class="text-base text-neutral-800 font-semibold leading-relaxed">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+      <div class="lg:col-span-7 space-y-5 font-serif text-xl leading-relaxed text-neutral-800">
+        <p class="text-2xl md:text-[1.75rem] leading-snug text-neutral-900">
           Solución Canina nació porque las webs de productos para perros casi
           siempre tienen el mismo problema: te empujan a comprar antes de
           entender qué necesitas.
         </p>
         <p>
-          Aquí lo hacemos al revés. Empezamos por el problema —ansiedad,
-          articulaciones, descanso, paseo, dieta veterinaria— y solo después
-          hablamos de productos. Cada ficha es un análisis nuestro, escrito
-          por personas que conviven con perros y que se hacen las mismas
-          preguntas que tú antes de comprar.
+          Aquí lo hacemos al revés. Empezamos por el problema (ansiedad,
+          articulaciones, descanso, paseo, dieta veterinaria) y solo después
+          hablamos de productos.
         </p>
         <p>
-          No vendemos directamente. Si compras a través de los enlaces de
-          Amazon que aparecen al final del análisis, ganamos una pequeña
-          comisión. Eso paga el catálogo y no condiciona qué entra ni qué se
+          Somos dos personas, no veterinarios, y no probamos los productos.
+          Cada ficha resume la información del fabricante, lo que cuentan los
+          compradores y lo que dicen veterinarios y estudios. Por eso cada guía
+          enlaza sus fuentes: para que puedas comprobarlo.
+        </p>
+        <p>
+          No vendemos directamente. Si compras a través de nuestros enlaces
+          de Amazon, ganamos una pequeña comisión. Eso paga el catálogo y no condiciona qué entra ni qué se
           queda fuera.
         </p>
       </div>
-
-      <div class="space-y-4">
-        <div class="rounded-lg bg-navy-700 text-white p-6">
-          <h3
-            class="text-xs font-bold uppercase tracking-wider text-white/50 mb-3"
-          >
-            Cómo decidimos qué entra en el catálogo
-          </h3>
-          <ul class="space-y-2.5 text-sm">
-            {[
-              "Resuelve un problema concreto y identificable.",
-              "Composición o materiales con evidencia detrás, no marketing.",
-              "Valoraciones reales sostenidas en el tiempo, no picos puntuales.",
-              "Relación calidad-precio honesta para el caso de uso real.",
-            ].map((item) => (
-              <li class="flex items-start gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary-300 mt-0.5 shrink-0" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <a
-            href="/como-analizamos/#criterios-de-inclusion"
-            class="inline-block mt-4 text-xs font-bold text-primary-200 hover:text-white transition-colors"
-          >
-            Cómo analizamos →
-          </a>
-        </div>
-        <div class="rounded-lg bg-neutral-50 border border-neutral-200 p-6">
-          <h3
-            class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-3"
-          >
-            Lo que no hacemos
-          </h3>
-          <p class="text-sm text-neutral-500 leading-relaxed">
-            Esta web no sustituye el consejo veterinario. En dietas veterinarias
-            o cuadros clínicos, consulta con tu veterinario antes de cambiar
-            alimentación o introducir suplementos. Aquí no recomendamos a ciegas.
-          </p>
-        </div>
+      <div class="lg:col-span-5">
+        <h3 class="font-sans text-base font-bold text-neutral-900 mb-1">Cómo decidimos qué entra en el catálogo</h3>
+        <ol class="border-t border-neutral-900">
+          {[
+            "Resuelve un problema concreto y identificable.",
+            "Composición o materiales con evidencia detrás, no marketing.",
+            "Valoraciones reales sostenidas en el tiempo, no picos puntuales.",
+            "Relación calidad-precio honesta para el caso de uso real.",
+          ].map((item, i) => (
+            <li class="flex gap-4 py-4 border-b border-neutral-300">
+              <span class="font-serif text-2xl leading-none text-clay-600 tabular-nums w-8 shrink-0" aria-hidden="true">{i + 1}</span>
+              <span class="text-neutral-800 leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ol>
+        <a href="/como-analizamos/#criterios-de-inclusion" class={`mt-6 ${moreLink}`}>Cómo analizamos →</a>
+        <p class="mt-8 text-sm text-neutral-600 leading-relaxed border-l-2 border-neutral-900 pl-4">
+          Esta web no sustituye el consejo veterinario. En dietas veterinarias
+          o cuadros clínicos, consulta con tu veterinario antes de cambiar
+          alimentación o introducir suplementos.
+        </p>
       </div>
     </div>
   </section>

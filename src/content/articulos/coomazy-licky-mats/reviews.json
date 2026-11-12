@@ -1,0 +1,48 @@
+{
+  "asin": "B09YYCMK4Z",
+  "fetched_at": "2026-11-12T19:34:51Z",
+  "source": "amazon.es/product-reviews",
+  "count": 5,
+  "reviews": [
+    {
+      "stars": 4.0,
+      "title": "Goed product",
+      "body": "Werkt heel goed",
+      "date": "Reseñado en Países Bajos el 9 de octubre de 2023",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "No more sick cats",
+      "body": "Got this for the cats because they would fight over the wet food and then get sick minutes later. It has helped slow the cats down and completely solved the issue of them becoming sick after eating. The cats like them and adapted to them quickly. The mats are holding up great and are simple to wash and the spatula included was great so we have a dedicated tool. Good price for such a big fix. Big enough for one can of wet food per mat.",
+      "date": "Reseñado en Estados Unidos el 13 de septiembre de 2026",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Parfait",
+      "body": "Utilisés pour nourrir mes chats avec la nourriture humide c'est parfait.\nC'est évidemment plus optimal s'il s'agit de mousse de que terrine ou autre !",
+      "date": "Reseñado en Francia el 29 de agosto de 2024",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 5.0,
+      "title": "Piccoli e funzionali",
+      "body": "Li uso spesso come alternativa agli snack per far rilassare il mio cane. Comode le ventose per non far muovere il tappetino da terra e le spatoline per spalmare il patè",
+      "date": "Reseñado en Italia el 9 de mayo de 2024",
+      "helpful": 0,
+      "verified": true
+    },
+    {
+      "stars": 1.0,
+      "title": "pas de profondeur",
+      "body": "Sur la photo j'avais l'idée que c'est plus profond, mais c'est ne pas le cas. Donc mon chien le leche vide dans qqs secondes.",
+      "date": "Reseñado en Francia el 27 de octubre de 2023",
+      "helpful": 0,
+      "verified": true
+    }
+  ]
+}

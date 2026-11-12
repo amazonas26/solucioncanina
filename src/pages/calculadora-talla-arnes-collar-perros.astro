@@ -13,7 +13,9 @@ const categories = Array.from(
 );
 
 const productos = articulos
-  .filter((a) => a.data.categoria === 'Correas')
+  .filter((a) => a.data.categoria === 'Arneses')
+  // Només recomanem el que ara es pot comprar amb preu (scripts/update_prices.py).
+  .filter((a) => a.data.disponible !== false && Boolean(a.data.precio))
   .map((a) => ({
     slug: a.data.slug || slugify(a.data.nombre),
     titulo: a.data.nombreCorto || a.data.tituloSeo || a.data.nombre,
@@ -48,7 +50,7 @@ const faqs = [
   {
     pregunta: 'Un «M» de Julius-K9, ¿es el mismo «M» de otras marcas?',
     respuesta:
-      'No. Cada fabricante numera distinto. En nuestro catálogo, el Julius-K9 IDC Powerharness talla 0 cubre perros medianos (~14–25 kg) si el pecho encaja en su guía; no lo uses como «M» universal. Confirma siempre el rango de pecho o cuello en centímetros de la ficha.',
+      'No. Cada fabricante numera distinto: la «talla 0» de Julius-K9, la «M» de rabbitgoo y la «M» de PetSafe cubren rangos de pecho diferentes. No uses la letra como talla universal: confirma siempre el rango de pecho en centímetros de la ficha del arnés que vas a comprar.',
   },
 ];
 
@@ -68,17 +70,17 @@ const faqJsonLd = faqPageSchema(faqs);
   jsonLd={[breadcrumbJsonLd, faqJsonLd]}
 >
   <div class="mb-8">
-    <nav aria-label="Breadcrumb" class="flex mb-4 text-xs font-medium text-neutral-400 gap-2 items-center flex-wrap">
+    <nav aria-label="Breadcrumb" class="flex mb-6 text-sm text-neutral-500 gap-2 items-center flex-wrap">
       <a href="/" class="hover:text-primary-600 transition-colors">Inicio</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Herramientas</a>
+      <a href="/herramientas/" class="hover:text-primary-600 transition-colors">Calculadoras</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       <span class="text-neutral-900">Talla de arnés o collar</span>
     </nav>
-    <h1 class="text-3xl md:text-4xl font-serif font-black text-neutral-900 mb-3">
+    <h1 class="font-serif text-4xl md:text-6xl font-semibold tracking-[-0.025em] leading-[1.03] text-neutral-900 mb-4">
       Calculadora de talla de arnés o collar para perros
     </h1>
-    <p class="text-neutral-600 max-w-2xl leading-relaxed">
+    <p class="font-serif text-xl md:text-2xl text-neutral-700 max-w-3xl leading-snug">
       Introduce el <strong>perímetro del cuello</strong>, el <strong>perímetro del pecho</strong> y el
       <strong>peso</strong>. Te damos la <strong>talla de collar</strong> y la <strong>talla de arnés</strong>
       (letra + rango en cm). El pecho manda en el arnés; el cuello, en el collar. El peso solo avisa si
@@ -120,7 +122,7 @@ const faqJsonLd = faqPageSchema(faqs);
     </p>
 
     <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Collar (cuello)</p>
-    <table class="w-full text-sm my-4 border-collapse">
+    <div class="table-scroll"><table class="w-full text-sm my-4 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Talla</th>
@@ -134,10 +136,10 @@ const faqJsonLd = faqPageSchema(faqs);
         <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>45–56 cm</td></tr>
         <tr><td class="py-2 pr-4 font-semibold">XL</td><td>56–80 cm</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p class="text-neutral-700 leading-relaxed font-semibold mb-2">Arnés (pecho)</p>
-    <table class="w-full text-sm my-4 border-collapse">
+    <div class="table-scroll"><table class="w-full text-sm my-4 border-collapse">
       <thead>
         <tr class="border-b-2 border-neutral-200 text-left">
           <th class="py-2 pr-4">Talla</th>
@@ -152,7 +154,7 @@ const faqJsonLd = faqPageSchema(faqs);
         <tr class="border-b border-neutral-100"><td class="py-2 pr-4 font-semibold">L</td><td>68–85 cm</td><td class="text-neutral-500">22–40 kg</td></tr>
         <tr><td class="py-2 pr-4 font-semibold">XL</td><td>85–120 cm</td><td class="text-neutral-500">35 kg o más</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <p class="text-xs text-neutral-500 leading-relaxed mt-2">
       <strong>Nota:</strong> un «M» de un fabricante no equivale al «M» de otro, ni a la talla 0 de
@@ -165,7 +167,7 @@ const faqJsonLd = faqPageSchema(faqs);
       y en
       <a href="/blog/perro-tira-de-la-correa-soluciones/" class="text-primary-600 font-semibold hover:underline">si tu perro tira de la correa</a>.
       Cuando tengas la talla, compara fichas en la
-      <a href="/categoria/correas/" class="text-primary-600 font-semibold hover:underline">sección de correas y arneses analizados</a>.
+      <a href="/categoria/arneses/" class="text-primary-600 font-semibold hover:underline">sección de arneses analizados</a>.
     </p>
 
     <h2 class="text-2xl font-serif font-black text-neutral-900 mt-10 mb-3">Preguntas frecuentes</h2>

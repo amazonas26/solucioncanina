@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator, Ruler, Scale, ArrowRight, Star, Info } from 'lucide-react';
 import type { CalcProducto } from './CondroprotectorCalculator';
 import { notaPrecios } from '../utils/precioConsultado';
+import NumberInput from './NumberInput';
 
 interface Props {
   productos: CalcProducto[];
@@ -41,10 +42,6 @@ const POSTURAS: PosturaInfo[] = [
     nota: 'Aunque se enrolle, mantenemos el largo +30 cm por si se estira por la noche.',
   },
 ];
-
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
-}
 
 function roundUp5(n: number) {
   return Math.ceil(n / 5) * 5;
@@ -87,8 +84,8 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
   const notaRecomendados = notaPrecios(recomendados.map((p) => p.slug));
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-4 flex items-center gap-3 text-white">
+    <div className="border border-neutral-900 bg-white overflow-hidden">
+      <div className="bg-navy-800 px-6 py-4 flex items-center gap-3 text-white">
         <Calculator size={22} />
         <h2 className="text-lg font-black tracking-tight">Calculadora de talla de cama</h2>
       </div>
@@ -112,12 +109,11 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
                 aria-describedby="longitud-cama-val"
               />
               <span id="longitud-cama-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={20}
                   max={120}
                   value={longitud}
-                  onChange={(e) => setLongitud(clamp(Number(e.target.value) || 20, 20, 120))}
+                  onValueChange={setLongitud}
                   className="w-16 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Longitud en centímetros"
                 />
@@ -146,12 +142,11 @@ export default function CamaOrtopedicaCalculator({ productos }: Props) {
                 aria-describedby="peso-cama-val"
               />
               <span id="peso-cama-val" className="shrink-0 w-24 text-right">
-                <input
-                  type="number"
+                <NumberInput
                   min={2}
                   max={80}
                   value={peso}
-                  onChange={(e) => setPeso(clamp(Number(e.target.value) || 2, 2, 80))}
+                  onValueChange={setPeso}
                   className="w-14 rounded-lg border border-neutral-300 px-2 py-1 text-right font-bold text-neutral-900"
                   aria-label="Peso en kilogramos"
                 />
