@@ -49,9 +49,11 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
   ],
   'Bozales': [
     { slug: 'bozales-perros-guia-elegir-talla', titulo: 'Bozales para perros: guía para elegir talla y tipo' },
+    { slug: 'perros-potencialmente-peligrosos-ppp-licencia-razas', titulo: 'Perros PPP: licencia, seguro, bozal y correa' },
   ],
   'Rampas': [
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
+    { slug: 'teckel-cuidados-espalda-hernia-discal', titulo: 'Teckel: hernia discal y cómo cuidar su espalda' },
     { slug: 'como-mejorar-movilidad-perro-mayor', titulo: 'Cómo mejorar la movilidad de un perro mayor' },
   ],
   'Movilidad y artrosis': [

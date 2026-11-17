@@ -223,6 +223,14 @@
     "ancho": 1600,
     "alto": 900
   },
+  "/images/blog/perros-potencialmente-peligrosos-ppp-licencia-razas.webp": {
+    "alt": "Un staffordshire bull terrier tumbado en el suelo, tranquilo, mirando a la cámara",
+    "autor": "Martin Dalsgaard",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/portrait-of-dog-lying-on-floor-8457674/",
+    "ancho": 1600,
+    "alto": 900
+  },
   "/images/blog/pienso-bajo-sodio-perros-renal.webp": {
     "alt": "Patas de un perro junto a un cuenco lleno de pienso, vistas desde arriba",
     "autor": "Mathew Coulton",
@@ -276,6 +284,14 @@
     "autor": "Afonso Oliveira",
     "fuente": "Pexels",
     "url": "https://www.pexels.com/photo/9831571/",
+    "ancho": 1600,
+    "alto": 900
+  },
+  "/images/blog/teckel-cuidados-espalda-hernia-discal.webp": {
+    "alt": "Teckel de pelo corto rojo sentado en la hierba al sol",
+    "autor": "Julius Weidenauer",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/dachshund-dog-relaxing-outdoors-in-sunny-weather-35472283/",
     "ancho": 1600,
     "alto": 900
   },
@@ -500,6 +516,54 @@
     "autor": "46danz",
     "fuente": "Pexels",
     "url": "https://www.pexels.com/photo/20169379/",
+    "ancho": 1600,
+    "alto": 1067
+  },
+  "/images/fotos/pitbull-bozal-cesta.webp": {
+    "alt": "Un pit bull sentado en la hierba con un bozal de cesta que le deja la boca abierta",
+    "autor": "The Bullyboardroom",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/pitbull-sitting-in-muzzle-20522028/",
+    "ancho": 1000,
+    "alto": 1250
+  },
+  "/images/fotos/rottweiler-paseo-correa.webp": {
+    "alt": "Un rottweiler con correa corta junto a su dueña en un paseo marítimo",
+    "autor": "Idriss Belhamadia",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/woman-and-dog-on-promenade-16938003/",
+    "ancho": 1000,
+    "alto": 1000
+  },
+  "/images/fotos/staffordshire-bull-terrier-de-pie.webp": {
+    "alt": "Un staffordshire bull terrier negro de pie sobre un empedrado",
+    "autor": "Gundula Vogel",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/strong-staffordshire-bull-terrier-on-pavement-28771988/",
+    "ancho": 1000,
+    "alto": 1250
+  },
+  "/images/fotos/teckel-arlequin-arnes.webp": {
+    "alt": "Teckel arlequín con arnés mirando por la ventana",
+    "autor": "Peter Jochim",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/close-up-of-a-dachshund-with-merle-coat-indoors-32235715/",
+    "ancho": 1200,
+    "alto": 1200
+  },
+  "/images/fotos/teckel-pelo-largo-paseando.webp": {
+    "alt": "Teckel de pelo largo caminando por un prado en otoño",
+    "autor": "Chris F",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/dog-on-grassland-20338315/",
+    "ancho": 1600,
+    "alto": 1067
+  },
+  "/images/fotos/teckel-tumbado-cama.webp": {
+    "alt": "Teckel tumbado sobre una cama mirando a la cámara",
+    "autor": "Roksolana Ganitkevych",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/dachshund-lying-down-on-bed-20229531/",
     "ancho": 1600,
     "alto": 1067
   },

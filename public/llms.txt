@@ -40,6 +40,7 @@ Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta di
 - [Arnés para perro: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/arnes-perro-como-elegir-talla/): anilla en el pecho o en la espalda, arnés en Y o antiescape, cómo medir el pecho y 8 modelos comparados.
 - [Juguetes para que tu perro no se aburra](https://www.solucioncanina.es/blog/juguetes-interactivos-perros-aburrimiento/): qué tipo de juguete interactivo sirve para qué, cómo usarlo y cuándo no basta con juguetes.
 - [Bozales para perros: tipos y cómo elegir la talla](https://www.solucioncanina.es/blog/bozales-perros-guia-elegir-talla/): cesta vs tela, cómo medir el hocico, acostumbrarlo sin estrés.
+- [Perros potencialmente peligrosos (PPP): razas, licencia, seguro y bozal](https://www.solucioncanina.es/blog/perros-potencialmente-peligrosos-ppp-licencia-razas/): qué perros son PPP en España (lista estatal, anexo II y Cataluña), pasos de la licencia, seguro, bozal y correa en la calle, multas, qué cambia con la Ley 7/2023 y qué dicen los estudios sobre raza y mordeduras.
 - [Mejores correas largas para perros (adiestramiento)](https://www.solucioncanina.es/blog/mejores-correas-largas-perros-adiestramiento/): longitudes, materiales y mosquetón.
 - [Rampas para perros: beneficios y cuál elegir](https://www.solucioncanina.es/blog/rampas-para-perros-beneficios/): cuándo usarlas y qué mirar.
 - [Pienso renal para perros: guía](https://www.solucioncanina.es/blog/pienso-renal-perros-guia/): dietas veterinarias para insuficiencia renal.
@@ -55,6 +56,7 @@ Sitio estático en español (es-ES). Modelo de afiliación a Amazon (no venta di
 - [Pastor alemán (displasia y comportamiento)](https://www.solucioncanina.es/blog/pastor-aleman-cuidados-displasia-comportamiento/)/
 - [Bulldog francés](https://www.solucioncanina.es/blog/bulldog-frances-cuidados-problemas-salud/)/
 - [Border collie](https://www.solucioncanina.es/blog/border-collie-cuidados-problemas-comportamiento/)/
+- [Teckel (hernia discal y cuidados de la espalda)](https://www.solucioncanina.es/blog/teckel-cuidados-espalda-hernia-discal/): por qué tiene hernias, señales urgentes, qué dicen los estudios sobre saltos, rampas y ejercicio, tamaños, pelo, arnés y dientes.
 
 ## Navegación
 

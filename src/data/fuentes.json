@@ -93,7 +93,7 @@
     "titulo": "Ley 7/2023 de protección de los derechos y el bienestar de los animales",
     "publicacion": "BOE",
     "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-7936",
-    "nota": "Ley estatal de bienestar animal."
+    "nota": "Ley estatal de bienestar animal, en vigor desde el 29 de septiembre de 2023. Su artículo 30 obliga a hacer un curso gratuito para tener perro y a contratar un seguro de responsabilidad civil para todos los perros, con contenido y cuantía pendientes de reglamento. No modifica el régimen de perros potencialmente peligrosos."
   },
   "boe-rd-287-2002": {
     "autores": "Boletín Oficial del Estado",
@@ -101,7 +101,7 @@
     "titulo": "Real Decreto 287/2002, sobre la tenencia de animales potencialmente peligrosos",
     "publicacion": "BOE",
     "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-6016",
-    "nota": "Obliga a los perros potencialmente peligrosos a llevar bozal en lugares públicos."
+    "nota": "Desarrolla la Ley 50/1999. Lista las ocho razas consideradas potencialmente peligrosas y sus cruces (anexo I) y las características físicas que también hacen PPP a un perro (anexo II). Licencia municipal de cinco años; seguro de responsabilidad civil de al menos 120.000 €; en lugares públicos, bozal y correa o cadena no extensible de menos de 2 metros, un perro por persona; la pérdida o el robo se comunica en 48 horas."
   },
   "cambridge-boas": {
     "autores": "Universidad de Cambridge",
@@ -349,7 +349,7 @@
     "titulo": "DachsLife 2015: an investigation of lifestyle associations with the risk of intervertebral disc disease in Dachshunds",
     "publicacion": "Canine Genetics and Epidemiology",
     "url": "https://doi.org/10.1186/s40575-016-0039-8",
-    "nota": "Encuesta a dueños de teckels sobre estilo de vida y riesgo de hernia discal (IVDD)."
+    "nota": "Encuesta con 2.031 teckels en el Reino Unido: un 15,7 % había tenido una hernia discal diagnosticada (un 24 % en el estándar de pelo corto, un 7 % en el estándar de pelo duro). Más riesgo con la edad y en los esterilizados; menos en los que hacían más de una hora de ejercicio al día. Al ser una encuesta, no permite separar causa y efecto."
   },
   "pauli-2006": {
     "autores": "Pauli et al.",
@@ -630,5 +630,141 @@
     "publicacion": "The Veterinary Journal",
     "url": "https://doi.org/10.1016/j.tvjl.2009.11.007",
     "nota": "Encuesta con perros de 8 años o más: un 14 % tenía signos de deterioro cognitivo, pero solo un 1,9 % estaba diagnosticado por un veterinario. La frecuencia sube con la edad."
+  },
+  "olby-2022": {
+    "autores": "Olby et al.",
+    "anio": 2022,
+    "titulo": "ACVIM consensus statement on diagnosis and management of acute canine thoracolumbar intervertebral disc extrusion",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/jvim.16480",
+    "nota": "Consenso de neurólogos veterinarios sobre la hernia discal en la espalda: tasas de recuperación con tratamiento médico y con cirugía según la gravedad, al menos 4 semanas de reposo estricto y recaídas (en los teckels, alrededor de un 25 % tras la cirugía)."
+  },
+  "lappalainen-2014": {
+    "autores": "Lappalainen et al.",
+    "anio": 2014,
+    "titulo": "Intervertebral disc disease in Dachshunds radiographically screened for intervertebral disc calcifications",
+    "publicacion": "Acta Veterinaria Scandinavica",
+    "url": "https://doi.org/10.1186/s13028-014-0089-4",
+    "nota": "193 teckels finlandeses radiografiados de jóvenes y seguidos hasta los 10 años o más: tuvo hernia discal el 9 % de los que no tenían discos calcificados y el 64 % de los que tenían cinco o más."
+  },
+  "lappalainen-2015": {
+    "autores": "Lappalainen et al.",
+    "anio": 2015,
+    "titulo": "Estimate of heritability and genetic trend of intervertebral disc calcification in Dachshunds in Finland",
+    "publicacion": "Acta Veterinaria Scandinavica",
+    "url": "https://doi.org/10.1186/s13028-015-0170-7",
+    "nota": "Con 1.553 teckels radiografiados, el número de discos calcificados es muy heredable (alrededor del 50 %): se puede reducir eligiendo bien a los reproductores. Recomienda radiografiar a los teckels de cría."
+  },
+  "brown-2017": {
+    "autores": "Brown et al.",
+    "anio": 2017,
+    "titulo": "FGF4 retrogene on CFA12 is responsible for chondrodystrophy and intervertebral disc disease in dogs",
+    "publicacion": "Proceedings of the National Academy of Sciences",
+    "url": "https://doi.org/10.1073/pnas.1709082114",
+    "nota": "Identifica la variante genética que acorta las patas en razas como el teckel y que, a la vez, está muy asociada a la hernia discal."
+  },
+  "oneill-2021-periodontal": {
+    "autores": "O'Neill et al.",
+    "anio": 2021,
+    "titulo": "Epidemiology of periodontal disease in dogs in the UK primary-care veterinary setting",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/jsap.13405",
+    "nota": "22.333 perros en el Reino Unido: un 12,5 % tenía enfermedad periodontal diagnosticada en un año. Los de menos de 10 kg, unas tres veces más que los de 30 a 40 kg; el teckel miniatura está entre las razas con más riesgo."
+  },
+  "merck-columna": {
+    "autores": "Manual Veterinario Merck",
+    "anio": 2026,
+    "titulo": "Disorders of the Spinal Column and Cord in Dogs",
+    "publicacion": "Merck Veterinary Manual (dueños)",
+    "url": "https://www.merckvetmanual.com/dog-owners/brain-spinal-cord-and-nerve-disorders-of-dogs/disorders-of-the-spinal-column-and-cord-in-dogs",
+    "nota": "En razas pequeñas como el teckel, los discos pueden empezar a degenerar en los primeros meses de vida y una hernia puede aparecer de golpe desde el año o los dos años. Explica las señales de hernia en el cuello y en la espalda."
+  },
+  "fci-teckel": {
+    "autores": "Federación Cinológica Internacional (FCI)",
+    "anio": 2021,
+    "titulo": "Estándar FCI n.º 148: Teckel (Dachshund)",
+    "publicacion": "FCI",
+    "url": "https://www.fci.be/Nomenclature/Standards/148g04-es.pdf",
+    "nota": "Tres tamaños, que se distinguen por el perímetro del tórax medido a partir de los 15 meses (estándar, miniatura y kaninchen), y tres tipos de pelo (corto, duro y largo): nueve variedades."
+  },
+  "boe-ley-50-1999": {
+    "autores": "Boletín Oficial del Estado",
+    "anio": 1999,
+    "titulo": "Ley 50/1999, sobre el régimen jurídico de la tenencia de animales potencialmente peligrosos",
+    "publicacion": "BOE",
+    "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1999-24419",
+    "nota": "Exige licencia del ayuntamiento para tener un perro potencialmente peligroso y su inscripción en el registro municipal en los 15 días siguientes. Fija las infracciones y multas: de 150,25 a 300,51 € las leves, de 300,52 a 2.404,05 € las graves (como llevarlo sin bozal o sin correa) y de 2.404,06 a 15.025,30 € las muy graves (como tenerlo sin licencia)."
+  },
+  "dogc-llei-10-1999": {
+    "autores": "Generalitat de Catalunya",
+    "anio": 1999,
+    "titulo": "Llei 10/1999, sobre la tinença de gossos considerats potencialment perillosos",
+    "publicacion": "DOGC",
+    "url": "https://portaljuridic.gencat.cat/eli/es-ct/l/1999/07/30/10",
+    "nota": "En Cataluña también son PPP el bullmastiff, el dóberman, el dogo de Burdeos, el mastín napolitano y el presa canario, además de los perros adiestrados para ataque y defensa. Exige un seguro de al menos 150.253,03 € por siniestro y prohíbe que los conduzcan menores de 16 años. El Decreto 170/2002 añade las razas del Real Decreto 287/2002."
+  },
+  "boe-rd-986-2026": {
+    "autores": "Boletín Oficial del Estado",
+    "anio": 2026,
+    "titulo": "Real Decreto 986/2026, sobre identificación de animales de compañía",
+    "publicacion": "BOE",
+    "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-23763",
+    "nota": "En vigor el 2 de enero de 2027. El microchip de perros, gatos y hurones se pondrá en el lado izquierdo del cuello, y el registro autonómico de cada perro anotará, entre otros datos, si es potencialmente peligroso, las pruebas de aptitud y las agresiones conocidas por las autoridades."
+  },
+  "mdsca-borrador-reglamento-2025": {
+    "autores": "Ministerio de Derechos Sociales, Consumo y Agenda 2030",
+    "anio": 2025,
+    "titulo": "Proyecto de Real Decreto por el que se aprueba el Reglamento de la Ley 7/2023 (revisión 3, junio de 2025)",
+    "publicacion": "Borrador sometido a información pública",
+    "url": "https://www.dsca.gob.es/sites/default/files/TIP-N-25-049-DCA.pdf",
+    "nota": "Borrador, no aprobado. Propone que los perros de las razas de la lista solo sean PPP si, a partir de los 12 meses, no superan una prueba de aptitud; subir el seguro de los PPP a 150.000 €; prohibir que críen; un seguro de al menos 100.000 € para el resto de perros, y un curso de un mínimo de cuatro horas."
+  },
+  "rosado-2007": {
+    "autores": "Rosado et al.",
+    "anio": 2007,
+    "titulo": "Spanish dangerous animals act: Effect on the epidemiology of dog bites",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2007.07.010",
+    "nota": "Mordeduras registradas en Aragón de 1995 a 2004: la ley de 1999 no cambió su frecuencia. La mayoría las causaron pastores alemanes y mestizos; los perros de la lista de razas peligrosas fueron una pequeña parte antes y después de la ley."
+  },
+  "mora-2018": {
+    "autores": "Mora et al.",
+    "anio": 2018,
+    "titulo": "Fatal dog attacks in Spain under a breed-specific legislation: A ten-year retrospective study",
+    "publicacion": "Journal of Veterinary Behavior",
+    "url": "https://doi.org/10.1016/j.jveb.2018.03.011",
+    "nota": "De 2004 a 2013 hubo en España 16 ataques mortales de perro, con 17 víctimas. La mayoría de las razas implicadas estaban en la lista de PPP, pero la ley no redujo las muertes. Las víctimas eran a menudo mayores de 65 años o menores de 5, y el perro solía ser de la familia y atacar en casa."
+  },
+  "patronek-2013": {
+    "autores": "Patronek et al.",
+    "anio": 2013,
+    "titulo": "Co-occurrence of potentially preventable factors in 256 dog bite-related fatalities in the United States (2000-2009)",
+    "publicacion": "Journal of the American Veterinary Medical Association",
+    "url": "https://doi.org/10.2460/javma.243.12.1726",
+    "nota": "En 256 muertes por mordedura en EE. UU., lo habitual era que no hubiera ningún adulto capaz de intervenir (87 %), que la víctima no conociera al perro (85 %) y que el perro viviera aislado y no como perro de familia (76 %); en el 80 % coincidían cuatro factores o más. La raza solo se pudo confirmar en el 18 % de los casos."
+  },
+  "morrill-2022": {
+    "autores": "Morrill et al.",
+    "anio": 2022,
+    "titulo": "Ancestry-inclusive dog genomics challenges popular breed stereotypes",
+    "publicacion": "Science",
+    "url": "https://doi.org/10.1126/science.abk0639",
+    "nota": "Con encuestas sobre 18.385 perros y el ADN de 2.155, la raza explica solo un 9 % de las diferencias de comportamiento entre perros. En lo fácil que es provocar a un perro con algo que le asusta o molesta, la raza casi no dice nada."
+  },
+  "duffy-2008": {
+    "autores": "Duffy et al.",
+    "anio": 2008,
+    "titulo": "Breed differences in canine aggression",
+    "publicacion": "Applied Animal Behaviour Science",
+    "url": "https://doi.org/10.1016/j.applanim.2008.04.006",
+    "nota": "Encuesta a dueños de más de 30 razas. Los que más agresividad mostraban hacia desconocidos y hacia sus dueños eran perros pequeños como el teckel, el chihuahua y el jack russell. El akita y el pit bull destacaban solo en la agresividad hacia otros perros: más de un 20 % había mostrado agresividad seria hacia perros desconocidos."
+  },
+  "olson-2015": {
+    "autores": "Olson et al.",
+    "anio": 2015,
+    "titulo": "Inconsistent identification of pit bull-type dogs by shelter staff",
+    "publicacion": "The Veterinary Journal",
+    "url": "https://doi.org/10.1016/j.tvjl.2015.07.019",
+    "nota": "El personal de cuatro refugios catalogó a primera vista como tipo pit bull al 52 % de 120 perros; el ADN, solo al 21 %. Identificar la raza por el aspecto no es fiable."
   }
 }
