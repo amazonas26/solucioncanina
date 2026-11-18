@@ -7,9 +7,9 @@
   "marca": "LickiMat",
   "tipoAnalisis": "Analizado",
   "secciones": [],
-  "precio": "11.23€",
+  "precio": "5.76€",
   "valoracion": 4.3,
-  "valoracionesCount": 8362,
+  "valoracionesCount": 8360,
   "descripcion": "Alfombrilla de goma con relieve para untar comida húmeda, paté o yogur natural; el perro la lame poco a poco. Sin ventosas.",
   "imagen": "/images/articulos/lickimat-soother/imagen.jpg",
   "veredicto": "LickiMat Soother: alfombrilla para lamer muy usada para entretener al perro durante el baño, el corte de uñas o un rato a solas.",
@@ -25,5 +25,7 @@
     "Los beneficios que anuncia la marca no están estudiados."
   ],
   "paraQuien": "Para distraer al perro durante el baño o el corte de uñas y como rutina tranquila. No para perros que mastican la goma.",
-  "experienciaReal": "Los dueños la usan con comida blanda, paté o yogur natural para distraer o tranquilizar al perro, y la recomiendan mucho. Las pegas: cuesta limpiarla sin lavavajillas y algún perro arranca trozos de la goma."
+  "experienciaReal": "Los dueños la usan con comida blanda, paté o yogur natural para distraer o tranquilizar al perro, y la recomiendan mucho. Las pegas: cuesta limpiarla sin lavavajillas y algún perro arranca trozos de la goma.",
+  "precioOriginal": "10.71€",
+  "descuentoPct": 46
 }

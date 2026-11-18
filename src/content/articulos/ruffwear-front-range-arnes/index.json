@@ -9,9 +9,8 @@
   "secciones": [
     "Paseos seguros y control"
   ],
-  "precio": "66.99€",
   "valoracion": 4.5,
-  "valoracionesCount": 2841,
+  "valoracionesCount": 2871,
   "descripcion": "Arnés en Y acolchado con anilla en la espalda y enganche en el pecho, tiras reflectantes y cierre lateral. Rango de pecho según talla (la L/XL, de 81 a 107 cm).",
   "imagen": "/images/articulos/ruffwear-front-range-arnes/imagen.jpg",
   "veredicto": "Ruffwear Front Range: arnés en Y acolchado y duradero, con enganche en la espalda y en el pecho; caro, pero de los que duran años.",
@@ -28,5 +27,6 @@
     "En cachorros el peto puede quedar grande.",
     "No es antiescape: para perros que se escapan, mejor uno con tira en la barriga."
   ],
-  "paraQuien": "Para un perro adulto que pasea mucho, corre o va a la montaña, y dueños que prefieren pagar más por un arnés que dure. Para perros que se escurren del arnés, el Web Master de la misma marca."
+  "paraQuien": "Para un perro adulto que pasea mucho, corre o va a la montaña, y dueños que prefieren pagar más por un arnés que dure. Para perros que se escurren del arnés, el Web Master de la misma marca.",
+  "disponible": false
 }
