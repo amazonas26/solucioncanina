@@ -55,8 +55,12 @@ const lastUpdate = "Noviembre de 2026";
           </li>
         </ul>
         <p class="mt-4">
-          <strong>Google Analytics permanece activo</strong> y es el único servicio de
-          medición que instala cookies de terceros en el navegador, previo consentimiento.
+          <strong>Google Analytics</strong> y <strong>Microsoft Clarity</strong> son los únicos
+          servicios de medición que instalan cookies en el navegador, y solo si el usuario
+          las acepta. Google Analytics mide cuántas visitas recibe cada página. Microsoft
+          Clarity registra de forma anónima los clics, el desplazamiento y los movimientos
+          del ratón, y permite reproducir la navegación para ver qué partes de la página
+          resultan confusas; oculta por defecto el texto que se escribe en los formularios.
         </p>
         <p class="mt-4">
           <strong>No utilizamos</strong> cookies publicitarias propias ni de terceros para
@@ -97,6 +101,36 @@ const lastUpdate = "Noviembre de 2026";
                 <td class="px-4 py-3">Identificar al usuario durante 24 horas (cuando esté activo).</td>
                 <td class="px-4 py-3 whitespace-nowrap">24 horas</td>
               </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">_clck</td>
+                <td class="px-4 py-3">Microsoft</td>
+                <td class="px-4 py-3">Guardar el identificador anónimo de Clarity para reconocer visitas del mismo navegador.</td>
+                <td class="px-4 py-3 whitespace-nowrap">1 año</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">_clsk</td>
+                <td class="px-4 py-3">Microsoft</td>
+                <td class="px-4 py-3">Unir las páginas vistas en una misma sesión de Clarity.</td>
+                <td class="px-4 py-3 whitespace-nowrap">1 día</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">CLID</td>
+                <td class="px-4 py-3">Microsoft (clarity.ms)</td>
+                <td class="px-4 py-3">Identificar la primera vez que Clarity vio este navegador.</td>
+                <td class="px-4 py-3 whitespace-nowrap">1 año</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">MUID</td>
+                <td class="px-4 py-3">Microsoft (clarity.ms)</td>
+                <td class="px-4 py-3">Identificar navegadores únicos que visitan sitios de Microsoft.</td>
+                <td class="px-4 py-3 whitespace-nowrap">1 año</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-mono text-[12.5px]">ANONCHK</td>
+                <td class="px-4 py-3">Microsoft (clarity.ms)</td>
+                <td class="px-4 py-3">Indicar si el identificador MUID se ha transferido; técnica.</td>
+                <td class="px-4 py-3 whitespace-nowrap">10 minutos</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -136,7 +170,8 @@ const lastUpdate = "Noviembre de 2026";
         <p>
           Puede cambiar su elección (aceptar o rechazar las cookies analíticas) en cualquier
           momento desde el enlace «Configurar cookies» del pie de página. Al rechazarlas se
-          borran las cookies de Google Analytics ya instaladas.
+          desactivan Google Analytics y Microsoft Clarity y se borran sus cookies instaladas
+          en este dominio (las de clarity.ms se pueden borrar desde el navegador).
         </p>
         <p class="mt-4">
           El usuario puede aceptar, rechazar o eliminar las cookies en cualquier momento
