@@ -50,6 +50,7 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
   'Bozales': [
     { slug: 'bozales-perros-guia-elegir-talla', titulo: 'Bozales para perros: guía para elegir talla y tipo' },
     { slug: 'perros-potencialmente-peligrosos-ppp-licencia-razas', titulo: 'Perros PPP: licencia, seguro, bozal y correa' },
+    { slug: 'galgo-espanol-cuidados-adopcion', titulo: 'Galgo español: cuidados, salud y adopción' },
   ],
   'Rampas': [
     { slug: 'rampas-para-perros-beneficios', titulo: 'Rampas para perros: cuándo y por qué usarlas' },
@@ -108,6 +109,7 @@ export const PRODUCT_CATEGORY_TO_BLOGS: Record<string, { slug: string; titulo: s
     { slug: 'arnes-perro-como-elegir-talla', titulo: 'Arnés para perro: qué tipo elegir y cómo medir la talla' },
     { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },
     { slug: 'perro-tira-de-la-correa-soluciones', titulo: 'Si tu perro tira de la correa: soluciones' },
+    { slug: 'galgo-espanol-cuidados-adopcion', titulo: 'Galgo español: cuidados, salud y adopción' },
   ],
   'Correas': [
     { slug: 'arnes-o-collar-perros-guia', titulo: 'Arnés o collar: qué elegir para el paseo' },

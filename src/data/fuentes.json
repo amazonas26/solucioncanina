@@ -93,7 +93,7 @@
     "titulo": "Ley 7/2023 de protección de los derechos y el bienestar de los animales",
     "publicacion": "BOE",
     "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-7936",
-    "nota": "Ley estatal de bienestar animal, en vigor desde el 29 de septiembre de 2023. Su artículo 30 obliga a hacer un curso gratuito para tener perro y a contratar un seguro de responsabilidad civil para todos los perros, con contenido y cuantía pendientes de reglamento. No modifica el régimen de perros potencialmente peligrosos."
+    "nota": "Ley estatal de bienestar animal, en vigor desde el 29 de septiembre de 2023. Su artículo 30 obliga a hacer un curso gratuito para tener perro y a contratar un seguro de responsabilidad civil para todos los perros, con contenido y cuantía pendientes de reglamento. No modifica el régimen de perros potencialmente peligrosos. Su artículo 1.3 deja fuera de la ley a los perros de caza, las rehalas y los animales auxiliares de caza."
   },
   "boe-rd-287-2002": {
     "autores": "Boletín Oficial del Estado",
@@ -766,5 +766,93 @@
     "publicacion": "The Veterinary Journal",
     "url": "https://doi.org/10.1016/j.tvjl.2015.07.019",
     "nota": "El personal de cuatro refugios catalogó a primera vista como tipo pit bull al 52 % de 120 perros; el ADN, solo al 21 %. Identificar la raza por el aspecto no es fiable."
+  },
+  "fci-galgo": {
+    "autores": "Federación Cinológica Internacional (FCI)",
+    "anio": 1998,
+    "titulo": "Estándar FCI n.º 285: Galgo español",
+    "publicacion": "FCI",
+    "url": "https://www.fci.be/Nomenclature/Standards/285g10-es.pdf",
+    "nota": "Lebrel de caza de liebres a la vista (grupo 10). Alzada a la cruz: machos de 62 a 70 cm y hembras de 60 a 68 cm. Pelo fino y corto, o duro y semilargo; los barcinos y atigrados encabezan la lista de colores. Carácter «serio y retraído en ocasiones»."
+  },
+  "mesa-sanchez-2012": {
+    "autores": "Mesa-Sánchez et al.",
+    "anio": 2012,
+    "titulo": "Haematological, blood gas and acid-base values in the Galgo Español (Spanish greyhound)",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/j.1748-5827.2012.01235.x",
+    "nota": "Universidad de Córdoba, 30 galgos españoles frente a 20 perros de otras razas: los galgos tenían más hematocrito, hemoglobina y glóbulos rojos, y menos plaquetas. Las diferencias son menos marcadas que en el galgo inglés."
+  },
+  "zaldivar-lopez-2011": {
+    "autores": "Zaldívar-López et al.",
+    "anio": 2011,
+    "titulo": "Clinical pathology of Greyhounds and other sighthounds",
+    "publicacion": "Veterinary Clinical Pathology",
+    "url": "https://doi.org/10.1111/j.1939-165X.2011.00360.x",
+    "nota": "Revisión sobre los análisis de sangre de los galgos ingleses y otros lebreles: más glóbulos rojos, creatinina y enzimas hepáticas, y menos glóbulos blancos, plaquetas, globulinas y T4 que otras razas."
+  },
+  "oneill-2019-greyhound": {
+    "autores": "O'Neill et al.",
+    "anio": 2019,
+    "titulo": "Greyhounds under general veterinary care in the UK during 2016: demography and common disorders",
+    "publicacion": "Canine Genetics and Epidemiology",
+    "url": "https://doi.org/10.1186/s40575-019-0072-5",
+    "nota": "5.419 galgos ingleses de compañía en clínicas del Reino Unido. Los problemas más frecuentes en un año: enfermedad periodontal (39 %), uñas demasiado largas (11 %), heridas (6 %), artrosis (4,6 %) y lesiones de uñas (4,2 %). La mitad vivió más de 11,4 años."
+  },
+  "martinez-duran-2026": {
+    "autores": "Martínez-Durán et al.",
+    "anio": 2026,
+    "titulo": "Vector-borne pathogens in Spanish greyhounds from Central Spain: Prevalence and hematobiochemical findings",
+    "publicacion": "Veterinary Parasitology: Regional Studies and Reports",
+    "url": "https://doi.org/10.1016/j.vprsr.2026.101437",
+    "nota": "160 galgos españoles del centro de España: tenían anticuerpos contra leishmania un 13,1 %, contra anaplasma un 10 % y contra ehrlichia un 3,1 %; ninguno tenía filaria. Los autores recomiendan hacerles pruebas por su vida al aire libre y su uso en la caza."
+  },
+  "solano-gallego-2011": {
+    "autores": "Solano-Gallego et al. (LeishVet)",
+    "anio": 2011,
+    "titulo": "LeishVet guidelines for the practical management of canine leishmaniosis",
+    "publicacion": "Parasites & Vectors",
+    "url": "https://doi.org/10.1186/1756-3305-4-86",
+    "nota": "Guía de veterinarios expertos en leishmaniosis: diagnóstico, tratamiento y prevención con collares de deltametrina o pipetas de permetrina, que repelen a los flebotomos. Un nivel bajo de anticuerpos no basta para diagnosticar la enfermedad."
+  },
+  "guilliard-2010": {
+    "autores": "Guilliard et al.",
+    "anio": 2010,
+    "titulo": "Corns in dogs; signalment, possible aetiology and response to surgical treatment",
+    "publicacion": "Journal of Small Animal Practice",
+    "url": "https://doi.org/10.1111/j.1748-5827.2010.00892.x",
+    "nota": "30 perros con callos en las almohadillas, todos galgos u otros lebreles. El 90 % estaban en los dedos centrales de las patas delanteras. Pueden causar cojera crónica y vuelven en más de la mitad de los casos tras quitarlos."
+  },
+  "edmunds-2021": {
+    "autores": "Edmunds et al.",
+    "anio": 2021,
+    "titulo": "Dog breeds and body conformations with predisposition to osteosarcoma in the UK: a case-control study",
+    "publicacion": "Canine Medicine and Genetics",
+    "url": "https://doi.org/10.1186/s40575-021-00100-7",
+    "nota": "1.756 perros con osteosarcoma frente a más de 900.000 sin él. El galgo inglés tenía unas 7 veces más probabilidad que los mestizos; el riesgo sube con el tamaño y las patas largas, y el whippet no mostró más riesgo."
+  },
+  "lara-garcia-2008": {
+    "autores": "Lara-García et al.",
+    "anio": 2008,
+    "titulo": "Postoperative Bleeding in Retired Racing Greyhounds",
+    "publicacion": "Journal of Veterinary Internal Medicine",
+    "url": "https://doi.org/10.1111/j.1939-1676.2008.0088.x",
+    "nota": "88 galgos ingleses retirados de las carreras: un 26 % sangró entre 36 y 48 horas después de esterilizarlos, sin un defecto de coagulación que lo explicara."
+  },
+  "marin-2012": {
+    "autores": "Marín et al.",
+    "anio": 2012,
+    "titulo": "Epsilon aminocaproic acid for the prevention of delayed postoperative bleeding in retired racing greyhounds undergoing gonadectomy",
+    "publicacion": "Veterinary Surgery",
+    "url": "https://doi.org/10.1111/j.1532-950X.2012.00965.x",
+    "nota": "Ensayo con 100 galgos ingleses esterilizados: sangró un 30 % de los que recibieron placebo y un 10 % de los que tomaron ácido épsilon-aminocaproico durante 3 días tras la cirugía."
+  },
+  "spada-2015": {
+    "autores": "Spada et al.",
+    "anio": 2015,
+    "titulo": "Prevalence of dog erythrocyte antigens 1, 4, and 7 in galgos (Spanish Greyhounds)",
+    "publicacion": "Journal of Veterinary Diagnostic Investigation",
+    "url": "https://doi.org/10.1177/1040638715592025",
+    "nota": "Grupos sanguíneos de 205 galgos del sur de Madrid. Por sus glóbulos rojos, su tamaño y su carácter, los autores los consideran buenos donantes de sangre."
   }
 }

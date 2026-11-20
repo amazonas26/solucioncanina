@@ -119,6 +119,14 @@
     "ancho": 1600,
     "alto": 900
   },
+  "/images/blog/galgo-espanol-cuidados-adopcion.webp": {
+    "alt": "Galgo español atigrado con el hocico canoso caminando sobre tierra al sol",
+    "autor": "Ambi Gram",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/skinny-galgo-espanol-walking-through-street-4058504/",
+    "ancho": 1600,
+    "alto": 900
+  },
   "/images/blog/glucosamina-para-perros-para-que-sirve-dosis.webp": {
     "alt": "Perro mayor blanco y negro tumbado en la hierba",
     "autor": "大 董",
@@ -351,6 +359,22 @@
     "ancho": 1600,
     "alto": 900
   },
+  "/images/fotos/galgo-abrigo-rojo-bosque.webp": {
+    "alt": "Galgo con abrigo rojo en un camino de tierra entre árboles",
+    "autor": "Karim Desouki",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/dog-walking-on-rural-path-15919944/",
+    "ancho": 1600,
+    "alto": 1067
+  },
+  "/images/fotos/galgo-barcino-collar-ancho.webp": {
+    "alt": "Galgo barcino de pie sobre la hierba con collar ancho y correa",
+    "autor": "Abril Ulfe",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/elegant-greyhound-standing-in-sunlit-garden-33713081/",
+    "ancho": 1200,
+    "alto": 1200
+  },
   "/images/fotos/golden-bosque.webp": {
     "alt": "Golden retriever de pie en un claro de bosque al sol",
     "autor": "Tommes Frites",
@@ -388,6 +412,14 @@
     "autor": "cottonbro studio",
     "fuente": "Pexels",
     "url": "https://www.pexels.com/photo/5079181/",
+    "ancho": 1600,
+    "alto": 1067
+  },
+  "/images/fotos/lebrel-durmiendo-cama.webp": {
+    "alt": "Lebrel gris durmiendo boca arriba sobre una cama",
+    "autor": "Alina Skazka",
+    "fuente": "Pexels",
+    "url": "https://www.pexels.com/photo/a-dog-lying-in-bed-14832500/",
     "ancho": 1600,
     "alto": 1067
   },
